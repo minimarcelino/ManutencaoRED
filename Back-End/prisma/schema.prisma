@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model aluno {
+  prontuario      String   @id @db.VarChar(15)
+  nome            String   @db.VarChar(60)
+  data_nascimento DateTime @db.Date
+  endereco        String   @db.VarChar(150)
+  telefone        String   @db.VarChar(11)
+  email           String   @db.VarChar(100)
+  curso_idcurso   Int
+  curso           curso    @relation(fields: [curso_idcurso], references: [idcurso], onDelete: NoAction, onUpdate: NoAction, map: "fk_aluno_curso")
+  red             red[]
+
+  @@index([curso_idcurso], map: "fk_aluno_curso_idx")
+}
+
+model atividades {
+  idatividades   Int
+  descricao      String   @db.VarChar(100)
+  prazoatividade DateTime @db.Date
+  pee_idpee      Int
+  pee            pee      @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
+
+  @@id([idatividades, pee_idpee])
+  @@index([pee_idpee], map: "fk_atividades_pee1_idx")
+}
+
+model curso {
+  idcurso     Int           @id
+  sigla       String        @db.VarChar(15)
+  nomecurso   String        @db.VarChar(60)
+  cordenador  Int
+  aluno       aluno[]
+  servidor    servidor      @relation(fields: [cordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_curso_servidor1")
+  disciplinas disciplinas[]
+
+  @@index([cordenador], map: "fk_curso_servidor1_idx")
+}
+
+model disciplinas {
+  iddisciplinas  Int    @id
+  sigla          String @db.VarChar(15)
+  nomedisciplina String @db.VarChar(60)
+  curso_idcurso  Int
+  curso          curso  @relation(fields: [curso_idcurso], references: [idcurso], onDelete: NoAction, onUpdate: NoAction, map: "fk_disciplinas_curso1")
+  pee            pee[]
+
+  @@index([curso_idcurso], map: "fk_disciplinas_curso1_idx")
+}
+
+model pee {
+  idpee                     Int          @id
+  conteudo                  String       @db.VarChar(600)
+  metodologia               String       @db.VarChar(700)
+  trabalhos                 String       @db.VarChar(2000)
+  bibliografia              String       @db.VarChar(700)
+  criterios                 String       @db.VarChar(500)
+  prazofinal                DateTime     @db.Date
+  RED_idRED                 Int
+  disciplinas_iddisciplinas Int
+  servidor_idservidor       Int
+  percentualabono           Float
+  atividades                atividades[]
+  red                       red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
+  disciplinas               disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
+  servidor                  servidor     @relation(fields: [servidor_idservidor], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_servidor1")
+
+  @@index([RED_idRED], map: "fk_pee_RED1_idx")
+  @@index([disciplinas_iddisciplinas], map: "fk_pee_disciplinas1_idx")
+  @@index([servidor_idservidor], map: "fk_pee_servidor1_idx")
+}
+
+model red {
+  idRED                Int      @id
+  data_inicio_processo DateTime @db.Date
+  dataInicioRed        DateTime @db.Date
+  dataLimitePee        DateTime @db.Date
+  dataPrevisaoTermino  DateTime @db.Date
+  motivoAfastamento    String   @db.VarChar(200)
+  situacao             String   @db.VarChar(40)
+  aluno_prontuario     Int
+  coordenador          Int
+  aluno_pront          String   @db.VarChar(15)
+  pee                  pee[]
+  aluno                aluno    @relation(fields: [aluno_pront], references: [prontuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
+  servidor             servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
+
+  @@index([aluno_pront], map: "fk_RED_aluno1_idx")
+  @@index([coordenador], map: "fk_RED_servidor1_idx")
+}
+
+model servidor {
+  idservidor   Int     @id
+  email        String  @db.VarChar(60)
+  tiposervidor Int
+  senha        String  @db.VarChar(12)
+  curso        curso[]
+  pee          pee[]
+  red          red[]
+}
