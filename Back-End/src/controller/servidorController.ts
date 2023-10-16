@@ -28,10 +28,11 @@ export class servidorController {
 
     async Login(req: Request, res: Response){
         const { email, senha, tipo} = req.body;
-        const response = await servidorservice.findLogin(email, senha, tipo);
+        const response = await servidorservice.findLogin(email, senha);
         if(response.ok){
             const payload = {
                 userEmail: email,
+                type: tipo,
                 lastActivity: Math.floor(Date.now() / 1000)
             }
             const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);

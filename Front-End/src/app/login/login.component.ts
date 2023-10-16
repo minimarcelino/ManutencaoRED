@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      prontuario: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
       senha: new FormControl('', Validators.required),
     });
   }
@@ -35,15 +35,15 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      this.logging = await this.authentication.login({ prontuario: this.prontuario, email: this.senha });
+        this.logging = await this.authentication.login({ email: this.email, senha: this.senha });
       if(this.logging)
         this.router.navigate(['home']);
       console.log('sucesso!');
     }
   }
 
-  get prontuario() {
-    return this.loginForm.get('prontuario')!.value;
+  get email() {
+    return this.loginForm.get('email')!.value;
   }
 
   get senha() {

@@ -18,6 +18,12 @@ const routes: Routes = [
   {
     path: 'login', component: LoginComponent
   },
+  //cursos
+  {
+    path: 'curso', 
+    //lazyLoading - carregar mais rapido
+    loadChildren: () =>import('../app/cursos/cursos.module').then((module) => module.CursosModule),
+  },
 ];
 
 @NgModule({

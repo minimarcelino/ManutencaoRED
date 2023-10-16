@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import alunoRoutes from "./routes/alunoRoutes";
 import servidorRoutes from './routes/servidorRoutes';
+import cursoRoutes from './routes/cursoRoutes';
 
 const PORT = process.env.BACKEND_PORT || 3333;
 const app = express();
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 app.use('/aluno', alunoRoutes);
 app.use('/servidor', servidorRoutes);
+app.use('/curso', cursoRoutes);
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
 

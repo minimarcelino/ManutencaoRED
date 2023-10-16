@@ -29,7 +29,7 @@ export class alunoController {
         async Create(req: Request, res: Response){
             const response = await alunoservice.create(req.body);
             if (response.ok){
-                return res.status(200).send(response.data)
+                return res.status(StatusCodes.OK).send(response.data)
             } else {
                 return res.status(StatusCodes.BAD_REQUEST).send(response)
             }

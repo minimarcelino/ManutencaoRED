@@ -110,13 +110,12 @@ export class servidorService{
         }
     }
 
-    async findLogin(email: string, senha: string, tipo: number){
+    async findLogin(email: string, senha: string){
         try {
             const usuario = await prisma.servidor.findMany({
                 where: {
                     email: email,
                     senha: senha,
-                    tiposervidor: tipo,
                 },
             })
             if(usuario.length == 0){

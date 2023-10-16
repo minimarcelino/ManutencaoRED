@@ -6,6 +6,7 @@ const router = express.Router();
 const authentication = new AuthenticationService();
 const servidorcontroller =  new servidorController();
 
+router.get('/', servidorcontroller.getServidores);
 router.get('/:id', servidorcontroller.getServidor);
 /*router.post('/:id/create', alunocontroller.Create);
 router.put('/update/:id',  alunocontroller.Update);

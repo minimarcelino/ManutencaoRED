@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient({
     datasources: {
       db: {
-        url: process.env.DATABASE_URL_PROD, // Usar a URL do banco de dados de produção
+        url: process.env.DATABASE_URL_PROD,
        },
     },
   });

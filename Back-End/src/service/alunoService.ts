@@ -41,7 +41,6 @@ export class alunoService{
         }
     }
 
-
     async findAll(){
         try {
             const [alunos, length] = await Promise.all([
