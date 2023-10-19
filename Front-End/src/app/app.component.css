@@ -1,0 +1,23 @@
+mat-sidenav-container {
+    min-height: 100vh;
+    min-width: 60px;
+  }
+  
+mat-sidenav {
+    background: linear-gradient(to right, #505050, #797979);
+    padding: 3.5rem 0 0 0;
+    padding-right: 1%;
+    padding-left: 0.5%;
+    border: none;
+    width: 10rem;
+  }
+
+#itensText{
+    display: inline-block;
+    margin-left: 0.5rem; 
+    color: #eee;
+}
+
+#red{
+  margin-left: 10px;
+}

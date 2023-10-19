@@ -1,1 +1,21 @@
-<router-outlet></router-outlet>
+<div id="header">
+    <mat-toolbar class="nav-top">
+      <button mat-icon-button (click)="opened=!opened">
+        <mat-icon class="icon-menu">menu</mat-icon>
+      </button>
+      <h1 id="red">Menu</h1>
+    </mat-toolbar>
+</div>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened [(opened)]="opened">
+        <a *ngFor="let item of itensMenu" [routerLink]="item.routerLink">
+            <div>
+                <img [src]="item.img" alt="Descrição da imagem" />
+                <h3 id="itensText">{{item.texto}}</h3>
+            </div>
+        </a>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

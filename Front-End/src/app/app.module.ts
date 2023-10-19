@@ -11,11 +11,23 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { AlunosComponent } from './alunos/alunos.component';
+import { DisciplinasComponent } from './disciplinas/disciplinas.component';
+import { PeeComponent } from './pee/pee.component';
+import { RedComponent } from './red/red.component';
+import { ServidorComponent } from './servidor/servidor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    AlunosComponent,
+    DisciplinasComponent,
+    PeeComponent,
+    RedComponent,
+    ServidorComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +39,9 @@ import {HttpClientModule} from '@angular/common/http';
     MatIconModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSidenavModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,10 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { authenticationService } from '../app/services/authentication.service';
+import { authorizationService } from './services/authorization.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  constructor(private authenticationService: authenticationService, 
+    private authorization :authorizationService) {
+  } 
   title = 'Front-End';
+  isLogged = false;
+  opened = false;
+
+  itensMenu = [
+    { routerLink: '/home', texto: 'Home', img: 'assets/home.png' },
+    { routerLink: '/curso', texto: 'Cursos', img: 'assets/curso.png' },
+    { routerLink: '/aluno', texto: 'Alunos', img: 'assets/aluno.png'}
+  ];
+
+  async ngOnInit() {
+    this.isLogged = await this.authenticationService.isLogado();
+  }
+
 }

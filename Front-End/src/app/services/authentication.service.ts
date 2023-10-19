@@ -3,6 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../environments/environmente.development';
 import { storageService } from './storage.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 export class authenticationService implements OnInit {
   userlogged: any;
   private token: string | null = null;
+  private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -35,6 +37,22 @@ export class authenticationService implements OnInit {
     let token = await this.getToken()
     return token ? true : false;
   } 
+
+  async getisLoggedIn(){
+    await this.init()
+    if (this.token)
+      this.loggedIn.next(true);
+    return this.loggedIn.asObservable();
+  }
+
+  getHttpOptions() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.token,
+      }),
+    };
+    return httpOptions;
+  }
 
   private async reloadIfTokenIsNull() {
     if (this.token == null || this.token == undefined) {

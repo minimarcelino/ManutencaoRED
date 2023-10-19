@@ -2,19 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AboutComponent } from './about/about.component';
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatIconModule } from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    DashboardComponent,
-    AboutComponent
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule
   ]
 })
 export class HomeModule { }

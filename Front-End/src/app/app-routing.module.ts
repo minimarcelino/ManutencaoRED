@@ -22,7 +22,18 @@ const routes: Routes = [
   {
     path: 'curso', 
     //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/cursos/cursos.module').then((module) => module.CursosModule),
+    loadChildren: () =>import('../app/cursos/listar/listarCurso.module').then((module) => module.listarCursoModule),
+  },
+  {
+    path: 'curso/cadastrar', 
+    //lazyLoading - carregar mais rapido
+    loadChildren: () =>import('../app/cursos/cadastrar/cadastrarCurso-routing.module').then((module) => module.cadastrarCursoRoutingModule),
+  },
+  //aluno
+  {
+    path: 'aluno', 
+    //lazyLoading - carregar mais rapido
+    loadChildren: () =>import('../app/alunos/aluno.module').then((module) => module.AlunoModule),
   },
 ];
 

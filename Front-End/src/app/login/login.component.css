@@ -30,3 +30,7 @@ mat-form-field {
     display: grid;
     width: 20rem;
 }
+
+h1 {
+    color: black;
+}

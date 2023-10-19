@@ -25,7 +25,7 @@ CREATE TABLE `atividades` (
 
 -- CreateTable
 CREATE TABLE `curso` (
-    `idcurso` INTEGER NOT NULL,
+    `idcurso` INTEGER NOT NULL AUTO_INCREMENT,
     `sigla` VARCHAR(15) NOT NULL,
     `nomecurso` VARCHAR(60) NOT NULL,
     `cordenador` INTEGER NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `curso` (
 
 -- CreateTable
 CREATE TABLE `disciplinas` (
-    `iddisciplinas` INTEGER NOT NULL,
+    `iddisciplinas` INTEGER NOT NULL AUTO_INCREMENT,
     `sigla` VARCHAR(15) NOT NULL,
     `nomedisciplina` VARCHAR(60) NOT NULL,
     `curso_idcurso` INTEGER NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `disciplinas` (
 
 -- CreateTable
 CREATE TABLE `pee` (
-    `idpee` INTEGER NOT NULL,
+    `idpee` INTEGER NOT NULL AUTO_INCREMENT,
     `conteudo` VARCHAR(600) NOT NULL,
     `metodologia` VARCHAR(700) NOT NULL,
     `trabalhos` VARCHAR(2000) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `pee` (
 
 -- CreateTable
 CREATE TABLE `red` (
-    `idRED` INTEGER NOT NULL,
+    `idRED` INTEGER NOT NULL AUTO_INCREMENT,
     `data_inicio_processo` DATE NOT NULL,
     `dataInicioRed` DATE NOT NULL,
     `dataLimitePee` DATE NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `red` (
 
 -- CreateTable
 CREATE TABLE `servidor` (
-    `idservidor` INTEGER NOT NULL,
+    `idservidor` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(60) NOT NULL,
     `tiposervidor` INTEGER NOT NULL,
     `senha` VARCHAR(12) NOT NULL,
