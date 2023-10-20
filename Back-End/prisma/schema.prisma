@@ -99,6 +99,7 @@ model red {
 model servidor {
   idservidor   Int     @id @default(autoincrement())
   email        String  @db.VarChar(60)
+  nome         String  @db.VarChar(60)
   tiposervidor Int
   senha        String  @db.VarChar(12)
   curso        curso[]

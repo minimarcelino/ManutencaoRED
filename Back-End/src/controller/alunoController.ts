@@ -52,23 +52,6 @@ export class alunoController {
                 return res.status(StatusCodes.BAD_REQUEST).send(response);
             }
         }
-
-        /*async Login(req: Request, res: Response){
-            const { prontuario, email} = req.body;
-            const response = await alunoservice.findLogin(prontuario, email);
-            if(response.ok){
-                const payload = {
-                    userProntuario: prontuario,
-                    lastActivity: Math.floor(Date.now() / 1000)
-                }
-                const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-                return res.status(StatusCodes.OK).json({
-                    token: token,
-                    data: response.data
-                })
-            }
-            return res.status(StatusCodes.BAD_REQUEST).json({message: "Login Failed!!"});
-        }*/
 }
 
 

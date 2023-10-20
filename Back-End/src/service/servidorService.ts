@@ -96,6 +96,20 @@ export class servidorService{
         }
     }
 
+    async findCoordenador(){
+        try {
+            const coordenadores = await prisma.servidor.findMany({
+                where: {
+                    tiposervidor: 1,
+                },
+            });
+            return {ok: true, data: coordenadores};
+        } catch (error) {
+            console.log(error);
+            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+        }
+    }
+
     async delete(id: number){
         try {
             const deleteServidor = await prisma.servidor.delete({

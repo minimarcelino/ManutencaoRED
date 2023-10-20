@@ -87,7 +87,7 @@ export class cursoService{
         try {
             const deleteCurso = await prisma.curso.delete({
                 where: {
-                    idcurso: +id,
+                    idcurso: id,
                 },
             });
             return {ok: true, data: deleteCurso};

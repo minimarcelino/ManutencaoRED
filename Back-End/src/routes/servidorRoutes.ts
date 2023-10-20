@@ -7,6 +7,7 @@ const authentication = new AuthenticationService();
 const servidorcontroller =  new servidorController();
 
 router.get('/', servidorcontroller.getServidores);
+router.get('/all', servidorcontroller.getAll);
 router.get('/:id', servidorcontroller.getServidor);
 /*router.post('/:id/create', alunocontroller.Create);
 router.put('/update/:id',  alunocontroller.Update);

@@ -10,16 +10,19 @@ import { cursoService } from '../../services/cursos.service';
 export class CadastrarComponent implements OnInit{
 
   cadastrarCurso!: FormGroup;
+  servidores: any[] = [];
   coordenadores: any[] = [];
+
 
   constructor(private cursoservice: cursoService){}
 
   ngOnInit(): void {
     this.cadastrarCurso = new FormGroup({
       sigla: new FormControl('', Validators.required),
-      curso: new FormControl('', Validators.required),
-      coordenador: new FormControl('', Validators.required),
+      nomeCurso: new FormControl('', Validators.required),
+      Coordenador: new FormControl('', Validators.required),
     });
+    this.fetchCoordenador();
   }
 
   async submit() {
@@ -29,7 +32,7 @@ export class CadastrarComponent implements OnInit{
         nomecurso: this.nomeCurso,
         servidor: {
           connect: {
-            idservidor: this.idcordenador  
+            idservidor: this.idcordenador
           }
         }
       };
@@ -40,9 +43,15 @@ export class CadastrarComponent implements OnInit{
     }
   }
 
+  displayFn(Coordenador: any): string {
+    return Coordenador && Coordenador.email;
+  }
+
   async fetchCoordenador(){
     const response = await this.cursoservice.getCoordenador();
-    this.coordenadores = response;
+    this.servidores = response.data.servidores;
+    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 1);
+
   }
   
 
@@ -51,10 +60,10 @@ export class CadastrarComponent implements OnInit{
   }
 
   get nomeCurso() {
-    return this.cadastrarCurso.get('curso')!.value;
+    return this.cadastrarCurso.get('nomeCurso')!.value;
   }
 
   get idcordenador() {
-    return this.cadastrarCurso.get('coordenador')!.value;
+    return this.cadastrarCurso.get('Coordenador')!.value.idservidor;
   }
 }

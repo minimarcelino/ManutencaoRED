@@ -26,6 +26,24 @@ export class servidorController {
         }
     }
 
+    async getAll(req: Request, res: Response){
+        const response = await servidorservice.findAll();      
+        if(response.ok){
+            return res.status(StatusCodes.OK).send(response);
+        } else{
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
+    async getCoordenador(req: Request, res: Response){
+        const response = await servidorservice.findCoordenador();
+        if(response.ok){
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
     async Login(req: Request, res: Response){
         const { email, senha, tipo} = req.body;
         const response = await servidorservice.findLogin(email, senha);

@@ -7,7 +7,7 @@ import { alunoRoutingModule } from './aluno-routing.module';
 
 @NgModule({
     declarations: [
-        AlunosComponent
+       
     ],
     imports: [
       CommonModule,

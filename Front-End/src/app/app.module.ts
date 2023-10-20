@@ -18,6 +18,9 @@ import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { PeeComponent } from './pee/pee.component';
 import { RedComponent } from './red/red.component';
 import { ServidorComponent } from './servidor/servidor.component';
+import { CadastrarCursoModule } from './cursos/cadastrar/cadastarCurso.module';
+import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { ServidorComponent } from './servidor/servidor.component';
     DisciplinasComponent,
     PeeComponent,
     RedComponent,
-    ServidorComponent
+    ServidorComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,9 @@ import { ServidorComponent } from './servidor/servidor.component';
     FormsModule,
     HttpClientModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    CadastrarCursoModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

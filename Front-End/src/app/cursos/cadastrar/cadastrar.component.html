@@ -1,8 +1,27 @@
 <div class="container">
     <div>
-        <h3>Cadastar Curso</h3>
+        <h1>Cadastar Curso</h1>
+        <hr>
     </div>
-    <form>
-        
-    </form>
+    <div class="fields">
+        <form [formGroup]="cadastrarCurso" #formDir="ngForm">
+            <mat-form-field appearance="fill" style="width: 13%; margin-right: 10px;">
+                <mat-label>Sigla</mat-label>
+                <input matInput name="sigla" formControlName="sigla" required/>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="width: 85.4%;">
+                <mat-label>Nome do Curso</mat-label>
+                <input matInput name="nomeCurso" formControlName="nomeCurso" required/>
+            </mat-form-field>
+            <mat-form-field>
+                <input formControlName="Coordenador" type="text" placeholder="Selecione um coordenador" aria-label="Professor Coordenador" matInput [matAutocomplete]="auto">
+                <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                    <mat-option *ngFor="let c of coordenadores" [value]="c">
+                        {{c.nome}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="submit()">Cadastrar</button>
+        </form>
+    </div>
 </div>
