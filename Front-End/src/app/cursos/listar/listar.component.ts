@@ -40,7 +40,7 @@ export class ListarComponent implements OnInit{
 
     editarCurso(curso: any){
       const editar =  this.dialog.open(EditarComponent, {
-          data: {idcurso: curso.idcurso, nomecurso: curso.nomecurso, sigla: curso.sigla, idCoordenador: curso.servidor}
+          data: {idcurso: curso.idcurso, nomecurso: curso.nomecurso, sigla: curso.sigla, coordenador: curso.cordenador}
       });
       this.handleDialogConfirm(editar);
     }
@@ -66,7 +66,6 @@ export class ListarComponent implements OnInit{
 
     handleDialogConfirm(dialog: any){
       dialog.afterClosed().subscribe((result: string) => {
-        if(result === 'Confirmar')
           this.findAll()
       });
     }

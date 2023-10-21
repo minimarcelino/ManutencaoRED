@@ -33,8 +33,10 @@ export class cursoService{
 
     async updateCurso(curso: any): Promise<any>{
         try {
-            const response = await this.http.put(`${environment.API}/curso/update/${curso.idcurso}`, this.authentication.getHttpOptions())
+            console.log(curso);
+            const response = await this.http.put(`${environment.API}/curso/update/${curso.idcurso}`, curso, this.authentication.getHttpOptions())
             .toPromise();
+            return response;
         } catch (error) {
             console.log(error);
         }

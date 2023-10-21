@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { cursoService } from 'src/app/services/cursos.service';
@@ -19,7 +19,7 @@ export class EditarComponent implements OnInit{
   isSubmitting: boolean = false;
 
   constructor(private cursoservice: cursoService, private snackBar: MatSnackBar, private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any){}
+    @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarComponent>){}
 
   ngOnInit(): void {
     this.editarCurso = new FormGroup({
@@ -27,6 +27,7 @@ export class EditarComponent implements OnInit{
       nomeCurso: new FormControl('', [Validators.required]),
       Coordenador: new FormControl('', [Validators.required]),
     });
+    this.fetchCoordenador();
   }
 
   async submit() {
@@ -37,6 +38,7 @@ export class EditarComponent implements OnInit{
       this.isSubmitting = true;
       try {
         const curso = {
+          idcurso: this.data.idcurso,
           sigla: this.sigla,
           nomecurso: this.nomeCurso,
           servidor: {
@@ -53,6 +55,7 @@ export class EditarComponent implements OnInit{
       } catch (error) {
         console.error('Error submitting curso:', error);
       }
+      this.dialog.close('Confirmar');
     }
   }
 
@@ -62,9 +65,6 @@ export class EditarComponent implements OnInit{
     this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 1);
   }
 
-  voltar(){
-    this.router.navigate(['/curso'])
-  }
 
   openSnackBar(option: boolean) {
     if(option){
@@ -74,7 +74,7 @@ export class EditarComponent implements OnInit{
       });
     } else {
       this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'O curso foi cadastrado com sucesso!!.',
+        data: 'O curso foi editado com sucesso!!.',
         duration: 3000
       });
     }

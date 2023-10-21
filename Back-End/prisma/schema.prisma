@@ -37,7 +37,7 @@ model curso {
   sigla       String        @db.VarChar(15)
   nomecurso   String        @db.VarChar(60)
   cordenador  Int
-  aluno       aluno[]
+  aluno       aluno[]   
   servidor    servidor      @relation(fields: [cordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_curso_servidor1")
   disciplinas disciplinas[]
 

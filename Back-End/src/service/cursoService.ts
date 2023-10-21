@@ -86,9 +86,13 @@ export class cursoService{
         try {
             const updateCurso = await prisma.curso.update({
                 where: {
-                    idcurso: +id,
+                    idcurso: id,
                 },
-                data: curso});
+                data: {
+                    sigla: curso.sigla,
+                    nomecurso: curso.nomecurso,
+                    cordenador: curso.cordenador
+                }});
                 return {ok: true, data: updateCurso}
         } catch (error) {
             console.log(error);
