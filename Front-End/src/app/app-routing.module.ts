@@ -40,6 +40,12 @@ const routes: Routes = [
     //lazyLoading - carregar mais rapido
     loadChildren: () =>import('../app/alunos/aluno.module').then((module) => module.AlunoModule),
   },
+  //servidor
+  {
+    path: 'servidor', 
+    //lazyLoading - carregar mais rapido
+    loadChildren: () =>import('../app/servidor/servidor.module').then((module) => module.ServidorModule),
+  },
 ];
 
 @NgModule({

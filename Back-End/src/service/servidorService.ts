@@ -1,9 +1,9 @@
 import { servidor } from '@prisma/client';
 import { prisma } from "../../prisma/client";
-import { StatusCodes} from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 
-export class servidorService{
-    async findMany(search: string, page: number, perPage: number, orderBy: string){
+export class servidorService {
+    async findMany(search: string, page: number, perPage: number, orderBy: string) {
         try {
             let skip: number = (Number(page) - 1) * Number(perPage);
             const [servidores, length] = await Promise.all([
@@ -33,14 +33,14 @@ export class servidorService{
                 servidores,
                 length,
             };
-            return {ok: true, data: data};
+            return { ok: true, data: data };
         } catch (error) {
             console.log(error);
-            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR};
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
         }
     }
 
-    async findAll(){
+    async findAll() {
         try {
             const [servidores, length] = await Promise.all([
                 prisma.servidor.findMany({}),
@@ -51,80 +51,109 @@ export class servidorService{
                 servidores,
                 length,
             };
-            return {ok: true, data: data};
+            return { ok: true, data: data };
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR};
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
         }
     }
 
-    async create(servidor : servidor){
+    async create(servidor: servidor) {
+
         try {
-            const createServidor = await prisma.servidor.create({data: servidor});
-            return {ok: true, data : createServidor};
+            const existingServidor = await prisma.servidor.findFirst({
+                where: {
+
+                    email: servidor.email,
+                    tiposervidor: servidor.tiposervidor
+                }
+            });
+
+            if (existingServidor) {
+                return { ok: false, data: 'servidor já existe' };
+            }
+            else {
+                const createServidor = await prisma.servidor.create({ data: servidor });
+                return { ok: true, data: createServidor };
+            }
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async update(servidor: servidor, id: number){
+    async update(servidor: servidor, id: number) {
         try {
             const updateServidor = await prisma.servidor.update({
                 where: {
                     idservidor: +id,
                 },
-                data: servidor});
-                return {ok: true, data: updateServidor}
+                data: servidor
+            });
+            return { ok: true, data: updateServidor }
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async findById(id: number){
+    async findById(id: number) {
         try {
             const servidor = await prisma.servidor.findUnique({
                 where: {
                     idservidor: +id,
                 },
             });
-            return {ok: true, data: servidor};
+            return { ok: true, data: servidor };
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async findCoordenador(){
+    async findCoordenador() {
         try {
             const coordenadores = await prisma.servidor.findMany({
                 where: {
                     tiposervidor: 1,
                 },
             });
-            return {ok: true, data: coordenadores};
+            return { ok: true, data: coordenadores };
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async delete(id: number){
+    async findCra() {
+        try {
+            const cras = await prisma.servidor.findMany({
+                where: {
+                    tiposervidor: 2,
+                },
+            });
+            return { ok: true, data: cras };
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+        }
+    }
+
+    async delete(id: number) {
         try {
             const deleteServidor = await prisma.servidor.delete({
                 where: {
                     idservidor: +id,
                 },
             });
-            return {ok: true, data: deleteServidor};
+            return { ok: true, data: deleteServidor };
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async findLogin(email: string, senha: string){
+    async findLogin(email: string, senha: string) {
         try {
             const usuario = await prisma.servidor.findMany({
                 where: {
@@ -132,10 +161,10 @@ export class servidorService{
                     senha: senha,
                 },
             })
-            if(usuario.length == 0){
-                return {ok: false, data: StatusCodes.NOT_FOUND};
+            if (usuario.length == 0) {
+                return { ok: false, data: StatusCodes.NOT_FOUND };
             }
-            return {ok: true, data: usuario[0]};
+            return { ok: true, data: usuario[0] };
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };

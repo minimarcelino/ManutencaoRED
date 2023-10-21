@@ -34,7 +34,7 @@ import { EditarCursoModule } from './cursos/editar/editar.module';
     RedComponent,
     ServidorComponent,
     MessageDialogComponent,
-    SnackBarComponent
+    SnackBarComponent,
   ],
   imports: [
     BrowserModule,

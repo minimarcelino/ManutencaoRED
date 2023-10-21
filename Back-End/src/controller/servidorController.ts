@@ -6,48 +6,85 @@ const servidorservice = new servidorService();
 const jwt = require('jsonwebtoken');
 
 export class servidorController {
-    async getServidores(req: Request, res: Response){
-        const { search, page, perPage, orderBy} = req.query;
+    async getServidores(req: Request, res: Response) {
+        const { search, page, perPage, orderBy } = req.query;
         const response = await servidorservice.findMany(String(search), Number(page),
-        Number(perPage), String(orderBy));
-        if(response.ok){
+            Number(perPage), String(orderBy));
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async getServidor(req: Request, res: Response){
+    async getServidor(req: Request, res: Response) {
         const response = await servidorservice.findById(Number(req.params.id));
-        if(response.ok){
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async getAll(req: Request, res: Response){
-        const response = await servidorservice.findAll();      
-        if(response.ok){
+    async Create(req: Request, res: Response) {
+        const response = await servidorservice.create(req.body);
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response.data)
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response)
+        }
+    }
+
+    async Delete(req: Request, res: Response) {
+        const response = await servidorservice.delete(Number(req.params.id));
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
-        } else{
+        } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async getCoordenador(req: Request, res: Response){
+    async Update(req: Request, res: Response) {
+        const response = await servidorservice.update(req.body, Number(req.params.id));
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
+
+    async getAll(req: Request, res: Response) {
+        const response = await servidorservice.findAll();
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
+    async getCoordenador(req: Request, res: Response) {
         const response = await servidorservice.findCoordenador();
-        if(response.ok){
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async Login(req: Request, res: Response){
-        const { email, senha, tipo} = req.body;
+    async getCra(req: Request, res: Response) {
+        const response = await servidorservice.findCra();
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
+    async Login(req: Request, res: Response) {
+        const { email, senha, tipo } = req.body;
         const response = await servidorservice.findLogin(email, senha);
-        if(response.ok){
+        if (response.ok) {
             const payload = {
                 userEmail: email,
                 type: tipo,
@@ -59,6 +96,6 @@ export class servidorController {
                 data: response.data
             })
         }
-        return res.status(StatusCodes.BAD_REQUEST).json({message: "Login Failed!!"});
+        return res.status(StatusCodes.BAD_REQUEST).json({ message: "Login Failed!!" });
     }
 }

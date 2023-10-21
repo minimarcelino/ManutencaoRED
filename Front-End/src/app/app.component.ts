@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
   itensMenu = [
     { routerLink: '/home', texto: 'Home', img: 'assets/home.png' },
     { routerLink: '/curso', texto: 'Cursos', img: 'assets/curso.png' },
-    { routerLink: '/aluno', texto: 'Alunos', img: 'assets/aluno.png'}
+    { routerLink: '/aluno', texto: 'Alunos', img: 'assets/aluno.png'},
+    {routerLink: '/servidor', texto: 'Servidores'}
   ];
 
   async ngOnInit() {
