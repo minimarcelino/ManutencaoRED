@@ -31,9 +31,19 @@ export class cursoService{
         }
     }
 
+    async updateCurso(curso: any): Promise<any>{
+        try {
+            const response = await this.http.put(`${environment.API}/curso/update/${curso.idcurso}`, this.authentication.getHttpOptions())
+            .toPromise();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async getCoordenador(): Promise<any>{
         try {
-            const response = await this.http.get(`${environment.API}/servidor/all`, this.authentication.getHttpOptions()).toPromise();
+            const response = await this.http.get(`${environment.API}/servidor/all`, this.authentication.getHttpOptions())
+            .toPromise();
             return response;
         } catch (error) {
             console.log(error);
@@ -42,7 +52,8 @@ export class cursoService{
 
     async getCoordenadorById(id: number): Promise<any>{
         try {
-            const response = await this.http.get(`${environment.API}/servidor/${id}`, this.authentication.getHttpOptions()).toPromise();
+            const response = await this.http.get(`${environment.API}/servidor/${id}`, this.authentication.getHttpOptions())
+            .toPromise();
             return response;
         } catch (error) {
             console.log(error);

@@ -4,6 +4,8 @@ import { curso } from 'src/app/modelo/curso';
 import { servidor } from 'src/app/modelo/servidor';
 import { messageDialog } from '../../services/messageDialog.service';
 import { cursoService } from 'src/app/services/cursos.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditarComponent } from '../editar/editar.component';
 
 @Component({
   selector: 'app-listar',
@@ -14,22 +16,12 @@ export class ListarComponent implements OnInit{
 
   items: any[] = [];
   coordenador: servidor[] = [];
-  cursos: curso[] = [/*{
-    idcurso: 1,
-    sigla: "bee",
-    nomecurso: "beeeee",
-    coordenador: {
-      idservidor: 1,
-      email: "igo@igo.com",
-      tiposervidor: 1,
-      senha: "123",
-      nome: "igor",
-    }
-  }*/];
+  cursos: curso[] = [];
 
   displayedColumns = ['nomecurso', 'sigla', 'coordenador', 'acoes'];
 
-    constructor(private router: Router, public dialogQuestionService: messageDialog, private cursoservice: cursoService){}
+    constructor(private router: Router, public dialogQuestionService: messageDialog, private cursoservice: cursoService,
+      private dialog: MatDialog){}
 
     ngOnInit(): void {
       this.findAll()
@@ -41,16 +33,23 @@ export class ListarComponent implements OnInit{
 
     async findAll(){
       const response = await this.cursoservice.getCursos();
-      const id = response.data.cursos[0].cordenador;
+      const id = response.data.cursos.cordenador;
       //const response2 = await this.cursoservice.getCoordenadorById(Number(id));
       this.cursos = response.data.cursos;
+    }
+
+    editarCurso(curso: any){
+      const editar =  this.dialog.open(EditarComponent, {
+          data: {idcurso: curso.idcurso, nomecurso: curso.nomecurso, sigla: curso.sigla, idCoordenador: curso.servidor}
+      });
+      this.handleDialogConfirm(editar);
     }
 
     async deleteCursoPermanent(id: number) {
       try {
         let response = await this.cursoservice.deleteCurso(id)
         if (response) {
-          //this.findAll()
+          this.findAll()
         }
       } catch (error) {
         console.log(error);
@@ -58,12 +57,18 @@ export class ListarComponent implements OnInit{
     }
   
     async deleteCurso(curso: any){
-      console.log(curso);
       let res = false;
       res = await this.dialogQuestionService.openDialogConfirmDelete('curso');
       if (res) {
-        await this.deleteCursoPermanent(curso.id)
+        await this.deleteCursoPermanent(curso.idcurso)
       }
+    }
+
+    handleDialogConfirm(dialog: any){
+      dialog.afterClosed().subscribe((result: string) => {
+        if(result === 'Confirmar')
+          this.findAll()
+      });
     }
 
 }

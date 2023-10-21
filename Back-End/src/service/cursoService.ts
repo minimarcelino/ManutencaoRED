@@ -61,8 +61,21 @@ export class cursoService{
 
     async create(curso : curso){
         try {
-            const createCurso = await prisma.curso.create({data: curso});
-            return {ok: true, data : createCurso};
+            const existingCurso = await prisma.curso.findFirst({
+                where: {
+                  nomecurso: curso.nomecurso,
+                  sigla: curso.sigla,
+                  cordenador: curso.cordenador
+                },
+              });
+          
+              if (existingCurso) {
+                return { ok: false, data: 'curso já existe' };
+              }
+              else {
+                const createCurso = await prisma.curso.create({ data: curso });
+                return { ok: true, data: createCurso };
+              }     
         } catch (error) {
             console.log(error);
             return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}

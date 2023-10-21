@@ -1,36 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { cursoService } from '../../services/cursos.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { Router } from '@angular/router';
+import { cursoService } from 'src/app/services/cursos.service';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
-  selector: 'app-cadastrar',
-  templateUrl: './cadastrar.component.html',
-  styleUrls: ['./cadastrar.component.css']
+  selector: 'app-editar',
+  templateUrl: './editar.component.html',
+  styleUrls: ['./editar.component.css']
 })
-export class CadastrarComponent implements OnInit{
+export class EditarComponent implements OnInit{
 
-  cadastrarCurso!: FormGroup;
+  editarCurso!: FormGroup;
   servidores: any[] = [];
   coordenadores: any[] = [];
   isSubmitting: boolean = false;
 
-
-  constructor(private cursoservice: cursoService, private snackBar: MatSnackBar, private router: Router){}
+  constructor(private cursoservice: cursoService, private snackBar: MatSnackBar, private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any){}
 
   ngOnInit(): void {
-    this.cadastrarCurso = new FormGroup({
+    this.editarCurso = new FormGroup({
       sigla: new FormControl('', [Validators.required]),
       nomeCurso: new FormControl('', [Validators.required]),
       Coordenador: new FormControl('', [Validators.required]),
     });
-    this.fetchCoordenador();
   }
 
   async submit() {
-    if (this.cadastrarCurso.invalid || this.isSubmitting) {
+    if (this.editarCurso.invalid || this.isSubmitting) {
       this.openSnackBar(true);
       return;
     } else {
@@ -46,13 +46,20 @@ export class CadastrarComponent implements OnInit{
           }
         };
 
-        await this.cursoservice.createCurso(curso); 
+        console.log(curso);
+        await this.cursoservice.updateCurso(curso); 
         this.openSnackBar(false);
         
       } catch (error) {
         console.error('Error submitting curso:', error);
       }
     }
+  }
+
+  async fetchCoordenador(){
+    const response = await this.cursoservice.getCoordenador();
+    this.servidores = response.data.servidores;
+    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 1);
   }
 
   voltar(){
@@ -78,22 +85,15 @@ export class CadastrarComponent implements OnInit{
     return Coordenador && Coordenador.email;
   }
 
-  async fetchCoordenador(){
-    const response = await this.cursoservice.getCoordenador();
-    this.servidores = response.data.servidores;
-    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 1);
-
-  }
-  
   get sigla(){
-    return this.cadastrarCurso.get('sigla')!.value;
+    return this.editarCurso.get('sigla')!.value;
   }
 
   get nomeCurso() {
-    return this.cadastrarCurso.get('nomeCurso')!.value;
+    return this.editarCurso.get('nomeCurso')!.value;
   }
 
   get idcordenador() {
-    return this.cadastrarCurso.get('Coordenador')!.value.idservidor;
+    return this.editarCurso.get('Coordenador')!.value.idservidor;
   }
 }

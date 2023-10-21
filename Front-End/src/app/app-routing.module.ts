@@ -29,6 +29,11 @@ const routes: Routes = [
     //lazyLoading - carregar mais rapido
     loadChildren: () =>import('../app/cursos/cadastrar/cadastrarCurso-routing.module').then((module) => module.cadastrarCursoRoutingModule),
   },
+  {
+    path: 'curso/editar', 
+    //lazyLoading - carregar mais rapido
+    loadChildren: () =>import('../app/cursos/editar/editarCurso-routing.module').then((module) => module.editarCursoRoutingModule),
+  },
   //aluno
   {
     path: 'aluno', 

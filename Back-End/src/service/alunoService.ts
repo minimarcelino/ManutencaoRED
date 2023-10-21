@@ -61,6 +61,17 @@ export class alunoService{
 
     async create(aluno : aluno){
         try {
+            const existingAluno = await prisma.aluno.findFirst({
+                where: {
+                  nome: aluno.nome,
+                  email: aluno.email,
+                  prontuario: aluno.prontuario
+                },
+              });
+          
+              if (existingAluno) {
+                return { ok: false, data: 'aluno já existe' };
+              }
             const createAluno = await prisma.aluno.create({data: aluno});
             return {ok: true, data : createAluno};
         } catch (error) {
