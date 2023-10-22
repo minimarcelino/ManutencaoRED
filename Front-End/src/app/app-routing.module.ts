@@ -20,31 +20,23 @@ const routes: Routes = [
   },
   //cursos
   {
-    path: 'curso', 
+    path: 'csp', 
     //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/cursos/listar/listarCurso.module').then((module) => module.listarCursoModule),
+    loadChildren: () =>import('./csp/csp-routing.module').then((module) => module.CspRoutingModule),
+    canActivate: [authorizationService]
   },
   {
-    path: 'curso/cadastrar', 
+    path: 'cra', 
     //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/cursos/cadastrar/cadastrarCurso-routing.module').then((module) => module.cadastrarCursoRoutingModule),
-  },
-  {
-    path: 'curso/editar', 
-    //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/cursos/editar/editarCurso-routing.module').then((module) => module.editarCursoRoutingModule),
-  },
-  //aluno
-  {
-    path: 'aluno', 
-    //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/alunos/aluno.module').then((module) => module.AlunoModule),
+    loadChildren: () =>import('./csp/cursos/cadastrar/cadastrarCurso-routing.module').then((module) => module.cadastrarCursoRoutingModule),
+    canActivate: [authorizationService]
   },
   //servidor
   {
     path: 'servidor', 
     //lazyLoading - carregar mais rapido
     loadChildren: () =>import('../app/servidor/servidor.module').then((module) => module.ServidorModule),
+    canActivate: [authorizationService]
   },
 ];
 

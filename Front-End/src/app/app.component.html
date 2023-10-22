@@ -1,61 +1,36 @@
-<!--
-<div id="container">
-    <mat-toolbar class="nav-top">
-    <button mat-icon-button (click)="opened=!opened">
-        <mat-icon class="icon-menu">menu</mat-icon>
-    </button>
-    <h1 id="red">Menu</h1>
+<div class="container">
+    <mat-toolbar class="mat-elevation-z8">
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+            <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+        </button>
+        Menu
     </mat-toolbar>
 
     <mat-sidenav-container>
-        <mat-sidenav mode="side" opened [(opened)]="opened">
-            <a *ngFor="let item of itensMenu" [routerLink]="item.routerLink">
-                <div>
-                    <img [src]="item.img" alt="Descrição da imagem" />
-                    <h3 id="itensText">{{item.texto}}</h3>
-                </div>
-            </a>
+        <mat-sidenav #sidenav="matSidenav" mode="side">
+            <button mat-button class="menu-button" routerLink="/home">
+                <mat-icon>home</mat-icon>
+                <span>Home</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/curso">
+                <mat-icon>book</mat-icon>
+                <span>Cursos</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/aluno">
+                <mat-icon>person</mat-icon>
+                <span>Alunos</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/servidor">
+                <mat-icon>work</mat-icon>
+                <span>Servidores</span>
+            </button>
+            <!-- Adicione outros links de menu conforme necessário para suas rotas -->
         </mat-sidenav>
         <mat-sidenav-content>
-            <router-outlet></router-outlet>
+            <div class="content mat-elevation-z8">
+                <router-outlet></router-outlet>
+            </div>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>
-
--->
-
-<mat-toolbar class="mat-elevation-z8">
-    <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
-        <mat-icon *ngIf="sidenav.opened">close</mat-icon>
-    </button>
-    Menu
-</mat-toolbar>
-
-<mat-sidenav-container>
-    <mat-sidenav #sidenav="matSidenav" mode="side">
-        <button mat-button class="menu-button" routerLink="/home">
-            <mat-icon>home</mat-icon>
-            <span>Home</span>
-        </button>
-        <button mat-button class="menu-button" routerLink="/curso">
-            <mat-icon>book</mat-icon>
-            <span>Cursos</span>
-        </button>
-        <button mat-button class="menu-button" routerLink="/aluno">
-            <mat-icon>person</mat-icon>
-            <span>Alunos</span>
-        </button>
-        <button mat-button class="menu-button" routerLink="/servidor">
-            <mat-icon>work</mat-icon>
-            <span>Servidores</span>
-        </button>
-        <!-- Adicione outros links de menu conforme necessário para suas rotas -->
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <div class="content mat-elevation-z8">
-            <router-outlet></router-outlet>
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
-

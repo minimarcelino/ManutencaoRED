@@ -6,10 +6,10 @@ const router = express.Router();
 const authentication = new AuthenticationService();
 const cursocontroller =  new cursoController();
 
-router.get('/',cursocontroller.getCursos);
-router.get('/all', cursocontroller.getAll);
-router.post('/create', cursocontroller.Create);
-router.put('/update/:id', cursocontroller.Update);
-router.delete('/delete/:id',cursocontroller.Delete);
+router.get('/',authentication.validate,cursocontroller.getCursos);
+router.get('/all',authentication.validate,  cursocontroller.getAll);
+router.post('/create',authentication.validate, cursocontroller.Create);
+router.put('/update/:id',authentication.validate, cursocontroller.Update);
+router.delete('/delete/:id',authentication.validate, cursocontroller.Delete);
 
 export default router;

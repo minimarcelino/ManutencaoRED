@@ -13,28 +13,30 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AlunosComponent } from './alunos/alunos.component';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { PeeComponent } from './pee/pee.component';
 import { RedComponent } from './red/red.component';
 import { ServidorComponent } from './servidor/servidor.component';
-import { CadastrarCursoModule } from './cursos/cadastrar/cadastarCurso.module';
 import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
-import { EditarCursoModule } from './cursos/editar/editar.module';
+import { CRAComponent } from './cra/cra.component';
+import { CSPComponent } from './csp/csp.component';
+import { CspModule } from './csp/csp.module';
+import { CraModule } from './cra/cra.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    AlunosComponent,
     DisciplinasComponent,
     PeeComponent,
     RedComponent,
     ServidorComponent,
     MessageDialogComponent,
     SnackBarComponent,
+    CRAComponent,
+    CSPComponent
   ],
   imports: [
     BrowserModule,
@@ -49,9 +51,9 @@ import { EditarCursoModule } from './cursos/editar/editar.module';
     HttpClientModule,
     MatSidenavModule,
     MatToolbarModule,
-    CadastrarCursoModule,
     MatDialogModule,
-    EditarCursoModule
+    CspModule,
+    CraModule
   ],
   providers: [],
   bootstrap: [AppComponent]

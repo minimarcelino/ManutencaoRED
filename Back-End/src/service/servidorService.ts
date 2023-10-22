@@ -115,7 +115,7 @@ export class servidorService {
         try {
             const coordenadores = await prisma.servidor.findMany({
                 where: {
-                    tiposervidor: 1,
+                    tiposervidor: 'coordenador',
                 },
             });
             return { ok: true, data: coordenadores };
@@ -129,7 +129,7 @@ export class servidorService {
         try {
             const cras = await prisma.servidor.findMany({
                 where: {
-                    tiposervidor: 2,
+                    tiposervidor: 'cra',
                 },
             });
             return { ok: true, data: cras };

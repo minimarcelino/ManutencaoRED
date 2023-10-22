@@ -5,7 +5,7 @@
 
 <div class="listagem">
     <div id="tabela">
-        <table appearance="outline" mat-table [dataSource]="cursos">
+        <table appearance="outline" mat-table [dataSource]="cursos" class="mat-elevation-z8">
 
             <!-- NomeColumn -->
             <ng-container matColumnDef="nomecurso">
@@ -35,17 +35,13 @@
                     <button mat-icon-button (click)="deleteCurso(c)">
                       <mat-icon>delete</mat-icon>
                     </button>
-                    <button mat-icon-button >
-                      <mat-icon>remove_red_eye</mat-icon>
-                    </button>
                   </td>
             </ng-container> 
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          
+          </table> 
     </div>
 </div>
 
-<button mat-raised-button color="primary" (click)="cadastrar()">Cadastrar Curso</button>
+<button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar">Cadastrar Curso</button>

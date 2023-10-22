@@ -23,7 +23,8 @@ mat-form-field {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 89vh;
+    border-radius: 10px;
 }
 .fields{
     align-items: center;

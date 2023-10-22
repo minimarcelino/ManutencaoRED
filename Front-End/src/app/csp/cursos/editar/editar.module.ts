@@ -14,7 +14,6 @@ import { EditarComponent } from './editar.component';
 
 @NgModule({
     declarations: [
-      EditarComponent
     ],
     imports: [
       BrowserModule,

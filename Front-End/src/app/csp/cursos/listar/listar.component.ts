@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { curso } from 'src/app/modelo/curso';
+import { curso } from '../../../modelo/curso';
 import { servidor } from 'src/app/modelo/servidor';
-import { messageDialog } from '../../services/messageDialog.service';
+import { messageDialog } from '../../../services/messageDialog.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditarComponent } from '../editar/editar.component';
@@ -28,7 +28,7 @@ export class ListarComponent implements OnInit{
     }
 
     async cadastrar(){
-      this.router.navigate(['/curso/cadastrar']);
+      this.router.navigate(['/csp/cadastrar']);
     }
 
     async findAll(){

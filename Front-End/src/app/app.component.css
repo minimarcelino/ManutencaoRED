@@ -1,11 +1,11 @@
 mat-sidenav-container {
-    min-height: 100vh;
+    min-height: 93vh;
     min-width: 60px;
   }
   
 mat-sidenav {
     background: linear-gradient(to right, #505050, #797979);
-    padding: 16px;;
+    padding: 16px;
     padding-right: 1%;
     padding-left: 0.5%;
     border-radius: 10px;
@@ -17,13 +17,9 @@ mat-sidenav {
   .content {
     margin: 16px;
     margin-left: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 10px;
     font-size: 2rem;
     color: lightgray;
-
   }
 
   .menu-button {
@@ -47,4 +43,8 @@ mat-sidenav {
 
 #red{
   margin-left: 10px;
+}
+
+mat-sidenav-content{
+
 }

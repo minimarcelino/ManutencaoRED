@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { cursoService } from '../../services/cursos.service';
+import { cursoService } from '../../../services/cursos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { Router } from '@angular/router';
@@ -37,7 +37,7 @@ export class CadastrarComponent implements OnInit{
       this.isSubmitting = true;
       try {
         const curso = {
-          sigla: this.sigla,
+          sigla: this.sigla.toUpperCase(),
           nomecurso: this.nomeCurso,
           servidor: {
             connect: {
@@ -56,7 +56,7 @@ export class CadastrarComponent implements OnInit{
   }
 
   voltar(){
-    this.router.navigate(['/curso'])
+    this.router.navigate(['/csp/listar'])
   }
 
   openSnackBar(option: boolean) {

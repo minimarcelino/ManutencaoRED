@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlunosComponent } from './alunos.component';
+import { CSPComponent } from './csp.component';
 
-describe('AlunosComponent', () => {
-  let component: AlunosComponent;
-  let fixture: ComponentFixture<AlunosComponent>;
+describe('CSPComponent', () => {
+  let component: CSPComponent;
+  let fixture: ComponentFixture<CSPComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AlunosComponent]
+      declarations: [CSPComponent]
     });
-    fixture = TestBed.createComponent(AlunosComponent);
+    fixture = TestBed.createComponent(CSPComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

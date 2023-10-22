@@ -74,6 +74,7 @@ export class authenticationService implements OnInit {
           this.token = resultado.token;
           this.storage.set("token", this.token);
           this.storage.set("user", resultado.data);
+          console.log("true");
           return true;
         })
         .catch((err) => {

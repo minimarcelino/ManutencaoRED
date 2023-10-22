@@ -8,6 +8,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { storageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   hide = true;
   loginForm!: FormGroup;
   logging: boolean = true;
+  user: any;
 
   constructor(
     private router: Router,
@@ -36,8 +38,15 @@ export class LoginComponent implements OnInit {
       return;
     } else {
         this.logging = await this.authentication.login({ email: this.email, senha: this.senha });
-      if(this.logging)
-        this.router.navigate(['home']);
+      if(this.logging){
+        this.user = localStorage.getItem("user");
+        if(this.user != null){
+          this.user = JSON.parse(this.user);
+          if(this.user.tiposervidor == 'csp'){
+            this.router.navigate(['/csp']);
+          }
+        }
+      }    
       console.log('sucesso!');
     }
   }
