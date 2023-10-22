@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { authenticationService } from '../app/services/authentication.service';
 import { authorizationService } from './services/authorization.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +10,9 @@ import { authorizationService } from './services/authorization.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild(MatSidenav) 
+  sidenav!: MatSidenav;
 
   constructor(private authenticationService: authenticationService, 
     private authorization :authorizationService) {
@@ -25,6 +30,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.isLogged = await this.authenticationService.isLogado();
+    
   }
 
 }
