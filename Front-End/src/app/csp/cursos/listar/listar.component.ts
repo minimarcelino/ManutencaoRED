@@ -18,7 +18,7 @@ export class ListarComponent implements OnInit{
   coordenador: servidor[] = [];
   cursos: curso[] = [];
 
-  displayedColumns = ['nomecurso', 'sigla', 'coordenador', 'acoes'];
+  displayedColumns = ['nomecurso', 'sigla', 'acoes'];
 
     constructor(private router: Router, public dialogQuestionService: messageDialog, private cursoservice: cursoService,
       private dialog: MatDialog){}
@@ -33,8 +33,6 @@ export class ListarComponent implements OnInit{
 
     async findAll(){
       const response = await this.cursoservice.getCursos();
-      const id = response.data.cursos.cordenador;
-      //const response2 = await this.cursoservice.getCoordenadorById(Number(id));
       this.cursos = response.data.cursos;
     }
 

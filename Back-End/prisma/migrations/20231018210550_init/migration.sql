@@ -87,7 +87,7 @@ CREATE TABLE `red` (
 CREATE TABLE `servidor` (
     `idservidor` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(60) NOT NULL,
-    `tiposervidor` INTEGER NOT NULL,
+    `tiposervidor` VARCHAR(15) NOT NULL,
     `senha` VARCHAR(12) NOT NULL,
 
     PRIMARY KEY (`idservidor`)

@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
           this.user = JSON.parse(this.user);
           if(this.user.tiposervidor == 'csp'){
             this.router.navigate(['/csp']);
+          } else if (this.user.tiposervidor == 'cra') {
+            this.router.navigate(['/cra']);
           }
         }
       }    

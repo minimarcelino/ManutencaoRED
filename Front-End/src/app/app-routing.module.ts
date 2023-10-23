@@ -28,16 +28,10 @@ const routes: Routes = [
   {
     path: 'cra', 
     //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('./csp/cursos/cadastrar/cadastrarCurso-routing.module').then((module) => module.cadastrarCursoRoutingModule),
+    loadChildren: () =>import('./cra/cra-routing.module').then((module) => module.CraRoutingModule),
     canActivate: [authorizationService]
   },
-  //servidor
-  {
-    path: 'servidor', 
-    //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/servidor/servidor.module').then((module) => module.ServidorModule),
-    canActivate: [authorizationService]
-  },
+  //coordenador
 ];
 
 @NgModule({

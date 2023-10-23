@@ -16,7 +16,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { PeeComponent } from './pee/pee.component';
 import { RedComponent } from './red/red.component';
-import { ServidorComponent } from './servidor/servidor.component';
 import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
@@ -32,7 +31,6 @@ import { CraModule } from './cra/cra.module';
     DisciplinasComponent,
     PeeComponent,
     RedComponent,
-    ServidorComponent,
     MessageDialogComponent,
     SnackBarComponent,
     CRAComponent,

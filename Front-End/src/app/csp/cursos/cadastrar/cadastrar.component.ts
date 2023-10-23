@@ -81,7 +81,7 @@ export class CadastrarComponent implements OnInit{
   async fetchCoordenador(){
     const response = await this.cursoservice.getCoordenador();
     this.servidores = response.data.servidores;
-    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 1);
+    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 'coordenador');
 
   }
   

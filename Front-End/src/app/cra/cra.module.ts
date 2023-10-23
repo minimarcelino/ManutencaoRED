@@ -10,9 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CRAComponent } from './cra.component';
+import { ProcessoREDComponent } from './processo-red/processo-red.component';
 
 @NgModule({
     declarations: [
+  
+    ProcessoREDComponent
   ],
     imports: [
       CommonModule,
