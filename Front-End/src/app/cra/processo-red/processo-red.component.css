@@ -1,0 +1,23 @@
+container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 89vh;
+}
+
+mat-form-field {
+    width: 50%;
+}
+.form_curso {
+    width: 60%;
+}
+
+mat-label {
+    font-weight: bold;
+}
+
+input.mat-input {
+    width: 100%;
+    
+}

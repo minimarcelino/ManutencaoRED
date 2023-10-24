@@ -11,7 +11,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CRAComponent } from './cra.component';
 import { ProcessoREDComponent } from './processo-red/processo-red.component';
-
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+  
 @NgModule({
     declarations: [
   
@@ -27,7 +29,9 @@ import { ProcessoREDComponent } from './processo-red/processo-red.component';
       MatAutocompleteModule,
       MatButtonModule,
       MatSnackBarModule,
-      MatTableModule
+      MatTableModule,
+      MatNativeDateModule,
+      MatDatepickerModule
     ]
   })
   export class CraModule { }
