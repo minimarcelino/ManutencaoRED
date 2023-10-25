@@ -63,9 +63,9 @@ export class alunoService{
         try {
             const existingAluno = await prisma.aluno.findFirst({
                 where: {
-                  nome: aluno.nome,
                   email: aluno.email,
-                  prontuario: aluno.prontuario
+                  prontuario: aluno.prontuario,
+                  telefone: aluno.telefone
                 },
               });
           

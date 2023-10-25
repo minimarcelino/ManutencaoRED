@@ -36,7 +36,9 @@ import { authenticationService } from './authentication.service';
                                                         currentRoute === '/coordenador/outras-rotas')) {
                 return true;
               } else if (userAccessLevel === 'cra' && (currentRoute === '/cra' || 
-                                                       currentRoute === '/cra/processo-red')) {
+                                                       currentRoute === '/cra/processo-red' ||
+                                                       currentRoute === '/cra/listar' ||
+                                                       currentRoute === '/cra/cadastrar')) {
                 return true;
               } else if (userAccessLevel === 'csp' && (currentRoute === '/csp' || 
                                                        currentRoute === '/csp/listar' || 

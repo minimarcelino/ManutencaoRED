@@ -40,7 +40,7 @@ export class CadastrarComponent implements OnInit{
       this.isSubmitting = true;
       try {
         await this.alunoService.createAluno({
-          prontuario: this.prontuario,
+          prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
           data_nascimento: this.data_nascimento,
           endereco: this.endereco,

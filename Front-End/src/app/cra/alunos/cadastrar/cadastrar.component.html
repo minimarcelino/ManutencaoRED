@@ -37,7 +37,7 @@
                 <mat-label>Telefone</mat-label>
                 <input matInput name="telefone" formControlName="telefone"/>
                 <div *ngIf="cadastrarAluno.get('telefone')?.invalid && formDir.submitted" class="validation">
-                    <p>Endereco obrigatório!</p>
+                    <p>Telefone obrigatório!</p>
                 </div>
             </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
