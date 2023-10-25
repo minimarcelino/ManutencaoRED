@@ -5,49 +5,38 @@
 </div>
 
 <h2>Aluno</h2>
+<form [formGroup]="cadastrarRed" #formDir="ngForm">
 <mat-form-field>
-    <input formControlName="Aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput>
+    <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput [matAutocomplete]="auto">
 
-<!--
     <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
         <mat-option *ngFor="let a of alunos" [value]="a">
-            {{a.nome}}
+            {{a.prontuario}} - {{a.nome}}
         </mat-option>
     </mat-autocomplete>
--->
+
 </mat-form-field>
 <button mat-raised-button color="primary" (click)="teste()" style="margin-left: 110px;">Cadastrar</button>
 <br><br>
-<form class="form_curso">
 
     <h2>Curso</h2>
 <mat-form-field>
-    <input formControlName="Curso" type="text" placeholder="Selecione um curso" aria-label="Curso" matInput>
-
-<!--
-    <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
-        <mat-option *ngFor="let a of alunos" [value]="a">
-            {{a.nome}}
-        </mat-option>
-    </mat-autocomplete>
--->
+    <input formControlName="curso" type="text" aria-label="Curso" matInput value="filtredCurso.nomecurso"/>
+        
 </mat-form-field>
- </form>
 
- <form class="motivo_afastamento">
  <h2>Motivo do afastamento</h2>
  <mat-form-field class="afastamento">
     <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
-    <textarea matInput placeholder="Ex. Fratura do braço"></textarea>
+    <textarea formControlName="afastamento" matInput placeholder="Ex. Fratura do braço"></textarea>
   </mat-form-field>
-</form>
 
 <h2>Período</h2>
 <mat-form-field>
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date">
-      <input matEndDate placeholder="End date">
+      <input formControlName="periodo_inicio" matStartDate placeholder="Start date">
+      <input formControlName="periodo_fim" matEndDate placeholder="End date">
     </mat-date-range-input>
     <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -58,5 +47,5 @@
   <button mat-raised-button color="primary" style="margin-right: 20px;">Cadastrar</button>
 
   <input type="file" (change)="InputFile($event)" style="margin-right: 50px;"/>
-
+</form>
 
