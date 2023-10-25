@@ -45,9 +45,9 @@ export class ListarComponent implements OnInit{
 
     async deleteCursoPermanent(id: number) {
       try {
-        let response = await this.cursoservice.deleteCurso(id)
+        let response = await this.cursoservice.deleteCurso(id);
         if (response) {
-          this.findAll()
+          this.findAll();
         }
       } catch (error) {
         console.log(error);
@@ -58,13 +58,13 @@ export class ListarComponent implements OnInit{
       let res = false;
       res = await this.dialogQuestionService.openDialogConfirmDelete('curso');
       if (res) {
-        await this.deleteCursoPermanent(curso.idcurso)
+        await this.deleteCursoPermanent(curso.idcurso);
       }
     }
 
     handleDialogConfirm(dialog: any){
       dialog.afterClosed().subscribe((result: string) => {
-          this.findAll()
+          this.findAll();
       });
     }
 

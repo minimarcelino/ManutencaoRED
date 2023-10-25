@@ -36,7 +36,7 @@ export class alunoController {
         }
 
         async Delete(req: Request, res: Response){
-            const response = await alunoservice.delete(String(req.params.id));
+            const response = await alunoservice.delete(Number(req.params.id));
             if(response.ok){
                 return res.status(StatusCodes.OK).send(response);
             } else {
@@ -45,7 +45,7 @@ export class alunoController {
         }
 
         async Update(req: Request, res: Response){
-            const response = await alunoservice.update(req.body, String(req.params.id));
+            const response = await alunoservice.update(req.body, Number(req.params.id));
             if(response.ok){
                 return res.status(StatusCodes.OK).send(response);
             } else{

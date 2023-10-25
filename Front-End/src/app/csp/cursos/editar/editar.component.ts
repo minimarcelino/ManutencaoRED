@@ -23,9 +23,9 @@ export class EditarComponent implements OnInit{
 
   ngOnInit(): void {
     this.editarCurso = new FormGroup({
-      sigla: new FormControl('', [Validators.required]),
-      nomeCurso: new FormControl('', [Validators.required]),
-      Coordenador: new FormControl('', [Validators.required]),
+      sigla: new FormControl(this.data.sigla, [Validators.required]),
+      nomeCurso: new FormControl(this.data.nomecurso, [Validators.required]),
+      Coordenador: new FormControl(this.data.coordenador, [Validators.required]),
     });
     this.fetchCoordenador();
   }
@@ -48,7 +48,6 @@ export class EditarComponent implements OnInit{
           }
         };
 
-        console.log(curso);
         await this.cursoservice.updateCurso(curso); 
         this.openSnackBar(false);
         
@@ -62,7 +61,7 @@ export class EditarComponent implements OnInit{
   async fetchCoordenador(){
     const response = await this.cursoservice.getCoordenador();
     this.servidores = response.data.servidores;
-    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 1);
+    this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 'coordenador');
   }
 
 

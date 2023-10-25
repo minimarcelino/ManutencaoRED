@@ -11,13 +11,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CRAComponent } from './cra.component';
 import { ProcessoREDComponent } from './processo-red/processo-red.component';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CadastrarComponent } from './alunos/cadastrar/cadastrar.component';
+import { ListarComponent } from './alunos/listar/listar.component';
+import { EditarComponent } from './alunos/editar/editar.component';
   
 @NgModule({
     declarations: [
-  
-    ProcessoREDComponent
+    CadastrarComponent,
+    ListarComponent,
+    ProcessoREDComponent,
+    EditarComponent
   ],
     imports: [
       CommonModule,

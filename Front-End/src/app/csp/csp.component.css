@@ -1,8 +1,8 @@
 mat-sidenav-container {
-    min-height: 91vh;
-    min-width: 60px;
-    max-height: 94vh;
-    max-width: 100%;
+  min-height: 93vh;
+  min-width: 100%;
+  max-height: 94vh;
+  max-width: 100%;
   }
   
 mat-sidenav {

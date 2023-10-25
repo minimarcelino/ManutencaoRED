@@ -1,0 +1,16 @@
+#cadastrar{
+    margin-top: 8px;
+}
+#tabela{
+    min-width: 100%;
+    max-width: 100%;
+}
+.listagem{
+    min-width: 100rem;
+}
+.mat-column-data{
+    width: 10rem;
+}
+.mat-column-telefone{
+    width: 10rem;
+}

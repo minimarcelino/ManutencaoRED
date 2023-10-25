@@ -80,13 +80,21 @@ export class alunoService{
         }
     }
 
-    async update(aluno: aluno, prontuario: string){
+    async update(aluno: aluno, id: number){
         try {
             const updateAluno = await prisma.aluno.update({
                 where: {
-                    prontuario: prontuario,
+                    id: +id,
                 },
-                data: aluno});
+                data: {
+                    prontuario: aluno.prontuario,
+                    nome: aluno.nome,
+                    data_nascimento: aluno.data_nascimento,
+                    endereco: aluno.endereco,
+                    telefone: aluno.telefone,
+                    email: aluno.email,
+                    curso_idcurso: aluno.curso_idcurso,
+                }});
                 return {ok: true, data: updateAluno}
         } catch (error) {
             console.log(error);
@@ -94,11 +102,11 @@ export class alunoService{
         }
     }
 
-    async delete(prontuario: string){
+    async delete(id: number){
         try {
             const deleteAluno = await prisma.aluno.delete({
                 where: {
-                    prontuario: prontuario,
+                    id: +id,
                 },
             });
             return {ok: true, data: deleteAluno};
@@ -108,11 +116,11 @@ export class alunoService{
         }
     }
 
-    async findById(prontuario: string){
+    async findById(id: number){
         try {
             const aluno = await prisma.aluno.findUnique({
                 where: {
-                    prontuario: prontuario,
+                    id: +id,
                 },
             });
             return {ok: true, data: aluno};
@@ -121,22 +129,4 @@ export class alunoService{
             return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
         }
     }
-
-    /*async findLogin(prontuario: string, email: string){
-        try {
-            const usuario = await prisma.aluno.findMany({
-                where: {
-                    prontuario: prontuario,
-                    email: email,
-                },
-            })
-            if(usuario.length == 0){
-                return {ok: false, data: StatusCodes.NOT_FOUND};
-            }
-            return {ok: true, data: usuario[0]};
-        } catch (error) {
-            console.log(error);
-            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-        }
-    }*/
 }

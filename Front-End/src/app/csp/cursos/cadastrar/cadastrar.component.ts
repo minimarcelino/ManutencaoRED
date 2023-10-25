@@ -48,6 +48,7 @@ export class CadastrarComponent implements OnInit{
 
         await this.cursoservice.createCurso(curso); 
         this.openSnackBar(false);
+        this.router.navigate(['csp/listar'])
         
       } catch (error) {
         console.error('Error submitting curso:', error);
