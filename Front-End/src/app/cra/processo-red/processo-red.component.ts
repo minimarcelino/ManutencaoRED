@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { cursoService } from 'src/app/services/cursos.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-processo-red',
