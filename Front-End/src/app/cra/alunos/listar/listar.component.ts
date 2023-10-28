@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { aluno } from 'src/app/modelo/aluno';
 import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarComponent } from '../editar/editar.component';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-listar',
@@ -18,10 +20,11 @@ export class ListarComponent implements OnInit{
   displayedColumns = ['prontuario', 'nome', 'data', 'endereco', 'telefone', 'email', 'acoes'];
 
   constructor(private router: Router, public dialogQuestionService: messageDialog, private alunoservice: alunoService,
-    private dialog: MatDialog){}
+    private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
 
     ngOnInit(): void {
       this.findAll()
+      this._adapter.setLocale('pt-BR');
     }
 
     async cadastrar(){
@@ -33,6 +36,13 @@ export class ListarComponent implements OnInit{
       this.alunos = response.data.alunos;
     }
 
+    formatDataNascimento(dataNascimento: Date): string {
+      if (dataNascimento) {
+        return formatDate(dataNascimento, 'dd/MM/yyyy', 'en-US', 'UTC');
+      } else {
+        return ''; 
+      }
+    }
 
     async deleteAlunoPermanent(id: number) {
       try {
@@ -57,7 +67,7 @@ export class ListarComponent implements OnInit{
       let res = false;
       res = await this.dialogQuestionService.openDialogConfirmDelete('aluno');
       if (res) {
-        await this.deleteAlunoPermanent(aluno.prontuario);
+        await this.deleteAlunoPermanent(aluno.id);
       }
     }
 

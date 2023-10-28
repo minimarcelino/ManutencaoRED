@@ -22,7 +22,7 @@
             <!-- DataColumn -->
             <ng-container matColumnDef="data">
                 <th mat-header-cell *matHeaderCellDef> Data Nascimento </th>
-                <td mat-cell *matCellDef="let a"> {{a.data_nascimento}} </td>
+                <td mat-cell *matCellDef="let a"> {{ formatDataNascimento(a.data_nascimento)}} </td>
             </ng-container>
 
              <!-- EnderecoColumn -->

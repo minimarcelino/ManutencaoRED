@@ -39,11 +39,7 @@ export class CadastrarComponent implements OnInit{
         const curso = {
           sigla: this.sigla.toUpperCase(),
           nomecurso: this.nomeCurso,
-          servidor: {
-            connect: {
-              idservidor: this.idcordenador
-            }
-          }
+          cordenador: this.idcordenador
         };
 
         await this.cursoservice.createCurso(curso); 

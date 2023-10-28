@@ -39,13 +39,9 @@ export class EditarComponent implements OnInit{
       try {
         const curso = {
           idcurso: this.data.idcurso,
-          sigla: this.sigla,
+          sigla: this.sigla.toUpperCase(),
           nomecurso: this.nomeCurso,
-          servidor: {
-            connect: {
-              idservidor: this.idcordenador
-            }
-          }
+          cordenador: this.idcordenador
         };
 
         await this.cursoservice.updateCurso(curso); 

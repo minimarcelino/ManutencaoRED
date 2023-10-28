@@ -46,11 +46,7 @@ export class CadastrarComponent implements OnInit{
           endereco: this.endereco,
           telefone: this.telefone,
           email: this.email,
-          curso: {
-            connect: {
-              idcurso: this.curso.idcurso
-            }
-          }
+          cordenador: this.idcurso
         }); 
         this.openSnackBar(false);
         this.router.navigate(['cra/listar'])
@@ -110,7 +106,7 @@ export class CadastrarComponent implements OnInit{
       return this.cadastrarAluno.get('email')!.value;
     }
 
-    get curso() {
-      return this.cadastrarAluno.get('curso')!.value;
+    get idcurso() {
+      return this.cadastrarAluno.get('curso')!.value.idcurso;
     }
 }

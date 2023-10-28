@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { cursoService } from '../../../services/cursos.service';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-editar',
@@ -20,9 +21,10 @@ export class EditarComponent implements OnInit{
 
   constructor(private alunoService: alunoService, private snackBar: MatSnackBar, private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarComponent>,  
-    private cursoService: cursoService){}
+    private cursoService: cursoService, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
 
     ngOnInit(): void {
+      this._adapter.setLocale('pt-BR');
       this.editarAluno = new FormGroup({
         prontuario: new FormControl(this.data.prontuario, [Validators.required]),
         nome: new FormControl(this.data.nome, [Validators.required]),
@@ -50,11 +52,7 @@ export class EditarComponent implements OnInit{
             endereco: this.endereco,
             telefone: this.telefone,
             email: this.email,
-            curso: {
-              connect: {
-                idcurso: this.curso.idcurso
-              }
-            }
+            curso: this.idcurso
           }); 
           this.openSnackBar(false);
           this.router.navigate(['cra/listar']);
@@ -111,7 +109,7 @@ export class EditarComponent implements OnInit{
       return this.editarAluno.get('email')!.value;
     }
 
-    get curso() {
-      return this.editarAluno.get('curso')!.value;
+    get idcurso() {
+      return this.editarAluno.get('curso')!.value.idcurso;
     }
 }
