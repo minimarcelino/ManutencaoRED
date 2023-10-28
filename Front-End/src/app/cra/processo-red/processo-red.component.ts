@@ -20,6 +20,7 @@ export class ProcessoREDComponent implements OnInit {
   cursos: any[] = [];
   filtredCursos: any[] = [];
   cadastrarRed!: FormGroup;
+  isDisable: boolean = false;
 
 
   ngOnInit(): void {
@@ -37,14 +38,12 @@ export class ProcessoREDComponent implements OnInit {
     let pront = aluno.prontuario;
     let nome = aluno.nome;
     let pront_aluno = pront + ' - ' + nome;
-    console.log(pront_aluno);
     return aluno && pront_aluno;
 
   }
 
 
   InputFile(event: any) {
-
     if (event.target.files && event.target.files[0]) {
       const pdf = event.target.files[0];
       const formData = new FormData();
@@ -59,13 +58,15 @@ export class ProcessoREDComponent implements OnInit {
 
 
   async fetchCursos() {
-    let aluno_curso = this.alunos;
-    console.log(aluno_curso);
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
-    // this.filtredCursos = this.cursos.filter(curso => curso.idcurso ===  );
-    console.log(this.filtredCursos);
-    console.log(this.cursos);
+    this.filtredCursos = this.cursos.filter(curso => curso.idcurso ===  this.aluno.curso_idcurso);
+    this.filtredCursos = this.filtredCursos[0].nomecurso;
+  }
+
+  changeCurso(){
+      this.fetchCursos();
+      this.isDisable = true;
   }
 
   async cadastrar() {

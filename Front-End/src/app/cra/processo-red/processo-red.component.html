@@ -9,43 +9,42 @@
 <mat-form-field>
     <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput [matAutocomplete]="auto">
 
-    <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+    <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
         <mat-option *ngFor="let a of alunos" [value]="a">
             {{a.prontuario}} - {{a.nome}}
         </mat-option>
     </mat-autocomplete>
 
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="teste()" style="margin-left: 110px;">Cadastrar</button>
-<br><br>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="teste()" style="margin-left: 110px;">Cadastrar</button>
+  <br><br>
 
-    <h2>Curso</h2>
-<mat-form-field>
-    <input formControlName="curso" type="text" aria-label="Curso" matInput value="filtredCurso.nomecurso"/>
-        
-</mat-form-field>
-
- <h2>Motivo do afastamento</h2>
- <mat-form-field class="afastamento">
-    <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
-    <textarea formControlName="afastamento" matInput placeholder="Ex. Fratura do braço"></textarea>
+      <h2>Curso</h2>
+  <mat-form-field>
+      <input formControlName="curso" aria-label="Curso" matInput [value]="filtredCursos"/>
   </mat-form-field>
 
-<h2>Período</h2>
-<mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input formControlName="periodo_inicio" matStartDate placeholder="Start date">
-      <input formControlName="periodo_fim" matEndDate placeholder="End date">
-    </mat-date-range-input>
-    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-<br><br>
-  <button mat-raised-button color="warn" style="margin-right: 20px;">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="cadastrar()" style="margin-right: 20px;">Cadastrar</button>
+  <h2>Motivo do afastamento</h2>
+  <mat-form-field class="afastamento">
+      <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
+      <textarea formControlName="afastamento" matInput placeholder="Ex. Fratura do braço"></textarea>
+    </mat-form-field>
 
-  <input type="file" (change)="InputFile($event)" style="margin-right: 50px;"/>
+  <h2>Período</h2>
+  <mat-form-field>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input formControlName="periodo_inicio" matStartDate placeholder="Start date">
+        <input formControlName="periodo_fim" matEndDate placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  <br><br>
+    <button mat-raised-button color="warn" style="margin-right: 20px;">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="cadastrar()" style="margin-right: 20px;">Cadastrar</button>
+
+    <input type="file" (change)="InputFile($event)" style="margin-right: 50px;"/>
 </form>
 
