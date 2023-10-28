@@ -26,10 +26,10 @@
                         {{c.nome}}
                     </mat-option>
                 </mat-autocomplete>
+                <div *ngIf="cadastrarCurso.get('idcordenador')?.invalid && formDir.submitted" class="validation">
+                    <p>Coordenador obrigatório!</p>
+                </div>
             </mat-form-field>
-            <div *ngIf="cadastrarCurso.get('idcordenador')?.invalid && formDir.submitted" class="validation">
-                <p>Coordenador obrigatório!</p>
-            </div>
             <button mat-raised-button color="primary" (click)="voltar()">Voltar</button>
             <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Cadastrar</button>
         </form>

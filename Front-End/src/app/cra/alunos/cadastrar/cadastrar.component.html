@@ -9,7 +9,7 @@
                 <mat-label>Prontuário</mat-label>
                 <input matInput name="prontuario" formControlName="prontuario"/>
                 <div *ngIf="cadastrarAluno.get('prontuario')?.invalid && formDir.submitted" class="validation">
-                    <p>Prontuario obrigatória</p>
+                    <p>Prontuario obrigatório!</p>
                 </div>
             </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%; margin-right: 10px;">
@@ -25,12 +25,15 @@
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+                <div *ngIf="cadastrarAluno.get('data')?.invalid && formDir.submitted" class="validation">
+                    <p>Data obrigatório!</p>
+                </div>
               </mat-form-field>              
             <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
                 <mat-label>Endereço</mat-label>
                 <input matInput name="endereco" formControlName="endereco"/>
                 <div *ngIf="cadastrarAluno.get('endereco')?.invalid && formDir.submitted" class="validation">
-                    <p>Endereco obrigatório!</p>
+                    <p>Endereço obrigatório!</p>
                 </div>
             </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 24.2%; max-width: 100%;">
