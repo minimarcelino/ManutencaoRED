@@ -11,12 +11,12 @@ const transporter = createTransport({
   }
 });
 
-export const sendEmail = ()=> {
+export const sendEmail = (para:string, assunto:string, texto:string)=> {
 transporter.sendMail({
   from: "eventos.pep@nao-responda.ifsp.edu.br",
-  to: 'igorteixeirapf@hotmail.com',
-  subject: 'Utilizando NodeMailer',
-  text: 'Testando mensagem',
+  to: para,
+  subject: assunto,
+  text: texto,
 
 })
   .then(() => console.log('Email enviado! '))

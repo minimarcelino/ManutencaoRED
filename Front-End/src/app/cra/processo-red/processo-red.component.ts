@@ -4,7 +4,7 @@ import { alunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { cursoService } from 'src/app/services/cursos.service';
 import { HttpClient } from '@angular/common/http';
-
+import { servidorService } from 'src/app/services/servidor.service';
 
 @Component({
   selector: 'app-processo-red',
@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./processo-red.component.css']
 })
 export class ProcessoREDComponent implements OnInit {
-  constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService) { }
+  constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService) { }
 
 
 
@@ -63,10 +63,29 @@ export class ProcessoREDComponent implements OnInit {
     console.log(aluno_curso);
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
-   // this.filtredCursos = this.cursos.filter(curso => curso.idcurso ===  );
+    // this.filtredCursos = this.cursos.filter(curso => curso.idcurso ===  );
     console.log(this.filtredCursos);
     console.log(this.cursos);
   }
+
+  async cadastrar() {
+    try {
+      await this.servidorservice.createRED({
+        curso: this.curso,
+        afastamento: this.afastamento,
+        periodo_inicio: this.periodo_inicio,
+        periodo_fim: this.periodo_fim,
+        aluno: {
+          connect: {
+            aluno_id: this.alunos[0].aluno_id
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error submitting ProcessoRED:', error);
+    }
+  }
+
 
   teste() {
     this.router.navigate(['/cra'])

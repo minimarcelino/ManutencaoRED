@@ -44,7 +44,7 @@
   </mat-form-field>
 <br><br>
   <button mat-raised-button color="warn" style="margin-right: 20px;">Cancelar</button>
-  <button mat-raised-button color="primary" style="margin-right: 20px;">Cadastrar</button>
+  <button mat-raised-button color="primary" (click)="cadastrar()" style="margin-right: 20px;">Cadastrar</button>
 
   <input type="file" (change)="InputFile($event)" style="margin-right: 50px;"/>
 </form>

@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { servidorService } from '../service/servidorService';
 import { StatusCodes } from 'http-status-codes';
+import { JwtPayload } from "jsonwebtoken";
+import { prisma } from "../../prisma/client";
+import { sendEmail } from "../service/email";
+import { alunoService } from "../service/alunoService";
 
 const servidorservice = new servidorService();
 const jwt = require('jsonwebtoken');
@@ -17,14 +21,14 @@ export class servidorController {
         }
     }
 
-    async getServidor(req: Request, res: Response) {
+    /*async getServidor(req: Request, res: Response) {
         const response = await servidorservice.findById(Number(req.params.id));
         if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
-    }
+    }*/
 
     async Create(req: Request, res: Response) {
         const response = await servidorservice.create(req.body);
@@ -96,6 +100,57 @@ export class servidorController {
                 data: response.data
             })
         }
-        return res.status(StatusCodes.BAD_REQUEST).json({ message: "Login Failed!!" });
+        return res.status(StatusCodes.BAD_REQUEST).json({ message: "Login Falho!!" });
     }
+
+    async getProfile(req: Request, res: Response) {
+        const { authorization } = req.headers
+        if (!authorization) {
+            return res.status(401);
+        }
+
+        const token = authorization.split(" ")[1]
+
+        const { userEmail, type, lastActivity } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET ?? "") as JwtPayload
+
+        const response = await servidorservice.findByEmail(userEmail)
+
+        if (response.ok) {
+            return res.status(StatusCodes.OK).json({
+                data: response.data
+            })
+        }
+        return res.status(401);
+    }
+
+    async createRED(req: Request, res: Response) {
+        const { authorization } = req.headers
+        if (!authorization) {
+            return res.status(StatusCodes.FORBIDDEN)
+        }
+
+        const token = authorization.split(" ")[1]
+
+        const { userEmail, type, lastActivity } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET ?? "") as JwtPayload
+
+        const response = await servidorservice.createRED(req.body);
+        if (response.ok) {
+            const texto =
+                `O processo RED do aluno ${req.body.aluno_prontuario} foi criado. 👍
+            
+            Por favor, entre no sistema e confirme a abertura do Processo RED.
+            
+            Atenciosamente, 
+
+            Equipe de suporte do RED. 
+            `
+            sendEmail(userEmail, "Inicio do Processo RED", texto)
+
+            return res.status(StatusCodes.OK).send(response.data)
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response)
+        }
+
+    }
+
 }

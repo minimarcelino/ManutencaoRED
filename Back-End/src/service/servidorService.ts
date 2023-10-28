@@ -1,4 +1,4 @@
-import { servidor } from '@prisma/client';
+import { servidor, red } from '@prisma/client';
 import { prisma } from "../../prisma/client";
 import { StatusCodes } from 'http-status-codes';
 
@@ -97,14 +97,31 @@ export class servidorService {
         }
     }
 
-    async findById(id: number) {
+    //async findById(id: number) {
+    //    try {
+    //        const servidor = await prisma.servidor.findUnique({
+    //            where: {
+    //                idservidor: +id,
+    //            },
+    //        });
+    //        return { ok: true, data: servidor };
+    //    } catch (error) {
+    //        console.log(error);
+    //        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+    //    }
+    //}
+
+    async findByEmail(email: string) {
         try {
-            const servidor = await prisma.servidor.findUnique({
+            const usuario = await prisma.servidor.findMany({
                 where: {
-                    idservidor: +id,
+                    email: email
                 },
-            });
-            return { ok: true, data: servidor };
+            })
+            if (usuario.length == 0) {
+                return { ok: false, data: StatusCodes.NOT_FOUND };
+            }
+            return { ok: true, data: usuario[0] };
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
@@ -166,8 +183,34 @@ export class servidorService {
             }
             return { ok: true, data: usuario[0] };
         } catch (error) {
+
+
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+        }
+    }
+
+    async createRED(red: red) {
+
+        try {
+            const existingRED = await prisma.red.findFirst({
+                where: {
+
+                    aluno_id: red.aluno_id,
+                    data_inicio_processo: red.data_inicio_processo
+                }
+            });
+
+            if (existingRED) {
+                return { ok: false, data: 'O Processo RED já existe!! ' };
+            }
+            else {
+                const createRED = await prisma.red.create({ data: red });
+                return { ok: true, data: createRED };
+            }
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 

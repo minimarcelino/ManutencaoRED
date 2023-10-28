@@ -4,9 +4,18 @@ import { environment } from 'src/app/environments/environmente.development';
 import { authenticationService } from './authentication.service';
 
 @Injectable({
-    providedIn: 'root',
-  })
+  providedIn: 'root',
+})
 
-  export class servidorService {
-    
+export class servidorService {
+  constructor(private http: HttpClient, private authentication: authenticationService) { }
+  async createRED(red: any): Promise<any> {
+    try {
+      const response = await this.http.post(`${environment.API}/servidor/cra/processo-red/create`, red, this.authentication.getHttpOptions())
+        .toPromise()
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   }
+}

@@ -13,6 +13,6 @@ router.get('/all', cracontroller.getAll);
 router.post('/create', cracontroller.Create);
 router.put('/update/:id',authentication.validate,  cracontroller.Update);
 router.delete('/delete/:id',authentication.validate, cracontroller.Delete);
-router.get('/sendEmail', emailcontroller.SendEmail);
+
 
 export default router;
