@@ -6,10 +6,10 @@
 <div class="listagem">
     <div id="tabela">
         <mat-form-field>
-          <mat-label>Filter</mat-label>
-          <input matInput (keyup)="applyFilter()" placeholder="Ex. Mia">
+          <mat-label>Pesquisar Aluno</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
         </mat-form-field>                
-        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
             <!-- ProntuarioColumn -->
             <ng-container matColumnDef="prontuario">

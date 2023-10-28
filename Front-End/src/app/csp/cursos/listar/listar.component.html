@@ -5,7 +5,11 @@
 
 <div class="listagem">
     <div id="tabela">
-        <table appearance="outline" mat-table [dataSource]="cursos" class="mat-elevation-z8">
+        <mat-form-field>
+          <mat-label>Pesquisar Curso</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Bacharelado">
+        </mat-form-field> 
+        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <!-- NomeColumn -->
             <ng-container matColumnDef="nomecurso">

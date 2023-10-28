@@ -6,6 +6,7 @@ import { messageDialog } from '../../../services/messageDialog.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditarComponent } from '../editar/editar.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-listar',
@@ -17,6 +18,7 @@ export class ListarComponent implements OnInit{
   items: any[] = [];
   coordenador: servidor[] = [];
   cursos: curso[] = [];
+  dataSource: any;
 
   displayedColumns = ['nomecurso', 'sigla', 'acoes'];
 
@@ -34,6 +36,12 @@ export class ListarComponent implements OnInit{
     async findAll(){
       const response = await this.cursoservice.getCursos();
       this.cursos = response.data.cursos;
+      this.dataSource = new MatTableDataSource<curso>(this.cursos);
+    }
+
+    applyFilter(data: Event) {
+      const value = (data.target as HTMLInputElement).value;
+      this.dataSource.filter = value;
     }
 
     editarCurso(curso: any){

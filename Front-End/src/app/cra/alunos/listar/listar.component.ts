@@ -34,8 +34,9 @@ export class ListarComponent implements OnInit{
       this.router.navigate(['/cra/cadastrar']);
     }
 
-    applyFilter() {
-      /*this.dataSource.filter = filterValue.trim().toLowerCase();*/
+    applyFilter(data: Event) {
+      const value = (data.target as HTMLInputElement).value;
+      this.dataSource.filter = value;
     }
     
 
