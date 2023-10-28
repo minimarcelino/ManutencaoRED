@@ -5,7 +5,11 @@
 
 <div class="listagem">
     <div id="tabela">
-        <table appearance="outline" mat-table [dataSource]="alunos" class="mat-elevation-z8">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter()" placeholder="Ex. Mia">
+        </mat-form-field>                
+        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <!-- ProntuarioColumn -->
             <ng-container matColumnDef="prontuario">
@@ -59,6 +63,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table> 
+          <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
     </div>
     <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar">Cadastrar Aluno</button>
 </div>

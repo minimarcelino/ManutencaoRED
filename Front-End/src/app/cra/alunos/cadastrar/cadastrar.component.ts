@@ -46,7 +46,7 @@ export class CadastrarComponent implements OnInit{
           endereco: this.endereco,
           telefone: this.telefone,
           email: this.email,
-          cordenador: this.idcurso
+          curso_idcurso: this.idcurso
         }); 
         this.openSnackBar(false);
         this.router.navigate(['cra/listar'])

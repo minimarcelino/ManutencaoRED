@@ -16,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CadastrarComponent } from './alunos/cadastrar/cadastrar.component';
 import { ListarComponent } from './alunos/listar/listar.component';
 import { EditarComponent } from './alunos/editar/editar.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
   
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { EditarComponent } from './alunos/editar/editar.component';
       MatSnackBarModule,
       MatTableModule,
       MatNativeDateModule,
-      MatDatepickerModule
+      MatDatepickerModule,
+      MatPaginatorModule
     ]
   })
   export class CraModule { }

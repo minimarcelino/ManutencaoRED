@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { aluno } from 'src/app/modelo/aluno';
@@ -7,6 +7,8 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarComponent } from '../editar/editar.component';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { formatDate } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-listar',
@@ -16,6 +18,8 @@ import { formatDate } from '@angular/common';
 export class ListarComponent implements OnInit{
 
   alunos: aluno[] = [];
+  dataSource: any;
+  @ViewChild(MatPaginator) paginator !:MatPaginator;
 
   displayedColumns = ['prontuario', 'nome', 'data', 'endereco', 'telefone', 'email', 'acoes'];
 
@@ -24,16 +28,22 @@ export class ListarComponent implements OnInit{
 
     ngOnInit(): void {
       this.findAll()
-      this._adapter.setLocale('pt-BR');
     }
 
     async cadastrar(){
       this.router.navigate(['/cra/cadastrar']);
     }
 
+    applyFilter() {
+      /*this.dataSource.filter = filterValue.trim().toLowerCase();*/
+    }
+    
+
     async findAll(){
       const response = await this.alunoservice.getAluno();
       this.alunos = response.data.alunos;
+      this.dataSource = new MatTableDataSource<aluno>(this.alunos);
+      this.dataSource.paginator=this.paginator;
     }
 
     formatDataNascimento(dataNascimento: Date): string {
