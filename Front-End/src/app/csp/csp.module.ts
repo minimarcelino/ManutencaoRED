@@ -13,12 +13,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { DocenteComponent } from './docente/docente.component';
 
 @NgModule({
     declarations: [
         CadastrarComponent,
         ListarComponent,
-        EditarComponent
+        EditarComponent,
+        DocenteComponent
   ],
     imports: [
       CommonModule,
