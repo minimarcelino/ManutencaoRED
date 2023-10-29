@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { alunoService } from 'src/app/services/alunos.service';
 import { cursoService } from 'src/app/services/cursos.service';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-cadastrar',
@@ -17,9 +18,11 @@ export class CadastrarComponent implements OnInit{
   isSubmitting: boolean = false;
 
   constructor(private snackBar: MatSnackBar, private router: Router, private alunoService: alunoService,
-              private cursoService: cursoService){}
+              private cursoService: cursoService, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
 
   ngOnInit(): void {
+    this._locale = 'pt-BR';
+    this._adapter.setLocale(this._locale);
     this.cadastrarAluno = new FormGroup({
       prontuario: new FormControl('', [Validators.required]),
       nome: new FormControl('', [Validators.required]),
@@ -39,6 +42,7 @@ export class CadastrarComponent implements OnInit{
     } else {
       this.isSubmitting = true;
       try {
+        console.log(this.data_nascimento);
         await this.alunoService.createAluno({
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,

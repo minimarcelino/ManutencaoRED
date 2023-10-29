@@ -18,6 +18,7 @@ import { ListarComponent } from './alunos/listar/listar.component';
 import { EditarComponent } from './alunos/editar/editar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ListarREDComponent } from './processo-red/listar/listar.component';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
   
 @NgModule({
     declarations: [
@@ -40,7 +41,11 @@ import { ListarREDComponent } from './processo-red/listar/listar.component';
       MatTableModule,
       MatNativeDateModule,
       MatDatepickerModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      MatMomentDateModule
+    ],
+    providers: [
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
     ]
   })
   export class CraModule { }

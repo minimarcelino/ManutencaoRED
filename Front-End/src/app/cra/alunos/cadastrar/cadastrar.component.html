@@ -22,7 +22,7 @@
             <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 400px;">
                 <mat-label>Data de Nascimento</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="data">
-                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <div *ngIf="cadastrarAluno.get('data')?.invalid && formDir.submitted" class="validation">
