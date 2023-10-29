@@ -60,27 +60,38 @@ export class ProcessoREDComponent implements OnInit {
   async fetchCursos() {
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
-    this.filtredCursos = this.cursos.filter(curso => curso.idcurso ===  this.aluno.curso_idcurso);
+    this.filtredCursos = this.cursos.filter(curso => curso.idcurso === this.aluno.curso_idcurso);
     this.filtredCursos = this.filtredCursos[0].nomecurso;
   }
 
-  changeCurso(){
-      this.fetchCursos();
-      this.isDisable = true;
+  changeCurso() {
+    this.fetchCursos();
+    this.isDisable = true;
   }
 
   async cadastrar() {
     try {
+      //console.log(this.alunos)
+      //console.log(this.cursos)
       await this.servidorservice.createRED({
-        curso: this.curso,
-        afastamento: this.afastamento,
-        periodo_inicio: this.periodo_inicio,
-        periodo_fim: this.periodo_fim,
+        motivoAfastamento: this.afastamento,
+        dataInicioRed: this.periodo_inicio,
+        dataPrevisaoTermino: this.periodo_fim,
+        data_inicio_processo: new Date(),
+        dataLimitePee: new Date(),
+        situacao: this.situacao,
+        aluno_prontuario: this.aluno.prontuario,
         aluno: {
           connect: {
-            aluno_id: this.alunos[0].aluno_id
+            id: this.alunos[0].id
+          }
+        },
+        servidor: {
+          connect: {
+            idservidor: this.cursos[0].cordenador
           }
         }
+
       });
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
@@ -96,6 +107,7 @@ export class ProcessoREDComponent implements OnInit {
   get aluno() {
     return this.cadastrarRed.get('aluno')!.value;
   }
+  
 
   get curso() {
     return this.cadastrarRed.get('curso')!.value;
@@ -111,6 +123,15 @@ export class ProcessoREDComponent implements OnInit {
 
   get afastamento() {
     return this.cadastrarRed.get('afastamento')!.value;
+  }
+
+  get situacao() {
+    return "Em análise";
+  }
+
+
+  get limite_pee() {
+    return this.cadastrarRed.get('limite_pee')!.value;
   }
 
 }
