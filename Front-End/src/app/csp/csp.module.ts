@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { DocenteComponent } from './docente/docente.component';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,11 @@ import { DocenteComponent } from './docente/docente.component';
       MatAutocompleteModule,
       MatButtonModule,
       MatSnackBarModule,
-      MatTableModule
+      MatTableModule,
+      MatMomentDateModule
+    ],
+    providers: [
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
     ]
   })
   export class CspModule { }

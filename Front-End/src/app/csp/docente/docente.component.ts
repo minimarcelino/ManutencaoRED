@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
 import { docente } from 'src/app/modelo/docente';
+import { servidorService } from 'src/app/services/servidor.service';
 
 @Component({
   selector: 'app-docente',
@@ -9,9 +10,10 @@ import { docente } from 'src/app/modelo/docente';
   styleUrls: ['./docente.component.css']
 })
 export class DocenteComponent implements OnInit {
-dataToImport: any;
+  dataToImport: any;
+  data: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private servidorService: servidorService) {}
 
   ngOnInit() {
   }
@@ -27,9 +29,15 @@ dataToImport: any;
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      const info1 = data;
-      console.log(info1);
+      this.data = data;
       // Send the data to the database
+      this.data.forEach(item => 
+        this.servidorService.exportProfessor({
+          email: item["E-mail"],
+          tiposervidor: "professor",
+          senha: '123',
+          nome: item.Nome
+        }))
     };
   }
   

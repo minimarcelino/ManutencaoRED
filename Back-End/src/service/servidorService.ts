@@ -63,7 +63,6 @@ export class servidorService {
         try {
             const existingServidor = await prisma.servidor.findFirst({
                 where: {
-
                     email: servidor.email,
                     tiposervidor: servidor.tiposervidor
                 }
