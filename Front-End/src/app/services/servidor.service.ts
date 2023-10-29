@@ -18,4 +18,17 @@ export class servidorService {
       console.log(error);
     }
   }
+
+  async getRED(): Promise<any> {
+  try {
+    const response = await this.http.get(`${environment.API}/servidor/cra/processo-red/all`, this.authentication.getHttpOptions())
+      .toPromise();
+    return response; // Retorna a resposta da chamada HTTP
+  } catch (error) {
+    console.log(error);
+    throw error; // Lança a exceção novamente, se necessário
+  }
+}
+
+
 }

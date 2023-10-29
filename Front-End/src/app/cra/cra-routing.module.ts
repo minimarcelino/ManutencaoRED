@@ -4,6 +4,7 @@ import { CRAComponent } from './cra.component';
 import { ProcessoREDComponent } from './processo-red/processo-red.component';
 import { ListarComponent } from './alunos/listar/listar.component';
 import { CadastrarComponent } from './alunos/cadastrar/cadastrar.component';
+import { ListarREDComponent } from './processo-red/listar/listar.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'cadastrar',
         component: CadastrarComponent
+      },
+      {
+        path: 'listarRED',
+        component: ListarREDComponent
       }
     ]
   },

@@ -100,7 +100,7 @@ export class ProcessoREDComponent implements OnInit {
 
 
   teste() {
-    this.router.navigate(['/cra'])
+    this.router.navigate(['/cra/cadastrar'])
     console.log("funcionou");
   }
 

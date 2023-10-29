@@ -17,13 +17,15 @@ import { CadastrarComponent } from './alunos/cadastrar/cadastrar.component';
 import { ListarComponent } from './alunos/listar/listar.component';
 import { EditarComponent } from './alunos/editar/editar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ListarREDComponent } from './processo-red/listar/listar.component';
   
 @NgModule({
     declarations: [
     CadastrarComponent,
     ListarComponent,
     ProcessoREDComponent,
-    EditarComponent
+    EditarComponent,
+    ListarREDComponent
   ],
     imports: [
       CommonModule,
