@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authentication: authenticationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -37,18 +37,20 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-        this.logging = await this.authentication.login({ email: this.email, senha: this.senha });
-      if(this.logging){
+      this.logging = await this.authentication.login({ email: this.email, senha: this.senha });
+      if (this.logging) {
         this.user = localStorage.getItem("user");
-        if(this.user != null){
+        if (this.user != null) {
           this.user = JSON.parse(this.user);
-          if(this.user.tiposervidor == 'csp'){
+          if (this.user.tiposervidor == 'csp') {
             this.router.navigate(['/csp']);
           } else if (this.user.tiposervidor == 'cra') {
             this.router.navigate(['/cra']);
+          } else if (this.user.tiposervidor == 'coordenador') {
+            this.router.navigate(['/coordenador']);
           }
         }
-      }    
+      }
       console.log('sucesso!');
     }
   }

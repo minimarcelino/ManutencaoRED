@@ -1,4 +1,4 @@
-import { servidor, red } from '@prisma/client';
+import { servidor, red, disciplinas } from '@prisma/client';
 import { prisma } from "../../prisma/client";
 import { StatusCodes } from 'http-status-codes';
 
@@ -74,6 +74,30 @@ export class servidorService {
             else {
                 const createServidor = await prisma.servidor.create({ data: servidor });
                 return { ok: true, data: createServidor };
+            }
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+        }
+    }
+
+
+    async createDisciplina(disciplina: disciplinas) {
+
+        try {
+            const existingDisciplina = await prisma.disciplinas.findFirst({
+                where: {
+                    nomedisciplina: disciplina.nomedisciplina,
+                    sigla: disciplina.sigla
+                }
+            });
+
+            if (existingDisciplina) {
+                return { ok: false, data: 'disciplina já existe' };
+            }
+            else {
+                const createDisciplina = await prisma.disciplinas.create({ data: disciplina });
+                return { ok: true, data: createDisciplina };
             }
         } catch (error) {
             console.log(error);

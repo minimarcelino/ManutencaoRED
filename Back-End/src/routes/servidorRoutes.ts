@@ -11,6 +11,7 @@ router.get('/',authentication.validate, servidorcontroller.getServidores);
 router.get('/all',authentication.validate, servidorcontroller.getAll);
 //router.get('/:id',authentication.validate, servidorcontroller.getServidor);
 router.post('/create',authentication.validate, servidorcontroller.Create);
+router.post('/coordenador/create',authentication.validate, servidorcontroller.CreateDisciplina);
 /*router.put('/update/:id',  alunocontroller.Update);
 router.delete('/delete/:id', alunocontroller.Delete);*/
 router.post('/login', servidorcontroller.Login);

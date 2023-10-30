@@ -31,7 +31,12 @@ const routes: Routes = [
     loadChildren: () =>import('./cra/cra-routing.module').then((module) => module.CraRoutingModule),
     canActivate: [authorizationService]
   },
-  //coordenador
+  {
+    path: 'coordenador',
+    loadChildren: () => import('./coordenador/coordenador-routing.module').then((module)=> module.CoordenadorRoutingModule),
+    canActivate: [authorizationService]
+  },
+  
 ];
 
 @NgModule({

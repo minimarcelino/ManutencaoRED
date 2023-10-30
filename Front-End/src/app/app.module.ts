@@ -13,7 +13,6 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { DisciplinasComponent } from './disciplinas/disciplinas.component';
 import { PeeComponent } from './pee/pee.component';
 import { RedComponent } from './red/red.component';
 import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
@@ -23,18 +22,20 @@ import { CRAComponent } from './cra/cra.component';
 import { CSPComponent } from './csp/csp.component';
 import { CspModule } from './csp/csp.module';
 import { CraModule } from './cra/cra.module';
+import { CoordenadorComponent } from './coordenador/coordenador.component';
+import { CoordenadorModule } from './coordenador/coordenador.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DisciplinasComponent,
     PeeComponent,
     RedComponent,
     MessageDialogComponent,
     SnackBarComponent,
     CRAComponent,
-    CSPComponent
+    CSPComponent,
+    CoordenadorComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +52,9 @@ import { CraModule } from './cra/cra.module';
     MatToolbarModule,
     MatDialogModule,
     CspModule,
-    CraModule
+    CraModule,
+    CoordenadorModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

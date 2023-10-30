@@ -29,6 +29,16 @@ export class servidorService {
     }
   }
 
+  async exportDisciplina(Disciplina: any): Promise<any>{
+    try {
+        const response = await this.http.post(`${environment.API}/servidor/coordenador/create`, Disciplina, this.authentication.getHttpOptions())
+        .toPromise()
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   async getRED(): Promise<any> {
   try {
     const response = await this.http.get(`${environment.API}/servidor/cra/processo-red/all`, this.authentication.getHttpOptions())

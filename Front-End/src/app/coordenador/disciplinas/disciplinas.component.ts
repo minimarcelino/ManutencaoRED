@@ -1,18 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { HttpClient } from '@angular/common/http';
 import { servidorService } from 'src/app/services/servidor.service';
 
 @Component({
-  selector: 'app-docente',
-  templateUrl: './docente.component.html',
-  styleUrls: ['./docente.component.css']
+  selector: 'app-disciplinas',
+  templateUrl: './disciplinas.component.html',
+  styleUrls: ['./disciplinas.component.css']
 })
-export class DocenteComponent implements OnInit {
+export class DisciplinasComponent implements OnInit{
   dataToImport: any;
   data: any[] = [];
 
   constructor(private http: HttpClient, private servidorService: servidorService) {}
+ 
 
   ngOnInit() {
   }
@@ -31,13 +32,11 @@ export class DocenteComponent implements OnInit {
       this.data = data;
       // Send the data to the database
       this.data.forEach(item => 
-        this.servidorService.exportProfessor({
-          email: item["E-mail"],
-          tiposervidor: "professor",
-          senha: '123',
-          nome: item.Nome
+        this.servidorService.exportDisciplina({
+          sigla: item["Sigla"],
+          curso_idcurso: 1,
+          nomedisciplina: item.Componente
         }))
     };
   }
-  
 }
