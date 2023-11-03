@@ -32,7 +32,7 @@ export class EditarComponent implements OnInit{
 
   async submit() {
     if (this.editarCurso.invalid || this.isSubmitting) {
-      this.openSnackBar(true);
+      this.openSnackBar("Campos obrigatórios!!", null);
       return;
     } else {
       this.isSubmitting = true;
@@ -43,12 +43,15 @@ export class EditarComponent implements OnInit{
           nomecurso: this.nomeCurso,
           cordenador: this.idcordenador
         };
-
         await this.cursoservice.updateCurso(curso); 
-        this.openSnackBar(false);
-        
-      } catch (error) {
-        console.error('Error submitting curso:', error);
+        this.openSnackBar("Curso editado com sucesso!!", null);
+      } catch (error: any) {
+        if (error && error.error && error.error.data) {
+          const errorMessage = error.error.data;
+          this.openSnackBar("Falha ao editar curso", errorMessage);
+        } else {
+          this.openSnackBar("Falha ao editar curso", "Ocorreu um erro durante a edição do curso.");
+        }
       }
       this.dialog.close('Confirmar');
     }
@@ -61,19 +64,20 @@ export class EditarComponent implements OnInit{
   }
 
 
-  openSnackBar(option: boolean) {
-    if(option){
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'Os campos são obrigatórios!!.',
-        duration: 3000
-      });
-    } else {
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'O curso foi editado com sucesso!!.',
-        duration: 3000
-      });
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
     }
-      
+    
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
+    });
   }
 
   displayFn(Coordenador: any): string {

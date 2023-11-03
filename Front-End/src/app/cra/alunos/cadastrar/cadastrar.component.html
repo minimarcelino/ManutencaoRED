@@ -7,7 +7,7 @@
         <form [formGroup]="cadastrarAluno" #formDir="ngForm">
             <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
                 <mat-label>Prontuário</mat-label>
-                <input matInput name="prontuario" formControlName="prontuario"/>
+                <input matInput name="prontuario" formControlName="prontuario" mask="AA0000000"/>
                 <div *ngIf="cadastrarAluno.get('prontuario')?.invalid && formDir.submitted" class="validation">
                     <p>Prontuario obrigatório!</p>
                 </div>
@@ -38,7 +38,8 @@
             </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 24.2%; max-width: 100%;">
                 <mat-label>Telefone</mat-label>
-                <input matInput name="telefone" formControlName="telefone"/>
+                <input matInput name="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']" 
+                mask="(00)00000-0000"/>
                 <div *ngIf="cadastrarAluno.get('telefone')?.invalid && formDir.submitted" class="validation">
                     <p>Telefone obrigatório!</p>
                 </div>

@@ -31,7 +31,7 @@ export class CadastrarComponent implements OnInit{
 
   async submit() {
     if (this.cadastrarCurso.invalid || this.isSubmitting) {
-      this.openSnackBar(true);
+      this.openSnackBar("Campos obrigatórios!!", null);
       return;
     } else {
       this.isSubmitting = true;
@@ -41,13 +41,16 @@ export class CadastrarComponent implements OnInit{
           nomecurso: this.nomeCurso,
           cordenador: this.idcordenador
         };
-
         await this.cursoservice.createCurso(curso); 
-        this.openSnackBar(false);
+        this.openSnackBar("Curso cadastrado com sucesso!!", null);
         this.router.navigate(['csp/listar'])
-        
-      } catch (error) {
-        console.error('Error submitting curso:', error);
+      } catch (error: any) {
+        if (error && error.error && error.error.data) {
+          const errorMessage = error.error.data;
+          this.openSnackBar("Falha ao cadastrar curso", errorMessage);
+        } else {
+          this.openSnackBar("Falha ao cadastrar curso", "Ocorreu um erro durante o cadastro do curso.");
+        }
       }
     }
   }
@@ -56,19 +59,20 @@ export class CadastrarComponent implements OnInit{
     this.router.navigate(['/csp/listar'])
   }
 
-  openSnackBar(option: boolean) {
-    if(option){
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'Os campos são obrigatórios!!.',
-        duration: 3000
-      });
-    } else {
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'O curso foi cadastrado com sucesso!!.',
-        duration: 3000
-      });
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
     }
-      
+    
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
+    });
   }
 
   displayFn(Coordenador: any): string {

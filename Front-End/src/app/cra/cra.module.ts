@@ -19,6 +19,7 @@ import { EditarComponent } from './alunos/editar/editar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ListarREDComponent } from './processo-red/listar/listar.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
   
 @NgModule({
     declarations: [
@@ -42,10 +43,13 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
       MatNativeDateModule,
       MatDatepickerModule,
       MatPaginatorModule,
-      MatMomentDateModule
+      MatMomentDateModule,
+      NgxMaskDirective,
+      NgxMaskPipe
     ],
     providers: [
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+      provideNgxMask()
     ]
   })
   export class CraModule { }

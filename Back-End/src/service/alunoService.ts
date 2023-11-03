@@ -83,6 +83,9 @@ export class alunoService{
             const existingAluno = await prisma.aluno.findFirst({
                 where: {
                   prontuario: aluno.prontuario,
+                  NOT: {
+                    id: +id,
+                  },
                 },
               });
 

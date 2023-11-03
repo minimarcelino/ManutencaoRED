@@ -63,14 +63,12 @@ export class cursoService{
         try {
             const existingCurso = await prisma.curso.findFirst({
                 where: {
-                  nomecurso: curso.nomecurso,
                   sigla: curso.sigla,
-                  cordenador: curso.cordenador
                 },
               });
           
               if (existingCurso) {
-                return { ok: false, data: 'curso já existe' };
+                return { ok: false, data: 'Este curso com esta sigla já existe' };
               }
               else {
                 const createCurso = await prisma.curso.create({ data: curso });
@@ -84,16 +82,29 @@ export class cursoService{
 
     async update(curso: curso, id: number){
         try {
-            const updateCurso = await prisma.curso.update({
+            const existingCurso = await prisma.curso.findFirst({
                 where: {
-                    idcurso: id,
+                  sigla: curso.sigla,
+                  NOT: {
+                    idcurso: +id,
+                  },
                 },
-                data: {
-                    sigla: curso.sigla,
-                    nomecurso: curso.nomecurso,
-                    cordenador: curso.cordenador
-                }});
-                return {ok: true, data: updateCurso}
+              });
+          
+              if (existingCurso) {
+                return { ok: false, data: 'Este curso com esta sigla já existe' };
+              } else {
+                const updateCurso = await prisma.curso.update({
+                    where: {
+                        idcurso: id,
+                    },
+                    data: {
+                        sigla: curso.sigla,
+                        nomecurso: curso.nomecurso,
+                        cordenador: curso.cordenador
+                    }});
+                    return {ok: true, data: updateCurso}
+              }
         } catch (error) {
             console.log(error);
             return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
