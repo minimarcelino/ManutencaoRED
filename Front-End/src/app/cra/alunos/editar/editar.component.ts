@@ -24,29 +24,34 @@ export class EditarComponent implements OnInit{
     private cursoService: cursoService, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
 
     ngOnInit(): void {
-      this._adapter.setLocale('pt-BR');
+      var date = new Date(this.data.data);
+      var utcYear = date.getUTCFullYear();
+      var utcMonth = date.getUTCMonth();
+      var utcDay = date.getUTCDate();
+      var utcDate = new Date(utcYear, utcMonth, utcDay);  
       this.editarAluno = new FormGroup({
         prontuario: new FormControl(this.data.prontuario, [Validators.required]),
         nome: new FormControl(this.data.nome, [Validators.required]),
-        data: new FormControl(this.data.data, [Validators.required]),
+        data: new FormControl(utcDate, [Validators.required]),
         endereco: new FormControl(this.data.endereco, [Validators.required]),
         telefone: new FormControl(this.data.telefone, [Validators.required]),
         email: new FormControl(this.data.email, [Validators.required]),
         curso: new FormControl('', [Validators.required]),
       });
       this.fetchCurso();
+      this._adapter.setLocale('pt-BR');
     }
   
     async submit() {
       if (this.editarAluno.invalid || this.isSubmitting) {
-        this.openSnackBar(true);
+        this.openSnackBar("Campos obrigatórios!!", null);
         return;
       } else {
         this.isSubmitting = true;
         try {
           await this.alunoService.updateAluno({
             id: this.data.id,
-            prontuario: this.prontuario,
+            prontuario: this.prontuario.toUpperCase(),
             nome: this.nome,
             data_nascimento: this.data_nascimento,
             endereco: this.endereco,
@@ -54,27 +59,33 @@ export class EditarComponent implements OnInit{
             email: this.email,
             curso: this.idcurso
           }); 
-          this.openSnackBar(false);
+          this.openSnackBar("Aluno editado com sucesso!!", null);
           this.router.navigate(['cra/listar']);
-        } catch (error) {
-          console.error('Error submitting curso:', error);
+        } catch (error: any) {
+          if (error && error.error && error.error.data) {
+            const errorMessage = error.error.data;
+            this.openSnackBar("Falha ao editar aluno", errorMessage);
+          } else {
+            this.openSnackBar("Falha ao editar aluno", "Ocorreu um erro durante a edição do aluno.");
+          }
         }
       }
     }
     
-
-    openSnackBar(option: boolean) {
-      if(option){
-        this.snackBar.openFromComponent(SnackBarComponent, {
-          data: 'Os campos são obrigatórios!!.',
-          duration: 3000
-        });
-      } else {
-        this.snackBar.openFromComponent(SnackBarComponent, {
-          data: 'O aluno foi editado com sucesso!!.',
-          duration: 3000
-        });
+    openSnackBar(message: string, error: string | Error | null) {
+      let data;
+      if (error === null) {
+        data = { message };
+      } else if (typeof error === 'string') {
+        data = { message: error };
+      } else if (error instanceof Error) {
+        data = { message: error.message };
       }
+      
+      this.snackBar.openFromComponent(SnackBarComponent, {
+        data: data,
+        duration: 3000
+      });
     }
 
     async fetchCurso(){

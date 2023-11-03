@@ -17,7 +17,7 @@ export class cursoService{
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -27,7 +27,7 @@ export class cursoService{
             .toPromise()
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -38,7 +38,7 @@ export class cursoService{
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -48,7 +48,7 @@ export class cursoService{
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -58,7 +58,7 @@ export class cursoService{
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -68,7 +68,7 @@ export class cursoService{
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }

@@ -57,7 +57,10 @@
                         {{c.nomecurso}}
                     </mat-option>
                 </mat-autocomplete>
-            </mat-form-field>
+                <div *ngIf="editarAluno.get('curso')?.invalid && formDir.submitted" class="validation">
+                    <p>Curso obrigatório!</p>
+                </div>
+            </mat-form-field>            
             <div id="buttons">
                 <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Editar</button>
             </div>

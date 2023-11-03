@@ -16,7 +16,7 @@ export class alunoService {
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -26,7 +26,7 @@ export class alunoService {
             .toPromise()
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -36,7 +36,7 @@ export class alunoService {
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -46,7 +46,7 @@ export class alunoService {
             .toPromise();
             return response;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 

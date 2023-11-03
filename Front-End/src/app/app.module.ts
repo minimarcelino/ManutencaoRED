@@ -24,6 +24,7 @@ import { CspModule } from './csp/csp.module';
 import { CraModule } from './cra/cra.module';
 import { CoordenadorComponent } from './coordenador/coordenador.component';
 import { CoordenadorModule } from './coordenador/coordenador.module';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ import { CoordenadorModule } from './coordenador/coordenador.module';
     CoordenadorModule,
     
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

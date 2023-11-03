@@ -16,6 +16,7 @@ export class CadastrarComponent implements OnInit{
   cadastrarAluno!: FormGroup;
   cursos: any[] = [];
   isSubmitting: boolean = false;
+  error: Error | null = null;
 
   constructor(private snackBar: MatSnackBar, private router: Router, private alunoService: alunoService,
               private cursoService: cursoService, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
@@ -37,12 +38,11 @@ export class CadastrarComponent implements OnInit{
 
   async submit() {
     if (this.cadastrarAluno.invalid || this.isSubmitting) {
-      this.openSnackBar(true);
+      this.openSnackBar("Campos Obrigatórios", null);
       return;
     } else {
       this.isSubmitting = true;
       try {
-        console.log(this.data_nascimento);
         await this.alunoService.createAluno({
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
@@ -52,10 +52,15 @@ export class CadastrarComponent implements OnInit{
           email: this.email,
           curso_idcurso: this.idcurso
         }); 
-        this.openSnackBar(false);
+        this.openSnackBar("Aluno cadastrado com sucesso!!", null);
         this.router.navigate(['cra/listar'])
-      } catch (error) {
-        console.error('Error submitting curso:', error);
+      } catch (error: any) {
+        if (error && error.error && error.error.data) {
+          const errorMessage = error.error.data;
+          this.openSnackBar("Falha ao cadastrar aluno", errorMessage);
+        } else {
+          this.openSnackBar("Falha ao cadastrar aluno", "Ocorreu um erro durante o cadastro do aluno.");
+        }
       }
     }
   }
@@ -69,19 +74,22 @@ export class CadastrarComponent implements OnInit{
     return curso && curso.nomecurso;
   }
 
-  openSnackBar(option: boolean) {
-    if(option){
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'Os campos são obrigatórios!!.',
-        duration: 3000
-      });
-    } else {
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: 'O aluno foi cadastrado com sucesso!!.',
-        duration: 3000
-      });
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
     }
+    
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
+    });
   }
+  
 
     voltar(){
       this.router.navigate(['/cra/listar'])

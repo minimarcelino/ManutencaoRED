@@ -63,14 +63,12 @@ export class alunoService{
         try {
             const existingAluno = await prisma.aluno.findFirst({
                 where: {
-                  email: aluno.email,
                   prontuario: aluno.prontuario,
-                  telefone: aluno.telefone
                 },
               });
           
               if (existingAluno) {
-                return { ok: false, data: 'aluno já existe' };
+                return { ok: false, data: 'aluno com esse prontuário já existe' };
               }
             const createAluno = await prisma.aluno.create({data: aluno});
             return {ok: true, data : createAluno};
@@ -82,20 +80,30 @@ export class alunoService{
 
     async update(aluno: aluno, id: number){
         try {
-            const updateAluno = await prisma.aluno.update({
+            const existingAluno = await prisma.aluno.findFirst({
                 where: {
-                    id: +id,
+                  prontuario: aluno.prontuario,
                 },
-                data: {
-                    prontuario: aluno.prontuario,
-                    nome: aluno.nome,
-                    data_nascimento: aluno.data_nascimento,
-                    endereco: aluno.endereco,
-                    telefone: aluno.telefone,
-                    email: aluno.email,
-                    curso_idcurso: aluno.curso_idcurso,
-                }});
-                return {ok: true, data: updateAluno}
+              });
+
+              if (existingAluno) {
+                return { ok: false, data: 'aluno com esse prontuário já existe' };
+              } else {
+                const updateAluno = await prisma.aluno.update({
+                    where: {
+                        id: +id,
+                    },
+                    data: {
+                        prontuario: aluno.prontuario,
+                        nome: aluno.nome,
+                        data_nascimento: aluno.data_nascimento,
+                        endereco: aluno.endereco,
+                        telefone: aluno.telefone,
+                        email: aluno.email,
+                        curso_idcurso: aluno.curso_idcurso,
+                    }});
+                    return {ok: true, data: updateAluno}
+              }
         } catch (error) {
             console.log(error);
             return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
