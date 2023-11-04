@@ -13,8 +13,6 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PeeComponent } from './pee/pee.component';
-import { RedComponent } from './red/red.component';
 import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
@@ -30,8 +28,6 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
   declarations: [
     AppComponent,
     LoginComponent,
-    PeeComponent,
-    RedComponent,
     MessageDialogComponent,
     SnackBarComponent,
     CRAComponent,
