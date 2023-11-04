@@ -29,14 +29,32 @@ export class DisciplinasComponent implements OnInit{
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
-      this.data = data;
-      // Send the data to the database
-      this.data.forEach(item => 
-        this.servidorService.exportDisciplina({
-          sigla: item["Sigla"],
-          curso_idcurso: 1,
-          nomedisciplina: item.Componente
-        }))
+      this.data = data.map((item: any) => {
+        const componente = item["Componente"];
+        const nomeSplit = componente.split(" - ");
+        
+        if (nomeSplit.length === 2) {
+          const nome = nomeSplit[1];
+          const sigla = item["Sigla"];
+          const regexSiglaResult = /\((.*?)\)/.exec(sigla);
+          const dentroParenteses = regexSiglaResult ? regexSiglaResult[1] : null;
+      
+          return {
+            sigla: dentroParenteses,
+            curso_idcurso: 1,
+            nomedisciplina: nome
+          };
+        } else {
+          return {
+            sigla: null,
+            curso_idcurso: 1,
+            nomedisciplina: "Nome não encontrado"
+          };
+        }
+      });
+      this.data.forEach(item =>
+        this.servidorService.exportDisciplina(item)
+      );
     };
   }
 }
