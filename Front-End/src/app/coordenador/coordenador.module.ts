@@ -14,12 +14,14 @@ import { CadastrarDocenteComponent } from './docentes/cadastrar/cadastrar.compon
 import { ListarDocenteComponent } from './docentes/listar/listar.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { EditarDocenteComponent  } from './docentes/editar/editar.component';
 
 @NgModule({
     declarations: [
         DisciplinasComponent,
         CadastrarDocenteComponent,
-        ListarDocenteComponent
+        ListarDocenteComponent,
+        EditarDocenteComponent 
     ],
     imports: [
         CommonModule,

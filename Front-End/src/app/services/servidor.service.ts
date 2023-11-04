@@ -15,7 +15,7 @@ export class servidorService {
         .toPromise()
       return response;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 
@@ -25,7 +25,7 @@ export class servidorService {
         .toPromise()
         return response;
     } catch (error) {
-        console.log(error);
+      throw error;
     }
   }
 
@@ -35,7 +35,7 @@ export class servidorService {
         .toPromise()
         return response;
     } catch (error) {
-        console.log(error);
+      throw error;
     }
   }
 
@@ -43,10 +43,9 @@ export class servidorService {
   try {
     const response = await this.http.get(`${environment.API}/servidor/cra/processo-red/all`, this.authentication.getHttpOptions())
       .toPromise();
-    return response; // Retorna a resposta da chamada HTTP
+    return response; 
   } catch (error) {
-    console.log(error);
-    throw error; // Lança a exceção novamente, se necessário
+    throw error; 
   }
 }
 

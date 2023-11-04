@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { docente } from 'src/app/modelo/docente';
 import { docenteService } from 'src/app/services/docente.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
+import { EditarDocenteComponent } from '../editar/editar.component';
 
 @Component({
   selector: 'app-listar',
@@ -45,10 +46,20 @@ export class ListarDocenteComponent implements OnInit{
   }
 
   editarDocente(docente: any){
-
+    const editar =  this.dialog.open(EditarDocenteComponent, {
+      data: {idservidor: docente.idservidor, prontuario: docente.prontuario, nome: docente.nome, email: docente.email, 
+             tiposervidor: docente.tiposervidor}
+    });
+    this.handleDialogConfirm(editar);
   }
 
   deleteDocente(docente: any){
 
+  }
+
+  handleDialogConfirm(dialog: any){
+    dialog.afterClosed().subscribe((result: string) => {
+        this.findAll();
+    });
   }
 }
