@@ -89,7 +89,6 @@ export class CadastrarComponent implements OnInit{
       duration: 3000
     });
   }
-  
 
     voltar(){
       this.router.navigate(['/cra/listar'])
@@ -102,6 +101,7 @@ export class CadastrarComponent implements OnInit{
     get nome() {
       return this.cadastrarAluno.get('nome')!.value;
     }
+
     get data_nascimento() {
       return this.cadastrarAluno.get('data')!.value;
     }

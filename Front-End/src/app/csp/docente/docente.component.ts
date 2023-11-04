@@ -29,13 +29,15 @@ export class DocenteComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
       this.data = data;
+      console.log(this.data);
       // Send the data to the database
       this.data.forEach(item => 
         this.servidorService.exportProfessor({
           email: item["E-mail"],
           tiposervidor: "professor",
           senha: '123',
-          nome: item.Nome
+          nome: item.Nome,
+          prontuario: item["Prontuário"]
         }))
     };
   }

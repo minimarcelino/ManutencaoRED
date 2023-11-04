@@ -103,6 +103,7 @@ model servidor {
   nome         String  @db.VarChar(60)
   tiposervidor String  @db.VarChar(15)
   senha        String  @db.VarChar(12)
+  prontuario   String  @db.VarChar(15)
   curso        curso[]
   pee          pee[]
   red          red[]

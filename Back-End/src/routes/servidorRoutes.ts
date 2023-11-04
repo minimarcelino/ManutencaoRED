@@ -12,8 +12,8 @@ router.get('/all',authentication.validate, servidorcontroller.getAll);
 //router.get('/:id',authentication.validate, servidorcontroller.getServidor);
 router.post('/create',authentication.validate, servidorcontroller.Create);
 router.post('/coordenador/create',authentication.validate, servidorcontroller.CreateDisciplina);
-/*router.put('/update/:id',  alunocontroller.Update);
-router.delete('/delete/:id', alunocontroller.Delete);*/
+router.put('/update/:id',authentication.validate, servidorcontroller.Update);
+/*router.delete('/delete/:id', alunocontroller.Delete);*/
 router.post('/login', servidorcontroller.Login);
 router.get('/profile', servidorcontroller.getProfile);
 router.post('/cra/processo-red/create', servidorcontroller.createRED);

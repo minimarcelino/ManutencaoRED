@@ -10,10 +10,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { CadastrarDocenteComponent } from './docentes/cadastrar/cadastrar.component';
+import { ListarDocenteComponent } from './docentes/listar/listar.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     declarations: [
-        DisciplinasComponent
+        DisciplinasComponent,
+        CadastrarDocenteComponent,
+        ListarDocenteComponent
     ],
     imports: [
         CommonModule,
@@ -26,10 +32,14 @@ import { CommonModule } from '@angular/common';
         MatButtonModule,
         MatSnackBarModule,
         MatTableModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        NgxMaskDirective,
+        NgxMaskPipe,
+        MatPaginatorModule 
     ],
     providers: [
-        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        provideNgxMask()
     ]
 })
 export class CoordenadorModule { }

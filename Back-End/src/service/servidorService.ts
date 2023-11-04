@@ -63,13 +63,12 @@ export class servidorService {
         try {
             const existingServidor = await prisma.servidor.findFirst({
                 where: {
-                    email: servidor.email,
-                    tiposervidor: servidor.tiposervidor
+                    prontuario: servidor.prontuario,
                 }
             });
 
             if (existingServidor) {
-                return { ok: false, data: 'servidor já existe' };
+                return { ok: false, data: 'docente com esse prontuário já existe' };
             }
             else {
                 const createServidor = await prisma.servidor.create({ data: servidor });
@@ -107,13 +106,26 @@ export class servidorService {
 
     async update(servidor: servidor, id: number) {
         try {
-            const updateServidor = await prisma.servidor.update({
+            const existingServidor = await prisma.servidor.findFirst({
                 where: {
+                  prontuario: servidor.prontuario,
+                  NOT: {
                     idservidor: +id,
+                  },
                 },
-                data: servidor
-            });
-            return { ok: true, data: updateServidor }
+              });
+
+              if (existingServidor) {
+                return { ok: false, data: 'docente com esse prontuário já existe' };
+              } else {
+                const updateServidor = await prisma.servidor.update({
+                    where: {
+                        idservidor: +id,
+                    },
+                    data: servidor
+                });
+                return { ok: true, data: updateServidor }
+              }
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }

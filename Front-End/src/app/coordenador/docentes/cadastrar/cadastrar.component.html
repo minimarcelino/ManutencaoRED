@@ -1,0 +1,35 @@
+<div class="container">
+    <div>
+        <h1>Cadastar Docente</h1>
+        <hr>
+    </div>
+    <div class="fields">
+        <form [formGroup]="cadastrarDocente" #formDir="ngForm">
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
+                <mat-label>Prontuário</mat-label>
+                <input matInput name="prontuario" formControlName="prontuario" mask="AA0000000"/>
+                <div *ngIf="cadastrarDocente.get('prontuario')?.invalid && formDir.submitted" class="validation">
+                    <p>Prontuario obrigatório!</p>
+                </div>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 25%; max-width: 100%; margin-right: 600px;">
+                <mat-label>Nome</mat-label>
+                <input matInput name="nome" formControlName="nome"/>
+                <div *ngIf="cadastrarDocente.get('nome')?.invalid && formDir.submitted" class="validation">
+                    <p>Nome obrigatório!</p>
+                </div>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
+                <mat-label>Email</mat-label>
+                <input matInput name="email" formControlName="email"/>
+                <div *ngIf="cadastrarDocente.get('email')?.invalid && formDir.submitted" class="validation">
+                    <p>Email obrigatório!</p>
+                </div>
+            </mat-form-field>
+            <div id="buttons">
+                <button mat-raised-button color="primary" (click)="voltar()">Voltar</button>
+                <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</div>
