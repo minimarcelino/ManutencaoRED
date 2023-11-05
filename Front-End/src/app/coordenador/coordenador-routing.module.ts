@@ -4,7 +4,8 @@ import { CoordenadorComponent } from "./coordenador.component";
 import { DisciplinasComponent } from "../coordenador/disciplinas/disciplinas.component";
 import { CadastrarDocenteComponent } from "./docentes/cadastrar/cadastrar.component";
 import { ListarDocenteComponent } from "./docentes/listar/listar.component";
-import { ListarRedComponent } from "./visualizaoRed/listar/listar.component";
+import { ListarRedComponent } from "./visualizacaoRed/listar/listar.component";
+import { CadastrarDisciplinaComponent } from "./disciplinas/cadastrar/cadastrar.component";
 
 const routes: Routes = [
     {
@@ -26,6 +27,10 @@ const routes: Routes = [
             {
                 path: 'listarRed',
                 component: ListarRedComponent
+            },
+            {
+                path: 'cadastrarDisciplina',
+                component: CadastrarDisciplinaComponent
             },
         ]
 
