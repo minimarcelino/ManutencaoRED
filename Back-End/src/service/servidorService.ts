@@ -163,6 +163,25 @@ export class servidorService {
         }
     }
 
+    async findByIdCoordenador(id: number) {
+        try {
+            const coordenador = await prisma.servidor.findUnique({
+              where: {
+                idservidor: id
+              }
+            });
+            
+            if (coordenador) {
+              return { ok: true, data: coordenador };
+            } else {
+              return { ok: false, message: 'Coordenador não encontrado' };
+            }
+          } catch (error) {
+            console.error(error);
+            return { ok: false, message: 'Ocorreu um erro ao buscar o coordenador' };
+          }
+    }
+
     async findCoordenador() {
         try {
             const coordenadores = await prisma.servidor.findMany({

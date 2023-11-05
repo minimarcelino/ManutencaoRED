@@ -42,8 +42,8 @@ export class EditarDocenteComponent implements OnInit{
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
           email: this.email,
-          tiposervidor: 'professor',
-          senha: '123'
+          tiposervidor: this.data.tiposervidor,
+          senha: this.data.senha,
         }); 
         this.openSnackBar("Docente editado com sucesso!!", null);
         this.router.navigate(['docentes/listar'])

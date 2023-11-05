@@ -14,10 +14,9 @@ import { servidorService } from 'src/app/services/servidor.service';
 export class ProcessoREDComponent implements OnInit {
   constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService) { }
 
-
-
   alunos: any[] = [];
   cursos: any[] = [];
+  inputCurso: any = '';
   filtredCursos: any[] = [];
   cadastrarRed!: FormGroup;
   isDisable: boolean = false;
@@ -61,7 +60,7 @@ export class ProcessoREDComponent implements OnInit {
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
     this.filtredCursos = this.cursos.filter(curso => curso.idcurso === this.aluno.curso_idcurso);
-    this.filtredCursos = this.filtredCursos[0].nomecurso;
+    this.inputCurso = this.filtredCursos[0].nomecurso;
   }
 
   changeCurso() {
@@ -71,8 +70,7 @@ export class ProcessoREDComponent implements OnInit {
 
   async cadastrar() {
     try {
-      //console.log(this.alunos)
-      //console.log(this.cursos)
+      console.log(this.filtredCursos)
       await this.servidorservice.createRED({
         motivoAfastamento: this.afastamento,
         dataInicioRed: this.periodo_inicio,
@@ -88,7 +86,7 @@ export class ProcessoREDComponent implements OnInit {
         },
         servidor: {
           connect: {
-            idservidor: this.cursos[0].cordenador
+            idservidor: this.filtredCursos[0].cordenador
           }
         }
 
@@ -108,7 +106,6 @@ export class ProcessoREDComponent implements OnInit {
     return this.cadastrarRed.get('aluno')!.value;
   }
   
-
   get curso() {
     return this.cadastrarRed.get('curso')!.value;
   }

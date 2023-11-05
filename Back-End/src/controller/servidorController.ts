@@ -144,22 +144,33 @@ export class servidorController {
 
         const response = await servidorservice.createRED(req.body);
         if (response.ok) {
-            const texto =
-                `O processo RED do aluno ${req.body.aluno_prontuario} foi criado. 👍
-            
-            Por favor, entre no sistema e confirme a abertura do Processo RED.
-            
-            Atenciosamente, 
-
-            Equipe de suporte do RED. 
-            `
-            sendEmail(userEmail, "Inicio do Processo RED", texto)
-
+            if (typeof response.data === 'object' && 'coordenador' in response.data) {
+                const coordenadorResponse = await servidorservice.findByIdCoordenador(response.data.coordenador);
+                
+                if (coordenadorResponse.ok) {
+                  const coordenador = coordenadorResponse.data;
+          
+                  if (typeof coordenador !== 'string' && coordenador) {
+                    const coordenadorEmail = coordenador.email; 
+          
+                    const texto =
+                      `O processo RED do aluno ${req.body.aluno_prontuario} foi criado. 👍
+                      
+                      Por favor, entre no sistema e confirme a abertura do Processo RED.
+                      
+                      Atenciosamente, 
+          
+                      Equipe de suporte do RED. 
+                      `
+                    sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
+                  }
+                }
             return res.status(StatusCodes.OK).send(response.data)
-        } else {
-            return res.status(StatusCodes.BAD_REQUEST).send(response)
-        }
+            } else {
+                return res.status(StatusCodes.BAD_REQUEST).send(response)
+            }
 
-    }
+        }
+    }   
 
 }
