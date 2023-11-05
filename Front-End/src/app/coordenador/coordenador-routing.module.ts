@@ -4,6 +4,7 @@ import { CoordenadorComponent } from "./coordenador.component";
 import { DisciplinasComponent } from "../coordenador/disciplinas/disciplinas.component";
 import { CadastrarDocenteComponent } from "./docentes/cadastrar/cadastrar.component";
 import { ListarDocenteComponent } from "./docentes/listar/listar.component";
+import { ListarRedComponent } from "./visualizaoRed/listar/listar.component";
 
 const routes: Routes = [
     {
@@ -21,6 +22,10 @@ const routes: Routes = [
             {
                 path: 'listar',
                 component: ListarDocenteComponent
+            },
+            {
+                path: 'listarRed',
+                component: ListarRedComponent
             },
         ]
 

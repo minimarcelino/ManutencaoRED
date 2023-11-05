@@ -15,13 +15,15 @@ import { ListarDocenteComponent } from './docentes/listar/listar.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditarDocenteComponent  } from './docentes/editar/editar.component';
+import { ListarRedComponent } from './visualizaoRed/listar/listar.component';
 
 @NgModule({
     declarations: [
         DisciplinasComponent,
         CadastrarDocenteComponent,
         ListarDocenteComponent,
-        EditarDocenteComponent 
+        EditarDocenteComponent,
+        ListarRedComponent
     ],
     imports: [
         CommonModule,
