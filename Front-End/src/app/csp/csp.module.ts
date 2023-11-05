@@ -6,7 +6,7 @@ import { CadastrarComponent } from './cursos/cadastrar/cadastrar.component';
 import { ListarComponent } from './cursos/listar/listar.component';
 import { EditarComponent } from './cursos/editar/editar.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -15,13 +15,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { DocenteComponent } from './docente/docente.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { EditarDocenteComponent  } from './docente/editar/editar.component';
+import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
 @NgModule({
     declarations: [
         CadastrarComponent,
         ListarComponent,
         EditarComponent,
-        DocenteComponent
+        DocenteComponent,
+        CadastrarDocenteComponent,
+        EditarDocenteComponent 
   ],
     imports: [
       CommonModule,
@@ -34,7 +38,8 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
       MatButtonModule,
       MatSnackBarModule,
       MatTableModule,
-      MatMomentDateModule
+      MatMomentDateModule,
+      MatPaginatorModule
     ],
     providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

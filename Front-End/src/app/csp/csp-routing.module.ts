@@ -4,6 +4,7 @@ import { CSPComponent } from './csp.component';
 import { ListarComponent } from './cursos/listar/listar.component';
 import { CadastrarComponent } from './cursos/cadastrar/cadastrar.component';
 import { DocenteComponent } from './docente/docente.component';
+import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,12 @@ const routes: Routes = [
         {
           path: 'docentes',
           component: DocenteComponent,
+        },
+        {
+          path: 'cadastrarDocentes',
+          component: CadastrarDocenteComponent,
         }
+        
     ]
   },
 ];

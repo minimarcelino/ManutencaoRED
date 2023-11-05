@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as XLSX from 'xlsx';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { servidorService } from 'src/app/services/servidor.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { docente } from 'src/app/modelo/docente';
+import { EditarDocenteComponent } from '../docente/editar/editar.component'
+import { messageDialog } from 'src/app/services/messageDialog.service';
+import { docenteService } from 'src/app/services/docente.service';
 @Component({
   selector: 'app-docente',
   templateUrl: './docente.component.html',
@@ -10,12 +17,16 @@ import { servidorService } from 'src/app/services/servidor.service';
 })
 export class DocenteComponent implements OnInit {
   dataToImport: any;
+  docentes: any[] = [];
   data: any[] = [];
+  dataSource: any;
+  @ViewChild(MatPaginator) paginator !:MatPaginator;
 
-  constructor(private http: HttpClient, private servidorService: servidorService) {}
+  displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
 
-  ngOnInit() {
-  }
+  constructor(private http: HttpClient, private servidorService: servidorService,private router:  Router, public dialogQuestionService: messageDialog, private docenteservice: docenteService,
+    private dialog: MatDialog) {}
+
 
   onFileChange(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
@@ -40,6 +51,45 @@ export class DocenteComponent implements OnInit {
           prontuario: item["Prontuário"]
         }))
     };
+    
+  }
+
+  ngOnInit(): void {
+    this.findAll()
+  }
+
+  async cadastrar(){
+    this.router.navigate(['/csp/cadastrarDocentes']);
+  }
+
+  applyFilter(data: Event) {
+    const value = (data.target as HTMLInputElement).value;
+    this.dataSource.filter = value;
+  }
+
+  async findAll(){
+    const response = await this.docenteservice.getDocente();
+    this.docentes = response.data.servidores;
+    this.dataSource = new MatTableDataSource<docente>(this.docentes);
+    this.dataSource.paginator=this.paginator;
+  }
+
+  editarDocente(docente: any){
+    const editar =  this.dialog.open(EditarDocenteComponent, {
+      data: {idservidor: docente.idservidor, prontuario: docente.prontuario, nome: docente.nome, email: docente.email, 
+             tiposervidor: docente.tiposervidor}
+    });
+    this.handleDialogConfirm(editar);
+  }
+
+  deleteDocente(docente: any){
+
+  }
+
+  handleDialogConfirm(dialog: any){
+    dialog.afterClosed().subscribe((result: string) => {
+        this.findAll();
+    });
   }
   
 }
