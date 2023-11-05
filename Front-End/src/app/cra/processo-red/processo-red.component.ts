@@ -123,7 +123,7 @@ export class ProcessoREDComponent implements OnInit {
   }
 
   get situacao() {
-    return "Em análise";
+    return "Esperando confirmação";
   }
 
 
