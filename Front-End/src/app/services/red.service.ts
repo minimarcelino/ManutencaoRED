@@ -32,7 +32,7 @@ export class redService {
 
     async updateRed(red: any): Promise<any>{
         try {
-            const response = await this.http.put(`${environment.API}/aluno/update/${red.idRED}`, red, this.authentication.getHttpOptions())
+            const response = await this.http.put(`${environment.API}/red/update/${red.idRED}`, red, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {

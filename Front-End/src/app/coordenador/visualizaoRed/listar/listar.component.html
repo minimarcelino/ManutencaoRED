@@ -23,17 +23,6 @@
                 <td mat-cell *matCellDef="let a"> {{formatData(a.data_inicio_processo)}} </td>
             </ng-container>
 
-             <!-- dataInicioRedColumn -->
-             <ng-container matColumnDef="dataInicioRed">
-                <th mat-header-cell *matHeaderCellDef> InicioRED </th>
-                <td mat-cell *matCellDef="let a"> {{formatData(a.dataInicioRed)}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="dataLimitePEE">
-                <th mat-header-cell *matHeaderCellDef> LimitePEE </th>
-                <td mat-cell *matCellDef="let a"> {{formatData(a.dataLimitePee)}} </td>
-            </ng-container>
-
             <ng-container matColumnDef="dataPrevisaoTermino">
                 <th mat-header-cell *matHeaderCellDef> PrevisaoTermino </th>
                 <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
@@ -48,8 +37,11 @@
             <ng-container matColumnDef="acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button (click)="editarRed(a)">
-                      <mat-icon>edit</mat-icon>
+                    <button mat-icon-button (click)="confirmarRed(a)">
+                      <mat-icon>check</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="recusarRed(a)">
+                      <mat-icon>close</mat-icon>
                     </button>
                   </td>
             </ng-container> 
