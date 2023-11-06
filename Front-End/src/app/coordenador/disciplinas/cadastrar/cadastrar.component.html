@@ -6,7 +6,7 @@
     <div class="fields">
         <form [formGroup]="cadastrarDisciplina" #formDir="ngForm">
             <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
-                <mat-label>Prontuário</mat-label>
+                <mat-label>Sigla</mat-label>
                 <input matInput name="sigla" formControlName="sigla"/>
                 <div *ngIf="cadastrarDisciplina.get('sigla')?.invalid && formDir.submitted" class="validation">
                     <p>Sigla obrigatória!</p>
@@ -21,10 +21,12 @@
             </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
                 <mat-label>Curso</mat-label>
-                <input matInput name="curso_idcurso" formControlName="curso_idcurso"/>
-                <div *ngIf="cadastrarDisciplina.get('curso_idcurso')?.invalid && formDir.submitted" class="validation">
-                    <p>ID do curso obrigatório!</p>
-                </div>
+                <input formControlName="Curso" type="text" placeholder="Selecione um curso"  matInput [matAutocomplete]="auto">
+                <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                    <mat-option *ngFor="let c of cursos" [value]="c">
+                        {{c.nomecurso}}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
             <div id="buttons">
                 <button mat-raised-button color="primary" (click)="voltar()">Voltar</button>

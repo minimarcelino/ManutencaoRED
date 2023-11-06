@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { disciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { cursoService } from '../../../services/cursos.service';
 
 @Component({
   selector: 'app-cadastrar',
@@ -13,18 +14,19 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 export class CadastrarDisciplinaComponent implements OnInit{
 
   cadastrarDisciplina!: FormGroup;
-  cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
+  cursos: any[] = [];
   
-  constructor(private snackBar: MatSnackBar, private router: Router, private disciplinaservice: disciplinaService){}
+  constructor(private snackBar: MatSnackBar, private router: Router, private disciplinaservice: disciplinaService, private cursoservice: cursoService){}
 
   ngOnInit(): void {
     this.cadastrarDisciplina = new FormGroup({
       sigla: new FormControl('', [Validators.required]),
       nomedisciplina: new FormControl('', [Validators.required]),
-      curso_idcurso: new FormControl('', [Validators.required]),
+      Curso: new FormControl('', [Validators.required]),
     });
+   this.fetchCurso();
   }
 
   async submit() {
@@ -34,6 +36,7 @@ export class CadastrarDisciplinaComponent implements OnInit{
     } else {
       this.isSubmitting = true;
       try {
+        console.log(this.curso_idcurso);
         await this.disciplinaservice.createDisciplina({
           sigla: this.sigla.toUpperCase(),
           nomedisciplina: this.nomedisciplina,
@@ -68,8 +71,20 @@ export class CadastrarDisciplinaComponent implements OnInit{
     });
   }
 
+  displayFn(Curso: any): string {
+    return Curso && Curso.nomecurso;
+  }
+
+
+  async fetchCurso(){
+    const response = await this.cursoservice.getCursos();
+    this.cursos = response.data.cursos;
+
+  }
+  
+
   voltar(){
-    this.router.navigate(['/coordenador/listarDisciplinas'])
+    this.router.navigate(['/coordenador/disciplinas'])
   }
 
   get sigla(){
@@ -81,7 +96,7 @@ export class CadastrarDisciplinaComponent implements OnInit{
   }
 
   get curso_idcurso() {
-    return this.cadastrarDisciplina.get('curso_idcurso')!.value;
+    return this.cadastrarDisciplina.get('Curso')!.value.idcurso;
   }
 
 }

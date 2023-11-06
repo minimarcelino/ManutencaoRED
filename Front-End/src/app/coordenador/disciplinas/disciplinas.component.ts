@@ -74,7 +74,7 @@ export class DisciplinasComponent implements OnInit{
 
 
   async cadastrar(){
-    this.router.navigate(['/coordenador/cadastrarDisciplinas']);
+    this.router.navigate(['/coordenador/cadastrarDisciplina']);
   }
 
   applyFilter(data: Event) {
@@ -84,7 +84,9 @@ export class DisciplinasComponent implements OnInit{
 
   async findAll(){
     const response = await this.disciplinaservice.getDisciplina();
-    this.disciplinas = response.data.servidores;
+    console.log(response);
+    console.log(this.disciplinas);
+    this.disciplinas = response.data.disciplinas;
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
     this.dataSource.paginator=this.paginator;
   }

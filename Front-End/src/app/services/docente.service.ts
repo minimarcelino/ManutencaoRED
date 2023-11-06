@@ -42,7 +42,7 @@ export class docenteService {
 
     async deleteDocente(id: number): Promise<any>{
         try {
-            const response = await this.http.delete(`${environment.API}/aluno/delete/${id}`, this.authentication.getHttpOptions())
+            const response = await this.http.delete(`${environment.API}/servidor/delete/${id}`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {

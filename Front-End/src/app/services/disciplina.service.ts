@@ -12,7 +12,7 @@ export class disciplinaService {
 
     async getDisciplina(): Promise<any>{
         try {
-            const response = await this.http.get(`${environment.API}/servidor/all`, this.authentication.getHttpOptions())
+            const response = await this.http.get(`${environment.API}/disciplina/all`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
@@ -22,7 +22,7 @@ export class disciplinaService {
 
     async createDisciplina(disciplina: any): Promise<any>{
         try {
-            const response = await this.http.post(`${environment.API}/servidor/create`, disciplina, this.authentication.getHttpOptions())
+            const response = await this.http.post(`${environment.API}/disciplina/create`, disciplina, this.authentication.getHttpOptions())
             .toPromise()
             return response;
         } catch (error) {
@@ -32,7 +32,7 @@ export class disciplinaService {
 
     async updateDisciplina(disciplina: any): Promise<any>{
         try {
-            const response = await this.http.put(`${environment.API}/servidor/update/${disciplina.iddisciplina}`, disciplina, this.authentication.getHttpOptions())
+            const response = await this.http.put(`${environment.API}/disciplina/update/${disciplina.iddisciplina}`, disciplina, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
@@ -42,7 +42,7 @@ export class disciplinaService {
 
     async deleteDisciplina(id: number): Promise<any>{
         try {
-            const response = await this.http.delete(`${environment.API}/servidor/delete/${id}`, this.authentication.getHttpOptions())
+            const response = await this.http.delete(`${environment.API}/disciplina/delete/${id}`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
