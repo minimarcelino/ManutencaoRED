@@ -18,6 +18,8 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditarDocenteComponent  } from './docente/editar/editar.component';
 import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
+import { ListarRedComponent } from './processo-red/listar/listar.component'
+
 @NgModule({
     declarations: [
         CadastrarComponent,
@@ -25,7 +27,8 @@ import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.compone
         EditarComponent,
         DocenteComponent,
         CadastrarDocenteComponent,
-        EditarDocenteComponent 
+        EditarDocenteComponent,
+        ListarRedComponent
   ],
     imports: [
       CommonModule,

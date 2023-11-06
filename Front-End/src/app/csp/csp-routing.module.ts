@@ -5,6 +5,7 @@ import { ListarComponent } from './cursos/listar/listar.component';
 import { CadastrarComponent } from './cursos/cadastrar/cadastrar.component';
 import { DocenteComponent } from './docente/docente.component';
 import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
+import { ListarRedComponent } from './processo-red/listar/listar.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,11 @@ const routes: Routes = [
         {
           path: 'cadastrarDocentes',
           component: CadastrarDocenteComponent,
-        }
-        
+        },
+        {
+          path: 'listarRed',
+          component: ListarRedComponent,
+        },
     ]
   },
 ];
