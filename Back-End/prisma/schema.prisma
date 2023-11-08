@@ -79,19 +79,25 @@ model pee {
 }
 
 model red {
-  idRED                Int      @id @default(autoincrement())
-  data_inicio_processo DateTime @db.Date
-  dataInicioRed        DateTime @db.Date
-  dataLimitePee        DateTime @db.Date
-  dataPrevisaoTermino  DateTime @db.Date
-  motivoAfastamento    String   @db.VarChar(200)
-  situacao             String   @db.VarChar(40)
-  aluno_prontuario     String   @db.VarChar(15)
-  coordenador          Int
-  aluno_id             Int   
-  pee                  pee[]
-  aluno                aluno    @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
-  servidor             servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
+  idRED                 Int      @id @default(autoincrement())
+  data_inicio_processo  DateTime @db.Date
+  periodoAfastamento    DateTime @db.Date
+  dataEnvioPEE          DateTime @db.Date
+  dataPrevisaoTermino   DateTime @db.Date
+  motivoAfastamento     String   @db.VarChar(200)
+  observacao            String   @db.VarChar(200)
+  situacao              String   @db.VarChar(40)
+  aluno_prontuario      String   @db.VarChar(15)
+  cumprimentoAtividade  String   @db.VarChar(5)
+  novaAtividade         String   @db.VarChar(15)
+  atividadeAvaliativa   String   @db.VarChar(5)
+  realizaoAvalicao      String   @db.VarChar(5)
+  aplicacaoAvalicao     DateTime @db.Date
+  coordenador           Int
+  aluno_id              Int   
+  pee                   pee[]
+  aluno                 aluno    @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
+  servidor              servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
 
   @@index([aluno_id], map: "fk_RED_aluno1_idx")
   @@index([coordenador], map: "fk_RED_servidor1_idx")
