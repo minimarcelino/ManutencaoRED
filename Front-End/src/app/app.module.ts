@@ -23,6 +23,7 @@ import { CraModule } from './cra/cra.module';
 import { CoordenadorComponent } from './coordenador/coordenador.component';
 import { CoordenadorModule } from './coordenador/coordenador.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
+import { AdministradorComponent } from './administrador/administrador.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
     CRAComponent,
     CSPComponent,
     CoordenadorComponent,
+    AdministradorComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,8 +52,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
     MatDialogModule,
     CspModule,
     CraModule,
-    CoordenadorModule,
-    
+    CoordenadorModule 
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

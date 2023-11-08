@@ -17,6 +17,7 @@ export class CadastrarDisciplinaComponent implements OnInit{
   isSubmitting: boolean = false;
   error: Error | null = null;
   cursos: any[] = [];
+  user: any;
   
   constructor(private snackBar: MatSnackBar, private router: Router, private disciplinaservice: disciplinaService, private cursoservice: cursoService){}
 
@@ -26,7 +27,9 @@ export class CadastrarDisciplinaComponent implements OnInit{
       nomedisciplina: new FormControl('', [Validators.required]),
       Curso: new FormControl('', [Validators.required]),
     });
-   this.fetchCurso();
+    this.fetchCurso();
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async submit() {
@@ -43,7 +46,11 @@ export class CadastrarDisciplinaComponent implements OnInit{
           curso_idcurso: this.curso_idcurso
         }); 
         this.openSnackBar("Disciplina cadastrada com sucesso!", null);
-        this.router.navigate(['coordenador/listarDisciplinas'])
+        if(this.user.tiposervidor == 'administrador'){
+          this.router.navigate(['/admin/listarDisciplinas']);
+        } else {
+          this.router.navigate(['/coordenador/disciplinas']);      
+        }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -75,16 +82,18 @@ export class CadastrarDisciplinaComponent implements OnInit{
     return Curso && Curso.nomecurso;
   }
 
-
   async fetchCurso(){
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
 
   }
   
-
   voltar(){
-    this.router.navigate(['/coordenador/disciplinas'])
+    if(this.user.tiposervidor == 'administrador'){
+       this.router.navigate(['/admin/listarDisciplinas']);
+    } else {
+      this.router.navigate(['/coordenador/disciplinas']);      
+    }
   }
 
   get sigla(){

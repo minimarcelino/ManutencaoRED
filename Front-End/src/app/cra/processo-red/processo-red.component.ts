@@ -20,6 +20,7 @@ export class ProcessoREDComponent implements OnInit {
   filtredCursos: any[] = [];
   cadastrarRed!: FormGroup;
   isDisable: boolean = false;
+  user:any;
 
 
   ngOnInit(): void {
@@ -31,6 +32,8 @@ export class ProcessoREDComponent implements OnInit {
       periodo_fim: new FormControl('', [Validators.required]),
     });
     this.fetchAlunos();
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   displayFn(aluno: any): string {
@@ -98,8 +101,11 @@ export class ProcessoREDComponent implements OnInit {
 
 
   teste() {
-    this.router.navigate(['/cra/cadastrar'])
-    console.log("funcionou");
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['/admin/cadastrarAluno']);
+    } else {
+      this.router.navigate(['/cra/cadastrar']);
+    }
   }
 
   get aluno() {

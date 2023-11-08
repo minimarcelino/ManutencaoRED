@@ -33,12 +33,14 @@ import { authenticationService } from './authentication.service';
         
               // Verifique o nível de acesso e a rota atual
               if (userAccessLevel === 'coordenador' && (currentRoute === '/coordenador' || 
-                                                        currentRoute === '/coordenador/outras-rotas')) {
+                                                        currentRoute === '/coordenador/discipinas' || 
+                                                        currentRoute === '/coordenador/cadastrarDisciplina')) {
                 return true;
               } else if (userAccessLevel === 'cra' && (currentRoute === '/cra' || 
                                                        currentRoute === '/cra/processo-red' ||
                                                        currentRoute === '/cra/listar' ||
-                                                       currentRoute === '/cra/cadastrar')) {
+                                                       currentRoute === '/cra/cadastrar'||
+                                                       currentRoute === '/cra/listarRed')) {
                 return true;
               } else if (userAccessLevel === 'csp' && (currentRoute === '/csp' || 
                                                        currentRoute === '/csp/listar' || 
@@ -47,7 +49,12 @@ import { authenticationService } from './authentication.service';
               } else if (userAccessLevel === 'docente' && (currentRoute === '/docente' || 
                                                            currentRoute === '/docente/outra-rota-convidado')) {
                 return true;
+              }else if (userAccessLevel === 'administrador' && (currentRoute === '/admin' || 
+                                                                currentRoute === '/admin/processo-red'||
+                                                                currentRoute === '/admin/cadastrarDisciplina')) {
+                return true;
               }
+              
             }
           }        
           this.router.navigate(['login']);

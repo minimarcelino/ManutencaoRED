@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/cra']);
           } else if (this.user.tiposervidor == 'coordenador') {
             this.router.navigate(['/coordenador']);
+          } else if (this.user.tiposervidor == 'administrador') {
+            this.router.navigate(['/admin']);
           }
         }
       }

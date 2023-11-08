@@ -9,23 +9,30 @@
 
     <mat-sidenav-container>
         <mat-sidenav #sidenav="matSidenav" mode="side">
-            <button mat-button class="menu-button" routerLink="/csp">
+            <button mat-button class="menu-button" routerLink="/admin">
                 <mat-icon>home</mat-icon>
                 <span>Home</span>
             </button>
-            <button mat-button class="menu-button" routerLink="/csp/listar">
-                <mat-icon>school</mat-icon>
-                <span>Cursos</span>
+            <button mat-button class="menu-button" routerLink="/admin/listarDisciplinas">
+                <mat-icon>class</mat-icon>
+                <span>Disciplinas</span>
             </button>
-            <button mat-button class="menu-button" routerLink="/csp/docentes">
+            <button mat-button class="menu-button" routerLink="/admin/listarDocentes">
                 <mat-icon>perm_identity</mat-icon>
                 <span>Docentes</span>
             </button>
-            <button mat-button class="menu-button" routerLink="/csp/listarRed">
+            <button mat-button class="menu-button" routerLink="/admin/listarReds">
                 <mat-icon>local_library</mat-icon>
                 <span>REDs</span>
             </button>
-            <!-- Adicione outros links de menu conforme necessário para suas rotas -->
+            <button mat-button class="menu-button" routerLink="/admin/listarCursos">
+                <mat-icon>school</mat-icon>
+                <span>Cursos</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/admin/listarAlunos">
+                <mat-icon>face</mat-icon>
+                <span>Alunos</span>
+            </button>
         </mat-sidenav>
         <mat-sidenav-content>
             <div class="content mat-elevation-z8">

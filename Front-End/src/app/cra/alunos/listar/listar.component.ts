@@ -15,11 +15,12 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './listar.component.html',
   styleUrls: ['./listar.component.css']
 })
-export class ListarComponent implements OnInit{
+export class ListarAlunoComponent implements OnInit{
 
   alunos: aluno[] = [];
   dataSource: any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
+  user:any;
 
   displayedColumns = ['prontuario', 'nome', 'data', 'endereco', 'telefone', 'email', 'acoes'];
 
@@ -27,11 +28,17 @@ export class ListarComponent implements OnInit{
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
 
     ngOnInit(): void {
-      this.findAll()
+      this.findAll();
+      this.user = localStorage.getItem("user");
+      this.user = JSON.parse(this.user);
     }
 
     async cadastrar(){
-      this.router.navigate(['/cra/cadastrar']);
+      if(this.user.tiposervidor == 'administrador'){
+        this.router.navigate(['/admin/cadastrarAluno']);
+      } else {
+        this.router.navigate(['/cra/cadastrar']);
+      }
     }
 
     applyFilter(data: Event) {

@@ -10,13 +10,13 @@ import { Router } from '@angular/router';
   templateUrl: './cadastrar.component.html',
   styleUrls: ['./cadastrar.component.css']
 })
-export class CadastrarComponent implements OnInit{
+export class CadastrarCursoComponent implements OnInit{
 
   cadastrarCurso!: FormGroup;
   servidores: any[] = [];
   coordenadores: any[] = [];
   isSubmitting: boolean = false;
-
+  user:any;
 
   constructor(private cursoservice: cursoService, private snackBar: MatSnackBar, private router: Router){}
 
@@ -26,6 +26,8 @@ export class CadastrarComponent implements OnInit{
       nomeCurso: new FormControl('', [Validators.required]),
       Coordenador: new FormControl('', [Validators.required]),
     });
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
     this.fetchCoordenador();
   }
 
@@ -43,7 +45,11 @@ export class CadastrarComponent implements OnInit{
         };
         await this.cursoservice.createCurso(curso); 
         this.openSnackBar("Curso cadastrado com sucesso!!", null);
-        this.router.navigate(['csp/listar'])
+        if(this.user.tiposervidor == 'administrador'){
+          this.router.navigate(['admin/listarCursos']);
+        } else {
+          this.router.navigate(['csp/listar']);
+        }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -56,7 +62,11 @@ export class CadastrarComponent implements OnInit{
   }
 
   voltar(){
-    this.router.navigate(['/csp/listar'])
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['admin/listarCursos']);
+    } else {
+      this.router.navigate(['/csp/listar']);
+    }
   }
 
   openSnackBar(message: string, error: string | Error | null) {

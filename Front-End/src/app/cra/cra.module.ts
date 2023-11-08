@@ -13,8 +13,8 @@ import { CRAComponent } from './cra.component';
 import { ProcessoREDComponent } from './processo-red/processo-red.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CadastrarComponent } from './alunos/cadastrar/cadastrar.component';
-import { ListarComponent } from './alunos/listar/listar.component';
+import { CadastrarAlunoComponent } from './alunos/cadastrar/cadastrar.component';
+import { ListarAlunoComponent } from './alunos/listar/listar.component';
 import { EditarComponent } from './alunos/editar/editar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ListarREDComponent } from './processo-red/listar/listar.component';
@@ -23,8 +23,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
   
 @NgModule({
     declarations: [
-    CadastrarComponent,
-    ListarComponent,
+    CadastrarAlunoComponent,
+    ListarAlunoComponent,
     ProcessoREDComponent,
     EditarComponent,
     ListarREDComponent

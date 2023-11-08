@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { disciplina } from 'src/app/modelo/disciplina';
+import { storageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-disciplinas',
@@ -20,16 +21,16 @@ export class DisciplinasComponent implements OnInit{
   data: any[] = [];
   disciplinas: any[] = [];
   dataSource: any;
+  user: any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
 
   displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
 
   constructor(private http: HttpClient, private router: Router, private servidorService: servidorService, public dialogQuestionService: messageDialog, private disciplinaservice: disciplinaService ,
-    private dialog: MatDialog) {}
- 
+    private dialog: MatDialog, private storage: storageService) {}
 
   ngOnInit() {
-    this.findAll()
+    this.findAll();
   }
 
   onFileChange(event: any) {
@@ -72,9 +73,15 @@ export class DisciplinasComponent implements OnInit{
     };
   }
 
-
   async cadastrar(){
-    this.router.navigate(['/coordenador/cadastrarDisciplina']);
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
+
+    if (this.user.tiposervidor == 'administrador') {
+      this.router.navigate(['/admin/cadastrarDisciplina']);
+    } else {
+      this.router.navigate(['/coordenador/cadastrarDisciplina']);
+    }
   }
 
   applyFilter(data: Event) {
@@ -84,8 +91,6 @@ export class DisciplinasComponent implements OnInit{
 
   async findAll(){
     const response = await this.disciplinaservice.getDisciplina();
-    console.log(response);
-    console.log(this.disciplinas);
     this.disciplinas = response.data.disciplinas;
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
     this.dataSource.paginator=this.paginator;

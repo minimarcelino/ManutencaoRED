@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { CSPComponent } from './csp.component';
-import { CadastrarComponent } from './cursos/cadastrar/cadastrar.component';
-import { ListarComponent } from './cursos/listar/listar.component';
+import {  CadastrarCursoComponent } from './cursos/cadastrar/cadastrar.component';
+import { ListarCursosComponent } from './cursos/listar/listar.component';
 import { EditarComponent } from './cursos/editar/editar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -18,12 +18,13 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditarDocenteComponent  } from './docente/editar/editar.component';
 import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
-import { ListarRedComponent } from './processo-red/listar/listar.component'
+import { ListarRedComponent } from './processo-red/listar/listar.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
     declarations: [
-        CadastrarComponent,
-        ListarComponent,
+        CadastrarCursoComponent,
+        ListarCursosComponent,
         EditarComponent,
         DocenteComponent,
         CadastrarDocenteComponent,
@@ -42,10 +43,13 @@ import { ListarRedComponent } from './processo-red/listar/listar.component'
       MatSnackBarModule,
       MatTableModule,
       MatMomentDateModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      NgxMaskPipe,
+      NgxMaskDirective,
     ],
     providers: [
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+      provideNgxMask()
     ]
   })
   export class CspModule { }

@@ -36,7 +36,11 @@ const routes: Routes = [
     loadChildren: () => import('./coordenador/coordenador-routing.module').then((module)=> module.CoordenadorRoutingModule),
     canActivate: [authorizationService]
   },
-  
+  {
+    path: 'admin',
+    loadChildren: () => import('./administrador/admin-routing.module').then((module)=> module.AdministradorRoutingModule),
+    canActivate: [authorizationService]
+  },
 ];
 
 @NgModule({

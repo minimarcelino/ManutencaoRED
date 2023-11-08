@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CSPComponent } from './csp.component';
-import { ListarComponent } from './cursos/listar/listar.component';
-import { CadastrarComponent } from './cursos/cadastrar/cadastrar.component';
+import { ListarCursosComponent } from './cursos/listar/listar.component';
+import { CadastrarCursoComponent } from './cursos/cadastrar/cadastrar.component';
 import { DocenteComponent } from './docente/docente.component';
 import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
 import { ListarRedComponent } from './processo-red/listar/listar.component';
@@ -14,11 +14,11 @@ const routes: Routes = [
     children: [
         {
             path: 'listar', 
-            component: ListarComponent
+            component: ListarCursosComponent
         },
         {
             path: 'cadastrar', 
-            component: CadastrarComponent,
+            component:  CadastrarCursoComponent,
         },
         {
           path: 'docentes',

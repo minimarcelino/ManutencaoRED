@@ -16,6 +16,7 @@ export class ListarREDComponent implements OnInit {
 
   reds: red[] = [];
   dataSource: any;
+  user:any;
 
   displayedColumns = ['prontuario', 'Início RED', 'Término RED', 'Prazo PEE', 'Situação'];
 
@@ -23,7 +24,9 @@ export class ListarREDComponent implements OnInit {
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }
 
   ngOnInit(): void {
-    this.findAll()
+    this.findAll();
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async findAll() {
@@ -39,6 +42,10 @@ export class ListarREDComponent implements OnInit {
   
 
   async cadastrarRed() {
-    this.router.navigate(['/cra/processo-red']);
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['/admin/cadastrarRed'])
+    } else {
+      this.router.navigate(['/cra/processo-red']);
+    }
   }
 }

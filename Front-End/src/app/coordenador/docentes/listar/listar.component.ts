@@ -18,6 +18,7 @@ export class ListarDocenteComponent implements OnInit{
   docentes: any[] = [];
   dataSource: any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
+  user: any;
 
   displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
 
@@ -27,10 +28,16 @@ export class ListarDocenteComponent implements OnInit{
 
   ngOnInit(): void {
     this.findAll()
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async cadastrar(){
-    this.router.navigate(['/coordenador/cadastrar']);
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['/admin/cadastrarDocente']);
+    } else {
+      this.router.navigate(['/coordenador/cadastrar']);
+    }
   }
 
   applyFilter(data: Event) {

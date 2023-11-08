@@ -16,6 +16,7 @@ export class CadastrarDocenteComponent implements OnInit{
   cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
+  user: any;
   
   constructor(private snackBar: MatSnackBar, private router: Router, private docenteservice: docenteService){}
 
@@ -25,6 +26,8 @@ export class CadastrarDocenteComponent implements OnInit{
       nome: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
     });
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async submit() {
@@ -42,7 +45,11 @@ export class CadastrarDocenteComponent implements OnInit{
           senha: '123'
         }); 
         this.openSnackBar("Docente cadastrado com sucesso!!", null);
-        this.router.navigate(['coordenador/listar'])
+        if(this.user.tiposervidor == 'administrador'){
+          this.router.navigate(['admin/listarDocentes']);
+        } else {
+          this.router.navigate(['coordenador/listar'])
+        }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -71,7 +78,11 @@ export class CadastrarDocenteComponent implements OnInit{
   }
 
   voltar(){
-    this.router.navigate(['/coordenador/listar'])
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['/admin/listarDocentes'])
+    } else {
+      this.router.navigate(['/coordenador/listar'])
+    }
   }
 
   get prontuario(){

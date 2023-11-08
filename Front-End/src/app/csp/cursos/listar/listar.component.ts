@@ -13,12 +13,13 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './listar.component.html',
   styleUrls: ['./listar.component.css']
 })
-export class ListarComponent implements OnInit{
+export class ListarCursosComponent implements OnInit{
 
   items: any[] = [];
   coordenador: servidor[] = [];
   cursos: curso[] = [];
   dataSource: any;
+  user:any;
 
   displayedColumns = ['nomecurso', 'sigla', 'acoes'];
 
@@ -26,11 +27,17 @@ export class ListarComponent implements OnInit{
       private dialog: MatDialog){}
 
     ngOnInit(): void {
-      this.findAll()
+      this.findAll();
+      this.user = localStorage.getItem("user");
+      this.user = JSON.parse(this.user);
     }
 
     async cadastrar(){
-      this.router.navigate(['/csp/cadastrar']);
+      if(this.user.tiposervidor == 'administrador'){
+        this.router.navigate(['admin/cadastrarCurso']);
+      } else {
+        this.router.navigate(['/csp/cadastrar']);
+      }
     }
 
     async findAll(){

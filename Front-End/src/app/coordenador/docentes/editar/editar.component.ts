@@ -17,6 +17,7 @@ export class EditarDocenteComponent implements OnInit{
   cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
+  user: any;
 
   constructor(private snackBar: MatSnackBar, private router: Router, private docenteservice: docenteService,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarDocenteComponent>){}
@@ -27,6 +28,8 @@ export class EditarDocenteComponent implements OnInit{
       nome: new FormControl(this.data.nome, [Validators.required]),
       email: new FormControl(this.data.email, [Validators.required]),
     });
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async submit() {
@@ -41,11 +44,15 @@ export class EditarDocenteComponent implements OnInit{
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
           email: this.email,
-          tiposervidor: 'professor',
+          tiposervidor: this.data.tiposervidor,
           senha: '123'
         }); 
         this.openSnackBar("Docente editado com sucesso!!", null);
-        this.router.navigate(['coordenador/listar'])
+        if(this.user.tiposervidor == 'administrador'){
+          this.router.navigate(['admin/listarDocentes']);
+        } else {
+          this.router.navigate(['coordenador/listar'])
+        }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;

@@ -12,11 +12,12 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
   templateUrl: './cadastrar.component.html',
   styleUrls: ['./cadastrar.component.css']
 })
-export class CadastrarComponent implements OnInit{
+export class CadastrarAlunoComponent implements OnInit{
   cadastrarAluno!: FormGroup;
   cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
+  user:any;
 
   constructor(private snackBar: MatSnackBar, private router: Router, private alunoService: alunoService,
               private cursoService: cursoService, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string){}
@@ -34,6 +35,8 @@ export class CadastrarComponent implements OnInit{
       curso: new FormControl('', [Validators.required]),
     });
     this.fetchCurso();
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async submit() {
@@ -53,7 +56,11 @@ export class CadastrarComponent implements OnInit{
           curso_idcurso: this.idcurso
         }); 
         this.openSnackBar("Aluno cadastrado com sucesso!!", null);
-        this.router.navigate(['cra/listar'])
+        if(this.user.tiposervidor == 'administrador'){
+           this.router.navigate(['admin/listarAlunos']);
+        } else {
+          this.router.navigate(['cra/listar']);
+        }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -91,7 +98,11 @@ export class CadastrarComponent implements OnInit{
   }
 
     voltar(){
-      this.router.navigate(['/cra/listar'])
+      if(this.user.tiposervidor == 'administrador'){
+        this.router.navigate(['/admin/listarAlunos']);
+      } else {
+        this.router.navigate(['/cra/listar']);
+      }
     }
 
     get prontuario(){
