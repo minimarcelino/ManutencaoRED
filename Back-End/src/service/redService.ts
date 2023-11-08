@@ -41,12 +41,18 @@ export class redService {
                     },
                     data: {
                         data_inicio_processo: red.data_inicio_processo,
-                        dataInicioRed: red.dataInicioRed,
-                        dataLimitePee: red.dataLimitePee,
+                        periodoAfastamento: red.periodoAfastamento,
+                        dataEnvioPEE: red.dataEnvioPEE,
                         dataPrevisaoTermino: red.dataPrevisaoTermino,
                         motivoAfastamento: red.motivoAfastamento,
                         situacao: red.situacao,
+                        observacao: red.observacao,
                         aluno_prontuario: red.aluno_prontuario,
+                        cumprimentoAtividade: red.cumprimentoAtividade,
+                        novaAtividade: red.novaAtividade,
+                        atividadeAvaliativa: red.atividadeAvaliativa,
+                        realizaoAvalicao: red.realizaoAvalicao,
+                        aplicacaoAvalicao: red.aplicacaoAvalicao,
                         coordenador: red.coordenador,
                         aluno_id: red.aluno_id
                     }});
