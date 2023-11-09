@@ -68,7 +68,7 @@ export class servidorService {
             });
 
             if (existingServidor) {
-                return { ok: false, data: 'docente com esse prontuário já existe' };
+                return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
             }
             else {
                 const createServidor = await prisma.servidor.create({ data: servidor });
@@ -116,7 +116,7 @@ export class servidorService {
               });
 
               if (existingServidor) {
-                return { ok: false, data: 'docente com esse prontuário já existe' };
+                return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
               } else {
                 const updateServidor = await prisma.servidor.update({
                     where: {
