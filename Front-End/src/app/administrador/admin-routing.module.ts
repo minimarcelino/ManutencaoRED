@@ -2,15 +2,15 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdministradorComponent } from "./administrador.component";
 import { DisciplinasComponent } from "../coordenador/disciplinas/disciplinas.component";
-import { ListarDocenteComponent } from "../coordenador/docentes/listar/listar.component";
 import { ListarREDComponent } from "../cra/processo-red/listar/listar.component";
 import { ListarCursosComponent } from "../csp/cursos/listar/listar.component";
 import { ListarAlunoComponent } from "../cra/alunos/listar/listar.component";
 import { CadastrarDisciplinaComponent } from "../coordenador/disciplinas/cadastrar/cadastrar.component";
-import { CadastrarDocenteComponent } from "../coordenador/docentes/cadastrar/cadastrar.component";
+import { CadastrarDocenteComponent } from "../csp/docente/cadastrar/cadastrar.component";
 import { ProcessoREDComponent } from "../cra/processo-red/processo-red.component";
 import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.component";
 import { CadastrarAlunoComponent } from "../cra/alunos/cadastrar/cadastrar.component";
+import { DocenteComponent } from "../csp/docente/docente.component";
 
 const routes: Routes = [
     {
@@ -29,7 +29,7 @@ const routes: Routes = [
             ////Rotas dos Docentes
             {
                 path: 'listarDocentes',
-                component: ListarDocenteComponent
+                component: DocenteComponent
             },
             {
                 path: 'cadastrarDocente',

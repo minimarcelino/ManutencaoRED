@@ -6,6 +6,7 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { alunoService } from 'src/app/services/alunos.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { curso } from 'src/app/modelo/curso';
 
 @Component({
   selector: 'app-cadastrar',
@@ -14,7 +15,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 })
 export class CadastrarAlunoComponent implements OnInit{
   cadastrarAluno!: FormGroup;
-  cursos: any[] = [];
+  cursos: curso[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
   user:any;
@@ -49,7 +50,7 @@ export class CadastrarAlunoComponent implements OnInit{
         await this.alunoService.createAluno({
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
-          data_nascimento: this.data_nascimento,
+          dataNascimento: this.data_nascimento,
           endereco: this.endereco,
           telefone: this.telefone,
           email: this.email,
@@ -77,8 +78,8 @@ export class CadastrarAlunoComponent implements OnInit{
     this.cursos = getCursos.data.cursos;
   }
 
-  displayFn(curso: any): string {
-    return curso && curso.nomecurso;
+  displayFn(curso: curso): string {
+    return curso && curso.nomeCurso;
   }
 
   openSnackBar(message: string, error: string | Error | null) {

@@ -99,7 +99,7 @@ export class alunoService{
                     data: {
                         prontuario: aluno.prontuario,
                         nome: aluno.nome,
-                        data_nascimento: aluno.data_nascimento,
+                        dataNascimento: aluno.dataNascimento,
                         endereco: aluno.endereco,
                         telefone: aluno.telefone,
                         email: aluno.email,

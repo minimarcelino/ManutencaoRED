@@ -75,7 +75,7 @@ export class ListarAlunoComponent implements OnInit{
     
     editarAluno(aluno: any){
       const editar =  this.dialog.open(EditarComponent, {
-          data: {id: aluno.id, prontuario: aluno.prontuario, nome: aluno.nome, data: aluno.data_nascimento, endereco: aluno.endereco, 
+          data: {id: aluno.id, prontuario: aluno.prontuario, nome: aluno.nome, data: aluno.dataNascimento, endereco: aluno.endereco, 
                  telefone: aluno.telefone, email: aluno.email, curso: aluno.curso}
       });
       this.handleDialogConfirm(editar);

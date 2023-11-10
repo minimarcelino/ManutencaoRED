@@ -55,7 +55,7 @@
                 <input formControlName="curso" type="text" placeholder="Selecione um Curso" matInput [matAutocomplete]="auto">
                 <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
                     <mat-option *ngFor="let c of cursos" [value]="c">
-                        {{c.nomecurso}}
+                        {{c.nomeCurso}}
                     </mat-option>
                 </mat-autocomplete>
                 <div *ngIf="cadastrarAluno.get('curso')?.invalid && formDir.submitted" class="validation">

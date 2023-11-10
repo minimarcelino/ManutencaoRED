@@ -86,7 +86,7 @@ export class servidorService {
         try {
             const existingDisciplina = await prisma.disciplinas.findFirst({
                 where: {
-                    nomedisciplina: disciplina.nomedisciplina,
+                    nomeDisciplina: disciplina.nomeDisciplina,
                     sigla: disciplina.sigla
                 }
             });
@@ -251,7 +251,7 @@ export class servidorService {
                 where: {
 
                     aluno_id: red.aluno_id,
-                    data_inicio_processo: red.data_inicio_processo
+                    dataInicioProcesso: red.dataInicioProcesso
                 }
             });
 

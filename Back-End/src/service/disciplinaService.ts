@@ -10,7 +10,7 @@ export class disciplinaService{
             const [disciplinas, length] = await Promise.all([
                 prisma.disciplinas.findMany({
                     where: {
-                        nomedisciplina: {
+                        nomeDisciplina: {
                             contains: String(search),
                         },
                     },
@@ -18,7 +18,7 @@ export class disciplinaService{
                     skip: skip,
                     //@ts-ignore
                     orderBy: {
-                        nomedisciplina: String(orderBy),
+                        nomeDisciplina: String(orderBy),
                     },
                 }),
                 prisma.disciplinas.count({
@@ -100,7 +100,7 @@ export class disciplinaService{
                     },
                     data: {
                         sigla: disciplina.sigla,
-                        nomedisciplina: disciplina.nomedisciplina,
+                        nomeDisciplina: disciplina.nomeDisciplina,
                         curso_idcurso: disciplina.curso_idcurso
                     }});
                     return {ok: true, data: updateDisciplina}

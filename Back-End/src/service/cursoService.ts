@@ -1,4 +1,4 @@
-import { curso } from "@prisma/client";
+import { curso } from '@prisma/client';
 import { prisma } from "../../prisma/client";
 import { StatusCodes } from "http-status-codes";
 
@@ -10,7 +10,7 @@ export class cursoService{
             const [cursos, length] = await Promise.all([
                 prisma.curso.findMany({
                     where: {
-                        nomecurso: {
+                        nomeCurso: {
                             contains: String(search),
                         },
                     },
@@ -18,12 +18,12 @@ export class cursoService{
                     skip: skip,
                     //@ts-ignore
                     orderBy: {
-                        nomecurso: String(orderBy),
+                        nomeCurso: String(orderBy),
                     },
                 }),
                 prisma.curso.count({
                     where: {
-                        nomecurso: {
+                        nomeCurso: {
                             contains: String(search),
                         },
                     },
@@ -100,8 +100,8 @@ export class cursoService{
                     },
                     data: {
                         sigla: curso.sigla,
-                        nomecurso: curso.nomecurso,
-                        cordenador: curso.cordenador
+                        nomeCurso: curso.nomeCurso,
+                        coordenador: curso.coordenador
                     }});
                     return {ok: true, data: updateCurso}
               }

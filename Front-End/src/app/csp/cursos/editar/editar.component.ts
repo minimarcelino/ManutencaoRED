@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { servidor } from 'src/app/modelo/servidor';
 import { cursoService } from 'src/app/services/cursos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
@@ -15,7 +16,7 @@ export class EditarComponent implements OnInit{
 
   editarCurso!: FormGroup;
   servidores: any[] = [];
-  coordenadores: any[] = [];
+  coordenadores: servidor[] = [];
   isSubmitting: boolean = false;
 
   constructor(private cursoservice: cursoService, private snackBar: MatSnackBar, private router: Router,
@@ -24,7 +25,7 @@ export class EditarComponent implements OnInit{
   ngOnInit(): void {
     this.editarCurso = new FormGroup({
       sigla: new FormControl(this.data.sigla, [Validators.required]),
-      nomeCurso: new FormControl(this.data.nomecurso, [Validators.required]),
+      nomeCurso: new FormControl(this.data.nomeCurso, [Validators.required]),
       Coordenador: new FormControl(this.data.coordenador, [Validators.required]),
     });
     this.fetchCoordenador();
@@ -37,13 +38,11 @@ export class EditarComponent implements OnInit{
     } else {
       this.isSubmitting = true;
       try {
-        const curso = {
+        await this.cursoservice.updateCurso({
           idcurso: this.data.idcurso,
           sigla: this.sigla.toUpperCase(),
-          nomecurso: this.nomeCurso,
-          cordenador: this.idcordenador
-        };
-        await this.cursoservice.updateCurso(curso); 
+          nomeCurso: this.nomeCurso,
+          coordenador: this.idcordenador}); 
         this.openSnackBar("Curso editado com sucesso!!", null);
       } catch (error: any) {
         if (error && error.error && error.error.data) {
@@ -80,7 +79,7 @@ export class EditarComponent implements OnInit{
     });
   }
 
-  displayFn(Coordenador: any): string {
+  displayFn(Coordenador: servidor): string {
     return Coordenador && Coordenador.email;
   }
 

@@ -8,47 +8,50 @@ datasource db {
 }
 
 model aluno {
-  id              Int      @id @default(autoincrement())
-  prontuario      String   @db.VarChar(15)
-  nome            String   @db.VarChar(60)
-  data_nascimento DateTime @db.Date
-  endereco        String   @db.VarChar(150)
-  telefone        String   @db.VarChar(11)
-  email           String   @db.VarChar(100)
-  curso_idcurso   Int
-  curso           curso    @relation(fields: [curso_idcurso], references: [idcurso], onDelete: NoAction, onUpdate: NoAction, map: "fk_aluno_curso")
-  red             red[]
+  prontuario     String   @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
+  nome           String   @db.VarChar(60)
+  dataNascimento DateTime @db.Date
+  endereco       String   @db.VarChar(150)
+  telefone       String   @unique(map: "telefone_UNIQUE") @db.VarChar(11)
+  email          String   @unique(map: "email_UNIQUE") @db.VarChar(100)
+  curso_idcurso  Int
+  id             Int      @id @default(autoincrement())
+  curso          curso    @relation(fields: [curso_idcurso], references: [idcurso], onDelete: NoAction, onUpdate: NoAction, map: "fk_aluno_curso")
+  red            red[]
 
   @@index([curso_idcurso], map: "fk_aluno_curso_idx")
 }
 
 model atividades {
-  idatividades   Int
-  descricao      String   @db.VarChar(100)
-  prazoatividade DateTime @db.Date
-  pee_idpee      Int
-  pee            pee      @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
+  idatividades     Int
+  descricao        String    @db.VarChar(100)
+  prazoatividade   DateTime  @db.Date
+  pee_idpee        Int
+  dateEntregaAluno DateTime? @db.Date
+  cumpriuAtividade String?   @db.Char(1)
+  novaAtividade    String?   @db.Char(1)
+  pee              pee       @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
 
   @@id([idatividades, pee_idpee])
   @@index([pee_idpee], map: "fk_atividades_pee1_idx")
 }
 
 model curso {
-  idcurso     Int           @id  @default(autoincrement())
-  sigla       String        @db.VarChar(15)
-  nomecurso   String        @db.VarChar(60)
-  cordenador  Int
-  aluno       aluno[]   
-  servidor    servidor      @relation(fields: [cordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_curso_servidor1")
+  idcurso     Int           @id @default(autoincrement())
+  sigla       String        @unique(map: "sigla_UNIQUE") @db.VarChar(15)
+  nomeCurso   String        @unique(map: "nomeCurso_UNIQUE") @db.VarChar(60)
+  coordenador Int
+  aluno       aluno[]
+  servidor    servidor      @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_curso_servidor1")
   disciplinas disciplinas[]
 
-  @@index([cordenador], map: "fk_curso_servidor1_idx")
+  @@index([coordenador], map: "fk_curso_servidor1_idx")
 }
 
 model disciplinas {
   iddisciplinas  Int    @id @default(autoincrement())
   sigla          String @db.VarChar(15)
-  nomedisciplina String @db.VarChar(60)
+  nomeDisciplina String @db.VarChar(60)
   curso_idcurso  Int
   curso          curso  @relation(fields: [curso_idcurso], references: [idcurso], onDelete: NoAction, onUpdate: NoAction, map: "fk_disciplinas_curso1")
   pee            pee[]
@@ -68,6 +71,12 @@ model pee {
   disciplinas_iddisciplinas Int
   servidor_idservidor       Int
   percentualabono           Float
+  dataEnvioProposta         DateTime?    @db.Date
+  canalComunicacao          String?      @db.VarChar(30)
+  houveAvaliacao            String?      @db.Char(1)
+  avaliacoesRealizadas      String?      @db.Char(1)
+  dataAvaliacao             DateTime?    @db.Date
+  observacoes               String?      @db.Text
   atividades                atividades[]
   red                       red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
   disciplinas               disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
@@ -79,25 +88,20 @@ model pee {
 }
 
 model red {
-  idRED                 Int      @id @default(autoincrement())
-  data_inicio_processo  DateTime @db.Date
-  periodoAfastamento    DateTime @db.Date
-  dataEnvioPEE          DateTime @db.Date
-  dataPrevisaoTermino   DateTime @db.Date
-  motivoAfastamento     String   @db.VarChar(200)
-  observacao            String   @db.VarChar(200)
-  situacao              String   @db.VarChar(40)
-  aluno_prontuario      String   @db.VarChar(15)
-  cumprimentoAtividade  String   @db.VarChar(5)
-  novaAtividade         String   @db.VarChar(15)
-  atividadeAvaliativa   String   @db.VarChar(5)
-  realizaoAvalicao      String   @db.VarChar(5)
-  aplicacaoAvalicao     DateTime @db.Date
-  coordenador           Int
-  aluno_id              Int   
-  pee                   pee[]
-  aluno                 aluno    @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
-  servidor              servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
+  idRED               Int      @id @default(autoincrement())
+  dataInicioProcesso  DateTime @db.Date
+  dataPrevisaoTermino DateTime @db.Date
+  motivoAfastamento   String   @db.VarChar(200)
+  situacao            String   @db.VarChar(40)
+  coordenador         Int
+  aluno_id            Int
+  observacao          String   @db.VarChar(200)
+  inicioAfastamento   DateTime @db.Date
+  tempoAfastamento    Int?
+  semestreOuAnoAluno  Int?
+  pee                 pee[]
+  aluno               aluno    @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
+  servidor            servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
 
   @@index([aluno_id], map: "fk_RED_aluno1_idx")
   @@index([coordenador], map: "fk_RED_servidor1_idx")
@@ -105,11 +109,11 @@ model red {
 
 model servidor {
   idservidor   Int     @id @default(autoincrement())
-  email        String  @db.VarChar(60)
-  nome         String  @db.VarChar(60)
+  email        String  @unique(map: "email_UNIQUE") @db.VarChar(60)
   tiposervidor String  @db.VarChar(15)
   senha        String  @db.VarChar(12)
-  prontuario   String  @db.VarChar(15)
+  nome         String  @db.VarChar(60)
+  prontuario   String  @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
   curso        curso[]
   pee          pee[]
   red          red[]

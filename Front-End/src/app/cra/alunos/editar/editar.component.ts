@@ -7,6 +7,7 @@ import { alunoService } from 'src/app/services/alunos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { cursoService } from '../../../services/cursos.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { curso } from 'src/app/modelo/curso';
 
 @Component({
   selector: 'app-editar',
@@ -16,8 +17,9 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 export class EditarComponent implements OnInit{
 
   editarAluno!: FormGroup;
-  cursos: any[] = [];
+  cursos: curso[] = [];
   isSubmitting: boolean = false;
+  user: any;
 
   constructor(private alunoService: alunoService, private snackBar: MatSnackBar, private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarComponent>,  
@@ -60,7 +62,6 @@ export class EditarComponent implements OnInit{
             curso: this.idcurso
           }); 
           this.openSnackBar("Aluno editado com sucesso!!", null);
-          this.router.navigate(['cra/listar']);
         } catch (error: any) {
           if (error && error.error && error.error.data) {
             const errorMessage = error.error.data;
@@ -93,8 +94,8 @@ export class EditarComponent implements OnInit{
       this.cursos = getCursos.data.cursos;
     }
   
-    displayFn(curso: any): string {
-      return curso && curso.nomecurso;
+    displayFn(curso: curso): string {
+      return curso && curso.nomeCurso;
     }
     
     get prontuario(){

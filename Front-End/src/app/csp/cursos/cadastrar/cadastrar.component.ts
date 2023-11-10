@@ -38,12 +38,10 @@ export class CadastrarCursoComponent implements OnInit{
     } else {
       this.isSubmitting = true;
       try {
-        const curso = {
+        await this.cursoservice.createCurso({
           sigla: this.sigla.toUpperCase(),
-          nomecurso: this.nomeCurso,
-          cordenador: this.idcordenador
-        };
-        await this.cursoservice.createCurso(curso); 
+          nomeCurso: this.nomeCurso,
+          coordenador: this.idcordenador}); 
         this.openSnackBar("Curso cadastrado com sucesso!!", null);
         if(this.user.tiposervidor == 'administrador'){
           this.router.navigate(['admin/listarCursos']);

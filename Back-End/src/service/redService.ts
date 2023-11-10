@@ -40,19 +40,14 @@ export class redService {
                         idRED: id,
                     },
                     data: {
-                        data_inicio_processo: red.data_inicio_processo,
-                        periodoAfastamento: red.periodoAfastamento,
-                        dataEnvioPEE: red.dataEnvioPEE,
+                        dataInicioProcesso: red.dataInicioProcesso,
                         dataPrevisaoTermino: red.dataPrevisaoTermino,
                         motivoAfastamento: red.motivoAfastamento,
                         situacao: red.situacao,
                         observacao: red.observacao,
-                        aluno_prontuario: red.aluno_prontuario,
-                        cumprimentoAtividade: red.cumprimentoAtividade,
-                        novaAtividade: red.novaAtividade,
-                        atividadeAvaliativa: red.atividadeAvaliativa,
-                        realizaoAvalicao: red.realizaoAvalicao,
-                        aplicacaoAvalicao: red.aplicacaoAvalicao,
+                        inicioAfastamento: red.inicioAfastamento,
+                        tempoAfastamento: red.tempoAfastamento,
+                        semestreOuAnoAluno: red.semestreOuAnoAluno,
                         coordenador: red.coordenador,
                         aluno_id: red.aluno_id
                     }});

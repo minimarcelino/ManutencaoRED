@@ -1,7 +1,7 @@
 export interface servidor{
     idservidor: number;
     email: string;
-    tiposervidor: number;
+    tipoServidor: String;
     senha: string;
     nome: string;
 }

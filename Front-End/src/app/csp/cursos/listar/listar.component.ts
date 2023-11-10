@@ -21,7 +21,7 @@ export class ListarCursosComponent implements OnInit{
   dataSource: any;
   user:any;
 
-  displayedColumns = ['nomecurso', 'sigla', 'acoes'];
+  displayedColumns = ['nomeCurso', 'sigla', 'acoes'];
 
     constructor(private router: Router, public dialogQuestionService: messageDialog, private cursoservice: cursoService,
       private dialog: MatDialog){}
@@ -53,7 +53,7 @@ export class ListarCursosComponent implements OnInit{
 
     editarCurso(curso: any){
       const editar =  this.dialog.open(EditarComponent, {
-          data: {idcurso: curso.idcurso, nomecurso: curso.nomecurso, sigla: curso.sigla, coordenador: curso.cordenador}
+          data: {idcurso: curso.idcurso, nomeCurso: curso.nomeCurso, sigla: curso.sigla, coordenador: curso.coordenador}
       });
       this.handleDialogConfirm(editar);
     }

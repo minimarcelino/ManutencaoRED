@@ -46,7 +46,6 @@ export class EditarDocenteComponent implements OnInit{
           senha: this.data.senha,
         }); 
         this.openSnackBar("Docente editado com sucesso!!", null);
-        this.router.navigate(['docentes/listar'])
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -84,6 +83,10 @@ export class EditarDocenteComponent implements OnInit{
 
   get email() {
     return this.cadastrarDocente.get('email')!.value;
+  }
+
+  get tiposervidor() {
+    return this.cadastrarDocente.get('tiposervidor')!.value;
   }
 
 }
