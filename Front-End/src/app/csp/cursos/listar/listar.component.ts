@@ -82,8 +82,6 @@ export class ListarCursosComponent implements OnInit{
       }
     }
 
-    
-
     handleDialogConfirm(dialog: any){
       dialog.afterClosed().subscribe((result: string) => {
           this.findAll();
@@ -114,13 +112,13 @@ export class ListarCursosComponent implements OnInit{
             return {
               sigla: dentroParenteses,
               curso_idcurso: curso.idcurso,
-              nomedisciplina: nome
+              nomeDisciplina: nome
             };
           } else {
             return {
               sigla: null,
               curso_idcurso: curso.idcurso,
-              nomedisciplina: "Nome não encontrado"
+              nomeDisciplina: "Nome não encontrado"
             };
           }
         });

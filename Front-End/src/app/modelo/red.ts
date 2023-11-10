@@ -3,14 +3,14 @@ import { aluno } from "./aluno";
 
 export interface red{
 idRED: number,
-data_inicio_processo: Date;
-dataInicioRed: Date;
-dataLimitePee: Date;
+dataInicioProcesso: Date;
 dataPrevisaoTermino: Date;
 motivoAfastamento: String;
 situacao: String;
-aluno_prontuario: String;
 coordenador: servidor;
-id: aluno;
-
+aluno_id: aluno;
+observacao: String;
+inicioAfastamento: Date;
+tempoAfastamento: number;
+semestreOuAnoAluno: number;
 }

@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdministradorComponent } from "./administrador.component";
 import { DisciplinasComponent } from "../coordenador/disciplinas/disciplinas.component";
-import { ListarREDComponent } from "../cra/processo-red/listar/listar.component";
+import { ListarRedComponent } from "../csp/processo-red/listar/listar.component";
 import { ListarCursosComponent } from "../csp/cursos/listar/listar.component";
 import { ListarAlunoComponent } from "../cra/alunos/listar/listar.component";
 import { CadastrarDisciplinaComponent } from "../coordenador/disciplinas/cadastrar/cadastrar.component";
@@ -43,7 +43,7 @@ const routes: Routes = [
             ////Rotas dos REDs
             {
                 path: 'listarReds',
-                component: ListarREDComponent
+                component: ListarRedComponent
             },
             {
                 path: 'cadastrarRed',
