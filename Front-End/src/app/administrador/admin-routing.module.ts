@@ -11,6 +11,7 @@ import { ProcessoREDComponent } from "../cra/processo-red/processo-red.component
 import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.component";
 import { CadastrarAlunoComponent } from "../cra/alunos/cadastrar/cadastrar.component";
 import { DocenteComponent } from "../csp/docente/docente.component";
+import { AssociarDisciplinaComponent } from "../csp/associar-disciplina/associar-disciplina.component";
 
 const routes: Routes = [
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
             {
                 path: 'cadastrarDisciplina',
                 component: CadastrarDisciplinaComponent
+            },
+            {
+                path: 'associarDisciplinas',
+                component: AssociarDisciplinaComponent
             },
             ////Rotas dos Docentes
             {

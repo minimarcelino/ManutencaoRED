@@ -20,6 +20,7 @@ import { EditarDocenteComponent  } from './docente/editar/editar.component';
 import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
 import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
         DocenteComponent,
         CadastrarDocenteComponent,
         EditarDocenteComponent,
-        ListarRedComponent
+        ListarRedComponent,
+        AssociarDisciplinaComponent
   ],
     imports: [
       CommonModule,

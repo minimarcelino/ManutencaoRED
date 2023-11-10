@@ -22,6 +22,7 @@ export class DisciplinasComponent implements OnInit{
   disciplinas: any[] = [];
   dataSource: any;
   user: any;
+  mostrarBotao: boolean = false;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
 
   displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
@@ -31,6 +32,8 @@ export class DisciplinasComponent implements OnInit{
 
   ngOnInit() {
     this.findAll();
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   onFileChange(event: any) {
@@ -94,6 +97,15 @@ export class DisciplinasComponent implements OnInit{
     this.disciplinas = response.data.disciplinas;
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
     this.dataSource.paginator=this.paginator;
+    if(this.user.tiposervidor == 'administrador'){
+      this.mostrarBotao = true;
+    }
+  }
+
+  irAssociar(){
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['admin/associarDisciplinas']);
+    } 
   }
 
   /*editarDocente(disciplina: any){
@@ -106,8 +118,8 @@ export class DisciplinasComponent implements OnInit{
 
   deleteDocente(docente: any){
 
-  }
-*/
+  }*/ 
+  
   handleDialogConfirm(dialog: any){
     dialog.afterClosed().subscribe((result: string) => {
         this.findAll();
