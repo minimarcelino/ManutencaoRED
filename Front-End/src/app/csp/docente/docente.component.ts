@@ -10,6 +10,9 @@ import { docente } from 'src/app/modelo/docente';
 import { EditarDocenteComponent } from '../docente/editar/editar.component'
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { docenteService } from 'src/app/services/docente.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { response } from 'express';
 @Component({
   selector: 'app-docente',
   templateUrl: './docente.component.html',
@@ -26,35 +29,53 @@ export class DocenteComponent implements OnInit {
   displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
 
   constructor(private http: HttpClient, private servidorService: servidorService,private router:  Router, public dialogQuestionService: messageDialog, private docenteservice: docenteService,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog,private snackBar: MatSnackBar) {}
 
-
-  onFileChange(event: any) {
-    const target: DataTransfer = <DataTransfer>(event.target);
-    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-    const reader: FileReader = new FileReader();
-    reader.readAsBinaryString(target.files[0]);
-    reader.onload = (e: any) => {
-      const binarystr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-      const data = XLSX.utils.sheet_to_json(ws);
-      this.data = data;
-      console.log(this.data);
-      // Send the data to the database
-      this.data.forEach(item => 
-        this.servidorService.exportProfessor({
-          email: item["E-mail"],
-          tiposervidor: "professor",
-          senha: '123',
-          nome: item.Nome,
-          prontuario: item["Prontuário"]
-        }))
-    };
+    onFileChange(event: any) {
+      const target: DataTransfer = <DataTransfer>(event.target);
+      if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+      const reader: FileReader = new FileReader();
+      reader.readAsBinaryString(target.files[0]);
+      reader.onload = (e: any) => {
+        const binarystr: string = e.target.result;
+        const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
+        const wsname: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+        const data = XLSX.utils.sheet_to_json(ws);
+        this.data = data;
+        console.log(this.data);
     
-  }
-
+        const importPromises = this.data.map(item => {
+          return this.servidorService.exportProfessor({
+            email: item["E-mail"],
+            tiposervidor: "professor",
+            senha: 'ifsp',
+            nome: item.Nome,
+            prontuario: item["Prontuário"]
+          });
+        });
+    
+        Promise.all(importPromises)
+          .then((responses) => {
+            const hasError = responses.some(response => response.ok === false);
+            if (hasError) {
+              this.openSnackBar("Erro na importação. Verifique os detalhes.", null);
+            } else {
+              this.openSnackBar("Importação dos docentes foi realizada!", null);
+            }
+          })
+          .catch(error => {
+            this.openSnackBar(`Erro na importação: ${error}`, null);
+          })
+          .finally(() => {
+            this.findAll();
+          });
+      };
+    }
+    
+    
+    
+    
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem("user");
@@ -96,6 +117,22 @@ export class DocenteComponent implements OnInit {
   handleDialogConfirm(dialog: any){
     dialog.afterClosed().subscribe((result: string) => {
         this.findAll();
+    });
+  }
+
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+    
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
     });
   }
   

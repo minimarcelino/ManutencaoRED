@@ -33,6 +33,7 @@
                     <button mat-icon-button (click)="deleteCurso(c)">
                       <mat-icon>delete</mat-icon>
                     </button>
+                    <input type="file" (change)="onFileChange($event,c)"/>
                   </td>
             </ng-container> 
 
