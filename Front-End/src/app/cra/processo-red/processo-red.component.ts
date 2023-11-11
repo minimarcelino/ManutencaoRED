@@ -93,6 +93,11 @@ export class ProcessoREDComponent implements OnInit {
         coordenador: this.filtredCursos[0].coordenador,
         
       });
+      if(this.user.tiposervidor == 'administrador'){
+        this.router.navigate(['admin/listarReds']);
+     } else {
+       this.router.navigate(['cra/listarRED']);
+     }
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }

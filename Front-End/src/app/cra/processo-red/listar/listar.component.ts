@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -5,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { red } from 'src/app/modelo/red';
 import { messageDialog } from 'src/app/services/messageDialog.service';
+import { redService } from 'src/app/services/red.service';
 import { servidorService } from 'src/app/services/servidor.service';
 
 @Component({
@@ -18,9 +20,9 @@ export class ListarREDComponent implements OnInit {
   dataSource: any;
   user:any;
 
-  displayedColumns = ['prontuario', 'Início RED', 'Término RED', 'Prazo PEE', 'Situação'];
+  displayedColumns = ['ID', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
-  constructor(private router: Router, public dialogQuestionService: messageDialog, private servidorservice: servidorService,
+  constructor(private router: Router,private redservice: redService, public dialogQuestionService: messageDialog, private servidorservice: servidorService,
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }
 
   ngOnInit(): void {
@@ -31,7 +33,7 @@ export class ListarREDComponent implements OnInit {
 
   async findAll() {
     try {
-      const response = await this.servidorservice.getRED();
+      const response = await this.redservice.getRed();
       console.log(response);
       this.reds = response.data.reds;
       this.dataSource = new MatTableDataSource<red>(this.reds);
@@ -40,6 +42,14 @@ export class ListarREDComponent implements OnInit {
     }
   }
   
+  formatData(data: Date): string {
+    if (data) {
+      return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
+    } else {
+      return ''; 
+    }
+  }
+
 
   async cadastrarRed() {
     if(this.user.tiposervidor == 'administrador'){

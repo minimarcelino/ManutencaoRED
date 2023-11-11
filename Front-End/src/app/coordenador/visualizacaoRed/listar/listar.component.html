@@ -9,32 +9,39 @@
           <mat-label>Pesquisar Aluno</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
         </mat-form-field>                
-        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <table appearence="outline" mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+          <!-- Prontuario Column -->
+          <ng-container matColumnDef="Prontuário">
+              <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+              <td mat-cell *matCellDef="let a"> {{a.prontuario}} </td>
+          </ng-container>
 
-            <!-- alunoProntuarioColumn -->
-            <ng-container matColumnDef="alunoProntuario">
-                <th mat-header-cell *matHeaderCellDef> Prontuário Aluno </th>
-                <td mat-cell *matCellDef="let a"> {{a.aluno_prontuario}} </td>
-            </ng-container>
-          
-            <!-- dataInicioProcessoColumn -->
-            <ng-container matColumnDef="dataInicioProcesso">
-                <th mat-header-cell *matHeaderCellDef> InicioProcesso </th>
-                <td mat-cell *matCellDef="let a"> {{formatData(a.data_inicio_processo)}} </td>
-            </ng-container>
+          <!-- Início RED Column -->
+          <ng-container matColumnDef="Início RED">
+              <th mat-header-cell *matHeaderCellDef> Início RED </th>
+              <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
+          </ng-container>
 
-            <ng-container matColumnDef="dataPrevisaoTermino">
-                <th mat-header-cell *matHeaderCellDef> PrevisaoTermino </th>
-                <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-            </ng-container>
+          <!-- Tempo Afastamento Column -->
+          <ng-container matColumnDef="Tempo Afastamento">
+              <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
+              <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
+          </ng-container>
 
-            <ng-container matColumnDef="situacao">
-                <th mat-header-cell *matHeaderCellDef> Situacao </th>
-                <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-            </ng-container>
+          <!-- Previsão Término Column -->
+          <ng-container matColumnDef="Previsão Término">
+              <th mat-header-cell *matHeaderCellDef> Previsão Término </th>
+              <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
+          </ng-container>
+
+          <!-- Situação Column -->
+          <ng-container matColumnDef="Situação">
+              <th mat-header-cell *matHeaderCellDef> Situação </th>
+              <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+          </ng-container>
           
             <!-- Outras colunas aqui, se necessário -->
-            <ng-container matColumnDef="acoes">
+            <ng-container matColumnDef="Ações">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
                     <button mat-icon-button (click)="confirmarRed(a)">

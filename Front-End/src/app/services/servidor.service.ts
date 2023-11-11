@@ -39,15 +39,6 @@ export class servidorService {
     }
   }
 
-  async getRED(): Promise<any> {
-  try {
-    const response = await this.http.get(`${environment.API}/servidor/cra/processo-red/all`, this.authentication.getHttpOptions())
-      .toPromise();
-    return response; 
-  } catch (error) {
-    throw error; 
-  }
-}
 
 
 }

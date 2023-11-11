@@ -6,36 +6,43 @@
 <div class="listagem">
     <div id="tabela">
 
-        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
-            <!-- ProntuarioColumn -->
-            <ng-container matColumnDef="prontuario">
-                <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-                <td mat-cell *matCellDef="let red"> {{red.aluno_prontuario}} </td>
+        <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <!-- Prontuario Column -->
+            <ng-container matColumnDef="ID">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let a"> {{a.idRED}} </td>
             </ng-container>
 
-            <!-- NomeColumn -->
+            <!-- Início RED Column -->
             <ng-container matColumnDef="Início RED">
                 <th mat-header-cell *matHeaderCellDef> Início RED </th>
-                <td mat-cell *matCellDef="let red"> {{red.dataInicioRed}} </td>
+                <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
             </ng-container>
 
-            <!-- DataColumn -->
-            <ng-container matColumnDef="Término RED">
-                <th mat-header-cell *matHeaderCellDef> Término RED </th>
-                <td mat-cell *matCellDef="let red"> {{ red.dataPrevisaoTermino}} </td>
+            <!-- Tempo Afastamento Column -->
+            <ng-container matColumnDef="Tempo Afastamento">
+                <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
+                <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
             </ng-container>
 
-            <!-- EnderecoColumn -->
-            <ng-container matColumnDef="Prazo PEE">
-                <th mat-header-cell *matHeaderCellDef> Prazo PEE </th>
-                <td mat-cell *matCellDef="let red"> {{red.dataLimitePee}} </td>
+            <!-- Previsão Término Column -->
+            <ng-container matColumnDef="Previsão Término">
+                <th mat-header-cell *matHeaderCellDef> Previsão Término </th>
+                <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
             </ng-container>
 
-            <!-- TelefoneColumn -->
+            <!-- Situação Column -->
             <ng-container matColumnDef="Situação">
                 <th mat-header-cell *matHeaderCellDef> Situação </th>
-                <td mat-cell *matCellDef="let red"> {{red.situacao}} </td>
+                <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+            </ng-container>
+
+            <!-- Ações Column -->
+            <ng-container matColumnDef="Ações">
+                <th mat-header-cell *matHeaderCellDef> Ações </th>
+                <td mat-cell *matCellDef="let a">
+                    <!-- Adicione botões de ação aqui -->
+                </td>
             </ng-container>
 
 
