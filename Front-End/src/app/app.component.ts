@@ -3,6 +3,7 @@ import { authenticationService } from '../app/services/authentication.service';
 import { authorizationService } from './services/authorization.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { Router } from '@angular/router'; // Importe o Router
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   sidenav!: MatSidenav;
 
   constructor(private authenticationService: authenticationService, 
-    private authorization :authorizationService) {
+    private authorization :authorizationService, private router: Router) {
   } 
   title = 'Front-End';
   isLogged = false;
@@ -31,6 +32,11 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     this.isLogged = await this.authenticationService.isLogado();
     
+  }
+
+  async logout() {
+    await this.authenticationService.logout();
+    this.router.navigate(['/login']); // redireciona o usuário para a página de login após o logout
   }
 
 }

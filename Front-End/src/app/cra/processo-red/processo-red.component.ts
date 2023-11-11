@@ -105,7 +105,6 @@ export class ProcessoREDComponent implements OnInit {
     // Adiciona mais 30 dias ao resultado anterior
     const dataFinal = new Date(dataTerminoRed);
     dataFinal.setDate(dataFinal.getDate() + 30);
-    console.log(dataFinal);
     return dataFinal;
   }
 

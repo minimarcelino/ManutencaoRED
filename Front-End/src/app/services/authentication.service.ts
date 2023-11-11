@@ -17,10 +17,12 @@ export class authenticationService implements OnInit {
     private http: HttpClient,
     private storage: storageService,
     private router: Router
-  ) {}
+  ) {
+    this.init();
+  }
 
   async ngOnInit() {
-    await this.init();
+    
   }
 
   async init() {
@@ -32,6 +34,8 @@ export class authenticationService implements OnInit {
     this.userlogged = await this.storage.get('user');
     return this.userlogged;
   }
+
+  
 
   async isLogado() {
     let token = await this.getToken()
@@ -88,5 +92,12 @@ export class authenticationService implements OnInit {
   async getToken() {
     await this.reloadIfTokenIsNull();
     return this.token;
+  }
+
+  async logout() {
+    this.token = null;
+    this.storage.remove('token');
+    this.storage.remove('user');
+    this.loggedIn.next(false);
   }
 }

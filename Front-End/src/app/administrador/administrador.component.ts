@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { authenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-administrador',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent {
+  constructor(
+    private authenticationService: authenticationService,
+    private router: Router
+  ) { }
 
+  async logout() {
+    await this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
 }

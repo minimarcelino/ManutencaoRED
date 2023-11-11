@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { storageService } from '../services/storage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,12 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   logging: boolean = true;
   user: any;
+  
 
   constructor(
     private router: Router,
-    private authentication: authenticationService
+    private authentication: authenticationService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class LoginComponent implements OnInit {
 
   async fazerLogin() {
     if (this.loginForm.invalid) {
+      this.snackBar.open('Por favor, preencha todos os campos!', '', { duration: 3000 });
       return;
     } else {
       this.logging = await this.authentication.login({ email: this.email, senha: this.senha });
@@ -52,11 +56,12 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/admin']);
           }
         }
+        this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });
+      } else {
+        this.snackBar.open('Email ou senha incorretos!', '', { duration: 3000 });
       }
-      console.log('sucesso!');
     }
   }
-
   get email() {
     return this.loginForm.get('email')!.value;
   }
@@ -64,4 +69,6 @@ export class LoginComponent implements OnInit {
   get senha() {
     return this.loginForm.get('senha')!.value;
   }
+
+  
 }
