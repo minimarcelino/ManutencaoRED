@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { cursoService } from 'src/app/services/cursos.service';
 import { HttpClient } from '@angular/common/http';
 import { servidorService } from 'src/app/services/servidor.service';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-processo-red',
@@ -12,7 +13,8 @@ import { servidorService } from 'src/app/services/servidor.service';
   styleUrls: ['./processo-red.component.css']
 })
 export class ProcessoREDComponent implements OnInit {
-  constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService) { }
+  constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService,
+    private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }
 
   alunos: any[] = [];
   cursos: any[] = [];
@@ -24,12 +26,16 @@ export class ProcessoREDComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this._locale = 'pt-BR';
+    this._adapter.setLocale(this._locale);
     this.cadastrarRed = new FormGroup({
       aluno: new FormControl('', [Validators.required]),
       curso: new FormControl('', [Validators.required]),
-      afastamento: new FormControl('', [Validators.required]),
-      periodo_inicio: new FormControl('', [Validators.required]),
-      periodo_fim: new FormControl('', [Validators.required]),
+      observacao: new FormControl('', [Validators.required]),
+      motivoAfastamento: new FormControl('', [Validators.required]),
+      inicioAfastamento: new FormControl('', [Validators.required]),
+      tempoAfastamento: new FormControl('', [Validators.required]),
+      semestreAluno: new FormControl('', [Validators.required]),
     });
     this.fetchAlunos();
     this.user = localStorage.getItem("user");
@@ -63,7 +69,7 @@ export class ProcessoREDComponent implements OnInit {
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
     this.filtredCursos = this.cursos.filter(curso => curso.idcurso === this.aluno.curso_idcurso);
-    this.inputCurso = this.filtredCursos[0].nomecurso;
+    this.inputCurso = this.filtredCursos[0].nomeCurso;
   }
 
   changeCurso() {
@@ -75,30 +81,33 @@ export class ProcessoREDComponent implements OnInit {
     try {
       console.log(this.filtredCursos)
       await this.servidorservice.createRED({
-        motivoAfastamento: this.afastamento,
-        dataInicioRed: this.periodo_inicio,
-        dataPrevisaoTermino: this.periodo_fim,
-        data_inicio_processo: new Date(),
-        dataLimitePee: new Date(),
+        motivoAfastamento: this.motivoAfastamento,
+        inicioAfastamento: this.inicioAfastamento,
+        dataPrevisaoTermino: this.previsaoTerminoRed(),
+        dataInicioProcesso: new Date(),
+       semestreOuAnoAluno: this.semestreAluno,
+       tempoAfastamento: this.tempoAfastamento,
         situacao: this.situacao,
-        aluno_prontuario: this.aluno.prontuario,
-        aluno: {
-          connect: {
-            id: this.alunos[0].id
-          }
-        },
-        servidor: {
-          connect: {
-            idservidor: this.filtredCursos[0].cordenador
-          }
-        }
-
+        observacao: this.observacao,
+        aluno_id: this.aluno.id,
+        coordenador: this.filtredCursos[0].coordenador,
+        
       });
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }
   }
 
+  previsaoTerminoRed(): Date {
+    const dataTerminoRed = new Date(this.inicioAfastamento);
+    dataTerminoRed.setDate(dataTerminoRed.getDate() + this.tempoAfastamento);
+
+    // Adiciona mais 30 dias ao resultado anterior
+    const dataFinal = new Date(dataTerminoRed);
+    dataFinal.setDate(dataFinal.getDate() + 30);
+    console.log(dataFinal);
+    return dataFinal;
+  }
 
   teste() {
     if(this.user.tiposervidor == 'administrador'){
@@ -116,25 +125,35 @@ export class ProcessoREDComponent implements OnInit {
     return this.cadastrarRed.get('curso')!.value;
   }
 
-  get periodo_inicio() {
-    return this.cadastrarRed.get('periodo_inicio')!.value;
+
+  get semestreAluno() {
+    return this.cadastrarRed.get('semestreAluno')!.value;
+  }
+  
+  get tempoAfastamento() {
+    return this.cadastrarRed.get('tempoAfastamento')!.value;
   }
 
-  get periodo_fim() {
-    return this.cadastrarRed.get('periodo_fim')!.value;
+  get inicioAfastamento() {
+    return this.cadastrarRed.get('inicioAfastamento')!.value;
   }
 
-  get afastamento() {
-    return this.cadastrarRed.get('afastamento')!.value;
+
+
+  get motivoAfastamento() {
+    return this.cadastrarRed.get('motivoAfastamento')!.value;
   }
 
   get situacao() {
     return "Esperando confirmação";
   }
 
-
-  get limite_pee() {
-    return this.cadastrarRed.get('limite_pee')!.value;
+  get observacao() {
+    return this.cadastrarRed.get('observacao')!.value;
   }
+
+
+
+
 
 }

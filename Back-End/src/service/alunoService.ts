@@ -1,4 +1,4 @@
-import { aluno } from '@prisma/client';
+import { aluno } from "@prisma/client";
 import { prisma } from "../../prisma/client"
 import { StatusCodes } from 'http-status-codes';
 
