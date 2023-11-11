@@ -23,10 +23,10 @@
                 </ng-container>
 
                 <ng-container matColumnDef="acoes">
-                    <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+                    <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Adicionar </th>
                     <td class="actionsColumns" mat-cell *matCellDef="let a">
-                        <p><mat-checkbox formControlName="checkbox"></mat-checkbox></p>
-                    </td>
+                        <p><mat-checkbox (change)="selecionarDisciplina(a)"></mat-checkbox></p>
+                      </td>
                 </ng-container> 
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

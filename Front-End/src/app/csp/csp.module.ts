@@ -21,7 +21,7 @@ import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.compone
 import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
     declarations: [
@@ -49,7 +49,7 @@ import { MatRadioModule } from '@angular/material/radio';
       MatPaginatorModule,
       NgxMaskPipe,
       NgxMaskDirective,
-      MatRadioModule, 
+      MatCheckboxModule, 
     ],
     providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

@@ -18,6 +18,7 @@ import { storageService } from 'src/app/services/storage.service';
 export class AssociarDisciplinaComponent implements OnInit{
 
   associarDisciplina!: FormGroup;
+  disciplinasSelecionadas: any[] = [];
   disciplinas: any[] = [];
   dataSource: any;
   user: any;
@@ -33,6 +34,7 @@ export class AssociarDisciplinaComponent implements OnInit{
     this.associarDisciplina = new FormGroup({
       sigla: new FormControl('', [Validators.required]),
       nomedisciplina: new FormControl('', [Validators.required]),
+      checkbox: new FormControl('', [Validators.required]),
     });
     this.findAll();
     this.user = localStorage.getItem("user");
@@ -49,6 +51,16 @@ export class AssociarDisciplinaComponent implements OnInit{
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
     this.dataSource.filter = value;
+  }
+
+  selecionarDisciplina(disciplina: any) {
+    const index = this.disciplinasSelecionadas.findIndex(d => d === disciplina);
+
+    if (index === -1) {
+      this.disciplinasSelecionadas.push(disciplina);
+    } else {
+      this.disciplinasSelecionadas.splice(index, 1);
+    }
   }
 
   async cadastrar(){
