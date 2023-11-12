@@ -20,6 +20,8 @@ export class ListarRedComponent implements OnInit {
   reds: red[] = [];
   filtredReds: red[] = [];
   dataSource: any;
+  mostrarBotao: boolean = false;
+  user: any;
 
   displayedColumns = ['inicioRed', 'terminoRed', 'prazoPee', 'Situação', 'acoes'];
 
@@ -28,19 +30,22 @@ export class ListarRedComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAll()
+    this.user = localStorage.getItem("user");
+    this.user = JSON.parse(this.user);
   }
 
   async findAll() {
     try {
       const response = await this.redservice.getRed();
-      console.log(response);
       this.reds = response.data.reds;
-      console.log(this.reds);
       this.reds = this.reds.filter(red => red.situacao === "Em andamento");
       this.dataSource = new MatTableDataSource<red>(this.reds);   
       
     } catch (error) {
       console.error("Erro ao buscar REDs:", error);
+    }
+    if(this.user.tiposervidor == 'administrador'){
+      this.mostrarBotao = true;
     }
   }
 
@@ -71,5 +76,11 @@ export class ListarRedComponent implements OnInit {
     dialog.afterClosed().subscribe((result: string) => {
         this.findAll();
     });
+  }
+
+  cadastrarRed() {
+    if(this.user.tiposervidor == 'administrador'){
+      this.router.navigate(['/admin/cadastrarRed']);
+    }
   }
 }

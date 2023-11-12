@@ -50,8 +50,15 @@ import { authenticationService } from './authentication.service';
                                                            currentRoute === '/docente/outra-rota-convidado')) {
                 return true;
               }else if (userAccessLevel === 'administrador' && (currentRoute === '/admin' || 
-                                                                currentRoute === '/admin/processo-red'||
-                                                                currentRoute === '/admin/cadastrarDisciplina')) {
+                                                                currentRoute === '/admin/listarReds'||
+                                                                currentRoute === '/admin/listarDisciplinas' ||
+                                                                currentRoute === '/admin/cadastrarDisciplina'||
+                                                                currentRoute === '/admin/listarDocentes'||
+                                                                currentRoute === '/admin/cadastrarDocente'||
+                                                                currentRoute === '/admin/listarAlunos'||
+                                                                currentRoute === '/admin/cadastrarAluno'||
+                                                                currentRoute === '/admin/listarCursos'||
+                                                                currentRoute === '/admin/cadastrarCurso')) {
                 return true;
               }
               

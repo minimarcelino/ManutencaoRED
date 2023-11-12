@@ -10,7 +10,7 @@ import { authenticationService } from './authentication.service';
 export class peeService {
     constructor(private http: HttpClient, private authentication: authenticationService){}
 
-    async getRed(): Promise<any>{
+    async getPee(): Promise<any>{
         try {
             const response = await this.http.get(`${environment.API}/pee/all`, this.authentication.getHttpOptions())
             .toPromise();
@@ -20,7 +20,7 @@ export class peeService {
         }
     }
 
-    async createRed(pee: any): Promise<any>{
+    async createPee(pee: any): Promise<any>{
         try {
             const response = await this.http.post(`${environment.API}/pee/create`, pee, this.authentication.getHttpOptions())
             .toPromise()
@@ -30,7 +30,7 @@ export class peeService {
         }
     }
 
-    async updateRed(pee: any): Promise<any>{
+    async updatePee(pee: any): Promise<any>{
         try {
             const response = await this.http.put(`${environment.API}/pee/update/${pee.idpee}`, pee, this.authentication.getHttpOptions())
             .toPromise();
@@ -40,7 +40,7 @@ export class peeService {
         }
     }
 
-    async deleteRed(id: number): Promise<any>{
+    async deletePee(id: number): Promise<any>{
         try {
             const response = await this.http.delete(`${environment.API}/pee/delete/${id}`, this.authentication.getHttpOptions())
             .toPromise();
