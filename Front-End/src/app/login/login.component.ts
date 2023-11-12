@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { sessionService } from '../services/session.service';
 import { authenticationService } from '../services/authentication.service';
 import {
   FormControl,
@@ -8,7 +9,6 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { storageService } from '../services/storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private sessionservice: sessionService,
     private authentication: authenticationService,
     private snackBar: MatSnackBar
   ) { }
@@ -46,6 +47,8 @@ export class LoginComponent implements OnInit {
         this.user = localStorage.getItem("user");
         if (this.user != null) {
           this.user = JSON.parse(this.user);
+          this.sessionservice.setSession(this.user); // Armazena o usuário na sessão
+         
           if (this.user.tiposervidor == 'csp') {
             this.router.navigate(['/csp']);
           } else if (this.user.tiposervidor == 'cra') {
