@@ -13,6 +13,11 @@
                 <td mat-cell *matCellDef="let a"> {{a.prontuario}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="Curso">
+                <th mat-header-cell *matHeaderCellDef> Curso </th>
+                <td mat-cell *matCellDef="let a"> {{a.nomeCurso}} </td>
+            </ng-container>
+
             <!-- Início RED Column -->
             <ng-container matColumnDef="Início RED">
                 <th mat-header-cell *matHeaderCellDef> Início RED </th>

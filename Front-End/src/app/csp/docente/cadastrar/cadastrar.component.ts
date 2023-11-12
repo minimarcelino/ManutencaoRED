@@ -10,15 +10,15 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
   templateUrl: './cadastrar.component.html',
   styleUrls: ['./cadastrar.component.css']
 })
-export class CadastrarDocenteComponent implements OnInit{
+export class CadastrarDocenteComponent implements OnInit {
 
   cadastrarDocente!: FormGroup;
   cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
-  
-  constructor(private snackBar: MatSnackBar, private router: Router, private docenteservice: docenteService){}
+
+  constructor(private snackBar: MatSnackBar, private router: Router, private docenteservice: docenteService) { }
 
   ngOnInit(): void {
     this.cadastrarDocente = new FormGroup({
@@ -43,9 +43,9 @@ export class CadastrarDocenteComponent implements OnInit{
           email: this.email,
           tiposervidor: 'professor',
           senha: '123'
-        }); 
+        });
         this.openSnackBar("Docente cadastrado com sucesso!!", null);
-        if(this.user.tiposervidor == 'administrador'){
+        if (this.user.tiposervidor == 'administrador') {
           this.router.navigate(['admin/listarDocentes']);
         } else {
           this.router.navigate(['docentes/cadastrarDocentes']);
@@ -53,7 +53,12 @@ export class CadastrarDocenteComponent implements OnInit{
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar("Falha ao cadastrar docente", errorMessage);
+          // Verifica se o erro é devido a um prontuário duplicado
+          if (errorMessage.includes('prontuario')) {
+            this.openSnackBar("Falha ao cadastrar docente", "Este prontuário já existe!");
+          } else {
+            this.openSnackBar("Falha ao cadastrar docente", errorMessage);
+          }
         } else {
           this.openSnackBar("Falha ao cadastrar docente", "Ocorreu um erro durante o cadastro do docente.");
         }
@@ -70,22 +75,22 @@ export class CadastrarDocenteComponent implements OnInit{
     } else if (error instanceof Error) {
       data = { message: error.message };
     }
-    
+
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
       duration: 3000
     });
   }
 
-  voltar(){
-    if(this.user.tiposervidor == 'administrador'){
+  voltar() {
+    if (this.user.tiposervidor == 'administrador') {
       this.router.navigate(['admin/listarDocentes']);
     } else {
       this.router.navigate(['/csp/docentes'])
     }
   }
 
-  get prontuario(){
+  get prontuario() {
     return this.cadastrarDocente.get('prontuario')!.value;
   }
 

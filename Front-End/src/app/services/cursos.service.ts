@@ -21,6 +21,16 @@ export class cursoService{
         }
     }
 
+    async getCursoById(id: number): Promise<any> {
+  try {
+    const response = await this.http.get(`${environment.API}/curso/${id}`, this.authentication.getHttpOptions())
+      .toPromise();
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
     async createCurso(curso: any): Promise<any>{
         try {
             const response = await this.http.post(`${environment.API}/curso/create`, curso, this.authentication.getHttpOptions())
