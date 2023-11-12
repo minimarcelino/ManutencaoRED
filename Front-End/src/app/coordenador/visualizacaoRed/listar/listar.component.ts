@@ -21,7 +21,6 @@ export class ListarRedComponent implements OnInit{
   alunos: any[] = [];
   reds: any[] = [];
   dataSource: any;
-  dataSource2: any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
 
   displayedColumns = ['Prontuário', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
@@ -36,7 +35,7 @@ export class ListarRedComponent implements OnInit{
 
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
-    //this.dataSource.filter = value;
+    this.dataSource.filter = value;
   }
 
   async findAll(){
@@ -44,11 +43,15 @@ export class ListarRedComponent implements OnInit{
     const response2 = await this.redService.getRed();
     this.alunos = response.data.alunos;
     this.reds = response2.data.reds;
-    this.dataSource = new MatTableDataSource<any>(this.alunos);
-    this.dataSource2 = new MatTableDataSource<any>(this.reds);
-   // this.dataSource.paginator=this.paginator;
-  }
 
+    // novo array de objetos que contém ambos objetos
+    const mergedData = this.alunos.map((aluno, index) => {
+        return {...aluno, ...this.reds[index]};
+    });
+
+    this.dataSource = new MatTableDataSource<any>(mergedData);
+    this.dataSource.paginator = this.paginator;
+}
   formatData(data: Date): string {
     if (data) {
       return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');

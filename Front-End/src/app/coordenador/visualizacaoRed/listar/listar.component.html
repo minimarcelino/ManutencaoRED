@@ -9,7 +9,7 @@
           <mat-label>Pesquisar Aluno</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
         </mat-form-field>                
-        <table appearence="outline" mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+        <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <!-- Prontuario Column -->
           <ng-container matColumnDef="Prontuário">
               <th mat-header-cell *matHeaderCellDef> Prontuário </th>
