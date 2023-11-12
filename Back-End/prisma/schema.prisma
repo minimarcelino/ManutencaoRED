@@ -111,7 +111,7 @@ model servidor {
   idservidor   Int     @id @default(autoincrement())
   email        String  @unique(map: "email_UNIQUE") @db.VarChar(60)
   tiposervidor String  @db.VarChar(15)
-  senha        String  @db.VarChar(12)
+  senha        String  @db.VarChar(60)
   nome         String  @db.VarChar(60)
   prontuario   String  @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
   curso        curso[]

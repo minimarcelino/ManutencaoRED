@@ -1,7 +1,7 @@
 import { servidor, red, disciplinas } from '@prisma/client';
 import { prisma } from "../../prisma/client";
 import { StatusCodes } from 'http-status-codes';
-
+import bcrypt from 'bcrypt';
 export class servidorService {
     async findMany(search: string, page: number, perPage: number, orderBy: string) {
         try {
@@ -59,18 +59,24 @@ export class servidorService {
     }
 
     async create(servidor: servidor) {
-
         try {
             const existingServidor = await prisma.servidor.findFirst({
                 where: {
                     prontuario: servidor.prontuario,
                 }
             });
-
+    
             if (existingServidor) {
                 return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
             }
             else {
+                // Gere o hash da senha
+                const salt = await bcrypt.genSalt(10);
+                const senhaHash = await bcrypt.hash(servidor.senha, salt);
+    
+                // Substitua a senha em texto simples pela senha hash
+                servidor.senha = senhaHash;
+    
                 const createServidor = await prisma.servidor.create({ data: servidor });
                 return { ok: true, data: createServidor };
             }
@@ -226,19 +232,23 @@ export class servidorService {
 
     async findLogin(email: string, senha: string) {
         try {
-            const usuario = await prisma.servidor.findMany({
+            const usuario = await prisma.servidor.findUnique({
                 where: {
                     email: email,
-                    senha: senha,
                 },
             })
-            if (usuario.length == 0) {
+            if (!usuario) {
                 return { ok: false, data: StatusCodes.NOT_FOUND };
             }
-            return { ok: true, data: usuario[0] };
+    
+            // Verifique a senha com bcrypt
+            const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+            if (!senhaCorreta) {
+                return { ok: false, data: StatusCodes.UNAUTHORIZED };
+            }
+    
+            return { ok: true, data: usuario };
         } catch (error) {
-
-
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
         }
