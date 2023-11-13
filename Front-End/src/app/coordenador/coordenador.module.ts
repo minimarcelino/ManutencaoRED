@@ -19,6 +19,7 @@ import { ListarRedComponent } from './visualizacaoRed/listar/listar.component';
 import { CadastrarDisciplinaComponent } from './disciplinas/cadastrar/cadastrar.component';
 import { VisualizarComponent } from './visualizacaoRed/visualizar/visualizar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { EditarDisciplinaComponent} from './disciplinas/editar/editar.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         ListarRedComponent,
         CadastrarDisciplinaComponent,
         VisualizarComponent,
+        EditarDisciplinaComponent,
     ],
     imports: [
         CommonModule,

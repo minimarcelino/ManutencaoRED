@@ -129,7 +129,6 @@ export class ProcessoREDComponent implements OnInit {
     return this.cadastrarRed.get('curso')!.value;
   }
 
-
   get semestreAluno() {
     return this.cadastrarRed.get('semestreAluno')!.value;
   }
@@ -141,9 +140,6 @@ export class ProcessoREDComponent implements OnInit {
   get inicioAfastamento() {
     return this.cadastrarRed.get('inicioAfastamento')!.value;
   }
-
-
-
   get motivoAfastamento() {
     return this.cadastrarRed.get('motivoAfastamento')!.value;
   }
@@ -155,9 +151,4 @@ export class ProcessoREDComponent implements OnInit {
   get observacao() {
     return this.cadastrarRed.get('observacao')!.value;
   }
-
-
-
-
-
 }

@@ -6,19 +6,43 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { aluno } from 'src/app/modelo/aluno';
-import { red } from 'src/app/modelo/red';
+import { curso } from 'src/app/modelo/curso';
 import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
+export interface aluno {
+  id: number;
+  prontuario: String;
+  nome: String;
+  data_nascimento: Date;
+  endereco: String;
+  email: String;
+  curso: curso;
+}
+
+export interface red{
+  idRED: number,
+  dataInicioProcesso: Date;
+  dataPrevisaoTermino: Date;
+  motivoAfastamento: String;
+  situacao: String;
+  coordenador: number;
+  aluno_id: number;
+  observacao: String;
+  inicioAfastamento: Date;
+  tempoAfastamento: number;
+  semestreOuAnoAluno: number;
+  }
+
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
   styleUrls: ['./listar.component.css']
 })
+
 export class ListarREDComponent implements OnInit {
 
   reds: red[] = [];
@@ -30,7 +54,7 @@ export class ListarREDComponent implements OnInit {
   displayedColumns = ['Prontuário', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
   constructor(private router: Router,private alunoservice: alunoService,private redservice: redService,
-     public dialogQuestionService: messageDialog, private servidorservice: servidorService,
+    public dialogQuestionService: messageDialog, private servidorservice: servidorService,
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -39,20 +63,30 @@ export class ListarREDComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
-  async findAll(){
-    const response = await this.alunoservice.getAluno();
-    const response2 = await this.redservice.getRed();
-    this.alunos = response.data.alunos;
-    this.reds = response2.data.reds;
+  async findAll() {
+  const response = await this.alunoservice.getAluno();
+  const response2 = await this.redservice.getRed();
+  this.alunos = response.data.alunos;
+  this.reds = response2.data.reds;
 
-    // novo array de objetos que contém ambos objetos
-    const mergedData = this.alunos.map((aluno, index) => {
-        return {...aluno, ...this.reds[index]};
-    });
+  // novo array de objetos que contém ambos objetos
+  const mergedData = this.alunos
+    .map((aluno, index) => {
+      const red = this.reds.find(red => red.aluno_id === aluno.id);
+      // Verifica se há um red correspondente ao aluno
+      if (red) {
+        return { ...aluno, ...red };
+      } else {
+        return null; // Retorna null para indicar que não há correspondência
+      }
+    })
+    .filter(data => data !== null); // Remove os elementos nulos
 
-    this.dataSource = new MatTableDataSource<any>(mergedData);
-    this.dataSource.paginator = this.paginator;
+  this.dataSource = new MatTableDataSource<any>(mergedData);
+  this.dataSource.paginator = this.paginator;
+  console.log(this.dataSource);
 }
+
   
   formatData(data: Date): string {
     if (data) {

@@ -64,7 +64,7 @@ export class DisciplinasComponent implements OnInit{
     } 
   }
 
-  /*editarDocente(disciplina: any){
+  /*editarDisciplina(disciplina: any){
     const editar =  this.dialog.open(EditarDisciplinaComponent, {
       data: {idservidor: docente.idservidor, prontuario: docente.prontuario, nome: docente.nome, email: docente.email, 
              tiposervidor: docente.tiposervidor}

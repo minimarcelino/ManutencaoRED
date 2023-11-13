@@ -20,6 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ListarREDComponent } from './processo-red/listar/listar.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { EditarREDComponent } from './processo-red/editar/editar.component';
   
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ListarAlunoComponent,
     ProcessoREDComponent,
     EditarComponent,
-    ListarREDComponent
+    ListarREDComponent,
+    EditarREDComponent
   ],
     imports: [
       CommonModule,
