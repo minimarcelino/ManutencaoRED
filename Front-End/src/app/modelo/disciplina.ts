@@ -1,5 +1,5 @@
 export interface disciplina{
-    iddisciplina: number,
+    iddisciplinas: number,
     sigla: string,
     nomedisciplina: string,
     curso_idcurso: string,

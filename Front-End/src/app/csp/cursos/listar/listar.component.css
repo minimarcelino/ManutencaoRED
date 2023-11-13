@@ -16,3 +16,23 @@
 .listagem{
     max-width: 100rem;
 }
+
+.file-input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .file-input-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .file-input-label input {
+    display: none;
+  }
+  
+  .file-input-label mat-icon {
+    margin-right: 5px;
+  }

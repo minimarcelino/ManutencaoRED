@@ -25,17 +25,23 @@
           
             <!-- Outras colunas aqui, se necessário -->
             <ng-container matColumnDef="acoes">
-                <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-                  <td class="actionsColumns" mat-cell *matCellDef="let c">
-                    <button mat-icon-button (click)="editarCurso(c)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteCurso(c)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                    <input type="file" (change)="onFileChange($event,c)"/>
-                  </td>
-            </ng-container> 
+              <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+              <td class="actionsColumns" mat-cell *matCellDef="let c">
+                <button mat-icon-button (click)="editarCurso(c)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteCurso(c)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <div class="file-input-container">
+                  <span>Importar disciplinas</span>
+                  <label class="file-input-label">
+                    <input type="file" (change)="onFileChange($event, c)" />
+                    <mat-icon>attach_file</mat-icon>
+                  </label>
+                </div>
+              </td>
+            </ng-container>            
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -22,6 +22,7 @@ import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { VisualizarRedComponent  } from './processo-red/visualizar/visualizar.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         CadastrarDocenteComponent,
         EditarDocenteComponent,
         ListarRedComponent,
-        AssociarDisciplinaComponent
+        AssociarDisciplinaComponent,
+        VisualizarRedComponent 
   ],
     imports: [
       CommonModule,

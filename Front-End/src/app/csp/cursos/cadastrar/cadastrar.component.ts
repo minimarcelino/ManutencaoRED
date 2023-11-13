@@ -45,8 +45,10 @@ export class CadastrarCursoComponent implements OnInit{
         this.openSnackBar("Curso cadastrado com sucesso!!", null);
         if(this.user.tiposervidor == 'administrador'){
           this.router.navigate(['admin/listarCursos']);
-        } else {
+        } else if(this.user.tiposervidor == 'csp') {
           this.router.navigate(['csp/listar']);
+        } else {
+          this.router.navigate(['coordenador/listarCurso']);
         }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
@@ -62,8 +64,10 @@ export class CadastrarCursoComponent implements OnInit{
   voltar(){
     if(this.user.tiposervidor == 'administrador'){
       this.router.navigate(['admin/listarCursos']);
-    } else {
+    } else if(this.user.tiposervidor == 'csp'){
       this.router.navigate(['/csp/listar']);
+    } else {
+      this.router.navigate(['/coordenador/listarCurso']);
     }
   }
 

@@ -5,11 +5,17 @@
 
 <div class="listagem">
     <div id="tabela">
-        <input type="file" (change)="onFileChange($event)" />
         <mat-form-field>
           <mat-label>Pesquisar Docente</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
-        </mat-form-field>                
+        </mat-form-field>  
+        <div class="file-input-container">
+          <h2>Importar Docentes</h2>
+          <label class="file-input-label">
+            <input type="file" (change)="onFileChange($event)" />
+            <mat-icon>attach_file</mat-icon>
+          </label>
+        </div>                     
         <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
             <!-- ProntuarioColumn -->

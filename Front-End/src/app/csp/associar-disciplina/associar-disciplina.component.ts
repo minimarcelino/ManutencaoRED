@@ -66,7 +66,6 @@ export class AssociarDisciplinaComponent implements OnInit{
     } else {
       this.disciplinasSelecionadas.splice(index, 1);
     }
-    console.log(this.disciplinasSelecionadas);
   }
 
   async cadastrar() {

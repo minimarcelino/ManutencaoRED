@@ -6,6 +6,8 @@ import { CadastrarDocenteComponent } from "./docentes/cadastrar/cadastrar.compon
 import { ListarDocenteComponent } from "./docentes/listar/listar.component";
 import { ListarRedComponent } from "./visualizacaoRed/listar/listar.component";
 import { CadastrarDisciplinaComponent } from "./disciplinas/cadastrar/cadastrar.component";
+import { ListarCursosComponent } from "../csp/cursos/listar/listar.component";
+import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.component";
 
 const routes: Routes = [
     {
@@ -15,6 +17,14 @@ const routes: Routes = [
             {
                 path: 'disciplinas',
                 component: DisciplinasComponent
+            },
+            {
+                path: 'listarCurso', 
+                component: ListarCursosComponent
+            },
+            {
+                path: 'cadastrarCurso', 
+                component:  CadastrarCursoComponent,
             },
             {
                 path: 'cadastrar',

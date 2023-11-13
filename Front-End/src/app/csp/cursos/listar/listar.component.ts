@@ -40,8 +40,10 @@ export class ListarCursosComponent implements OnInit{
     async cadastrar(){
       if(this.user.tiposervidor == 'administrador'){
         this.router.navigate(['admin/cadastrarCurso']);
-      } else {
+      } else if(this.user.tiposervidor == 'csp'){
         this.router.navigate(['/csp/cadastrar']);
+      } else {
+        this.router.navigate(['/coordenador/cadastrarCurso']);
       }
     }
 

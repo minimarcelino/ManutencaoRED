@@ -7,35 +7,29 @@ const routes: Routes = [
   { 
     path: '', redirectTo: '/login', pathMatch: 'full'
   },
-  //home
-  {
-    path: 'home', 
-    //lazyLoading - carregar mais rapido
-    loadChildren: () =>import('../app/home/home.module').then((module) => module.HomeModule),
-    canActivate: [authorizationService]
-  },
   //login
   {
     path: 'login', component: LoginComponent
   },
-  //cursos
+  //csp
   {
     path: 'csp', 
-    //lazyLoading - carregar mais rapido
     loadChildren: () =>import('./csp/csp-routing.module').then((module) => module.CspRoutingModule),
     canActivate: [authorizationService]
   },
+  //cra
   {
     path: 'cra', 
-    //lazyLoading - carregar mais rapido
     loadChildren: () =>import('./cra/cra-routing.module').then((module) => module.CraRoutingModule),
     canActivate: [authorizationService]
   },
+  //coordenador
   {
     path: 'coordenador',
     loadChildren: () => import('./coordenador/coordenador-routing.module').then((module)=> module.CoordenadorRoutingModule),
     canActivate: [authorizationService]
   },
+  //administrador
   {
     path: 'admin',
     loadChildren: () => import('./administrador/admin-routing.module').then((module)=> module.AdministradorRoutingModule),

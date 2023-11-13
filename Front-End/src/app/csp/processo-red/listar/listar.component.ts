@@ -9,6 +9,7 @@ import { red } from 'src/app/modelo/red';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { AssociarDisciplinaComponent } from '../../associar-disciplina/associar-disciplina.component';
+import { VisualizarRedComponent } from '../visualizar/visualizar.component';
 
 @Component({
   selector: 'app-listar',
@@ -18,6 +19,7 @@ import { AssociarDisciplinaComponent } from '../../associar-disciplina/associar-
 export class ListarRedComponent implements OnInit {
 
   reds: red[] = [];
+  pee: any[] = [];
   filtredReds: red[] = [];
   dataSource: any;
   mostrarBotao: boolean = false;
@@ -29,7 +31,7 @@ export class ListarRedComponent implements OnInit {
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }
 
   ngOnInit(): void {
-    this.findAll()
+    this.findAll();
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
   }
@@ -55,6 +57,13 @@ export class ListarRedComponent implements OnInit {
     } else {
       return ''; 
     }
+  }
+
+  visualizarRed(red: any) {
+    const editar =  this.dialog.open( VisualizarRedComponent ,{
+      data: {idRED: red.idRED, servidor_idservidor: red.coordenador}
+    });
+    this.handleDialogConfirm(editar);
   }
 
   associarDisciplina(red: red){
