@@ -1,1 +1,64 @@
-<p>editar works!</p>
+<div class="container">
+    <div class="title">
+        <h1>Cadastro RED</h1>
+        <hr class="linha" />
+    </div>
+    
+    <h2>Aluno</h2>
+  <form [formGroup]="editarRed" #formDir="ngForm">
+    <mat-form-field style="min-width: 50%; max-width: 100%;">
+      <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput
+        [matAutocomplete]="auto">
+      <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
+        <mat-option *ngFor="let a of alunos" [value]="a">
+          {{a.prontuario}} - {{a.nome}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  
+    <h2>Curso</h2>
+    <mat-form-field style="min-width: 40%; max-width: 100%;">
+      <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" />
+    </mat-form-field>
+  
+    <h2>Motivo do afastamento</h2>
+    <mat-form-field class="motivoAfastamento" style="min-width: 60%; max-width: 100%;">
+      <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
+      <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço"></textarea>
+    </mat-form-field>
+  
+    <h2>Inicio do afastamento</h2>
+    <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 400px;">
+      <input matInput [matDatepicker]="picker" formControlName="inicioAfastamento">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <div *ngIf="editarRed.get('inicioAfastamento')?.invalid && formDir.submitted" class="validation">
+          <p>Inicio do afastamento obrigatório!</p>
+      </div>
+    </mat-form-field> 
+  
+    <h2>Período do afastamento</h2>
+    <mat-form-field class="tempoAfastamento">
+      <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
+      <input type="number" formControlName="tempoAfastamento" matInput placeholder="Ex. 15"/>
+    </mat-form-field>
+  
+    <h2>Semestre do aluno</h2>
+    <mat-form-field class="semestreAluno">
+      <mat-label>Digite o semestre que o aluno se encontra</mat-label>
+      <input type="number" formControlName="semestreAluno" matInput placeholder="Ex. 4"/>
+    </mat-form-field>
+  
+    <h2>Observação</h2>
+    <mat-form-field class="observacao">
+      <mat-label>Faça uma observação</mat-label>
+      <textarea formControlName="observacao" matInput placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias"></textarea>
+    </mat-form-field>
+  
+    <br><br>
+    <button mat-raised-button color="primary" (click)="editar()" style="margin-right: 20px;">Editar</button>
+  
+   <!--  <input type="file" (change)="InputFile($event)" style="margin-right: 50px;" /> -->
+  </form>
+
+</div>

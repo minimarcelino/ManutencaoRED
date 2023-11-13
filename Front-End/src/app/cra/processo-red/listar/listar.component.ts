@@ -12,6 +12,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { EditarREDComponent } from '../editar/editar.component';
 
 export interface aluno {
   id: number;
@@ -84,7 +85,6 @@ export class ListarREDComponent implements OnInit {
 
   this.dataSource = new MatTableDataSource<any>(mergedData);
   this.dataSource.paginator = this.paginator;
-  console.log(this.dataSource);
 }
 
   
@@ -105,13 +105,15 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  /*editarRed(red: any){
+  editarRed(red: any){
     const editar =  this.dialog.open(EditarREDComponent, {
         data: {id: red.id, motivoAfastamento: red.motivoAfastamento, inicioAfastamento: red.inicioAfastamento, 
-               dataPrevisaoTermino: red.dataPrevisaoTermino, situacao: red.situacao, observacao: red.observacao}
+               dataPrevisaoTermino: red.dataPrevisaoTermino, situacao: red.situacao, observacao: red.observacao, 
+               dataInicioProcesso: red.dataInicioProcesso, semestreAluno: red.semestreOuAnoAluno, tempoAfastamento: red.tempoAfastamento,
+               aluno_id: red.aluno_id, coordenador: red.coordenador}
     });
     this.handleDialogConfirm(editar);
-  }*/
+  }
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;

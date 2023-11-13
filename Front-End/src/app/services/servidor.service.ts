@@ -38,7 +38,4 @@ export class servidorService {
       throw error;
     }
   }
-
-
-
 }
