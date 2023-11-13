@@ -5,12 +5,37 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { aluno } from 'src/app/modelo/aluno';
 import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarComponent } from '../visualizar/visualizar.component';
+import { curso } from 'src/app/modelo/curso';
+
+
+export interface aluno {
+  id: number;
+  prontuario: String;
+  nome: String;
+  data_nascimento: Date;
+  endereco: String;
+  email: String;
+  curso: curso;
+}
+
+export interface red{
+  idRED: number,
+  dataInicioProcesso: Date;
+  dataPrevisaoTermino: Date;
+  motivoAfastamento: String;
+  situacao: String;
+  coordenador: number;
+  aluno_id: number;
+  observacao: String;
+  inicioAfastamento: Date;
+  tempoAfastamento: number;
+  semestreOuAnoAluno: number;
+  }
 
 @Component({
   selector: 'app-listar',
@@ -45,13 +70,22 @@ export class ListarRedComponent implements OnInit{
     this.alunos = response.data.alunos;
     this.reds = response2.data.reds;
 
-    // novo array de objetos que contém ambos objetos
-    const mergedData = this.alunos.map((aluno, index) => {
-        return {...aluno, ...this.reds[index]};
-    });
+    const mergedData = this.alunos
+    .map((aluno, index) => {
+      const red = this.reds.find(red => red.aluno_id === aluno.id);
+      // Verifica se há um red correspondente ao aluno
+      if (red) {
+        return { ...aluno, ...red };
+      } else {
+        return null; // Retorna null para indicar que não há correspondência
+      }
+    })
+    .filter(data => data !== null); // Remove os elementos nulos
 
-    this.dataSource = new MatTableDataSource<any>(mergedData);
-    this.dataSource.paginator = this.paginator;
+  this.dataSource = new MatTableDataSource<any>(mergedData);
+  this.dataSource.paginator = this.paginator;
+  console.log(this.dataSource);
+
 }
   formatData(data: Date): string {
     if (data) {
