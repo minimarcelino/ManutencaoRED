@@ -57,14 +57,6 @@ export class ListarRedComponent implements OnInit {
     }
   }
 
-  editarAluno (aluno: aluno) {
-
-  }
-
-  deleteAluno(aluno: aluno){
-
-  }
-
   associarDisciplina(red: red){
     const editar =  this.dialog.open(AssociarDisciplinaComponent, {
       data: {idRED: red.idRED, servidor_idservidor: red.coordenador}

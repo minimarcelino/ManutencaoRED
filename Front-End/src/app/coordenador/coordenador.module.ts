@@ -17,6 +17,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditarDocenteComponent  } from './docentes/editar/editar.component';
 import { ListarRedComponent } from './visualizacaoRed/listar/listar.component';
 import { CadastrarDisciplinaComponent } from './disciplinas/cadastrar/cadastrar.component';
+import { VisualizarComponent } from './visualizacaoRed/visualizar/visualizar.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 @NgModule({
     declarations: [
         DisciplinasComponent,
@@ -25,6 +28,7 @@ import { CadastrarDisciplinaComponent } from './disciplinas/cadastrar/cadastrar.
         EditarDocenteComponent,
         ListarRedComponent,
         CadastrarDisciplinaComponent,
+        VisualizarComponent,
     ],
     imports: [
         CommonModule,
@@ -40,7 +44,8 @@ import { CadastrarDisciplinaComponent } from './disciplinas/cadastrar/cadastrar.
         MatMomentDateModule,
         NgxMaskDirective,
         NgxMaskPipe,
-        MatPaginatorModule 
+        MatPaginatorModule,
+        MatDatepickerModule 
     ],
     providers: [
         { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

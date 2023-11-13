@@ -7,7 +7,7 @@
         <form [formGroup]="cadastrarDocente" #formDir="ngForm">
             <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
                 <mat-label>Prontuário</mat-label>
-                <input matInput name="prontuario" formControlName="prontuario" mask="AA0000000"/>
+                <input matInput name="prontuario" formControlName="prontuario" mask="AA000000"/>
                 <div *ngIf="cadastrarDocente.get('prontuario')?.invalid && formDir.submitted" class="validation">
                     <p>Prontuario obrigatório!</p>
                 </div>
@@ -26,6 +26,13 @@
                     <p>Email obrigatório!</p>
                 </div>
             </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;" *ngIf="mostrarCampo">
+                <mat-label>Tipo do Servidor</mat-label>
+                <input matInput name="tiposervidor" formControlName="tiposervidor"/>
+                <div *ngIf="cadastrarDocente.get('tiposervidor')?.invalid && formDir.submitted" class="validation">
+                    <p>Tipo do Servidor obrigatório!</p>
+                </div>
+            </mat-form-field> 
             <div id="buttons">
                 <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Editar</button>
             </div>

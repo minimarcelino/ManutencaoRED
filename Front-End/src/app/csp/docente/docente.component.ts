@@ -73,13 +73,11 @@ export class DocenteComponent implements OnInit {
       };
     }
     
-    
-    
-    
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
+    console.log(this.dataSource);
   }
 
   async cadastrar(){
@@ -105,7 +103,7 @@ export class DocenteComponent implements OnInit {
   editarDocente(docente: any){
     const editar =  this.dialog.open(EditarDocenteComponent, {
       data: {idservidor: docente.idservidor, prontuario: docente.prontuario, nome: docente.nome, email: docente.email, 
-             tiposervidor: docente.tiposervidor}
+             tiposervidor: docente.tiposervidor, senha: docente.senha}
     });
     this.handleDialogConfirm(editar);
   }

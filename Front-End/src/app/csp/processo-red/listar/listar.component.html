@@ -37,12 +37,6 @@
             <ng-container matColumnDef="acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button (click)="editarAluno(a)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteAluno(a)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
                     <button mat-icon-button (click)="associarDisciplina(a)">
                         <mat-icon>book</mat-icon>
                     </button>

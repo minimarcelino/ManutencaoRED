@@ -44,11 +44,8 @@
             <ng-container matColumnDef="Ações">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button (click)="confirmarRed(a)">
-                      <mat-icon>check</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="recusarRed(a)">
-                      <mat-icon>close</mat-icon>
+                    <button mat-icon-button (click)="visualizarRed(a)">
+                      <mat-icon>visibility</mat-icon>
                     </button>
                   </td>
             </ng-container> 

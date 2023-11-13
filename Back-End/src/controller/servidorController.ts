@@ -66,6 +66,14 @@ export class servidorController {
         }
     }
 
+    async UpdatePerfil(req: Request, res: Response) {
+        const response = await servidorservice.updatePerfil(req.body, Number(req.params.id));
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
 
     async getAll(req: Request, res: Response) {
         const response = await servidorservice.findAll();

@@ -138,19 +138,39 @@ export class servidorService {
         }
     }
 
-    //async findById(id: number) {
-    //    try {
-    //        const servidor = await prisma.servidor.findUnique({
-    //            where: {
-    //                idservidor: +id,
-    //            },
-    //        });
-    //        return { ok: true, data: servidor };
-    //    } catch (error) {
-    //        console.log(error);
-    //        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
-    //    }
-    //}
+    async updatePerfil(servidor: servidor, id: number) {
+        try {
+            const existingServidor = await prisma.servidor.findFirst({
+                where: {
+                  prontuario: servidor.prontuario,
+                  NOT: {
+                    idservidor: +id,
+                  },
+                },
+              });
+
+              if (existingServidor) {
+                return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
+              } else {
+                // Gere o hash da senha
+                const salt = await bcrypt.genSalt(10);
+                const senhaHash = await bcrypt.hash(servidor.senha, salt);
+    
+                // Substitua a senha em texto simples pela senha hash
+                servidor.senha = senhaHash;
+                const updateServidor = await prisma.servidor.update({
+                    where: {
+                        idservidor: +id,
+                    },
+                    data: servidor
+                });
+                return { ok: true, data: updateServidor }
+              }
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+        }
+    }
 
     async findByEmail(email: string) {
         try {
@@ -234,7 +254,7 @@ export class servidorService {
         try {
             const usuario = await prisma.servidor.findUnique({
                 where: {
-                    email: email,
+                    email: email
                 },
             })
             if (!usuario) {

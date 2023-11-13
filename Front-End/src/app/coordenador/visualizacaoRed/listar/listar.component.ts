@@ -10,6 +10,7 @@ import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { VisualizarComponent } from '../visualizar/visualizar.component';
 
 @Component({
   selector: 'app-listar',
@@ -60,54 +61,21 @@ export class ListarRedComponent implements OnInit{
     }
   }
 
-  async updateRed(red: any, situacao: String) {
-    try {
-      await this.redService.updateRed({
-        idRED: red.idRED,
-        aluno_prontuario: red.aluno_prontuario,
-        data_inicio_processo: red.data_inicio_processo,
-        dataInicioRed: new Date(),
-        dataLimitePee: new Date(),
-        dataPrevisaoTermino: red.dataPrevisaoTermino,
-        motivoAfastamento: red.motivoAfastamento,
-        situacao: situacao,
-        coordenador: red.coordenador,
-        aluno_id: red.aluno_id
-      }); 
-      this.openSnackBar("RED alterado com sucesso!!", null);
-      this.findAll();
-    } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.openSnackBar("Falha ao alterar o RED", errorMessage);
-      } else {
-        this.openSnackBar("Falha ao alterar o RED", "Ocorreu um erro durante a edição do RED.");
-      }
-    }
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-    
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000
+  visualizarRed(red : any) {
+    console.log(red);
+    const visualizar =  this.dialog.open(VisualizarComponent, {
+      data: {idRED: red.idRED, aluno_prontuario: red.prontuario, nome: red.nome, dataInicioProcesso: red.dataInicioProcesso,
+             dataPrevisaoTermino: red.dataPrevisaoTermino, motivoAfastamento: red.motivoAfastamento, situacao: red.situacao,
+             coordenador: red.coordenador, aluno_id: red.aluno_id, inicioAfastamento: red.inicioAfastamento, observacao: red.observacao,
+             tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno}
     });
+    this.handleDialogConfirm(visualizar);
   }
 
-  confirmarRed(red : any) {
-    this.updateRed(red, "Em andamento");
-  }
-
-  recusarRed(red : any) {
-    this.updateRed(red, "Recusado");
+  handleDialogConfirm(dialog: any){
+    dialog.afterClosed().subscribe((result: string) => {
+        this.findAll();
+    });
   }
 
 }

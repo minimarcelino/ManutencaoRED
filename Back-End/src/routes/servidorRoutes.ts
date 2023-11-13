@@ -13,6 +13,7 @@ router.get('/all',authentication.validate, servidorcontroller.getAll);
 router.post('/create',authentication.validate, servidorcontroller.Create);
 router.post('/coordenador/create',authentication.validate, servidorcontroller.CreateDisciplina);
 router.put('/update/:id',authentication.validate, servidorcontroller.Update);
+router.put('/updatePerfil/:id',authentication.validate, servidorcontroller.UpdatePerfil);
 /*router.delete('/delete/:id', alunocontroller.Delete);*/
 router.post('/login', servidorcontroller.Login);
 router.get('/profile', servidorcontroller.getProfile);
