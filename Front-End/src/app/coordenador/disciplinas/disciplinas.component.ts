@@ -10,24 +10,25 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { storageService } from 'src/app/services/storage.service';
+import { EditarDisciplinaComponent } from './editar/editar.component';
 
 @Component({
   selector: 'app-disciplinas',
   templateUrl: './disciplinas.component.html',
   styleUrls: ['./disciplinas.component.css']
 })
-export class DisciplinasComponent implements OnInit{
+export class DisciplinasComponent implements OnInit {
   dataToImport: any;
   data: any[] = [];
   disciplinas: any[] = [];
   dataSource: any;
   user: any;
-  @ViewChild(MatPaginator) paginator !:MatPaginator;
+  @ViewChild(MatPaginator) paginator !: MatPaginator;
 
   displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
 
-  constructor(private http: HttpClient, private router: Router, private servidorService: servidorService, public dialogQuestionService: messageDialog, private disciplinaservice: disciplinaService ,
-    private dialog: MatDialog, private storage: storageService) {}
+  constructor(private http: HttpClient, private router: Router, private servidorService: servidorService, public dialogQuestionService: messageDialog, private disciplinaservice: disciplinaService,
+    private dialog: MatDialog, private storage: storageService) { }
 
   ngOnInit() {
     this.findAll();
@@ -35,7 +36,7 @@ export class DisciplinasComponent implements OnInit{
     this.user = JSON.parse(this.user);
   }
 
-  async cadastrar(){
+  async cadastrar() {
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
 
@@ -51,34 +52,29 @@ export class DisciplinasComponent implements OnInit{
     this.dataSource.filter = value;
   }
 
-  async findAll(){
+  async findAll() {
     const response = await this.disciplinaservice.getDisciplina();
     this.disciplinas = response.data.disciplinas;
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
-    this.dataSource.paginator=this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
 
-  irAssociar(){
-    if(this.user.tiposervidor == 'administrador'){
+  irAssociar() {
+    if (this.user.tiposervidor == 'administrador') {
       this.router.navigate(['admin/associarDisciplinas']);
-    } 
+    }
   }
 
-  /*editarDisciplina(disciplina: any){
-    const editar =  this.dialog.open(EditarDisciplinaComponent, {
-      data: {idservidor: docente.idservidor, prontuario: docente.prontuario, nome: docente.nome, email: docente.email, 
-             tiposervidor: docente.tiposervidor}
+  editarDisciplina(disciplina: any) {
+    const editar = this.dialog.open(EditarDisciplinaComponent, {
+      data: { id: disciplina.id, nomeDisciplina: disciplina.nomeDisciplina, sigla: disciplina.sigla, curso: disciplina.curso }
     });
     this.handleDialogConfirm(editar);
   }
 
-  deleteDocente(docente: any){
-
-  }*/ 
-  
-  handleDialogConfirm(dialog: any){
+  handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
-        this.findAll();
+      this.findAll();
     });
   }
 

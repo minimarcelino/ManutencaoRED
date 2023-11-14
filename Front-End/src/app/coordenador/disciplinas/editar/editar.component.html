@@ -1,1 +1,36 @@
-<p>editar works!</p>
+<div class="container">
+    <div class="editarDisciplina">
+        <h1>Editar Disciplinas</h1>
+        <hr>
+    </div>
+    <div class="fields">
+        <form [formGroup]="editarDisciplina" #formDir="ngForm">
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
+                <mat-label>Sigla</mat-label>
+                <input matInput name="sigla" formControlName="sigla"/>
+                <div *ngIf="editarDisciplina.get('sigla')?.invalid && formDir.submitted" class="validation">
+                    <p>Sigla obrigatória!</p>
+                </div>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 25%; max-width: 100%; margin-right: 600px;">
+                <mat-label>Nome</mat-label>
+                <input matInput name="nomeDisciplina" formControlName="nomeDisciplina"/>
+                <div *ngIf="editarDisciplina.get('nomeDisciplina')?.invalid && formDir.submitted" class="validation">
+                    <p>Nome da disciplina obrigatório!</p>
+                </div>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
+                <mat-label>Curso</mat-label>
+                <input formControlName="curso" type="text" placeholder="Selecione um curso"  matInput [matAutocomplete]="auto">
+                <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                    <mat-option *ngFor="let c of cursos" [value]="c">
+                        {{c.nomeCurso}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <div id="buttons">
+                <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">editar</button>
+            </div>
+        </form>
+    </div>
+</div>

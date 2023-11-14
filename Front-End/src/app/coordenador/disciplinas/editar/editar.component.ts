@@ -1,10 +1,99 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { curso } from 'src/app/modelo/curso';
+import { cursoService } from 'src/app/services/cursos.service';
+import { disciplinaService } from 'src/app/services/disciplina.service';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-editar',
   templateUrl: './editar.component.html',
   styleUrls: ['./editar.component.css']
 })
-export class EditarDisciplinaComponent {
+export class EditarDisciplinaComponent implements OnInit {
+
+  editarDisciplina!: FormGroup;
+  cursos: curso[] = [];
+  isSubmitting: boolean = false;
+  user: any;
+
+  constructor(private disciplinaservice: disciplinaService, private snackBar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any,
+    private cursoservice: cursoService) { }
+
+  ngOnInit(): void {
+    this.editarDisciplina = new FormGroup({
+      sigla: new FormControl(this.data.sigla, [Validators.required]),
+      nomeDisciplina: new FormControl(this.data.nomeDisciplina, [Validators.required]),
+      curso: new FormControl('', [Validators.required]),
+    });
+    this.fetchCurso();
+  }
+
+  async submit() {
+    if (this.editarDisciplina.invalid || this.isSubmitting) {
+      this.openSnackBar("Campos obrigatórios!!", null);
+      return;
+    } else {
+      this.isSubmitting = true;
+      try {
+        await this.disciplinaservice.updateDisciplina({
+          id: this.data.id,
+          sigla: this.sigla,
+          nomeDisciplina: this.nomeDisciplina,
+          curso: this.idcurso
+
+        });
+        this.openSnackBar("Disciplina editada com sucesso!!", null);
+      } catch (error: any) {
+        if (error && error.error && error.error.data) {
+          const errorMessage = error.error.data;
+          this.openSnackBar("Falha ao editar disciplina", errorMessage);
+        } else {
+          this.openSnackBar("Falha ao editar disciplina", "Ocorreu um erro durante a edição da disciplina.");
+        }
+      }
+    }
+  }
+
+
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
+    });
+  }
+
+  async fetchCurso() {
+    const getCursos = await this.cursoservice.getCursos();
+    this.cursos = getCursos.data.cursos;
+  }
+
+  displayFn(curso: curso): string {
+    return curso && curso.nomeCurso;
+  }
+
+
+  get sigla() {
+    return this.editarDisciplina.get('sigla')!.value;
+  }
+
+  get nomeDisciplina() {
+    return this.editarDisciplina.get('nomeDisciplina')!.value;
+  }
+
+  get idcurso() {
+    return this.editarDisciplina.get('curso')!.value.idcurso;
+  }
 
 }
