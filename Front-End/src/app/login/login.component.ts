@@ -57,6 +57,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/coordenador']);
           } else if (this.user.tiposervidor == 'administrador') {
             this.router.navigate(['/admin']);
+          } else if (this.user.tiposervidor == 'professor') {
+            this.router.navigate(['/professor']);
           }
         }
         this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });

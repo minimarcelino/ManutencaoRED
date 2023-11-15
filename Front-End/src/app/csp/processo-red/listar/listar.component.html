@@ -9,6 +9,12 @@
         <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
             <!-- NomeColumn -->
+            <ng-container matColumnDef="nomeAluno">
+                <th mat-header-cell *matHeaderCellDef> Aluno </th>
+                <td mat-cell *matCellDef="let red"> {{ red.aluno.nome }} </td>
+            </ng-container>
+
+            <!-- NomeColumn -->
             <ng-container matColumnDef="inicioRed">
                 <th mat-header-cell *matHeaderCellDef> Início RED </th>
                 <td mat-cell *matCellDef="let red"> {{ formatData(red.dataInicioProcesso) }} </td>

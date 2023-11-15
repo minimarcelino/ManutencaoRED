@@ -25,7 +25,7 @@ export class ListarRedComponent implements OnInit {
   mostrarBotao: boolean = false;
   user: any;
 
-  displayedColumns = ['inicioRed', 'terminoRed', 'prazoPee', 'Situação', 'acoes'];
+  displayedColumns = ['nomeAluno', 'inicioRed', 'terminoRed', 'prazoPee', 'Situação', 'acoes'];
 
   constructor(private router: Router, public dialogQuestionService: messageDialog, private redservice: redService,
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }

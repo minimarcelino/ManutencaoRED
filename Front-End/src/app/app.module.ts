@@ -24,6 +24,7 @@ import { CoordenadorComponent } from './coordenador/coordenador.component';
 import { CoordenadorModule } from './coordenador/coordenador.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { AdministradorComponent } from './administrador/administrador.component';
+import { ProfessorComponent } from './professor/professor.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AdministradorComponent } from './administrador/administrador.component'
     CSPComponent,
     CoordenadorComponent,
     AdministradorComponent,
+    ProfessorComponent,
   ],
   imports: [
     BrowserModule,

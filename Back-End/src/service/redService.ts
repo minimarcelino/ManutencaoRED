@@ -7,7 +7,11 @@ export class redService {
     async findAll(){
         try {
             const [reds, length] = await Promise.all([
-                prisma.red.findMany({}),
+                prisma.red.findMany({
+                    include:{
+                        aluno: true,
+                    }
+                }),
                 prisma.red.count({})
             ]);
 

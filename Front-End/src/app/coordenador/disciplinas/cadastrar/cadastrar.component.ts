@@ -42,7 +42,7 @@ export class CadastrarDisciplinaComponent implements OnInit{
         console.log(this.curso_idcurso);
         await this.disciplinaservice.createDisciplina({
           sigla: this.sigla.toUpperCase(),
-          nomedisciplina: this.nomedisciplina,
+          nomeDisciplina: this.nomedisciplina,
           curso_idcurso: this.curso_idcurso
         }); 
         this.openSnackBar("Disciplina cadastrada com sucesso!", null);

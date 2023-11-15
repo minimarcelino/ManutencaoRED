@@ -49,7 +49,7 @@ import { authenticationService } from './authentication.service';
               } else if (userAccessLevel === 'docente' && (currentRoute === '/docente' || 
                                                            currentRoute === '/docente/outra-rota-convidado')) {
                 return true;
-              }else if (userAccessLevel === 'administrador' && (currentRoute === '/admin' || 
+              } else if (userAccessLevel === 'administrador' && (currentRoute === '/admin' || 
                                                                 currentRoute === '/admin/listarReds'||
                                                                 currentRoute === '/admin/listarDisciplinas' ||
                                                                 currentRoute === '/admin/cadastrarDisciplina'||
@@ -59,6 +59,9 @@ import { authenticationService } from './authentication.service';
                                                                 currentRoute === '/admin/cadastrarAluno'||
                                                                 currentRoute === '/admin/listarCursos'||
                                                                 currentRoute === '/admin/cadastrarCurso')) {
+                return true;
+              } else if (userAccessLevel === 'professor' && (currentRoute === '/professor' || 
+                                                           currentRoute === '/professor/outra-rota-convidado')) {
                 return true;
               }
               

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -5,8 +6,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { disciplina } from 'src/app/modelo/disciplina';
-import { servidor } from 'src/app/modelo/servidor';
 import { disciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { peeService } from 'src/app/services/pee.service';
@@ -21,10 +20,11 @@ import { storageService } from 'src/app/services/storage.service';
 export class VisualizarRedComponent implements OnInit{
 
   pee: any[] = [];
-  disciplinas: disciplina[] = [];
-  professor: servidor[] = [];
   dataSource: any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
+
+  displayedColumns = ['Disciplina', 'Professor', 'Pee', 'Comunicacao', 'DataLimite', 'DataEncaminhamento', 'Cumprimento', 'NovaProposta', 'AtividadeAvaliativa', 
+                      'AtividadeAvaliativaRealizadas', 'DataAvaliacao'];
 
   constructor(private http: HttpClient, private router: Router, public dialogQuestionService: messageDialog,
               private dialog: MatDialogRef<VisualizarRedComponent>, private storage: storageService, @Inject(MAT_DIALOG_DATA) public data: any, 
@@ -40,12 +40,14 @@ export class VisualizarRedComponent implements OnInit{
     this.dataSource = new MatTableDataSource<any>(this.pee);
     this.dataSource.paginator=this.paginator;
     this.pee = this.pee.filter(pee => pee.RED_idRED === this.data.idRED);
-
-    const idDisciplinas = this.pee.map(pee => pee.disciplinas_iddisciplinas);
-    const disciplinas = await this.disciplinaservice.getDisciplina();
-    this.disciplinas = disciplinas.data.disciplinas;
-    this.disciplinas = this.disciplinas.filter(disciplina => idDisciplinas.includes(disciplina.iddisciplinas));
+    console.log(this.pee);
   }
 
-
+  formatData(Data: Date): string {
+    if (Data) {
+      return formatDate(Data, 'dd/MM/yyyy', 'en-US', 'UTC');
+    } else {
+      return ''; 
+    }
+  }
 }

@@ -29,6 +29,12 @@ const routes: Routes = [
     loadChildren: () => import('./coordenador/coordenador-routing.module').then((module)=> module.CoordenadorRoutingModule),
     canActivate: [authorizationService]
   },
+  //professor
+  {
+    path: 'professor',
+    loadChildren: () => import('./professor/professor-routing.module').then((module)=> module.ProfessorRoutingModule),
+    canActivate: [authorizationService]
+  },
   //administrador
   {
     path: 'admin',

@@ -44,7 +44,14 @@ export class peeService {
     async findAll(){
         try {
             const [pees, length] = await Promise.all([
-                prisma.pee.findMany({}),
+                prisma.pee.findMany({
+                    include: {
+                        red: true,
+                        servidor: true,
+                        disciplinas: true,
+                        atividades: true,
+                    }
+                }),
                 prisma.pee.count({})
             ]);
 

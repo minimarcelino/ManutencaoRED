@@ -1,0 +1,52 @@
+mat-sidenav-container {
+    min-height: 93vh;
+    min-width: 100%;
+    max-height: 94vh;
+    max-width: 100%;
+    }
+    
+  mat-sidenav {
+      background: linear-gradient(to right, #505050, #797979);
+      padding: 16px;
+      padding-right: 1%;
+      padding-left: 0.5%;
+      border-radius: 10px;
+      width: 200px;
+      margin: 16px;
+      text-align: center;
+    }
+    
+    .content {
+      margin: 16px;
+      margin-left: 32px;
+      border-radius: 10px;
+      font-size: 2rem;
+      color: lightgray;
+    }
+  
+    .menu-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 1rem;
+    
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  
+  
+  #itensText{
+      display: inline-block;
+      margin-left: 0.5rem; 
+      color: #eee;
+  }
+  
+  #red{
+    margin-left: 10px;
+  }
+  
+  mat-sidenav-content{
+  
+  }

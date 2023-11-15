@@ -24,7 +24,7 @@
                 <input formControlName="Curso" type="text" placeholder="Selecione um curso"  matInput [matAutocomplete]="auto">
                 <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
                     <mat-option *ngFor="let c of cursos" [value]="c">
-                        {{c.nomecurso}}
+                        {{c.nomeCurso}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
