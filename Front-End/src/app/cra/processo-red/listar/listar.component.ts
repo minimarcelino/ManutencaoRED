@@ -52,7 +52,7 @@ export class ListarREDComponent implements OnInit {
   user:any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
   
-  displayedColumns = ['Prontuário', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
+  displayedColumns = ['Prontuário', 'Curso','Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
   constructor(private router: Router,private alunoservice: alunoService,private redservice: redService,
     public dialogQuestionService: messageDialog, private servidorservice: servidorService,
@@ -65,25 +65,10 @@ export class ListarREDComponent implements OnInit {
   }
 
   async findAll() {
-  const response = await this.alunoservice.getAluno();
-  const response2 = await this.redservice.getRed();
-  this.alunos = response.data.alunos;
-  this.reds = response2.data.reds;
+  const response = await this.redservice.getRed();
+  this.reds = response.data.reds;
 
-  // novo array de objetos que contém ambos objetos
-  const mergedData = this.alunos
-    .map((aluno, index) => {
-      const red = this.reds.find(red => red.aluno_id === aluno.id);
-      // Verifica se há um red correspondente ao aluno
-      if (red) {
-        return { ...aluno, ...red };
-      } else {
-        return null; // Retorna null para indicar que não há correspondência
-      }
-    })
-    .filter(data => data !== null); // Remove os elementos nulos
-
-  this.dataSource = new MatTableDataSource<any>(mergedData);
+  this.dataSource = new MatTableDataSource<any>(this.reds);
   this.dataSource.paginator = this.paginator;
 }
 

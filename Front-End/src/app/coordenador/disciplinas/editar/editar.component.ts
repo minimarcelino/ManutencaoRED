@@ -39,7 +39,7 @@ export class EditarDisciplinaComponent implements OnInit {
       this.isSubmitting = true;
       try {
         await this.disciplinaservice.updateDisciplina({
-          id: this.data.id,
+          iddisciplinas: this.data.iddisciplinas,
           sigla: this.sigla,
           nomeDisciplina: this.nomeDisciplina,
           curso: this.idcurso

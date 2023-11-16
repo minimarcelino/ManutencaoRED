@@ -9,7 +9,11 @@ export class redService {
             const [reds, length] = await Promise.all([
                 prisma.red.findMany({
                     include:{
-                        aluno: true,
+                        aluno: {
+                            include: {
+                                curso: true
+                            }
+                        }
                     }
                 }),
                 prisma.red.count({})

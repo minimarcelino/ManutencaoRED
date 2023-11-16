@@ -32,7 +32,7 @@ export class disciplinaService {
 
     async updateDisciplina(disciplina: any): Promise<any>{
         try {
-            const response = await this.http.put(`${environment.API}/disciplina/update/${disciplina.iddisciplina}`, disciplina, this.authentication.getHttpOptions())
+            const response = await this.http.put(`${environment.API}/disciplina/update/${disciplina.iddisciplinas}`, disciplina, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {

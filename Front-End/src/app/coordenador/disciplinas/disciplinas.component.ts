@@ -67,7 +67,7 @@ export class DisciplinasComponent implements OnInit {
 
   editarDisciplina(disciplina: any) {
     const editar = this.dialog.open(EditarDisciplinaComponent, {
-      data: { id: disciplina.id, nomeDisciplina: disciplina.nomeDisciplina, sigla: disciplina.sigla, curso: disciplina.curso }
+      data: { iddisciplinas: disciplina.iddisciplinas, nomeDisciplina: disciplina.nomeDisciplina, sigla: disciplina.sigla, curso: disciplina.curso }
     });
     this.handleDialogConfirm(editar);
   }
