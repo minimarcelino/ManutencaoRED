@@ -23,11 +23,40 @@
                 </ng-container>
 
                 <ng-container matColumnDef="acoes">
-                    <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Adicionar </th>
+                    <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                     <td class="actionsColumns" mat-cell *matCellDef="let a">
-                        <p><mat-checkbox (change)="selecionarDisciplina(a)"></mat-checkbox></p>
+                        <button mat-raised-button color="primary" (click)="selecionarDisciplina(a)" id="cadastrar">Add</button>
                     </td>
                 </ng-container> 
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table> 
+            <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+        </div>
+        <div id="tabela">
+            <mat-form-field>
+            <mat-label>Pesquisar Disciplina</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Banco de Dados">
+            </mat-form-field>                
+            <table appearance="outline" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" matSort>
+            
+                <ng-container matColumnDef="sigla">
+                    <th mat-header-cell *matHeaderCellDef> Sigla </th>
+                    <td mat-cell *matCellDef="let a"> {{a.sigla}} </td>
+                </ng-container>
+                           
+                <ng-container matColumnDef="nomedisciplina">
+                    <th mat-header-cell *matHeaderCellDef> Nome </th>
+                    <td mat-cell *matCellDef="let a"> {{a.nomeDisciplina}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acoes">
+                    <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+                    <td class="actionsColumns" mat-cell *matCellDef="let a">
+                        <button mat-raised-button color="primary" (click)="removerDisciplina(a)" id="remover">Remover</button>
+                    </td>
+                </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

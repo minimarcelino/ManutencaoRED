@@ -24,6 +24,7 @@ export class AssociarDisciplinaComponent implements OnInit{
   disciplinasSelecionadas: any[] = [];
   disciplinas: any[] = [];
   dataSource: any;
+  dataSource2:any;
   user: any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
 
@@ -59,12 +60,15 @@ export class AssociarDisciplinaComponent implements OnInit{
   }
 
   selecionarDisciplina(disciplina: any) {
-    const index = this.disciplinasSelecionadas.findIndex(d => d === disciplina);
+    this.disciplinasSelecionadas.push(disciplina);
+    this.dataSource2 = new MatTableDataSource<disciplina>(this.disciplinasSelecionadas);
+  }
 
-    if (index === -1) {
-      this.disciplinasSelecionadas.push(disciplina);
-    } else {
+  removerDisciplina(disciplina: any) {
+    const index = this.disciplinasSelecionadas.findIndex((item) => item.iddisciplinas === disciplina.iddisciplinas);
+    if (index >= 0) {
       this.disciplinasSelecionadas.splice(index, 1);
+      this.dataSource2 = new MatTableDataSource<disciplina>(this.disciplinasSelecionadas);
     }
   }
 
