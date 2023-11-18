@@ -43,10 +43,10 @@
             <ng-container matColumnDef="acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button (click)="associarDisciplina(a)">
+                    <button mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
                         <mat-icon>book</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="visualizarRed(a)">
+                    <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
                         <mat-icon>visibility</mat-icon>
                       </button>
                   </td>

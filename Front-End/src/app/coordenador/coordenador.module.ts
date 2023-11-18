@@ -21,7 +21,8 @@ import { CadastrarDisciplinaComponent } from './disciplinas/cadastrar/cadastrar.
 import { VisualizarComponent } from './visualizacaoRed/visualizar/visualizar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EditarDisciplinaComponent} from './disciplinas/editar/editar.component';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AssociarProfessoresComponent } from './visualizacaoRed/associar-professores/associar-professores.component';
 @NgModule({
     declarations: [
         DisciplinasComponent,
@@ -32,10 +33,12 @@ import { EditarDisciplinaComponent} from './disciplinas/editar/editar.component'
         CadastrarDisciplinaComponent,
         VisualizarComponent,
         EditarDisciplinaComponent,
+        AssociarProfessoresComponent,
     ],
     imports: [
         CommonModule,
         MatIconModule,
+        MatTooltipModule,
         ReactiveFormsModule,
         FormsModule,
         MatFormFieldModule,

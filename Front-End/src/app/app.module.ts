@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -44,6 +45,7 @@ import { ProfessorComponent } from './professor/professor.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    MatTooltipModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,

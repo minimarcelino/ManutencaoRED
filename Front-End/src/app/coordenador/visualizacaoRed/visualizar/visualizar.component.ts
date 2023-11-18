@@ -32,7 +32,6 @@ export class VisualizarComponent implements OnInit{
     ngOnInit(): void {
       this._locale = 'pt-BR';
       this._adapter.setLocale(this._locale);
-      console.log(this.data);
       this.visualizarRed = new FormGroup({
         prontuario: new FormControl({value: this.data.nome + ' - ' + this.data.aluno_prontuario, disabled: true}, [Validators.required]),
         curso: new FormControl({value: this.inputCurso, disabled: true}, [Validators.required]),
@@ -44,13 +43,13 @@ export class VisualizarComponent implements OnInit{
       this.user = localStorage.getItem("user");
       this.user = JSON.parse(this.user);
       this.fetchAlunos();
-      this.fetchCursos();
     }
 
   async updateRed(situacao: String) {
     try {
       await this.redService.updateRed({
         idRED: this.data.idRED,
+        nome: this.data.nome,
         aluno_prontuario: this.data.aluno_prontuario,
         dataInicioProcesso: this.data.dataInicioProcesso,
         dataPrevisaoTermino: this.data.dataPrevisaoTermino,
@@ -78,6 +77,16 @@ export class VisualizarComponent implements OnInit{
     const response = await this.alunoService.getAluno();
     this.alunos = response.data.alunos;
     this.alunos = this.alunos.filter(aluno => aluno.prontuario === this.data.aluno_prontuario);
+    this.fetchCursos(); 
+  }
+  
+  async fetchCursos() {
+    const response = await this.cursoService.getCursos();
+    this.cursos = response.data.cursos;
+    if (this.alunos && this.alunos.length > 0) {
+      this.filtredCursos = this.cursos.filter(curso => curso.idcurso === this.alunos[0].curso_idcurso);
+      this.inputCurso = this.filtredCursos[0].nomeCurso;
+    }
   }
 
   openSnackBar(message: string, error: string | Error | null) {
@@ -96,12 +105,7 @@ export class VisualizarComponent implements OnInit{
     });
   }
 
-  async fetchCursos() {
-    const response = await this.cursoService.getCursos();
-    this.cursos = response.data.cursos;
-    this.filtredCursos = this.cursos.filter(curso => curso.idcurso === this.alunos[0].curso_idcurso);
-    this.inputCurso = this.filtredCursos[0].nomeCurso;
-  }
+  
 
   changeCurso() {
     this.fetchCursos();

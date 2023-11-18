@@ -23,7 +23,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { VisualizarRedComponent  } from './processo-red/visualizar/visualizar.component';
-
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
     declarations: [
         CadastrarCursoComponent,
@@ -42,6 +42,7 @@ import { VisualizarRedComponent  } from './processo-red/visualizar/visualizar.co
       ReactiveFormsModule,
       FormsModule,
       MatFormFieldModule,
+      MatTooltipModule,
       MatInputModule,
       MatAutocompleteModule,
       MatButtonModule,
