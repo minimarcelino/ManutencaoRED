@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
+import { Data, Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
@@ -23,7 +24,7 @@ export interface aluno {
   curso: curso;
 }
 
-export interface red{
+export interface red {
   idRED: number,
   dataInicioProcesso: Date;
   dataPrevisaoTermino: Date;
@@ -35,21 +36,22 @@ export interface red{
   inicioAfastamento: Date;
   tempoAfastamento: number;
   semestreOuAnoAluno: number;
-  }
+}
 
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
   styleUrls: ['./listar.component.css']
 })
-export class ListarRedComponent implements OnInit{
+export class ListarRedComponent implements OnInit {
 
   alunos: any[] = [];
   reds: any[] = [];
-  dataSource: any;
-  @ViewChild(MatPaginator) paginator !:MatPaginator;
 
-  displayedColumns = ['Prontuário', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
+  dataSource: any;
+  @ViewChild(MatPaginator) paginator !: MatPaginator;
+
+  displayedColumns = ['Prontuário', 'Curso', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
   constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog, private alunoservice: alunoService,
     private dialog: MatDialog, private redService: redService) {
@@ -64,51 +66,39 @@ export class ListarRedComponent implements OnInit{
     this.dataSource.filter = value;
   }
 
-  async findAll(){
-    const response = await this.alunoservice.getAluno();
-    const response2 = await this.redService.getRed();
-    this.alunos = response.data.alunos;
-    this.reds = response2.data.reds;
 
-    const mergedData = this.alunos
-    .map((aluno, index) => {
-      const red = this.reds.find(red => red.aluno_id === aluno.id);
-      // Verifica se há um red correspondente ao aluno
-      if (red) {
-        return { ...aluno, ...red };
-      } else {
-        return null; // Retorna null para indicar que não há correspondência
-      }
-    })
-    .filter(data => data !== null); // Remove os elementos nulos
 
-  this.dataSource = new MatTableDataSource<any>(mergedData);
-  this.dataSource.paginator = this.paginator;
-  console.log(this.dataSource);
+  async findAll() {
+    const response = await this.redService.getRed();
+    this.reds = response.data.reds;
+    this.dataSource = new MatTableDataSource<any>(this.reds);
+    this.dataSource.paginator = this.paginator;
 
-}
+  }
   formatData(data: Date): string {
     if (data) {
       return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
     } else {
-      return ''; 
+      return '';
     }
   }
 
-  visualizarRed(red : any) {
+  visualizarRed(red: any) {
     console.log(red);
-    const visualizar =  this.dialog.open(VisualizarComponent, {
-      data: {idRED: red.idRED, aluno_prontuario: red.prontuario, nome: red.nome, dataInicioProcesso: red.dataInicioProcesso,
-             dataPrevisaoTermino: red.dataPrevisaoTermino, motivoAfastamento: red.motivoAfastamento, situacao: red.situacao,
-             coordenador: red.coordenador, aluno_id: red.aluno_id, inicioAfastamento: red.inicioAfastamento, observacao: red.observacao,
-             tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno}
+    const visualizar = this.dialog.open(VisualizarComponent, {
+      data: {
+        idRED: red.idRED, aluno_prontuario: red.prontuario, nome: red.nome, dataInicioProcesso: red.dataInicioProcesso,
+        dataPrevisaoTermino: red.dataPrevisaoTermino, motivoAfastamento: red.motivoAfastamento, situacao: red.situacao,
+        coordenador: red.coordenador, aluno_id: red.aluno_id, inicioAfastamento: red.inicioAfastamento, observacao: red.observacao,
+        tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno
+      }
     });
     this.handleDialogConfirm(visualizar);
   }
 
-  handleDialogConfirm(dialog: any){
+  handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
-        this.findAll();
+      this.findAll();
     });
   }
 

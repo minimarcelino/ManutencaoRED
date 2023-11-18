@@ -15,6 +15,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 import { CRAComponent } from './cra/cra.component';
 import { CSPComponent } from './csp/csp.component';
@@ -44,6 +45,7 @@ import { ProfessorComponent } from './professor/professor.component';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,

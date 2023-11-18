@@ -7,7 +7,7 @@ fi
 
 if [ ! -d "node_modules" ]; then
    echo "Node Modules nao existe, gerando.."
-   npm
+   sudo npm i 
 fi
 
 sudo npm run build --prod
