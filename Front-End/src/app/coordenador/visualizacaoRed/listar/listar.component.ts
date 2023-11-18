@@ -67,7 +67,6 @@ export class ListarRedComponent implements OnInit {
   }
 
 
-
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
@@ -87,7 +86,7 @@ export class ListarRedComponent implements OnInit {
     console.log(red);
     const visualizar = this.dialog.open(VisualizarComponent, {
       data: {
-        idRED: red.idRED, aluno_prontuario: red.prontuario, nome: red.nome, dataInicioProcesso: red.dataInicioProcesso,
+        idRED: red.idRED, aluno_prontuario: red.aluno.prontuario, nome: red.aluno.nome, dataInicioProcesso: red.dataInicioProcesso,
         dataPrevisaoTermino: red.dataPrevisaoTermino, motivoAfastamento: red.motivoAfastamento, situacao: red.situacao,
         coordenador: red.coordenador, aluno_id: red.aluno_id, inicioAfastamento: red.inicioAfastamento, observacao: red.observacao,
         tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno

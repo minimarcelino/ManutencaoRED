@@ -15,10 +15,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ListarPeesComponent } from './listar/listar.component';
+import { CadastrarPeeComponent } from './cadastrar-pee/cadastrar-pee.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 @NgModule({
     declarations: [
-      ListarPeesComponent
+      ListarPeesComponent,
+      CadastrarPeeComponent
   ],
     imports: [
       CommonModule,
@@ -36,10 +41,12 @@ import { ListarPeesComponent } from './listar/listar.component';
       NgxMaskPipe,
       NgxMaskDirective,
       MatCheckboxModule, 
+      MatTooltipModule,
+      MatDatepickerModule
     ],
     providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
       provideNgxMask()
     ]
   })
-  export class CspModule { }
+  export class ProfessorModule { }

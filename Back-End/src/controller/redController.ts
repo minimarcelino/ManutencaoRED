@@ -42,4 +42,9 @@ export class redController {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
+
+    async getById(id: number){
+        const response = await redservice.findById(id);
+        return response;
+    }
 }

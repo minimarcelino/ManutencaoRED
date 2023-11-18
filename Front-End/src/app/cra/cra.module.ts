@@ -21,7 +21,7 @@ import { ListarREDComponent } from './processo-red/listar/listar.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { EditarREDComponent } from './processo-red/editar/editar.component';
-  
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
     declarations: [
     CadastrarAlunoComponent,
@@ -37,6 +37,7 @@ import { EditarREDComponent } from './processo-red/editar/editar.component';
       ReactiveFormsModule,
       FormsModule,
       MatFormFieldModule,
+      MatTooltipModule,
       MatInputModule,
       MatAutocompleteModule,
       MatButtonModule,

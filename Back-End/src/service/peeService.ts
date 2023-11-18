@@ -4,7 +4,7 @@ import { pee } from "@prisma/client";
 
 export class peeService {
 
-    async findMany(search: string, page: number, perPage: number, orderBy: string){
+    async findMany(search: string, page: number, perPage: number, orderBy: string) {
         try {
             let skip: number = (Number(page) - 1) * Number(perPage);
             const [pees, length] = await Promise.all([
@@ -34,19 +34,23 @@ export class peeService {
                 pees,
                 length,
             };
-            return {ok: true, data: data};
+            return { ok: true, data: data };
         } catch (error) {
             console.log(error);
-            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR};
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
         }
     }
 
-    async findAll(){
+    async findAll() {
         try {
             const [pees, length] = await Promise.all([
                 prisma.pee.findMany({
                     include: {
-                        red: true,
+                        red: {
+                            include: {
+                                aluno: true,
+                            }
+                        },
                         servidor: true,
                         disciplinas: true,
                         atividades: true,
@@ -59,48 +63,47 @@ export class peeService {
                 pees,
                 length,
             };
-            return {ok: true, data: data};
+            return { ok: true, data: data };
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR};
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
         }
     }
-
-    async create(pee : pee){
+    async create(pee: pee) {
         try {
             const existingPEE = await prisma.pee.findFirst({
                 where: {
-                  disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas
+                    disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas
                 },
-              });
-          
-              if (existingPEE) {
+            });
+
+            if (existingPEE) {
                 return { ok: false, data: 'Este PEE com esta disciplina já existe' };
-              }
-              else {
+            }
+            else {
                 const createPEE = await prisma.pee.create({ data: pee });
                 return { ok: true, data: createPEE };
-              }     
+            }
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async update(pee: pee, id: number){
+    async update(pee: pee, id: number) {
         try {
             const existingPEE = await prisma.pee.findFirst({
                 where: {
-                  disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-                  NOT: {
-                    idpee: +id,
-                  },
+                    disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
+                    NOT: {
+                        idpee: +id,
+                    },
                 },
-              });
-          
-              if (existingPEE) {
+            });
+
+            if (existingPEE) {
                 return { ok: false, data: 'Esta disciplina com esta sigla já existe' };
-              } else {
+            } else {
                 const updatePEE = await prisma.pee.update({
                     where: {
                         idpee: id,
@@ -122,26 +125,27 @@ export class peeService {
                         avaliacoesRealizadas: pee.avaliacoesRealizadas,
                         dataAvaliacao: pee.dataAvaliacao,
                         observacoes: pee.observacoes
-                    }});
-                    return {ok: true, data: updatePEE}
-              }
+                    }
+                });
+                return { ok: true, data: updatePEE }
+            }
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 
-    async delete(id: number){
+    async delete(id: number) {
         try {
             const deletePEE = await prisma.pee.delete({
                 where: {
                     idpee: id,
                 },
             });
-            return {ok: true, data: deletePEE};
+            return { ok: true, data: deletePEE };
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
 }

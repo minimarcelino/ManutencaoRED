@@ -8,6 +8,7 @@ import { ListarRedComponent } from "./visualizacaoRed/listar/listar.component";
 import { CadastrarDisciplinaComponent } from "./disciplinas/cadastrar/cadastrar.component";
 import { ListarCursosComponent } from "../csp/cursos/listar/listar.component";
 import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.component";
+import { PeeComponent } from "./pee/pee.component";
 
 const routes: Routes = [
     {
@@ -41,6 +42,10 @@ const routes: Routes = [
             {
                 path: 'cadastrarDisciplina',
                 component: CadastrarDisciplinaComponent
+            },
+            {
+                path: 'listarPee',
+                component: PeeComponent
             },
         ]
 

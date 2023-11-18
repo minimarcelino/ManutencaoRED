@@ -1,54 +1,105 @@
-import { Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { peeService } from '../service/peeService';
 import { StatusCodes } from 'http-status-codes';
+import { sendEmail } from "../service/email";
+import { redController } from './redController';
+import { alunoController } from './alunoController';
+import { alunoService } from '../service/alunoService';
 
 const peeservice = new peeService();
-const jwt = require("jsonwebtoken");
+const alunoservice = new alunoService();
+const redcontroller = new redController();
 
 export class peeController {
-    async getPees(req: Request, res: Response){
-        const { search, page, perPage, orderBy} = req.query;
+    async getPees(req: Request, res: Response) {
+        const { search, page, perPage, orderBy } = req.query;
         const response = await peeservice.findMany(String(search), Number(page),
-        Number(perPage), String(orderBy));
-        if(response.ok){
+            Number(perPage), String(orderBy));
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async getAll(req: Request, res: Response){
-        const response = await peeservice.findAll();      
-        if(response.ok){
+    async getAll(req: Request, res: Response) {
+        const response = await peeservice.findAll();
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
-        } else{
+        } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async Create(req: Request, res: Response){
+    async Create(req: Request, res: Response) {
         const response = await peeservice.create(req.body);
-        if (response.ok){
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response.data)
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response)
         }
     }
 
-    async Delete(req: Request, res: Response){
+    async Delete(req: Request, res: Response) {
         const response = await peeservice.delete(Number(req.params.id));
-        if(response.ok){
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }
 
-    async Update(req: Request, res: Response){
+    async Update(req: Request, res: Response) {
         const response = await peeservice.update(req.body, Number(req.params.id));
-        if(response.ok){
+        if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
-        } else{
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
+    async UpdateWithEmail(req: Request, res: Response) {
+        const response = await peeservice.update(req.body, Number(req.params.id));
+
+        if (response.ok) {
+            if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
+                const RED_idRED = response.data.RED_idRED;
+                const redAluno = (await redcontroller.getById(RED_idRED)).data;
+
+                if (redAluno && typeof redAluno === 'object' && 'aluno_id' in redAluno) {
+                    const alunoId = redAluno.aluno_id;
+                    const alunoDetails = await alunoservice.findById(alunoId);
+
+                    if (alunoDetails && alunoDetails.ok && alunoDetails.data && typeof alunoDetails.data === 'object') {
+                        const alunoData = alunoDetails.data as {
+                            prontuario: string;
+                            nome: string;
+                            dataNascimento: Date;
+                            endereco: string;
+                            telefone: string;
+                            email: string;
+                            curso_idcurso: number;
+                            id: number;
+                        };
+
+                        const alunoEmail = alunoData.email;
+                        const texto =
+                            `As atividades do professor foram enviadas. 👍
+                        
+                        Por favor, clique aqui:https://www.youtube.com/ para ser redirecionado à página do exercício.
+                        
+                        Atenciosamente, 
+            
+                        Equipe de suporte do RED. 
+                        `
+                        sendEmail(alunoEmail, "Inicio das atividades", texto);
+                    } else {
+                        console.log('Detalhes do aluno não encontrados ou erro na busca.');
+                    }
+                }
+            }
+            return res.status(StatusCodes.OK).send(response);
+        } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response);
         }
     }

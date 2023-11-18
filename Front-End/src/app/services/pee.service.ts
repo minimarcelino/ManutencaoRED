@@ -5,45 +5,55 @@ import { authenticationService } from './authentication.service';
 
 @Injectable({
     providedIn: 'root',
-  })
+})
 
 export class peeService {
-    constructor(private http: HttpClient, private authentication: authenticationService){}
+    constructor(private http: HttpClient, private authentication: authenticationService) { }
 
-    async getPee(): Promise<any>{
+    async getPee(): Promise<any> {
         try {
             const response = await this.http.get(`${environment.API}/pee/all`, this.authentication.getHttpOptions())
-            .toPromise();
+                .toPromise();
             return response;
         } catch (error) {
             throw error;
         }
     }
 
-    async createPee(pee: any): Promise<any>{
+    async createPee(pee: any): Promise<any> {
         try {
             const response = await this.http.post(`${environment.API}/pee/create`, pee, this.authentication.getHttpOptions())
-            .toPromise()
+                .toPromise()
             return response;
         } catch (error) {
             throw error;
         }
     }
 
-    async updatePee(pee: any): Promise<any>{
+    async updatePee(pee: any): Promise<any> {
         try {
             const response = await this.http.put(`${environment.API}/pee/update/${pee.idpee}`, pee, this.authentication.getHttpOptions())
-            .toPromise();
+                .toPromise();
             return response;
         } catch (error) {
             throw error;
         }
     }
 
-    async deletePee(id: number): Promise<any>{
+    async updateWithEmail(pee: any): Promise<any> {
+        try {
+            const response = await this.http.put(`${environment.API}/pee/updateWithEmail/${pee.idpee}`, pee, this.authentication.getHttpOptions())
+                .toPromise();
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deletePee(id: number): Promise<any> {
         try {
             const response = await this.http.delete(`${environment.API}/pee/delete/${id}`, this.authentication.getHttpOptions())
-            .toPromise();
+                .toPromise();
             return response;
         } catch (error) {
             throw error;

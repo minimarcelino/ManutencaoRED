@@ -22,7 +22,8 @@ import { VisualizarComponent } from './visualizacaoRed/visualizar/visualizar.com
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EditarDisciplinaComponent} from './disciplinas/editar/editar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AssociarProfessoresComponent } from './visualizacaoRed/associar-professores/associar-professores.component';
+import { AssociarProfessoresComponent } from './associar-professores/associar-professores.component';
+import { PeeComponent } from './pee/pee.component';
 @NgModule({
     declarations: [
         DisciplinasComponent,
@@ -34,6 +35,7 @@ import { AssociarProfessoresComponent } from './visualizacaoRed/associar-profess
         VisualizarComponent,
         EditarDisciplinaComponent,
         AssociarProfessoresComponent,
+        PeeComponent,
     ],
     imports: [
         CommonModule,

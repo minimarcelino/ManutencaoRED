@@ -27,7 +27,7 @@ import { CoordenadorModule } from './coordenador/coordenador.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 import { AdministradorComponent } from './administrador/administrador.component';
 import { ProfessorComponent } from './professor/professor.component';
-
+import { ProfessorModule } from './professor/professor.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +58,7 @@ import { ProfessorComponent } from './professor/professor.component';
     MatDialogModule,
     CspModule,
     CraModule,
+    ProfessorModule,
     CoordenadorModule 
   ],
   providers: [
