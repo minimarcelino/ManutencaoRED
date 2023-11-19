@@ -24,6 +24,7 @@ import { EditarDisciplinaComponent} from './disciplinas/editar/editar.component'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AssociarProfessoresComponent } from './associar-professores/associar-professores.component';
 import { PeeComponent } from './pee/pee.component';
+import { VisualizarPeeComponent } from './pee/visualizar-pee/visualizar-pee.component';
 @NgModule({
     declarations: [
         DisciplinasComponent,
@@ -33,6 +34,7 @@ import { PeeComponent } from './pee/pee.component';
         ListarRedComponent,
         CadastrarDisciplinaComponent,
         VisualizarComponent,
+        VisualizarPeeComponent,
         EditarDisciplinaComponent,
         AssociarProfessoresComponent,
         PeeComponent,

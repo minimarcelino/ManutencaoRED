@@ -12,6 +12,7 @@ import { red } from 'src/app/modelo/red';
 import { AssociarProfessoresComponent } from '../associar-professores/associar-professores.component';
 import { pee } from 'src/app/modelo/pee';
 import { alunoService } from 'src/app/services/alunos.service';
+import { VisualizarPeeComponent } from './visualizar-pee/visualizar-pee.component';
 @Component({
   selector: 'app-pee',
   templateUrl: './pee.component.html',
@@ -60,9 +61,21 @@ export class PeeComponent implements OnInit {
 
   associarProfessor(pee: pee) {
     const editar = this.dialog.open(AssociarProfessoresComponent, {
-      data: { idRED: pee.RED_idRED,idPEE: pee.idpee, servidor_idservidor: pee.servidor_idservidor }
+      data: { idRED: pee.RED_idRED, idPEE: pee.idpee, servidor_idservidor: pee.servidor_idservidor }
     });
     this.handleDialogConfirm(editar);
+  }
+
+  visualizarPEE(pee: any) {
+    const visualizar = this.dialog.open(VisualizarPeeComponent, {
+      data: {
+        aluno_prontuario: pee.red.aluno.prontuario, nome: pee.red.aluno.nome, conteudo: pee.conteudo, metodologia: pee.metodologia,
+        trabalhos: pee.trabalhos, bibliografia: pee.bibliografia, criterios: pee.criterios, prazofinal: pee.prazofinal,
+        percentualabono: pee.percentualabono, dataEnvioProposta: pee.dataEnvioProposta, canalComunicacao: pee.canalComunicacao,
+        observacoes: pee.observacoes
+      }
+    });
+    this.handleDialogConfirm(visualizar);
   }
 
   handleDialogConfirm(dialog: any) {

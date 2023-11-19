@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="title">
+        <h1>Visualização PEE</h1>
+        <hr class="linha" />
+    </div>
+    <div class="fields">
+        <h2>Aluno</h2>
+        <form [formGroup]="visualizarPEE" #formDir="ngForm">
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Aluno</mat-label>
+                <input matInput name="prontuario" formControlName="prontuario" />
+            </mat-form-field>
+
+            <h2>Conteúdo</h2>
+            <mat-form-field class="conteudo" style="margin-right: 10px; min-width: 50%; max-width: 100%;">
+                <mat-label>Conteúdo</mat-label>
+                <textarea matInput formControlName="conteudo"></textarea>
+            </mat-form-field>
+
+            <h2>Metodologia</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Metodologia</mat-label>
+                <input matInput name="metodologia" formControlName="metodologia" />
+            </mat-form-field>
+
+            <h2>Trabalhos</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Trabalhos</mat-label>
+                <input matInput name="trabalhos" formControlName="trabalhos" />
+            </mat-form-field>
+
+            <h2>Bibliografia</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Bibliografia</mat-label>
+                <input matInput name="bibliografia" formControlName="bibliografia" />
+            </mat-form-field>
+
+            <h2>Critérios</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Criterios</mat-label>
+                <input matInput name="criterios" formControlName="criterios" />
+            </mat-form-field>
+
+            <h2>Prazo Final</h2>
+            <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 10px;">
+                <mat-label>Prazo Final</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="prazofinal">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <h2>Percentual Abono</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Percentual Abono</mat-label>
+                <input matInput name="percentualabono" formControlName="percentualabono" />
+            </mat-form-field>
+
+            <h2>Data Envio Proposta</h2>
+            <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 10px;">
+                <mat-label>Envio Proposta</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dataEnvioProposta">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <h2>Canal comunicação</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label>Canal comunicação</mat-label>
+                <input matInput name="canalComunicacao" formControlName="canalComunicacao" />
+            </mat-form-field>
+
+            <h2>Observações</h2>
+            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 35%; max-width: 100%;">
+                <mat-label> Observações</mat-label>
+                <input matInput name="observacoes" formControlName="observacoes" />
+            </mat-form-field>
+        </form>
+    </div>
+</div>
