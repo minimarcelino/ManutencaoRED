@@ -31,6 +31,15 @@ export class peeController {
         }
     }
 
+    async getById(req: Request, res: Response) {
+        const response = await peeservice.findById(Number(req.params.id));
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
     async Create(req: Request, res: Response) {
         const response = await peeservice.create(req.body);
         if (response.ok) {
@@ -58,6 +67,8 @@ export class peeController {
         }
     }
 
+
+
     async UpdateWithEmail(req: Request, res: Response) {
         const response = await peeservice.update(req.body, Number(req.params.id));
 
@@ -83,15 +94,16 @@ export class peeController {
                         };
 
                         const alunoEmail = alunoData.email;
-                        const texto =
-                            `As atividades do professor foram enviadas. 👍
-                        
-                        Por favor, clique aqui:https://www.youtube.com/ para ser redirecionado à página do exercício.
-                        
-                        Atenciosamente, 
-            
-                        Equipe de suporte do RED. 
-                        `
+                        console.log(alunoEmail);
+                        const texto = `
+                        As atividades do professor foram enviadas. 👍
+
+                        Por favor, clique aqui: http://localhost:4200/usuario/${req.params.id} para ser redirecionado à página do exercício.
+
+                        Atenciosamente,
+
+                        Equipe de suporte do RED.
+                        `;
                         sendEmail(alunoEmail, "Inicio das atividades", texto);
                     } else {
                         console.log('Detalhes do aluno não encontrados ou erro na busca.');

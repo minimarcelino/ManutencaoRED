@@ -69,6 +69,30 @@ export class peeService {
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
         }
     }
+
+    async findById(id: number) {
+        try {
+            const [pees] = await Promise.all([
+                prisma.pee.findUnique({
+                    where: {
+                        idpee: +id
+                    },
+                    include: {
+                        servidor: true,
+                    }
+                })
+            ]);
+
+            const data = {
+                pees
+            };
+            return { ok: true, data: data };
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+        }
+    }
+
     async create(pee: pee) {
         try {
             const existingPEE = await prisma.pee.findFirst({

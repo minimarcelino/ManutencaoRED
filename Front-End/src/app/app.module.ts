@@ -28,6 +28,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 import { AdministradorComponent } from './administrador/administrador.component';
 import { ProfessorComponent } from './professor/professor.component';
 import { ProfessorModule } from './professor/professor.module';
+import { UsuarioModule } from './usuario-nao-autenticado/usuario.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +60,8 @@ import { ProfessorModule } from './professor/professor.module';
     CspModule,
     CraModule,
     ProfessorModule,
-    CoordenadorModule 
+    CoordenadorModule,
+    UsuarioModule,
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

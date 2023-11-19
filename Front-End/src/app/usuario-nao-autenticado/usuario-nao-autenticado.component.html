@@ -1,0 +1,30 @@
+<div class="custom-tela" *ngIf="dadosPee">
+    <div class="custom-item">
+        <h2>CONTEÚDOS A SEREM ESTUDADOS</h2>
+        <p>{{ dadosPee.conteudo }}</p>
+    </div> 
+    <div class="custom-item">
+        <h2>A METODOLOGIA A SER UTILIZADA</h2>
+        <p>{{ dadosPee.metodologia }}</p>
+    </div> 
+    <div class="custom-item">
+        <h2>TRABALHOS A SEREM CUMPRIDOS</h2>
+        <p>{{ dadosPee.trabalhos }}</p>
+    </div>
+    <div class="custom-item">
+        <h2>INDICAÇÕES BIBLIOGRÁFICAS</h2>
+        <p>{{ dadosPee.bibliografia }}</p>
+    </div>
+    <div class="custom-item">
+        <h2>CRITÉRIOS DE EXIGÊNCIA</h2>
+        <p>{{ dadosPee.criterios }}</p>
+    </div>
+    <div class="custom-item">
+        <h2>PRAZO PARA EXECUÇÃO</h2>
+        <p>{{ formatData(dadosPee.prazofinal) }}</p>
+    </div>
+    <div class="custom-item">
+        <h2>CONTATO DO PROFESSOR</h2>
+        <p>{{ dadosPee.servidor.email }}</p>
+    </div>
+</div>

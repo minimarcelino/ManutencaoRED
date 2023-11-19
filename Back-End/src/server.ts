@@ -8,6 +8,7 @@ import cursoRoutes from './routes/cursoRoutes';
 import redRoutes from './routes/redRoutes';
 import disciplinaRoutes from './routes/disciplinaRoutes';
 import peeRoutes from './routes/peeRoutes';
+import usuarioNaoAutenticado from './routes/usuarioRoutes';
 
 const PORT = process.env.BACKEND_PORT || 3333;
 const app = express();
@@ -26,6 +27,7 @@ app.use('/curso', cursoRoutes);
 app.use('/red', redRoutes);
 app.use('/disciplina',disciplinaRoutes);
 app.use('/pee', peeRoutes);
+app.use('/usuario', usuarioNaoAutenticado);
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
 
