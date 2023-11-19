@@ -92,43 +92,31 @@ export class peeService {
 
     async update(pee: pee, id: number) {
         try {
-            const existingPEE = await prisma.pee.findFirst({
+            const updatePEE = await prisma.pee.update({
                 where: {
-                    disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-                    NOT: {
-                        idpee: +id,
-                    },
+                    idpee: id,
                 },
+                data: {
+                    conteudo: pee.conteudo,
+                    metodologia: pee.metodologia,
+                    trabalhos: pee.trabalhos,
+                    bibliografia: pee.bibliografia,
+                    criterios: pee.criterios,
+                    prazofinal: pee.prazofinal,
+                    RED_idRED: pee.RED_idRED,
+                    disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
+                    servidor_idservidor: pee.servidor_idservidor,
+                    percentualabono: pee.percentualabono,
+                    dataEnvioProposta: pee.dataEnvioProposta,
+                    canalComunicacao: pee.canalComunicacao,
+                    houveAvaliacao: pee.houveAvaliacao,
+                    avaliacoesRealizadas: pee.avaliacoesRealizadas,
+                    dataAvaliacao: pee.dataAvaliacao,
+                    observacoes: pee.observacoes
+                }
             });
+            return { ok: true, data: updatePEE }
 
-            if (existingPEE) {
-                return { ok: false, data: 'Esta disciplina com esta sigla já existe' };
-            } else {
-                const updatePEE = await prisma.pee.update({
-                    where: {
-                        idpee: id,
-                    },
-                    data: {
-                        conteudo: pee.conteudo,
-                        metodologia: pee.metodologia,
-                        trabalhos: pee.trabalhos,
-                        bibliografia: pee.bibliografia,
-                        criterios: pee.criterios,
-                        prazofinal: pee.prazofinal,
-                        RED_idRED: pee.RED_idRED,
-                        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-                        servidor_idservidor: pee.servidor_idservidor,
-                        percentualabono: pee.percentualabono,
-                        dataEnvioProposta: pee.dataEnvioProposta,
-                        canalComunicacao: pee.canalComunicacao,
-                        houveAvaliacao: pee.houveAvaliacao,
-                        avaliacoesRealizadas: pee.avaliacoesRealizadas,
-                        dataAvaliacao: pee.dataAvaliacao,
-                        observacoes: pee.observacoes
-                    }
-                });
-                return { ok: true, data: updatePEE }
-            }
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }

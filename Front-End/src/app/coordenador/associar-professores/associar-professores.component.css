@@ -1,0 +1,20 @@
+.container {
+    height: 50rem;
+    width: 70rem;
+}
+
+/* Estilize os campos de entrada de acordo com suas necessidades */
+mat-form-field {
+    width: 100%;
+}
+
+/* Adicione estilos específicos para os rótulos dos campos do formulário se necessário */
+mat-label {
+    font-weight: bold;
+}
+
+/* Estilize os campos de entrada de acordo com suas necessidades */
+input.mat-input {
+    width: 100%;
+    /* Adicione outros estilos de campo de entrada aqui, se necessário */
+}

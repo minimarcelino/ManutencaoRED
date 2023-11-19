@@ -43,14 +43,15 @@ export class AssociarProfessoresComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
-    console.log(this.data);
   }
 
   async findAll() {
     const response = await this.docenteservice.getDocente();
-    this.professores = response.data.professores;
+    this.professores = response.data.servidores;
     this.dataSource = new MatTableDataSource<docente>(this.professores);
     this.dataSource.paginator = this.paginator;
+    console.log(this.professores);
+    console.log(response);
   }
 
   applyFilter(data: Event) {
@@ -75,6 +76,7 @@ export class AssociarProfessoresComponent implements OnInit {
     try {
       for (const item of this.professoresSelecionados) {
         await this.peeservice.updatePee({
+          idpee: this.data.idPEE,
           conteudo: '',
           metodologia: '',
           trabalhos: '',
@@ -83,7 +85,7 @@ export class AssociarProfessoresComponent implements OnInit {
           prazofinal: new Date(),
           RED_idRED: this.data.idRED,
           disciplinas_iddisciplinas: item.iddisciplinas,
-          servidor_idservidor: this.data.servidor_idservidor,
+          servidor_idservidor: this.professoresSelecionados[0].idservidor,
           percentualabono: 0.0,
         });
       }

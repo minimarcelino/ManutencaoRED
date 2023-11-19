@@ -11,24 +11,26 @@ import { DateAdapter } from '@angular/material/core';
 import { red } from 'src/app/modelo/red';
 import { AssociarProfessoresComponent } from '../associar-professores/associar-professores.component';
 import { pee } from 'src/app/modelo/pee';
+import { alunoService } from 'src/app/services/alunos.service';
 @Component({
   selector: 'app-pee',
   templateUrl: './pee.component.html',
   styleUrls: ['./pee.component.css']
 })
 export class PeeComponent implements OnInit {
-  pees: pee[] = [];
+  pees: any[] = [];
+  disciplinas: any[] = [];
   reds: red[] = [];
-  data: any[] = [];
   user: any;
+  alunos: any[] = [];
 
   dataSource: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
-  displayedColumns = ['prazofinal', 'dataEnvioProposta', 'dataAvaliacao', 'Ações'];
+  displayedColumns = ['aluno', 'email', 'disciplina', 'Ações'];
 
   constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog,
-    private peeservice: peeService, private dialog: MatDialog, private _adapter: DateAdapter<any>) { }
+    private peeservice: peeService, private alunoservice: alunoService, private dialog: MatDialog, private _adapter: DateAdapter<any>) { }
 
   ngOnInit() {
     this.findAll()
@@ -56,9 +58,9 @@ export class PeeComponent implements OnInit {
     }
   }
 
-  associarProfessor(red: red) {
+  associarProfessor(pee: pee) {
     const editar = this.dialog.open(AssociarProfessoresComponent, {
-      data: { idRED: red.idRED, servidor_idservidor: red.coordenador }
+      data: { idRED: pee.RED_idRED,idPEE: pee.idpee, servidor_idservidor: pee.servidor_idservidor }
     });
     this.handleDialogConfirm(editar);
   }
