@@ -51,7 +51,7 @@ export class ListarRedComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
 
-  displayedColumns = ['Prontuário', 'Curso', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
+  displayedColumns = ['Nome', 'Curso', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
   constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog, private alunoservice: alunoService,
     private dialog: MatDialog, private redService: redService) {
