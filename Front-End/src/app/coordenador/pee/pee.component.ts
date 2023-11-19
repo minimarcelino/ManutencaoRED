@@ -20,6 +20,7 @@ export class PeeComponent implements OnInit {
   pees: pee[] = [];
   reds: red[] = [];
   data: any[] = [];
+  user: any;
 
   dataSource: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
@@ -31,13 +32,15 @@ export class PeeComponent implements OnInit {
 
   ngOnInit() {
     this.findAll()
+
   }
 
   async findAll() {
     const response = await this.peeservice.getPee();
-    this.pees = response.data.pee;
+    this.pees = response.data.pees;
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
+    console.log(this.pees)
   }
 
   applyFilter(data: Event) {
@@ -55,7 +58,7 @@ export class PeeComponent implements OnInit {
 
   associarProfessor(red: red) {
     const editar = this.dialog.open(AssociarProfessoresComponent, {
-      data: {}
+      data: { idRED: red.idRED, servidor_idservidor: red.coordenador }
     });
     this.handleDialogConfirm(editar);
   }
