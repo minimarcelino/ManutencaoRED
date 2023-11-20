@@ -12,6 +12,7 @@ import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.compo
 import { CadastrarAlunoComponent } from "../cra/alunos/cadastrar/cadastrar.component";
 import { DocenteComponent } from "../csp/docente/docente.component";
 import { AssociarDisciplinaComponent } from "../csp/associar-disciplina/associar-disciplina.component";
+import { PerfilComponent } from "../perfil/perfil.component";
 
 const routes: Routes = [
     {
@@ -56,7 +57,7 @@ const routes: Routes = [
             },
             {
                 path: 'cadastrarCurso',
-                component:  CadastrarCursoComponent
+                component: CadastrarCursoComponent
             },
             ////Rotas dos Alunos
             {
@@ -67,7 +68,11 @@ const routes: Routes = [
                 path: 'cadastrarAluno',
                 component: CadastrarAlunoComponent
             },
-            
+            {
+                path: 'perfil',
+                component: PerfilComponent,
+            },
+
         ]
     },
 ];

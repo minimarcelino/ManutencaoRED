@@ -29,6 +29,7 @@ import { AdministradorComponent } from './administrador/administrador.component'
 import { ProfessorComponent } from './professor/professor.component';
 import { ProfessorModule } from './professor/professor.module';
 import { UsuarioModule } from './usuario-nao-autenticado/usuario.module';
+import { PerfilComponent } from './perfil/perfil.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { UsuarioModule } from './usuario-nao-autenticado/usuario.module';
     CoordenadorComponent,
     AdministradorComponent,
     ProfessorComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,

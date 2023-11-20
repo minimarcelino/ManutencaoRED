@@ -42,7 +42,7 @@ export class EditarDisciplinaComponent implements OnInit {
           iddisciplinas: this.data.iddisciplinas,
           sigla: this.sigla,
           nomeDisciplina: this.nomeDisciplina,
-          curso: this.idcurso
+          curso_idcurso: this.idcurso
 
         });
         this.openSnackBar("Disciplina editada com sucesso!!", null);

@@ -29,6 +29,16 @@ export class servidorService {
     }
   }
 
+  async alterarPerfil(servidor: any): Promise<any> {
+    try {
+      const response = await this.http.put(`${environment.API}/servidor/updatePerfil/${servidor.idservidor}`, servidor, this.authentication.getHttpOptions())
+        .toPromise()
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async exportDisciplina(Disciplina: any): Promise<any>{
     try {
         const response = await this.http.post(`${environment.API}/servidor/coordenador/create`, Disciplina, this.authentication.getHttpOptions())

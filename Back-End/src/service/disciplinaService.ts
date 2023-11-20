@@ -44,7 +44,11 @@ export class disciplinaService{
     async findAll(){
         try {
             const [disciplinas, length] = await Promise.all([
-                prisma.disciplinas.findMany({}),
+                prisma.disciplinas.findMany({
+                    include: {
+                        curso: true,
+                    }
+                }),
                 prisma.disciplinas.count({})
             ]);
 

@@ -5,6 +5,7 @@ import { ProcessoREDComponent } from './processo-red/processo-red.component';
 import { ListarAlunoComponent } from './alunos/listar/listar.component';
 import { CadastrarAlunoComponent } from './alunos/cadastrar/cadastrar.component';
 import { ListarREDComponent } from './processo-red/listar/listar.component';
+import { PerfilComponent } from '../perfil/perfil.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,11 @@ const routes: Routes = [
       {
         path: 'listarRED',
         component: ListarREDComponent
-      }
+      },
+      {
+        path: 'perfil',
+        component: PerfilComponent,
+      },
     ]
   },
 ];

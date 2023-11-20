@@ -65,7 +65,7 @@ export class servidorService {
                     prontuario: servidor.prontuario,
                 }
             });
-    
+
             if (existingServidor) {
                 return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
             }
@@ -73,10 +73,10 @@ export class servidorService {
                 // Gere o hash da senha
                 const salt = await bcrypt.genSalt(10);
                 const senhaHash = await bcrypt.hash(servidor.senha, salt);
-    
+
                 // Substitua a senha em texto simples pela senha hash
                 servidor.senha = senhaHash;
-    
+
                 const createServidor = await prisma.servidor.create({ data: servidor });
                 return { ok: true, data: createServidor };
             }
@@ -114,16 +114,16 @@ export class servidorService {
         try {
             const existingServidor = await prisma.servidor.findFirst({
                 where: {
-                  prontuario: servidor.prontuario,
-                  NOT: {
-                    idservidor: +id,
-                  },
+                    prontuario: servidor.prontuario,
+                    NOT: {
+                        idservidor: +id,
+                    },
                 },
-              });
+            });
 
-              if (existingServidor) {
+            if (existingServidor) {
                 return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
-              } else {
+            } else {
                 const updateServidor = await prisma.servidor.update({
                     where: {
                         idservidor: +id,
@@ -131,7 +131,7 @@ export class servidorService {
                     data: servidor
                 });
                 return { ok: true, data: updateServidor }
-              }
+            }
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
@@ -142,20 +142,20 @@ export class servidorService {
         try {
             const existingServidor = await prisma.servidor.findFirst({
                 where: {
-                  prontuario: servidor.prontuario,
-                  NOT: {
-                    idservidor: +id,
-                  },
+                    prontuario: servidor.prontuario,
+                    NOT: {
+                        idservidor: +id,
+                    },
                 },
-              });
+            });
 
-              if (existingServidor) {
-                return { ok: false, data: 'docente com esse prontuário já existe', duplicateProntuario: servidor.prontuario };
-              } else {
+            if (existingServidor) {
+                return { ok: false, data: 'servidor com esse email já existe', duplicateProntuario: servidor.prontuario };
+            } else {
                 // Gere o hash da senha
                 const salt = await bcrypt.genSalt(10);
                 const senhaHash = await bcrypt.hash(servidor.senha, salt);
-    
+
                 // Substitua a senha em texto simples pela senha hash
                 servidor.senha = senhaHash;
                 const updateServidor = await prisma.servidor.update({
@@ -165,7 +165,7 @@ export class servidorService {
                     data: servidor
                 });
                 return { ok: true, data: updateServidor }
-              }
+            }
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
@@ -192,20 +192,20 @@ export class servidorService {
     async findByIdCoordenador(id: number) {
         try {
             const coordenador = await prisma.servidor.findUnique({
-              where: {
-                idservidor: id
-              }
+                where: {
+                    idservidor: id
+                }
             });
-            
+
             if (coordenador) {
-              return { ok: true, data: coordenador };
+                return { ok: true, data: coordenador };
             } else {
-              return { ok: false, message: 'Coordenador não encontrado' };
+                return { ok: false, message: 'Coordenador não encontrado' };
             }
-          } catch (error) {
+        } catch (error) {
             console.error(error);
             return { ok: false, message: 'Ocorreu um erro ao buscar o coordenador' };
-          }
+        }
     }
 
     async findCoordenador() {
@@ -260,13 +260,13 @@ export class servidorService {
             if (!usuario) {
                 return { ok: false, data: StatusCodes.NOT_FOUND };
             }
-    
+
             // Verifique a senha com bcrypt
             const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
             if (!senhaCorreta) {
                 return { ok: false, data: StatusCodes.UNAUTHORIZED };
             }
-    
+
             return { ok: true, data: usuario };
         } catch (error) {
             console.log(error);

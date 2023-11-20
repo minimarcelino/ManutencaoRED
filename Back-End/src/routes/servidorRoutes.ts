@@ -18,4 +18,5 @@ router.put('/updatePerfil/:id',authentication.validate, servidorcontroller.Updat
 router.post('/login', servidorcontroller.Login);
 router.get('/profile', servidorcontroller.getProfile);
 router.post('/cra/processo-red/create', servidorcontroller.createRED);
+router.put('/updatePerfil/:id',authentication.validate, servidorcontroller.UpdatePerfil);
 export default router;
