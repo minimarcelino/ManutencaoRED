@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { environment } from '../environments/environmente.development';
+import { environment } from '../environments/environment.development'
 import { storageService } from './storage.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';

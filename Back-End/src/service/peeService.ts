@@ -1,6 +1,6 @@
 import { prisma } from "../../prisma/client";
 import { StatusCodes } from "http-status-codes";
-import { pee } from "@prisma/client";
+import { atividades, pee } from "@prisma/client";
 
 export class peeService {
 
@@ -114,6 +114,16 @@ export class peeService {
         }
     }
 
+    async createAtividade(atividade: atividades) {
+        try {
+            const createAtividade = await prisma.atividades.create({ data: atividade});
+            return { ok: true, data: createAtividade };
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+        }
+    }
+
     async update(pee: pee, id: number) {
         try {
             const updatePEE = await prisma.pee.update({
@@ -147,6 +157,32 @@ export class peeService {
         }
     }
 
+    async updateAtividade(atividade: atividades, id: number) {
+        try {
+            const updateAtividade = await prisma.atividades.update({
+                where: {
+                    idatividades_pee_idpee: {
+                      idatividades: +id,
+                      pee_idpee: atividade.pee_idpee
+                    }
+                },
+                data: {
+                    descricao: atividade.descricao,
+                    prazoatividade: atividade.prazoatividade,
+                    pee_idpee: atividade.pee_idpee,
+                    dateEntregaAluno: atividade.dateEntregaAluno,
+                    cumpriuAtividade: atividade.cumpriuAtividade,
+                    novaAtividade: atividade.novaAtividade,
+                }
+            });
+            return { ok: true, data: updateAtividade }
+
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+        }
+    }
+
     async delete(id: number) {
         try {
             const deletePEE = await prisma.pee.delete({
@@ -160,4 +196,21 @@ export class peeService {
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
+
+    async deleteAtividade(id: number, peeId: number) {
+        try {
+          const deleteAtividade = await prisma.atividades.delete({
+            where: {
+              idatividades_pee_idpee: {
+                idatividades: id,
+                pee_idpee: peeId,
+              },
+            },
+          });
+          return { ok: true, data: deleteAtividade };
+        } catch (error) {
+          console.log(error);
+          return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+        }
+      }
 }

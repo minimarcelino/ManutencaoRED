@@ -25,7 +25,7 @@
 
             <!-- ProntuarioColumn -->
             <ng-container matColumnDef="prontuario">
-                <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+                <th mat-header-cell *matHeaderCellDef> ProntuÃ¡rio </th>
                 <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
             </ng-container>
 
@@ -35,17 +35,10 @@
                 <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
             </ng-container>
 
-            <!-- Outras colunas aqui, se necessário -->
-            <ng-container matColumnDef="acoes">
-                <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-                <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button matTooltip="Adicionar Pee" (click)="adicionarPee(a)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
-                        <mat-icon>star</mat-icon>
-                    </button>
-                </td>
+            <!-- PercentualAbonoColumn -->
+            <ng-container matColumnDef="abono">
+                <th mat-header-cell *matHeaderCellDef> Percentual de abono </th>
+                <td mat-cell *matCellDef="let a"> {{a.percentualabono}}% </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-
+import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,18 +18,23 @@ import { ListarPeesComponent } from './listar/listar.component';
 import { CadastrarPeeComponent } from './cadastrar-pee/cadastrar-pee.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { AbonarFaltaComponent } from './abonar-faltas/abonar-faltas.component';
+import { PeesAbonadosComponent } from './pees-abonados/pees-abonados.component';
 
 
 @NgModule({
     declarations: [
       ListarPeesComponent,
-      CadastrarPeeComponent
+      CadastrarPeeComponent,
+      AbonarFaltaComponent,
+      PeesAbonadosComponent
   ],
     imports: [
       CommonModule,
       MatIconModule,
       ReactiveFormsModule,
       FormsModule,
+      MatRadioModule,
       MatFormFieldModule,
       MatInputModule,
       MatAutocompleteModule,

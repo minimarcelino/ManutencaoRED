@@ -23,7 +23,7 @@ model aluno {
 }
 
 model atividades {
-  idatividades     Int
+  idatividades     Int       @default(autoincrement())
   descricao        String    @db.VarChar(100)
   prazoatividade   DateTime  @db.Date
   pee_idpee        Int

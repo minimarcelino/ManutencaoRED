@@ -7,6 +7,7 @@ import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { peeService } from 'src/app/services/pee.service';
 import { CadastrarPeeComponent } from '../cadastrar-pee/cadastrar-pee.component';
+import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
 
 @Component({
   selector: 'app-listar',
@@ -35,10 +36,25 @@ export class ListarPeesComponent implements OnInit {
     const response = await this.peeService.getPee();
     this.pees = response.data.pees;
     this.pees = this.pees.filter(pee => pee.servidor_idservidor == this.user.idservidor);
+    this.pees = this.pees.filter(pee => pee.percentualabono == 0);
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
   }
+
+  abonarFalta(pee: any){
+    const editar = this.dialog.open(AbonarFaltaComponent, {
+      data: {
+        idpee: pee.idpee, RED_idRED: pee.RED_idRED, disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas, servidor_idservidor: pee.servidor_idservidor,
+        percentualabono: pee.percentualabono, aluno_prontuario: pee.red.aluno.prontuario, nome_aluno: pee.red.aluno.nome, prazofinal: pee.prazofinal, conteudo: pee.conteudo,
+        metodologia: pee.metodologia, trabalhos: pee.trabalhos, bibliografia: pee.bibliografia, criterios: pee.criterios, dataEnvioProposta: pee.dataEnvioProposta,
+        canalComunicacao: pee.canalComunicacao, houveAvaliacao: pee.houveAvaliacao, avaliacoesRealizadas: pee.avaliacoesRealizadas, dataAvaliacao: pee.dataAvaliacao,
+        observacao: pee.observacao, 
+      }
+    });
+    this.handleDialogConfirm(editar);
+  }
+
 
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
@@ -60,4 +76,6 @@ export class ListarPeesComponent implements OnInit {
       this.findAll();
     });
   }
+
+
 }
