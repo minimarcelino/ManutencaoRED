@@ -10,14 +10,13 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
     </mat-form-field>
 
-   <!-- <mat-form-field>
-      <mat-label> Filtrar por cursos</mat-label>
-      <mat-select (selectionChange)="filterByCurso($event)">
-        <mat-option *ngFor="let a of reds" [value]="a.aluno.curso.sigla">
-          {{a.aluno.curso.sigla}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
+    <mat-form-field>
+      <mat-label>Curso</mat-label>
+     <mat-select [(value)]="selectedCurso" (selectionChange)="filterByCurso($event)">
+  <mat-option value="">Todos os cursos</mat-option>
+  <mat-option *ngFor="let a of reds" [value]="a.aluno.curso.sigla">{{a.aluno.curso.sigla}}</mat-option>
+</mat-select>
+    </mat-form-field>
     <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- Prontuario Column -->
       <ng-container matColumnDef="Nome">
