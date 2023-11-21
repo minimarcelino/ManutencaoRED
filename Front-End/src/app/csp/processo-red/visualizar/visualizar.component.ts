@@ -17,29 +17,29 @@ import { storageService } from 'src/app/services/storage.service';
   templateUrl: './visualizar.component.html',
   styleUrls: ['./visualizar.component.css']
 })
-export class VisualizarRedComponent implements OnInit{
+export class VisualizarRedComponent implements OnInit {
 
   pee: any[] = [];
   dataSource: any;
-  @ViewChild(MatPaginator) paginator !:MatPaginator;
+  @ViewChild(MatPaginator) paginator !: MatPaginator;
 
-  displayedColumns = ['Disciplina', 'Professor', 'Pee', 'Comunicacao', 'DataLimite', 'DataEncaminhamento', 'Cumprimento', 'NovaProposta', 'AtividadeAvaliativa', 
-                      'AtividadeAvaliativaRealizadas', 'DataAvaliacao'];
+  displayedColumns = ['Disciplina', 'Professor', 'Pee', 'Comunicacao', 'DataLimite', 'DataEncaminhamento', 'Cumprimento', 'NovaProposta', 'AtividadeAvaliativa',
+    'AtividadeAvaliativaRealizadas', 'DataAvaliacao'];
 
   constructor(private http: HttpClient, private router: Router, public dialogQuestionService: messageDialog,
-              private dialog: MatDialogRef<VisualizarRedComponent>, private storage: storageService, @Inject(MAT_DIALOG_DATA) public data: any, 
-              private peeservice: peeService, private snackBar: MatSnackBar, private disciplinaservice: disciplinaService, private servidorservice: servidorService) {}
+    private dialog: MatDialogRef<VisualizarRedComponent>, private storage: storageService, @Inject(MAT_DIALOG_DATA) public data: any,
+    private peeservice: peeService, private snackBar: MatSnackBar, private disciplinaservice: disciplinaService, private servidorservice: servidorService) { }
 
   ngOnInit() {
     this.findAll();
   }
 
-  async findAll(){
+  async findAll() {
     const pees = await this.peeservice.getPee();
     this.pee = pees.data.pees;
-    this.dataSource = new MatTableDataSource<any>(this.pee);
-    this.dataSource.paginator=this.paginator;
     this.pee = this.pee.filter(pee => pee.RED_idRED === this.data.idRED);
+    this.dataSource = new MatTableDataSource<any>(this.pee);
+    this.dataSource.paginator = this.paginator;
     console.log(this.pee);
   }
 
@@ -47,7 +47,7 @@ export class VisualizarRedComponent implements OnInit{
     if (Data) {
       return formatDate(Data, 'dd/MM/yyyy', 'en-US', 'UTC');
     } else {
-      return ''; 
+      return '';
     }
   }
 }

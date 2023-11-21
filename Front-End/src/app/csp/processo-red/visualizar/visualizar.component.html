@@ -32,22 +32,24 @@
 
             <ng-container matColumnDef="DataLimite">
                 <th mat-header-cell *matHeaderCellDef> Data limite do encaminhamento para o aluno </th>
-                <td mat-cell *matCellDef="let a"> {{formatData(a.atividades.prazoatividade)}} </td>
+                <td mat-cell *matCellDef="let a"> {{formatData(a.prazofinal)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="DataEncaminhamento">
                 <th mat-header-cell *matHeaderCellDef> Data do encaminhamento do aluno </th>
-                <td mat-cell *matCellDef="let a"> {{formatData(a.atividades.dateEntregaAluno)}} </td>
-            </ng-container>
+                <td mat-cell *matCellDef="let a">
+                    {{ (a.atividades[0] && a.atividades[0].dateEntregaAluno) ? formatData(a.atividades[0].dateEntregaAluno) : '' }}
+                </td>
+            </ng-container>                    
 
             <ng-container matColumnDef="Cumprimento">
                 <th mat-header-cell *matHeaderCellDef> Aluno cumpriu as atividade </th>
-                <td mat-cell *matCellDef="let a"> {{a.atividades.cumpriuAtividade}} </td>
+                <td mat-cell *matCellDef="let a"> {{(a.atividades[0] && a.atividades[0].cumpriuAtividade) ? a.atividades[0].dateEntregaAluno : '' }} </td>
             </ng-container>
 
             <ng-container matColumnDef="NovaProposta">
                 <th mat-header-cell *matHeaderCellDef> Se não, houve uma nova proposta </th>
-                <td mat-cell *matCellDef="let a"> {{a.atividades.novaAtividade}} </td>
+                <td mat-cell *matCellDef="let a"> {{(a.atividades[0] &&a.atividades[0].novaAtividade) ? a.atividades[0].novaAtividade : ''}} </td>
             </ng-container>
 
             <ng-container matColumnDef="AtividadeAvaliativa">
