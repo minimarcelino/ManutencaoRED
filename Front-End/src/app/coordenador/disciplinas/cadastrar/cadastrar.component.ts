@@ -79,7 +79,7 @@ export class CadastrarDisciplinaComponent implements OnInit{
   }
 
   displayFn(Curso: any): string {
-    return Curso && Curso.nomecurso;
+    return Curso && Curso.nomeCurso;
   }
 
   async fetchCurso(){
