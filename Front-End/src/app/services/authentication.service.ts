@@ -74,7 +74,7 @@ export class authenticationService implements OnInit {
   async login(usuario: { email: string; senha: string; }): Promise<boolean> {
     if (usuario) {
       return this.http
-        .post<boolean>(`${environment.API}/servidor/login`, usuario)
+        .post<boolean>(`${environment.API}/login`, usuario)
         .toPromise()
         .then((resultado: any) => {
           this.token = resultado.token;
