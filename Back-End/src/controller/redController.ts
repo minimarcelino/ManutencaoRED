@@ -47,4 +47,5 @@ export class redController {
         const response = await redservice.findById(id);
         return response;
     }
+
 }

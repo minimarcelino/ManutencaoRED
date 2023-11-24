@@ -20,6 +20,16 @@ export class peeService {
         }
     }
 
+    async getPeeRED(id: number): Promise<any> {
+        try {
+            const response = await this.http.get(`${environment.API}/pee/${id}`, this.authentication.getHttpOptions())
+                .toPromise();
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async createPee(pee: any): Promise<any> {
         try {
             const response = await this.http.post(`${environment.API}/pee/create`, pee, this.authentication.getHttpOptions())

@@ -40,6 +40,15 @@ export class peeController {
         }
     }
 
+    async getByIdRED(req: Request, res: Response) {
+        const response = await peeservice.findByIdRED(Number(req.params.id));
+        if (response.ok) {
+            return res.status(StatusCodes.OK).send(response);
+        } else {
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
     async Create(req: Request, res: Response) {
         const response = await peeservice.create(req.body);
         if (response.ok) {

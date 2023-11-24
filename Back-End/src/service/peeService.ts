@@ -213,4 +213,28 @@ export class peeService {
           return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
       }
+
+      async findByIdRED(id: number) {
+        try {
+            const [pees] = await Promise.all([
+                prisma.pee.findMany({
+                    where: {
+                        RED_idRED: +id
+                    },
+                    include: {
+                        disciplinas: true,
+                        atividades: true,
+                    }
+                })
+            ]);
+
+            const data = {
+                pees
+            };
+            return { ok: true, data: data };
+        } catch (error) {
+            console.log(error);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+        }
+    }
 }

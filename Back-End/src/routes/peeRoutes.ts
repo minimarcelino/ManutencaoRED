@@ -14,5 +14,6 @@ router.put('/updateAtividade/:id', authentication.validate, peecontroller.Update
 router.put('/updateWithEmail/:id', authentication.validate, peecontroller.UpdateWithEmail);
 router.delete('/delete/:id', authentication.validate, peecontroller.Delete);
 router.delete('/deleteAtividade/:id/:idpee', authentication.validate, peecontroller.DeleteAtividade);
+router.get('/:id', authentication.validate, peecontroller.getByIdRED);
 
 export default router;
