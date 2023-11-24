@@ -69,7 +69,7 @@ export class authenticationService {
 
   async login(usuario: { prontuario: string; senha: string }): Promise<boolean> {
     try {
-      const resultado: any = await this.http.post<boolean>(`${environment.API}/servidor/login`, usuario).toPromise();
+      const resultado: any = await this.http.post<boolean>(`${environment.API}/login`, usuario).toPromise();
       this.saveTokenToStorage(resultado.token);
       this.session.setSession(resultado.data);
       return true;

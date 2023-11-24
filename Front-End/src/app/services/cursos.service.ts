@@ -54,7 +54,7 @@ export class cursoService{
 
     async getCoordenador(): Promise<any>{
         try {
-            const response = await this.http.get(`${environment.API}/servidor/all`, this.authentication.getHttpOptions())
+            const response = await this.http.get(`${environment.API}/all`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
@@ -64,7 +64,7 @@ export class cursoService{
 
     async getCoordenadorById(id: number): Promise<any>{
         try {
-            const response = await this.http.get(`${environment.API}/servidor/${id}`, this.authentication.getHttpOptions())
+            const response = await this.http.get(`${environment.API}/${id}`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {

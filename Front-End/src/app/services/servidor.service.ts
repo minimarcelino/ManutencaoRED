@@ -11,7 +11,7 @@ export class servidorService {
   constructor(private http: HttpClient, private authentication: authenticationService) { }
   async createRED(red: any): Promise<any> {
     try {
-      const response = await this.http.post(`${environment.API}/servidor/cra/processo-red/create`, red, this.authentication.getHttpOptions())
+      const response = await this.http.post(`${environment.API}/cra/processo-red/create`, red, this.authentication.getHttpOptions())
         .toPromise()
       return response;
     } catch (error) {
@@ -21,7 +21,7 @@ export class servidorService {
 
   async exportProfessor(Professor: any): Promise<any>{
     try {
-        const response = await this.http.post(`${environment.API}/servidor/create`, Professor, this.authentication.getHttpOptions())
+        const response = await this.http.post(`${environment.API}/create`, Professor, this.authentication.getHttpOptions())
         .toPromise()
         return response;
     } catch (error) {
@@ -31,7 +31,7 @@ export class servidorService {
 
   async alterarPerfil(servidor: any): Promise<any> {
     try {
-      const response = await this.http.put(`${environment.API}/servidor/updatePerfil/${servidor.idservidor}`, servidor, this.authentication.getHttpOptions())
+      const response = await this.http.put(`${environment.API}/updatePerfil/${servidor.idservidor}`, servidor, this.authentication.getHttpOptions())
         .toPromise()
       return response;
     } catch (error) {
@@ -41,7 +41,7 @@ export class servidorService {
 
   async exportDisciplina(Disciplina: any): Promise<any>{
     try {
-        const response = await this.http.post(`${environment.API}/servidor/coordenador/create`, Disciplina, this.authentication.getHttpOptions())
+        const response = await this.http.post(`${environment.API}/coordenador/create`, Disciplina, this.authentication.getHttpOptions())
         .toPromise()
         return response;
     } catch (error) {
