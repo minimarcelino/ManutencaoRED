@@ -50,8 +50,6 @@ export class AssociarProfessoresComponent implements OnInit {
     this.professores = response.data.servidores;
     this.dataSource = new MatTableDataSource<docente>(this.professores);
     this.dataSource.paginator = this.paginator;
-    console.log(this.professores);
-    console.log(response);
   }
 
   applyFilter(data: Event) {

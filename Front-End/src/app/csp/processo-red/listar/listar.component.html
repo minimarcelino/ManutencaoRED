@@ -43,13 +43,13 @@
             <ng-container matColumnDef="acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
+                    <button *ngIf="a.situacao === 'Em andamento'" mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
                         <mat-icon>book</mat-icon>
                     </button>
                     <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
                         <mat-icon>visibility</mat-icon>
                       </button>
-                      <button mat-icon-button matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
+                      <button *ngIf="a.situacao === 'Finalizado'" mat-icon-button matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
                         <mat-icon>description</mat-icon>
                       </button>
                   </td>

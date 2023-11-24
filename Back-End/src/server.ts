@@ -21,13 +21,13 @@ const corsOptions = {
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.use('/aluno', alunoRoutes);
+app.use('/servidor/aluno', alunoRoutes);
 app.use('/servidor', servidorRoutes);
-app.use('/curso', cursoRoutes);
-app.use('/red', redRoutes);
-app.use('/disciplina',disciplinaRoutes);
-app.use('/pee', peeRoutes);
-app.use('/usuario', usuarioNaoAutenticado);
+app.use('/servidor/curso', cursoRoutes);
+app.use('/servidor/red', redRoutes);
+app.use('/servidor/disciplina',disciplinaRoutes);
+app.use('/servidor/pee', peeRoutes);
+app.use('/servidor/usuario', usuarioNaoAutenticado);
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
 

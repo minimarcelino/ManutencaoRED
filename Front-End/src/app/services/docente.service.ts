@@ -12,7 +12,7 @@ export class docenteService {
 
     async getDocente(): Promise<any>{
         try {
-            const response = await this.http.get(`${environment.API}/servidor/all`, this.authentication.getHttpOptions())
+            const response = await this.http.get(`${environment.API}/all`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
@@ -22,7 +22,7 @@ export class docenteService {
 
     async createDocente(docente: any): Promise<any>{
         try {
-            const response = await this.http.post(`${environment.API}/servidor/create`, docente, this.authentication.getHttpOptions())
+            const response = await this.http.post(`${environment.API}/create`, docente, this.authentication.getHttpOptions())
             .toPromise()
             return response;
         } catch (error) {
@@ -32,7 +32,7 @@ export class docenteService {
 
     async updateDocente(docente: any): Promise<any>{
         try {
-            const response = await this.http.put(`${environment.API}/servidor/update/${docente.idservidor}`, docente, this.authentication.getHttpOptions())
+            const response = await this.http.put(`${environment.API}/update/${docente.idservidor}`, docente, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
@@ -42,7 +42,7 @@ export class docenteService {
 
     async deleteDocente(id: number): Promise<any>{
         try {
-            const response = await this.http.delete(`${environment.API}/servidor/delete/${id}`, this.authentication.getHttpOptions())
+            const response = await this.http.delete(`${environment.API}/delete/${id}`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {

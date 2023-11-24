@@ -95,19 +95,8 @@ export class peeService {
 
     async create(pee: pee) {
         try {
-            const existingPEE = await prisma.pee.findFirst({
-                where: {
-                    disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas
-                },
-            });
-
-            if (existingPEE) {
-                return { ok: false, data: 'Este PEE com esta disciplina já existe' };
-            }
-            else {
-                const createPEE = await prisma.pee.create({ data: pee });
-                return { ok: true, data: createPEE };
-            }
+            const createPEE = await prisma.pee.create({ data: pee });
+            return { ok: true, data: createPEE };
         } catch (error) {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }

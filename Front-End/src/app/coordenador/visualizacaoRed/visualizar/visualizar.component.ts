@@ -24,6 +24,7 @@ export class VisualizarComponent implements OnInit{
   inputCurso: any = '';
   filtredCursos: any[] = [];
   isDisable: boolean = false;
+  button: boolean = true;
 
   constructor (private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog, private redService: redService,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<VisualizarComponent>, private _adapter: DateAdapter<any>, 
@@ -43,6 +44,11 @@ export class VisualizarComponent implements OnInit{
       this.user = localStorage.getItem("user");
       this.user = JSON.parse(this.user);
       this.fetchAlunos();
+      if (this.data.situacao === 'Finalizado') {
+        this.button = false;
+      } else {
+        this.button = true;
+      }
     }
 
   async updateRed(situacao: String) {

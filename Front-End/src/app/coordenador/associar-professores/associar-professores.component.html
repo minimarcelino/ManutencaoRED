@@ -36,10 +36,6 @@
             <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
         </div>
         <div id="tabela">
-            <mat-form-field>
-                <mat-label>Pesquisar Professor</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Andre Luis">
-            </mat-form-field>
             <table appearance="outline" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" matSort>
 
                 <ng-container matColumnDef="nome">

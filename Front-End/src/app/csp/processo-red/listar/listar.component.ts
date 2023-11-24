@@ -43,7 +43,7 @@ export class ListarRedComponent implements OnInit {
     try {
       const response = await this.redservice.getRed();
       this.reds = response.data.reds;
-      this.reds = this.reds.filter(red => red.situacao === "Em andamento");
+      this.reds = this.reds.filter(red => red.situacao === "Em andamento"  || red.situacao === "Finalizado");
       this.dataSource = new MatTableDataSource<red>(this.reds);   
       
     } catch (error) {
