@@ -10,6 +10,7 @@ import { ListarCursosComponent } from "../csp/cursos/listar/listar.component";
 import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.component";
 import { PeeComponent } from "./pee/pee.component";
 import { PerfilComponent } from "../perfil/perfil.component";
+import { ListarPeesComponent } from "../professor/listar/listar.component";
 
 const routes: Routes = [
     {
@@ -51,6 +52,10 @@ const routes: Routes = [
             {
                 path: 'perfil',
                 component: PerfilComponent,
+            },
+            {
+                path: 'listarMeusPees',
+                component: ListarPeesComponent,
             },
         ]
 

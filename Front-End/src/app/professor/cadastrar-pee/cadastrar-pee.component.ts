@@ -45,10 +45,18 @@ export class CadastrarPeeComponent implements OnInit {
   }
 
   async submit() {
+    const dataAtual = new Date();
+    const prazoSelecionado = new Date(this.prazo);
     if (this.cadastrarPee.invalid || this.isSubmitting) {
       this.openSnackBar("Campos Obrigatórios", null);
       return;
-    } else {
+    }
+    if (prazoSelecionado < dataAtual) {
+      this.openSnackBar("A data deve ser posterior à data atual", null);
+      return;
+    }
+    else {
+      console.log('entrou aqui 2');
       this.isSubmitting = true;
       try {
         await this.peeservice.updateWithEmail({
