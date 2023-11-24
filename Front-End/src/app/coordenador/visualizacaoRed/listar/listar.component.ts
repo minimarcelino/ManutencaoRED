@@ -127,6 +127,35 @@ export class ListarRedComponent implements OnInit {
     }
   }
 
+
+  async finalizarProcessoPermanent(red: any) {
+    try {
+      let response = await this.redService.updateRed({
+        idRED: red.idRED,
+        situacao: 'Finalizado',
+      });
+      if (response) {
+        this.openSnackBar("RED finalizado com sucesso!!", null);
+        this.findAll();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar("Falha ao finalizar RED", errorMessage);
+      } else {
+        this.openSnackBar("Falha ao finalizar RED", "Ocorreu um erro durante a finalização do RED.");
+      }
+    }
+  }
+
+  async finalizarRed(red: any) {
+    let res = false;
+    res = await this.dialogQuestionService.openDialogConfirmDone('red');
+    if (res) {
+      await this.finalizarProcessoPermanent(red);
+    }
+  }
+
   visualizarRed(red: any) {
     console.log(red);
     const visualizar = this.dialog.open(VisualizarComponent, {
@@ -143,6 +172,22 @@ export class ListarRedComponent implements OnInit {
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
       this.findAll();
+    });
+  }
+
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
     });
   }
 

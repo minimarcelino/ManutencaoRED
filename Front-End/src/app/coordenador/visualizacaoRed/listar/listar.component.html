@@ -60,6 +60,9 @@
           <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
             <mat-icon>visibility</mat-icon>
           </button>
+          <button *ngIf="a.situacao === 'Em andamento'" mat-icon-button matTooltip="Finalizar RED" (click)="finalizarRed(a)">
+            <mat-icon>done</mat-icon>
+          </button>          
         </td>
       </ng-container>
 

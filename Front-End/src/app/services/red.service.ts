@@ -32,6 +32,7 @@ export class redService {
 
     async updateRed(red: any): Promise<any>{
         try {
+            console.log(red);
             const response = await this.http.put(`${environment.API}/red/update/${red.idRED}`, red, this.authentication.getHttpOptions())
             .toPromise();
             return response;
