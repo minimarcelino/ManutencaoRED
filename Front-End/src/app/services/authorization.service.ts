@@ -41,7 +41,8 @@ import { authenticationService } from './authentication.service';
                                                         currentRoute === '/coordenador/listarRed' ||
                                                         currentRoute === '/coordenador/cadastrarDisciplina' ||
                                                         currentRoute === '/coordenador/listarPee' ||
-                                                        currentRoute === '/coordenador/perfil')) {
+                                                        currentRoute === '/coordenador/perfil' ||
+                                                        currentRoute === '/coordenador/listarMeusPees')) {
                 return true;
               } else if (userAccessLevel === 'cra' && (currentRoute === '/cra' || 
                                                        currentRoute === '/cra/processo-red' ||

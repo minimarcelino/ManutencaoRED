@@ -56,7 +56,6 @@ export class CadastrarPeeComponent implements OnInit {
       return;
     }
     else {
-      console.log('entrou aqui 2');
       this.isSubmitting = true;
       try {
         await this.peeservice.updateWithEmail({
