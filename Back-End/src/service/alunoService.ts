@@ -4,43 +4,6 @@ import { StatusCodes } from 'http-status-codes';
 
 export class alunoService {
 
-    async findMany(search: string, page: number, perPage: number, orderBy: string) {
-        try {
-            let skip: number = (Number(page) - 1) * Number(perPage);
-            const [alunos, length] = await Promise.all([
-                prisma.aluno.findMany({
-                    where: {
-                        nome: {
-                            contains: String(search),
-                        },
-                    },
-                    take: Number(perPage),
-                    skip: skip,
-                    //@ts-ignore
-                    orderBy: {
-                        nome: String(orderBy),
-                    },
-                }),
-                prisma.aluno.count({
-                    where: {
-                        nome: {
-                            contains: String(search),
-                        },
-                    },
-                }),
-            ]);
-
-            const data = {
-                alunos,
-                length,
-            };
-            return { ok: true, data: data };
-        } catch (error) {
-            console.log(error);
-            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-        }
-    }
-
     async findAll() {
         try {
             const [alunos, length] = await Promise.all([

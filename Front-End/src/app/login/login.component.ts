@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', Validators.required),
+      prontuario: new FormControl('', Validators.required),
       senha: new FormControl('', Validators.required),
     });
   }
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       this.snackBar.open('Por favor, preencha todos os campos!', '', { duration: 3000 });
       return;
     } else {
-      this.logging = await this.authentication.login({ email: this.email, senha: this.senha });
+      this.logging = await this.authentication.login({ prontuario: this.prontuario, senha: this.senha });
       if (this.logging) {
         this.user = localStorage.getItem("user");
         if (this.user != null) {
@@ -67,8 +67,8 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-  get email() {
-    return this.loginForm.get('email')!.value;
+  get prontuario() {
+    return this.loginForm.get('prontuario')!.value;
   }
 
   get senha() {

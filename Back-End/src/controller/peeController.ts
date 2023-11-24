@@ -123,7 +123,7 @@ export class peeController {
                         const texto = `
                         As atividades do professor foram enviadas. 👍
 
-                        Por favor, clique aqui: http://localhost:4200/usuario/${req.params.id} para ser redirecionado à página do exercício.
+                        Por favor, clique aqui: http://red.pep2.ifsp.edu.br/usuario/${req.params.id} para ser redirecionado à página do exercício.
 
                         Atenciosamente,
 

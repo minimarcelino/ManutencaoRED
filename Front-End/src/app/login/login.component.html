@@ -7,11 +7,11 @@
             </div>
             <div class="fields">
                 <mat-form-field appearance="fill">
-                    <mat-label>Email</mat-label>
-                    <input matInput name="email" formControlName="email" required/>
+                    <mat-label>Prontuário</mat-label>
+                    <input matInput name="prontuario" formControlName="prontuario" required/>
                     <mat-icon matSuffix>email</mat-icon>
-                    <div *ngIf="email.invalid && formDir.submitted" class="validation">
-                        <p>O Email é obrigatório!</p>
+                    <div *ngIf="prontuario.invalid && formDir.submitted" class="validation">
+                        <p>O Prontuário é obrigatório!</p>
                     </div>
                 </mat-form-field>
                 <mat-form-field appearance="fill">

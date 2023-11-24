@@ -69,15 +69,21 @@
                 <input matInput name="comunicacao" formControlName="comunicacao" />
             </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>Houve avaliação</mat-label>
-                <input matInput name="avaliacao" formControlName="avaliacao" />
-            </mat-form-field>
+            <div>
+                <p>Houve avaliação</p>
+                <mat-radio-group formControlName="avaliacao" class="example-radio-group">
+                    <mat-radio-button value="S">Sim</mat-radio-button>
+                    <mat-radio-button value="N">Não</mat-radio-button>
+                </mat-radio-group>
+            </div>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>Caso tenha, já foi realizada</mat-label>
-                <input matInput name="avaliacaoRealizada" formControlName="avaliacaoRealizada" />
-            </mat-form-field>
+            <div>
+                <p>Caso tenha, ja foi realizada ?</p>
+                <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
+                    <mat-radio-button value="S">Sim</mat-radio-button>
+                    <mat-radio-button value="N">Não</mat-radio-button>
+                </mat-radio-group>
+            </div>
 
             <mat-form-field class="example-full-width">
                 <mat-label>Data da nova avalição caso teve</mat-label>

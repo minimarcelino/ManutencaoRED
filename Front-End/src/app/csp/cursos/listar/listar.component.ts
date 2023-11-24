@@ -69,10 +69,17 @@ export class ListarCursosComponent implements OnInit{
       try {
         let response = await this.cursoservice.deleteCurso(id);
         if (response) {
+          this.openSnackBar("Curso deletado com sucesso!!", null);
           this.findAll();
         }
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        if (error && error.error && error.error.data) {
+          console.log(error.error.data);
+          const errorMessage = error.error.data;
+          this.openSnackBar("Falha ao deletar curso", errorMessage);
+        } else {
+          this.openSnackBar("Falha ao deletar curso", "Ocorreu um erro durante a remoção do curso.");
+        }
       }
     }
   

@@ -250,11 +250,11 @@ export class servidorService {
         }
     }
 
-    async findLogin(email: string, senha: string) {
+    async findLogin(prontuario: string, senha: string) {
         try {
             const usuario = await prisma.servidor.findUnique({
                 where: {
-                    email: email
+                    prontuario: prontuario
                 },
             })
             if (!usuario) {

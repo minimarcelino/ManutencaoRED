@@ -6,16 +6,6 @@ const alunoservice = new alunoService();
 const jwt = require("jsonwebtoken");
 
 export class alunoController {
-        async getAlunos(req: Request, res: Response){
-            const { search, page, perPage, orderBy} = req.query;
-            const response = await alunoservice.findMany(String(search), Number(page),
-            Number(perPage), String(orderBy));
-            if(response.ok){
-                return res.status(StatusCodes.OK).send(response);
-            } else {
-                return res.status(StatusCodes.BAD_REQUEST).send(response);
-            }
-        }
 
         async getAll(req: Request, res: Response){
             const response = await alunoservice.findAll();      

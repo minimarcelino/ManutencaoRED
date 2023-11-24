@@ -6,7 +6,6 @@ const router = express.Router();
 const authentication = new AuthenticationService();
 const alunocontroller =  new alunoController();
 
-router.get('/', authentication.validate, alunocontroller.getAlunos);
 router.get('/all', alunocontroller.getAll);
 router.post('/create', alunocontroller.Create);
 router.put('/update/:id',authentication.validate,  alunocontroller.Update);

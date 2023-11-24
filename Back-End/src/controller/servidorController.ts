@@ -103,11 +103,11 @@ export class servidorController {
     }
 
     async Login(req: Request, res: Response) {
-        const { email, senha, tipo } = req.body;
-        const response = await servidorservice.findLogin(email, senha);
+        const { prontuario, senha, tipo } = req.body;
+        const response = await servidorservice.findLogin(prontuario, senha);
         if (response.ok) {
             const payload = {
-                userEmail: email,
+                prontuario: prontuario,
                 type: tipo,
                 lastActivity: Math.floor(Date.now() / 1000)
             }

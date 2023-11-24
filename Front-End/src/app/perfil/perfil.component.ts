@@ -21,7 +21,6 @@ export class PerfilComponent implements OnInit{
 
   ngOnInit(): void {
     this.alterarPerfil = new FormGroup({
-      email: new FormControl('', [Validators.required]),
       senha: new FormControl('', [Validators.required]),
     });
     this.user = localStorage.getItem("user");
@@ -38,7 +37,7 @@ export class PerfilComponent implements OnInit{
       try {
         await this.servidorservice.alterarPerfil({
           idservidor: this.user.idservidor,
-          email: this.email,
+          email: this.user.email,
           senha: this.senha,
           tiposervidor: this.user.tiposervidor,
           nome: this.user.nome,
@@ -77,9 +76,6 @@ export class PerfilComponent implements OnInit{
     });
   }
 
-  get email() {
-    return this.alterarPerfil.get('email')!.value;
-  }
 
   get senha() {
     return this.alterarPerfil.get('senha')!.value;

@@ -121,7 +121,7 @@ export class cursoService{
             return {ok: true, data: deleteCurso};
         } catch (error) {
             console.log(error);
-            return {ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR}
+            return {ok: false, data: "Tem aluno presente neste curso."}
         }
     }
 

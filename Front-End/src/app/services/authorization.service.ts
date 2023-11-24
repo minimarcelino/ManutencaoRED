@@ -34,17 +34,29 @@ import { authenticationService } from './authentication.service';
               // Verifique o nível de acesso e a rota atual
               if (userAccessLevel === 'coordenador' && (currentRoute === '/coordenador' || 
                                                         currentRoute === '/coordenador/discipinas' || 
-                                                        currentRoute === '/coordenador/cadastrarDisciplina')) {
+                                                        currentRoute === '/coordenador/listarCurso' ||
+                                                        currentRoute === '/coordenador/cadastrarCurso' ||
+                                                        currentRoute === '/coordenador/cadastrar' ||
+                                                        currentRoute === '/coordenador/listar' ||
+                                                        currentRoute === '/coordenador/listarRed' ||
+                                                        currentRoute === '/coordenador/cadastrarDisciplina' ||
+                                                        currentRoute === '/coordenador/listarPee' ||
+                                                        currentRoute === '/coordenador/perfil')) {
                 return true;
               } else if (userAccessLevel === 'cra' && (currentRoute === '/cra' || 
                                                        currentRoute === '/cra/processo-red' ||
                                                        currentRoute === '/cra/listar' ||
                                                        currentRoute === '/cra/cadastrar'||
-                                                       currentRoute === '/cra/listarRed')) {
+                                                       currentRoute === '/cra/listarRed' ||
+                                                       currentRoute === '/cra/perfil')) {
                 return true;
               } else if (userAccessLevel === 'csp' && (currentRoute === '/csp' || 
                                                        currentRoute === '/csp/listar' || 
-                                                       currentRoute === '/csp/cadastrar')) {
+                                                       currentRoute === '/csp/cadastrar' ||
+                                                       currentRoute === '/csp/docentes' || 
+                                                       currentRoute === '/csp/cadastrarDocentes' ||
+                                                       currentRoute === '/csp/listarRed' || 
+                                                       currentRoute === '/csp/perfil')) {
                 return true;
               } else if (userAccessLevel === 'docente' && (currentRoute === '/docente' || 
                                                            currentRoute === '/docente/outra-rota-convidado')) {
@@ -61,7 +73,9 @@ import { authenticationService } from './authentication.service';
                                                                 currentRoute === '/admin/cadastrarCurso')) {
                 return true;
               } else if (userAccessLevel === 'professor' && (currentRoute === '/professor' || 
-                                                           currentRoute === '/professor/outra-rota-convidado')) {
+                                                             currentRoute === '/professor/listarPees'|| 
+                                                             currentRoute === '/professor/listarPeesAbonados' ||
+                                                             currentRoute === '/professor/perfil')) {
                 return true;
               }
               

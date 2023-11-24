@@ -1,53 +1,43 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { environment } from '../environments/environment.development'
-import { storageService } from './storage.service';
+import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment.development';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { sessionService } from './session.service';
+import { sessionService } from './session.service'; // Renomeei para seguir a convenção de nomenclatura
 
 @Injectable({
   providedIn: 'root',
 })
-export class authenticationService implements OnInit {
-  userlogged: any;
+export class authenticationService {
+  private tokenKey = 'auth_token'; // Chave para armazenar o token no localStorage
+  userLogged: any;
   private token: string | null = null;
   private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
-    private storage: storageService,
     private router: Router,
-    private session: sessionService, // Substitua o storageService pelo sessionService
+    private session: sessionService,
   ) {
     this.init();
   }
 
-  async ngOnInit() {
-
-  }
-
-  async init() {
-    await this.reloadIfTokenIsNull();
+  private init() {
+    this.reloadTokenFromStorage();
     this.getLogUser();
   }
 
-  async getLogUser() {
-    this.userlogged = await this.session.getSession(); // Use getSession() do sessionService
-    return this.userlogged;
+  private async getLogUser() {
+    this.userLogged = await this.session.getSession();
+    return this.userLogged;
   }
 
-
-
-  async isLogado() {
-    let token = await this.getToken()
-    return token ? true : false;
+  public async isLogado() {
+    let token = await this.getToken();
+    return !!token; // Retorna true se o token existir
   }
 
-  async getisLoggedIn() {
-    await this.init()
-    if (this.token)
-      this.loggedIn.next(true);
+  get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
 
@@ -60,44 +50,42 @@ export class authenticationService implements OnInit {
     return httpOptions;
   }
 
-  private async reloadIfTokenIsNull() {
-    if (this.token == null || this.token == undefined) {
-      const tokenWithQuotes = await this.storage.get('token');
-      if (tokenWithQuotes != null && tokenWithQuotes != undefined) {
-        this.token = tokenWithQuotes.replace(/"/g, ''); // remove as aspas do token
-        this.loggedIn.next(true); // emite um evento para indicar que o usuário está logado
-      } else {
-        this.token = null;
-      }
+  private reloadTokenFromStorage() {
+    const storedToken = localStorage.getItem(this.tokenKey);
+    if (storedToken) {
+      this.token = storedToken;
+      this.loggedIn.next(true);
     }
   }
-  async login(usuario: { email: string; senha: string; }): Promise<boolean> {
-    if (usuario) {
-      return this.http
-        .post<boolean>(`${environment.API}/login`, usuario)
-        .toPromise()
-        .then((resultado: any) => {
-          this.token = resultado.token;
-          this.session.setSession(resultado.data); // Use setSession() do sessionService
-          console.log("true");
-          return true;
-        })
-        .catch((err) => {
-          this.token = null;
-          return false;
-        });
+
+  private async saveTokenToStorage(token: string | null) {
+    this.token = token;
+    if (token) {
+      localStorage.setItem(this.tokenKey, token);
+    } else {
+      localStorage.removeItem(this.tokenKey);
     }
-    return false;
+  }
+
+  async login(usuario: { prontuario: string; senha: string }): Promise<boolean> {
+    try {
+      const resultado: any = await this.http.post<boolean>(`${environment.API}/servidor/login`, usuario).toPromise();
+      this.saveTokenToStorage(resultado.token);
+      this.session.setSession(resultado.data);
+      return true;
+    } catch (err) {
+      this.saveTokenToStorage(null);
+      return false;
+    }
   }
 
   async getToken() {
-    await this.reloadIfTokenIsNull();
     return this.token;
   }
 
   async logout() {
-    this.token = null;
-    this.session.clearSession(); // Use clearSession() do sessionService
+    this.saveTokenToStorage(null);
+    this.session.clearSession();
     this.loggedIn.next(false);
   }
 }

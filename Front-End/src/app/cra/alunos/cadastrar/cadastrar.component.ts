@@ -44,7 +44,11 @@ export class CadastrarAlunoComponent implements OnInit{
     if (this.cadastrarAluno.invalid || this.isSubmitting) {
       this.openSnackBar("Campos Obrigatórios", null);
       return;
-    } else {
+    } if (this.data_nascimento && !this.verificarIdadeMinima(this.data_nascimento)) {
+      this.openSnackBar("O aluno deve ter pelo menos 13 anos de idade.", null);
+      return;
+    }
+    else {
       this.isSubmitting = true;
       try {
         await this.alunoService.createAluno({
@@ -71,6 +75,14 @@ export class CadastrarAlunoComponent implements OnInit{
         }
       }
     }
+  }
+
+  verificarIdadeMinima(dataNascimento: Date): boolean {
+    const hoje = new Date();
+    const dataNasc = new Date(dataNascimento);
+    const diff = Math.abs(hoje.getTime() - dataNasc.getTime());
+    const idade = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25)); 
+    return idade >= 13;
   }
 
   async fetchCurso(){

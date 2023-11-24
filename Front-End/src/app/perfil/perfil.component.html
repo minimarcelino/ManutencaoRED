@@ -5,13 +5,6 @@
     </div>
     <div class="fields">
         <form [formGroup]="alterarPerfil" #formDir="ngForm">
-            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 20%; max-width: 100%;">
-                <mat-label>Email</mat-label>
-                <input matInput name="email" formControlName="email"/>
-                <div *ngIf="alterarPerfil.get('email')?.invalid && formDir.submitted" class="validation">
-                    <p>Email obrigatório!</p>
-                </div>
-            </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
                 <mat-label>Senha</mat-label>
                 <input type="password" matInput name="senha" formControlName="senha"/>
