@@ -45,6 +45,7 @@ export class EditarComponent implements OnInit{
           nomeCurso: this.nomeCurso,
           coordenador: this.idcordenador}); 
         this.openSnackBar("Curso editado com sucesso!!", null);
+        this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -63,6 +64,9 @@ export class EditarComponent implements OnInit{
     this.coordenadores = this.servidores.filter(coordenador => coordenador.tiposervidor === 'coordenador');
   }
 
+  cancelar() {
+    this.dialog.close();
+  }
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;

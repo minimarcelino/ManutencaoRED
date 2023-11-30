@@ -35,9 +35,10 @@ export class EditarREDComponent implements OnInit{
     var utcDay = date.getUTCDate();
     var utcDate = new Date(utcYear, utcMonth, utcDay);  
     console.log(this.data);
+    this.displayFn(this.data.aluno);
     this.editarRed = new FormGroup({
-      aluno: new FormControl('', [Validators.required]),
-      curso: new FormControl('', [Validators.required]),
+      aluno: new FormControl(this.data.aluno, [Validators.required]),
+      curso: new FormControl(this.data.aluno.curso.nomeCurso, [Validators.required]),
       observacao: new FormControl(this.data.observacao, [Validators.required]),
       motivoAfastamento: new FormControl(this.data.motivoAfastamento, [Validators.required]),
       inicioAfastamento: new FormControl(utcDate, [Validators.required]),
@@ -63,6 +64,10 @@ export class EditarREDComponent implements OnInit{
       const formData = new FormData();
       formData.append('pdf', pdf);
     }
+  }
+
+  cancelar() {
+    this.dialog.close();
   }
 
   async fetchAlunos() {
@@ -100,8 +105,10 @@ export class EditarREDComponent implements OnInit{
       });
       if(this.user.tiposervidor == 'administrador'){
         this.router.navigate(['admin/listarReds']);
+        this.dialog.close();
      } else {
        this.router.navigate(['cra/listarRED']);
+       this.dialog.close();
      }
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);

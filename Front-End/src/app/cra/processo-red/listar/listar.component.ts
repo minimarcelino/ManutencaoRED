@@ -95,11 +95,12 @@ export class ListarREDComponent implements OnInit {
   }
 
   editarRed(red: any){
+    console.log(red);
     const editar =  this.dialog.open(EditarREDComponent, {
         data: {id: red.id, motivoAfastamento: red.motivoAfastamento, inicioAfastamento: red.inicioAfastamento, 
                dataPrevisaoTermino: red.dataPrevisaoTermino, situacao: red.situacao, observacao: red.observacao, 
                dataInicioProcesso: red.dataInicioProcesso, semestreAluno: red.semestreOuAnoAluno, tempoAfastamento: red.tempoAfastamento,
-               aluno_id: red.aluno_id, coordenador: red.coordenador}
+               aluno_id: red.aluno_id, coordenador: red.coordenador, aluno: red.aluno}
     });
     this.handleDialogConfirm(editar);
   }

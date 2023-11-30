@@ -50,8 +50,10 @@ export class EditarDocenteComponent implements OnInit{
         this.openSnackBar("Docente editado com sucesso!!", null);
         if(this.user.tiposervidor == 'administrador'){
           this.router.navigate(['admin/listarDocentes']);
+          this.dialog.close();
         } else {
           this.router.navigate(['coordenador/listar'])
+          this.dialog.close();
         }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
@@ -62,6 +64,10 @@ export class EditarDocenteComponent implements OnInit{
         }
       }
     }
+  }
+
+  cancelar() {
+    this.dialog.close();
   }
 
   openSnackBar(message: string, error: string | Error | null) {

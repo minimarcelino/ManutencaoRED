@@ -63,6 +63,7 @@ export class EditarComponent implements OnInit{
             curso: this.idcurso
           }); 
           this.openSnackBar("Aluno editado com sucesso!!", null);
+          this.dialog.close();
         } catch (error: any) {
           if (error && error.error && error.error.data) {
             const errorMessage = error.error.data;
@@ -88,6 +89,10 @@ export class EditarComponent implements OnInit{
         data: data,
         duration: 3000
       });
+    }
+
+    cancelar() {
+      this.dialog.close();
     }
 
     async fetchCurso(){

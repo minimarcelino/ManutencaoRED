@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { curso } from 'src/app/modelo/curso';
 import { cursoService } from 'src/app/services/cursos.service';
@@ -20,7 +20,7 @@ export class EditarDisciplinaComponent implements OnInit {
   user: any;
 
   constructor(private disciplinaservice: disciplinaService, private snackBar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any,
-    private cursoservice: cursoService) { }
+    private cursoservice: cursoService, private dialog: MatDialogRef<EditarDisciplinaComponent>) { }
 
   ngOnInit(): void {
     this.editarDisciplina = new FormGroup({
@@ -47,6 +47,7 @@ export class EditarDisciplinaComponent implements OnInit {
 
         });
         this.openSnackBar("Disciplina editada com sucesso!!", null);
+        this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -58,6 +59,9 @@ export class EditarDisciplinaComponent implements OnInit {
     }
   }
 
+  cancelar() {
+    this.dialog.close();
+  }
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;

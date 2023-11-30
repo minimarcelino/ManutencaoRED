@@ -30,7 +30,10 @@
             <div *ngIf="editarCurso.get('idcordenador')?.invalid && formDir.submitted" class="validation">
                 <p>Coordenador obrigatório!</p>
             </div>
-            <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Editar</button>
+            <div id="buttons">
+                <button mat-raised-button color="primary" (click)="cancelar()" style="margin-left: 4px;">Cancelar</button>
+                <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Confirmar</button>
+            </div>
         </form>
     </div>
 </div>

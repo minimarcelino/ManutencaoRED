@@ -18,3 +18,7 @@ input.mat-input {
     width: 100%;
     /* Adicione outros estilos de campo de entrada aqui, se necessário */
 }
+
+h1 {
+    color: white;
+}

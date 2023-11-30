@@ -95,6 +95,10 @@ export class EditarDocenteComponent implements OnInit{
     }
   }
 
+  cancelar() {
+    this.dialog.close();
+  }
+
   openSnackBar(message: string, error: string | Error | null) {
     let data;
     if (error === null) {

@@ -6,6 +6,10 @@
     height: 25rem;
 }
 
+h1 {
+    color: white;
+}
+
 /* Estilize os campos de entrada de acordo com suas necessidades */
 mat-form-field {
     width: 100%;
