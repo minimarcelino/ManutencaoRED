@@ -23,18 +23,6 @@
                 <td mat-cell *matCellDef="let a"> {{a.nome}} </td>
             </ng-container>
 
-            <!-- DataColumn -->
-            <ng-container matColumnDef="data">
-                <th mat-header-cell *matHeaderCellDef> Data Nascimento </th>
-                <td mat-cell *matCellDef="let a"> {{ formatDataNascimento(a.dataNascimento)}} </td>
-            </ng-container>
-
-             <!-- EnderecoColumn -->
-             <ng-container matColumnDef="endereco">
-                <th mat-header-cell *matHeaderCellDef> Endereço </th>
-                <td mat-cell *matCellDef="let a"> {{a.endereco}} </td>
-            </ng-container>
-
              <!-- TelefoneColumn -->
              <ng-container matColumnDef="telefone">
                 <th mat-header-cell *matHeaderCellDef> Telefone </th>
@@ -56,6 +44,9 @@
                     </button>
                     <button mat-icon-button matTooltip="Remover aluno" (click)="deleteAluno(a)">
                       <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button matTooltip="Visualizar aluno" (click)="visualizarAluno(a)">
+                      <mat-icon>visibility</mat-icon>
                     </button>
                   </td>
             </ng-container> 

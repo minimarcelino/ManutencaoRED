@@ -22,6 +22,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { EditarREDComponent } from './processo-red/editar/editar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { VisualizarAlunoComponent } from './alunos/visualizar/visualizar.component';
 @NgModule({
     declarations: [
     CadastrarAlunoComponent,
@@ -29,7 +30,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ProcessoREDComponent,
     EditarComponent,
     ListarREDComponent,
-    EditarREDComponent
+    EditarREDComponent,
+    VisualizarAlunoComponent
   ],
     imports: [
       CommonModule,

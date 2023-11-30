@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { VisualizarAlunoComponent } from '../visualizar/visualizar.component';
 
 @Component({
   selector: 'app-listar',
@@ -24,7 +25,7 @@ export class ListarAlunoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   user: any;
 
-  displayedColumns = ['prontuario', 'nome', 'data', 'endereco', 'telefone', 'email', 'acoes'];
+  displayedColumns = ['prontuario', 'nome', 'telefone', 'email', 'acoes'];
 
   constructor(private router: Router, public dialogQuestionService: messageDialog, private alunoservice: alunoService,
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private snackBar: MatSnackBar) { }
@@ -79,6 +80,14 @@ export class ListarAlunoComponent implements OnInit {
         this.openSnackBar("Falha ao deletar aluno", "Ocorreu um erro durante a remoção do aluno.");
       }
     }
+  }
+
+  visualizarAluno(aluno: any) {
+    const editar =  this.dialog.open( VisualizarAlunoComponent ,{
+      data: {id: aluno.id, prontuario: aluno.prontuario, nome: aluno.nome, dataNascimento: aluno.dataNascimento, endereco: aluno.endereco,
+        telefone: aluno.telefone, email: aluno.email, curso: aluno.curso}
+    });
+    this.handleDialogConfirm(editar);
   }
 
   editarAluno(aluno: any) {
