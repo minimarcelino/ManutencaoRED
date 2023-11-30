@@ -20,6 +20,7 @@ export class EditarDocenteComponent implements OnInit{
   error: Error | null = null;
   user: any;
   mostrarCampo: boolean = false;
+  tipoServidores: string[] = ["administrador", "professor", "coordenador", "cra", "csp"];
 
   constructor(private snackBar: MatSnackBar, private router: Router, private docenteservice: docenteService,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarDocenteComponent>){}

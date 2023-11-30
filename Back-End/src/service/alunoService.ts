@@ -7,7 +7,11 @@ export class alunoService {
     async findAll() {
         try {
             const [alunos, length] = await Promise.all([
-                prisma.aluno.findMany({}),
+                prisma.aluno.findMany({
+                    include: {
+                        curso: true,
+                    }
+                }),
                 prisma.aluno.count({})
             ]);
 

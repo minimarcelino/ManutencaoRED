@@ -23,12 +23,13 @@ export class EditarComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarComponent>){}
 
   ngOnInit(): void {
+    this.fetchCoordenador();
     this.editarCurso = new FormGroup({
       sigla: new FormControl(this.data.sigla, [Validators.required]),
       nomeCurso: new FormControl(this.data.nomeCurso, [Validators.required]),
       Coordenador: new FormControl(this.data.coordenador, [Validators.required]),
     });
-    this.fetchCoordenador();
+    this.displayFn(this.data.coordenador);
   }
 
   async submit() {

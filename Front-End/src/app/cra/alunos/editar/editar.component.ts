@@ -38,10 +38,11 @@ export class EditarComponent implements OnInit{
         endereco: new FormControl(this.data.endereco, [Validators.required]),
         telefone: new FormControl(this.data.telefone, [Validators.required]),
         email: new FormControl(this.data.email, [Validators.required]),
-        curso: new FormControl('', [Validators.required]),
+        curso: new FormControl(this.data.curso, [Validators.required]),
       });
       this.fetchCurso();
       this._adapter.setLocale('pt-BR');
+      this.displayFn(this.data.curso);
     }
   
     async submit() {

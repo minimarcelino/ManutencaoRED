@@ -44,7 +44,11 @@ export class cursoService{
     async findAll(){
         try {
             const [cursos, length] = await Promise.all([
-                prisma.curso.findMany({}),
+                prisma.curso.findMany({
+                    include:{
+                        servidor: true,
+                    }
+                }),
                 prisma.curso.count({})
             ]);
 

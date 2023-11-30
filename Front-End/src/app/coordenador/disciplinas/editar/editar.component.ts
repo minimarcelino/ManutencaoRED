@@ -26,9 +26,10 @@ export class EditarDisciplinaComponent implements OnInit {
     this.editarDisciplina = new FormGroup({
       sigla: new FormControl(this.data.sigla, [Validators.required]),
       nomeDisciplina: new FormControl(this.data.nomeDisciplina, [Validators.required]),
-      curso: new FormControl('', [Validators.required]),
+      curso: new FormControl(this.data.curso, [Validators.required]),
     });
     this.fetchCurso();
+    this.displayFn(this.data.curso);
   }
 
   async submit() {

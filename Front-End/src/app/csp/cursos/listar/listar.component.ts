@@ -24,7 +24,7 @@ export class ListarCursosComponent implements OnInit{
   coordenador: servidor[] = [];
   cursos: curso[] = [];
   dataSource: any;
-  user:any;
+  user: any;
 
   displayedColumns = ['nomeCurso', 'sigla', 'acoes'];
 
@@ -60,7 +60,7 @@ export class ListarCursosComponent implements OnInit{
 
     editarCurso(curso: any){
       const editar =  this.dialog.open(EditarComponent, {
-          data: {idcurso: curso.idcurso, nomeCurso: curso.nomeCurso, sigla: curso.sigla, coordenador: curso.coordenador}
+          data: {idcurso: curso.idcurso, nomeCurso: curso.nomeCurso, sigla: curso.sigla, coordenador: curso.servidor}
       });
       this.handleDialogConfirm(editar);
     }

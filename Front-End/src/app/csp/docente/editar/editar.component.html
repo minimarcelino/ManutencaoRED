@@ -26,13 +26,18 @@
                     <p>Email obrigatório!</p>
                 </div>
             </mat-form-field>
-            <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;" *ngIf="mostrarCampo">
-                <mat-label>Tipo do Servidor</mat-label>
-                <input matInput name="tiposervidor" formControlName="tiposervidor"/>
+            <mat-form-field style="min-width: 40%; max-width: 100%; margin-right: 10px;" *ngIf="mostrarCampo">
+                <input matInput name="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let c of tipoServidores" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-autocomplete>
                 <div *ngIf="cadastrarDocente.get('tiposervidor')?.invalid && formDir.submitted" class="validation">
-                    <p>Tipo do Servidor obrigatório!</p>
+                  <p>Tipo do Servidor obrigatório!</p>
                 </div>
-            </mat-form-field> 
+              </mat-form-field>
+              
             <div id="buttons">
                 <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Editar</button>
             </div>
