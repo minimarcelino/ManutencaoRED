@@ -7,6 +7,8 @@ import { docente } from 'src/app/modelo/docente';
 import { docenteService } from 'src/app/services/docente.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarDocenteComponent } from '../editar/editar.component';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-listar',
@@ -23,7 +25,7 @@ export class ListarDocenteComponent implements OnInit{
   displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
 
   constructor(private router: Router, public dialogQuestionService: messageDialog, private docenteservice: docenteService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -63,17 +65,51 @@ export class ListarDocenteComponent implements OnInit{
     this.handleDialogConfirm(editar);
   }
 
+  async deleteDocentePermanent(idservidor: number) {
+    try {
+      let response = await this.docenteservice.deleteDocente(idservidor);
+      if (response) {
+        this.openSnackBar("Docente deletado com sucesso!!", null);
+        this.findAll();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar("Falha ao deletar professor", errorMessage);
+      } else {
+        this.openSnackBar("Falha ao deletar professor", "Ocorreu um erro durante a remoção do professor.");
+      }
+    }
+  }
+
+
   async deleteDocente(docente: any){
     let res = false;
     res = await this.dialogQuestionService.openDialogConfirmDelete('docente');
     if (res) {
-      await this.deleteDocente(docente.id);
+      await this.deleteDocentePermanent(docente.idservidor);
     }
   }
 
   handleDialogConfirm(dialog: any){
     dialog.afterClosed().subscribe((result: string) => {
         this.findAll();
+    });
+  }
+
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
     });
   }
 }

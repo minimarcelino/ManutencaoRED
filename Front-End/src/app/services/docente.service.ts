@@ -40,9 +40,9 @@ export class docenteService {
         }
     }
 
-    async deleteDocente(id: number): Promise<any>{
+    async deleteDocente(idservidor: number): Promise<any>{
         try {
-            const response = await this.http.delete(`${environment.API}/delete/${id}`, this.authentication.getHttpOptions())
+            const response = await this.http.delete(`${environment.API}/delete/${idservidor}`, this.authentication.getHttpOptions())
             .toPromise();
             return response;
         } catch (error) {
