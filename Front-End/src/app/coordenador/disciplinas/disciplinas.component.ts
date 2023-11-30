@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { storageService } from 'src/app/services/storage.service';
 import { EditarDisciplinaComponent } from './editar/editar.component';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-disciplinas',
@@ -28,7 +30,7 @@ export class DisciplinasComponent implements OnInit {
   displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
 
   constructor(private http: HttpClient, private router: Router, private servidorService: servidorService, public dialogQuestionService: messageDialog, private disciplinaservice: disciplinaService,
-    private dialog: MatDialog, private storage: storageService) { }
+    private dialog: MatDialog, private storage: storageService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.findAll();
@@ -72,9 +74,51 @@ export class DisciplinasComponent implements OnInit {
     this.handleDialogConfirm(editar);
   }
 
+  async deleteDisciplinaPermanent(iddisciplinas: number) {
+    try {
+      let response = await this.disciplinaservice.deleteDisciplina(iddisciplinas);
+      if (response) {
+        this.openSnackBar("Disciplina deletada com sucesso!!", null);
+        this.findAll();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar("Falha ao deletar disciplina", errorMessage);
+      } else {
+        this.openSnackBar("Falha ao deletar disciplina", "Ocorreu um erro durante a remoção da disciplina.");
+      }
+    }
+  }
+
+
+  async deleteDisciplina(disciplina: any){
+    let res = false;
+    res = await this.dialogQuestionService.openDialogConfirmDelete('disciplina');
+    if (res) {
+      await this.deleteDisciplinaPermanent(disciplina.iddisciplinas);
+    }
+  }
+
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
       this.findAll();
+    });
+  }
+
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
     });
   }
 
