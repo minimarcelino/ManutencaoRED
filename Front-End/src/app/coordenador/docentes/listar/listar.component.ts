@@ -47,9 +47,12 @@ export class ListarDocenteComponent implements OnInit{
 
   async findAll(){
     const response = await this.docenteservice.getDocente();
-    this.docentes = response.data.servidores;
+    const docentes = response.data.servidores;
+
+    this.docentes = docentes.filter((docente: any)=> docente.tiposervidor === "professor");
     this.dataSource = new MatTableDataSource<docente>(this.docentes);
     this.dataSource.paginator=this.paginator;
+    
   }
 
   editarDocente(docente: any){
@@ -60,8 +63,12 @@ export class ListarDocenteComponent implements OnInit{
     this.handleDialogConfirm(editar);
   }
 
-  deleteDocente(docente: any){
-
+  async deleteDocente(docente: any){
+    let res = false;
+    res = await this.dialogQuestionService.openDialogConfirmDelete('docente');
+    if (res) {
+      await this.deleteDocente(docente.id);
+    }
   }
 
   handleDialogConfirm(dialog: any){

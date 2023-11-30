@@ -95,9 +95,11 @@ export class DocenteComponent implements OnInit {
 
   async findAll(){
     const response = await this.docenteservice.getDocente();
-    this.docentes = response.data.servidores;
+    const docentes = response.data.servidores;
+    this.docentes = docentes.filter((docente: any)=> docente.tiposervidor === "professor");
     this.dataSource = new MatTableDataSource<docente>(this.docentes);
     this.dataSource.paginator=this.paginator;
+    
   }
 
   editarDocente(docente: any){

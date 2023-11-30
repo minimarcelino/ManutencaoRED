@@ -19,7 +19,7 @@ export class docenteService {
             throw error;
         }
     }
-
+    
     async createDocente(docente: any): Promise<any>{
         try {
             const response = await this.http.post(`${environment.API}/create`, docente, this.authentication.getHttpOptions())
