@@ -44,7 +44,6 @@ export class AssociarDisciplinaComponent implements OnInit{
     this.findAll();
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
-    console.log(this.data);
   }
 
   async findAll(){
@@ -60,9 +59,17 @@ export class AssociarDisciplinaComponent implements OnInit{
   }
 
   selecionarDisciplina(disciplina: any) {
-    this.disciplinasSelecionadas.push(disciplina);
-    this.dataSource2 = new MatTableDataSource<disciplina>(this.disciplinasSelecionadas);
-  }
+    const disciplinaExistenteIndex = this.disciplinasSelecionadas.findIndex(
+      (disciplinaSelecionada) => disciplinaSelecionada.iddisciplinas === disciplina.iddisciplinas
+    );
+  
+    if (disciplinaExistenteIndex === -1) {
+      this.disciplinasSelecionadas.push(disciplina);
+      this.dataSource2 = new MatTableDataSource<disciplina>(this.disciplinasSelecionadas);
+    } else {
+      this.openSnackBar("Esta disciplina já foi associada", null);
+    }
+  }  
 
   removerDisciplina(disciplina: any) {
     const index = this.disciplinasSelecionadas.findIndex((item) => item.iddisciplinas === disciplina.iddisciplinas);
@@ -89,6 +96,7 @@ export class AssociarDisciplinaComponent implements OnInit{
         });
       }
       this.openSnackBar("Disciplinas associadas com sucesso!!", null);
+      this.dialog.close();
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
@@ -97,7 +105,11 @@ export class AssociarDisciplinaComponent implements OnInit{
         this.openSnackBar("Falha ao cadastrar aluno", "Ocorreu um erro durante o cadastro do aluno.");
       }
     }
-  }  
+  }
+
+  cancelar() {
+    this.dialog.close();
+  }
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;
