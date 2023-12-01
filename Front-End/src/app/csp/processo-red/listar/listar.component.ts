@@ -37,7 +37,6 @@ export class ListarRedComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
-    
   }
 
   async findAll() {
@@ -118,7 +117,7 @@ export class ListarRedComponent implements OnInit {
   
   associarDisciplina(red: red){
     const editar =  this.dialog.open(AssociarDisciplinaComponent, {
-      data: {idRED: red.idRED, servidor_idservidor: red.coordenador}
+      data: {idRED: red.idRED, servidor_idservidor: red.coordenador, red: red}
   });
   this.handleDialogConfirm(editar);
   }

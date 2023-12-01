@@ -14,7 +14,11 @@ export class redService {
                                 curso: true
                             }
                         },
-                        pee: true,
+                        pee: {
+                            include : {
+                                disciplinas: true,
+                            }
+                        }
                     }
                 }),
                 prisma.red.count({})

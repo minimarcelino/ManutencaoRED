@@ -47,6 +47,7 @@ export class disciplinaService{
                 prisma.disciplinas.findMany({
                     include: {
                         curso: true,
+                        pee: true,
                     }
                 }),
                 prisma.disciplinas.count({})

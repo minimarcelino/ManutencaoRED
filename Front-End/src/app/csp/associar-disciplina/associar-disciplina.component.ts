@@ -46,12 +46,30 @@ export class AssociarDisciplinaComponent implements OnInit{
     this.user = JSON.parse(this.user);
   }
 
-  async findAll(){
+  async findAll() {
     const response = await this.disciplinaservice.getDisciplina();
     this.disciplinas = response.data.disciplinas;
+  
+    if (this.data.red && this.data.red.pee && this.data.red.pee.length > 0) {
+      const idDisciplinasRed = this.data.red.pee.map((item: any) => item.disciplinas.iddisciplinas);
+  
+      idDisciplinasRed.forEach((idDisciplinaRed: any) => {
+        const disciplinaEncontrada = this.disciplinas.find(
+          disciplina => disciplina.iddisciplinas === idDisciplinaRed
+        );
+  
+        if (disciplinaEncontrada) {
+          this.disciplinas = this.disciplinas.filter(
+            disciplina => disciplina.iddisciplinas !== idDisciplinaRed
+          );
+        }
+      });
+    }
+  
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
-    this.dataSource.paginator=this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
+  
 
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
