@@ -24,7 +24,6 @@ export class VisualizarComponent implements OnInit{
   inputCurso: any = '';
   filtredCursos: any[] = [];
   isDisable: boolean = false;
-  button: boolean = true;
 
   constructor (private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog, private redService: redService,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<VisualizarComponent>, private _adapter: DateAdapter<any>, 
@@ -44,11 +43,6 @@ export class VisualizarComponent implements OnInit{
       this.user = localStorage.getItem("user");
       this.user = JSON.parse(this.user);
       this.fetchAlunos();
-      if (this.data.situacao === 'Finalizado') {
-        this.button = false;
-      } else {
-        this.button = true;
-      }
     }
 
   async updateRed(situacao: String) {
@@ -69,6 +63,7 @@ export class VisualizarComponent implements OnInit{
         semestreOuAnoAluno: this.data.semestreOuAnoAluno
       }); 
       this.openSnackBar("RED alterado com sucesso!!", null);
+      this.dialog.close();
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
@@ -110,8 +105,6 @@ export class VisualizarComponent implements OnInit{
       duration: 3000
     });
   }
-
-  
 
   changeCurso() {
     this.fetchCursos();

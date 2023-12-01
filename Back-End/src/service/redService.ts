@@ -13,7 +13,8 @@ export class redService {
                             include: {
                                 curso: true
                             }
-                        }
+                        },
+                        pee: true,
                     }
                 }),
                 prisma.red.count({})

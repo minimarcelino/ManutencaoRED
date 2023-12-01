@@ -43,7 +43,7 @@
                 <mat-datepicker #picker3></mat-datepicker>
             </mat-form-field>
 
-            <div id="buttons" *ngIf="button">
+            <div id="buttons" *ngIf="this.data.situacao !== 'Finalizado' && this.data.situacao !== 'Em andamento'">
                 <button mat-raised-button color="primary" (click)="confirmarRed()" style="margin-left: 4px;">Aceitar o Processo</button>
                 <button mat-raised-button color="primary" (click)="recusarRed()" style="margin-left: 4px;">Recusar o Processo</button>
             </div>

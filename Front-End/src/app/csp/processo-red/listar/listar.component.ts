@@ -28,7 +28,7 @@ export class ListarRedComponent implements OnInit {
   mostrarBotao: boolean = false;
   user: any;
 
-  displayedColumns = ['nomeAluno', 'inicioRed', 'terminoRed', 'prazoPee', 'Situação', 'acoes'];
+  displayedColumns = ['nomeAluno', 'inicioRed', 'terminoRed', 'prazoPee', 'Situação', 'concluido', 'acoes'];
 
   constructor(private router: Router, public dialogQuestionService: messageDialog, private redservice: redService,
     private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private peeservice: peeService) { }
@@ -37,6 +37,7 @@ export class ListarRedComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem("user");
     this.user = JSON.parse(this.user);
+    
   }
 
   async findAll() {

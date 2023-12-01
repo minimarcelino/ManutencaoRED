@@ -38,12 +38,23 @@
                 <td mat-cell *matCellDef="let red"> {{ red.situacao }} </td>
             </ng-container>
 
+            <ng-container matColumnDef="concluido">
+                <th mat-header-cell *matHeaderCellDef> Associação de disciplinas </th>
+                <td mat-cell *matCellDef="let a">
+                  <ng-container *ngIf="!a.pee || a.pee.length === 0">
+                    Não Concluído
+                  </ng-container>
+                  <ng-container *ngIf="a.pee && a.pee.length > 0">
+                    Concluído
+                  </ng-container>
+                </td>
+              </ng-container>
 
             <!-- Outras colunas aqui, se necessário -->
             <ng-container matColumnDef="acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                   <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button *ngIf="a.situacao === 'Em andamento'" mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
+                    <button *ngIf="a.situacao === 'Em andamento' && a.pee.length === 0" mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
                         <mat-icon>book</mat-icon>
                     </button>
                     <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
