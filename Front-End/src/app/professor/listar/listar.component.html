@@ -39,11 +39,14 @@
             <ng-container matColumnDef="acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                 <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button matTooltip="Adicionar Pee" (click)="adicionarPee(a)">
+                    <button mat-icon-button matTooltip="Preencher Pee" (click)="adicionarPee(a)">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
+                    <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
                         <mat-icon>star</mat-icon>
+                    </button>
+                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="visualizarPee(a)">
+                        <mat-icon>visibility</mat-icon>
                     </button>
                 </td>
             </ng-container>

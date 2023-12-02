@@ -78,6 +78,7 @@ export class CadastrarPeeComponent implements OnInit {
           observacao: this.observacao,
         });
         this.openSnackBar("PEE cadastrado com sucesso!!", null);
+        this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -87,6 +88,10 @@ export class CadastrarPeeComponent implements OnInit {
         }
       }
     }
+  }
+
+  cancelar() {
+    this.dialog.close();
   }
 
   openSnackBar(message: string, error: string | Error | null) {

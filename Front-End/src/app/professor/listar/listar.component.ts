@@ -8,6 +8,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { peeService } from 'src/app/services/pee.service';
 import { CadastrarPeeComponent } from '../cadastrar-pee/cadastrar-pee.component';
 import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
+import { VisualizarPEEComponent } from '../visualizar/visualizar.component';
 
 @Component({
   selector: 'app-listar',
@@ -44,6 +45,19 @@ export class ListarPeesComponent implements OnInit {
 
   abonarFalta(pee: any){
     const editar = this.dialog.open(AbonarFaltaComponent, {
+      data: {
+        idpee: pee.idpee, RED_idRED: pee.RED_idRED, disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas, servidor_idservidor: pee.servidor_idservidor,
+        percentualabono: pee.percentualabono, aluno_prontuario: pee.red.aluno.prontuario, nome_aluno: pee.red.aluno.nome, prazofinal: pee.prazofinal, conteudo: pee.conteudo,
+        metodologia: pee.metodologia, trabalhos: pee.trabalhos, bibliografia: pee.bibliografia, criterios: pee.criterios, dataEnvioProposta: pee.dataEnvioProposta,
+        canalComunicacao: pee.canalComunicacao, houveAvaliacao: pee.houveAvaliacao, avaliacoesRealizadas: pee.avaliacoesRealizadas, dataAvaliacao: pee.dataAvaliacao,
+        observacao: pee.observacao, 
+      }
+    });
+    this.handleDialogConfirm(editar);
+  }
+
+  visualizarPee(pee: any){
+    const editar = this.dialog.open(VisualizarPEEComponent, {
       data: {
         idpee: pee.idpee, RED_idRED: pee.RED_idRED, disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas, servidor_idservidor: pee.servidor_idservidor,
         percentualabono: pee.percentualabono, aluno_prontuario: pee.red.aluno.prontuario, nome_aluno: pee.red.aluno.nome, prazofinal: pee.prazofinal, conteudo: pee.conteudo,

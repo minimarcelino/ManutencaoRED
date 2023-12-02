@@ -20,6 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AbonarFaltaComponent } from './abonar-faltas/abonar-faltas.component';
 import { PeesAbonadosComponent } from './pees-abonados/pees-abonados.component';
+import { VisualizarPEEComponent } from './visualizar/visualizar.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { PeesAbonadosComponent } from './pees-abonados/pees-abonados.component';
       ListarPeesComponent,
       CadastrarPeeComponent,
       AbonarFaltaComponent,
-      PeesAbonadosComponent
+      PeesAbonadosComponent,
+      VisualizarPEEComponent
   ],
     imports: [
       CommonModule,
