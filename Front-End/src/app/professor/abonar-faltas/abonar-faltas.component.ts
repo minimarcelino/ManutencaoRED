@@ -74,6 +74,7 @@ export class AbonarFaltaComponent implements OnInit {
           observacao: this.data.observacao,
         });
         this.openSnackBar("Faltas abonadas com sucesso!!", null);
+        this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -99,6 +100,10 @@ export class AbonarFaltaComponent implements OnInit {
       data: data,
       duration: 3000
     });
+  }
+
+  cancelar() {
+    this.dialog.close();
   }
 
   get descricao() {

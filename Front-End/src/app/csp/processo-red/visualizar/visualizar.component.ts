@@ -40,7 +40,6 @@ export class VisualizarRedComponent implements OnInit {
     this.pee = this.pee.filter(pee => pee.RED_idRED === this.data.idRED);
     this.dataSource = new MatTableDataSource<any>(this.pee);
     this.dataSource.paginator = this.paginator;
-    console.log(this.pee);
   }
 
   formatData(Data: Date): string {
@@ -49,5 +48,9 @@ export class VisualizarRedComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  cancelar() {
+    this.dialog.close();
   }
 }
