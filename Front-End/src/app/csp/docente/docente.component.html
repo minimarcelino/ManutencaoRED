@@ -5,18 +5,18 @@
 
 <div class="listagem">
     <div id="tabela">
-        <mat-form-field>
-          <mat-label>Pesquisar Docente</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
-        </mat-form-field>  
-        <div class="file-input-container">
-          <h2>Importar Docentes</h2>
-          <label class="file-input-label">
-            <input type="file" (change)="onFileChange($event)" />
-            <mat-icon>attach_file</mat-icon>
-          </label>
-        </div>                     
-        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+      <mat-form-field>
+        <mat-label>Pesquisar Docente</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
+      </mat-form-field>  
+      <div class="file-input-container">
+       <!-- <h2>Importar Docentes</h2> -->
+        <button mat-icon-button matTooltip="Importar docentes" (click)="fileInput.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+        <input type="file" #fileInput style="display: none" (change)="onFileChange($event)" />
+      </div>                     
+      <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
             <!-- ProntuarioColumn -->
             <ng-container matColumnDef="prontuario">

@@ -6,7 +6,9 @@ import { cursoService } from 'src/app/services/cursos.service';
 import { HttpClient } from '@angular/common/http';
 import { servidorService } from 'src/app/services/servidor.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-
+import { CadastrarAlunoComponent } from '../alunos/cadastrar/cadastrar.component';
+import { MatDialog } from '@angular/material/dialog';
+import { messageDialog } from 'src/app/services/messageDialog.service';
 @Component({
   selector: 'app-processo-red',
   templateUrl: './processo-red.component.html',
@@ -14,7 +16,8 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 })
 export class ProcessoREDComponent implements OnInit {
   constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService,
-    private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }
+    private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private dialog: MatDialog, public dialogQuestionService: messageDialog) { }
 
   alunos: any[] = [];
   cursos: any[] = [];
@@ -22,7 +25,7 @@ export class ProcessoREDComponent implements OnInit {
   filtredCursos: any[] = [];
   cadastrarRed!: FormGroup;
   isDisable: boolean = false;
-  user:any;
+  user: any;
 
 
   ngOnInit(): void {
@@ -77,6 +80,15 @@ export class ProcessoREDComponent implements OnInit {
     this.isDisable = true;
   }
 
+  async CadastrarAluno() {
+    const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
+      data: { }
+    });
+    this.handleDialogConfirm(cadastrarAluno);
+  }
+
+
+
   async cadastrar() {
     try {
       console.log(this.filtredCursos)
@@ -85,19 +97,19 @@ export class ProcessoREDComponent implements OnInit {
         inicioAfastamento: this.inicioAfastamento,
         dataPrevisaoTermino: this.previsaoTerminoRed(),
         dataInicioProcesso: new Date(),
-       semestreOuAnoAluno: this.semestreAluno,
-       tempoAfastamento: this.tempoAfastamento,
+        semestreOuAnoAluno: this.semestreAluno,
+        tempoAfastamento: this.tempoAfastamento,
         situacao: this.situacao,
         observacao: this.observacao,
         aluno_id: this.aluno.id,
         coordenador: this.filtredCursos[0].coordenador,
-        
+
       });
-      if(this.user.tiposervidor == 'administrador'){
+      if (this.user.tiposervidor == 'administrador') {
         this.router.navigate(['admin/listarReds']);
-     } else {
-       this.router.navigate(['cra/listarRED']);
-     }
+      } else {
+        this.router.navigate(['cra/listarRED']);
+      }
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }
@@ -114,17 +126,23 @@ export class ProcessoREDComponent implements OnInit {
   }
 
   teste() {
-    if(this.user.tiposervidor == 'administrador'){
+    if (this.user.tiposervidor == 'administrador') {
       this.router.navigate(['/admin/cadastrarAluno']);
     } else {
       this.router.navigate(['/cra/cadastrar']);
     }
   }
 
+  handleDialogConfirm(dialog: any) {
+    dialog.afterClosed().subscribe((result: string) => {
+      
+    });
+  }
+
   get aluno() {
     return this.cadastrarRed.get('aluno')!.value;
   }
-  
+
   get curso() {
     return this.cadastrarRed.get('curso')!.value;
   }
@@ -132,7 +150,7 @@ export class ProcessoREDComponent implements OnInit {
   get semestreAluno() {
     return this.cadastrarRed.get('semestreAluno')!.value;
   }
-  
+
   get tempoAfastamento() {
     return this.cadastrarRed.get('tempoAfastamento')!.value;
   }

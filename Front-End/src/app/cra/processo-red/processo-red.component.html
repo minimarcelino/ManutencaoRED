@@ -8,13 +8,18 @@
       <mat-form-field>
         <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput
           [matAutocomplete]="auto">
-
+          
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
           <mat-option *ngFor="let a of alunos" [value]="a">
             {{a.prontuario}} - {{a.nome}}
           </mat-option>
         </mat-autocomplete>
+        
       </mat-form-field>
+      
+      <button mat-icon-button matTooltip="Cadastrar aluno" (click)="CadastrarAluno()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
 
       <mat-form-field style="margin-left: 1px;">
         <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" />
