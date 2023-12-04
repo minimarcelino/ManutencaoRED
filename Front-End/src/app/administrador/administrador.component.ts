@@ -9,7 +9,7 @@ import { authenticationService } from '../services/authentication.service';
 })
 export class AdministradorComponent {
   constructor(
-    private authenticationService: authenticationService,
+    public authenticationService: authenticationService,
     private router: Router
   ) { }
 

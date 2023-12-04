@@ -4,7 +4,10 @@ mat-sidenav-container {
     max-height: 94vh;
     max-width: 100%;
   }
-    
+  .spacer {
+    flex: 0.95 1 auto;
+  }
+  
   mat-sidenav {
       background: linear-gradient(to right, #505050, #797979);
       padding: 16px;

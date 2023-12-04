@@ -72,6 +72,7 @@ export class authenticationService {
       const resultado: any = await this.http.post<boolean>(`${environment.API}/login`, usuario).toPromise();
       this.saveTokenToStorage(resultado.token);
       this.session.setSession(resultado.data);
+      await this.getLogUser();
       return true;
     } catch (err) {
       this.saveTokenToStorage(null);

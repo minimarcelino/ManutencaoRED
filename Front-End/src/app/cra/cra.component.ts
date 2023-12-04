@@ -9,7 +9,7 @@ import { authenticationService } from '../services/authentication.service'; // I
 })
 export class CRAComponent {
   constructor(
-    private authenticationService: authenticationService, // Injete o authenticationService
+    public authenticationService: authenticationService, 
     private router: Router // Injete o Router
   ) { }
 

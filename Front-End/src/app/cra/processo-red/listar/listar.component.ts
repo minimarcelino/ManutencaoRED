@@ -55,7 +55,7 @@ export class ListarREDComponent implements OnInit {
   user:any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
   
-  displayedColumns = ['Prontuário', 'Curso','Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
+  displayedColumns = ['Prontuário', 'Nome', 'Curso','Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
   constructor(private router: Router,private alunoservice: alunoService,private redservice: redService,
     public dialogQuestionService: messageDialog, private servidorservice: servidorService,
@@ -74,8 +74,17 @@ export class ListarREDComponent implements OnInit {
 
   this.dataSource = new MatTableDataSource<any>(this.reds);
   this.dataSource.paginator = this.paginator;
+
+  this.dataSource.filterPredicate = (data: any, filter: string) => {
+    // Altere 'nome' para a propriedade que contém o nome no seu objeto de dados
+    return data.aluno.nome.toLowerCase().includes(filter.toLowerCase());
+  };
 }
 
+applyFilter(event: Event) {
+  const value = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = value;
+}
   
   formatData(data: Date): string {
     if (data) {

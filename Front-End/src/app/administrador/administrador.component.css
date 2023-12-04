@@ -15,7 +15,9 @@ mat-sidenav-container {
       margin: 16px;
       text-align: center;
     }
-    
+    .spacer {
+      flex: 0.95 1 auto;
+    }
     .content {
       margin: 16px;
       margin-left: 32px;

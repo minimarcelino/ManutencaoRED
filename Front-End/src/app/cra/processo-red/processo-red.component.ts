@@ -48,6 +48,8 @@ export class ProcessoREDComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
+
+
   displayFn(aluno: any): string {
     let pront = aluno.prontuario;
     let nome = aluno.nome;
@@ -96,19 +98,25 @@ export class ProcessoREDComponent implements OnInit {
 
   async cadastrar() {
 
-     const redsExistente = await this.redservice.getRed();
-      const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
+    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(this.inicioAfastamento);
+    const redsExistente = await this.redservice.getRed();
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
       const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
       const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
       const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
       const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
-    
+
       return inicioAfastamentoRed === inicioAfastamentoThis && previsaoTerminoRed === previsaoTerminoThis;
     });
     if (redExistenteNoMesmoPeriodo) {
       this.openSnackBar("Já existe um RED para este prontuário no mesmo período! ", null);
       return;
     }
+    if (!inicioAfastamentoValido) {
+      this.openSnackBar("O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ", null);
+      return;
+    }
+
 
     try {
       console.log(this.filtredCursos)
@@ -141,6 +149,14 @@ export class ProcessoREDComponent implements OnInit {
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }
+  }
+
+  verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
+    const hoje = new Date();
+    const dataInicio = new Date(dataInicioAfastamento);
+    const diff = Math.abs(hoje.getTime() - dataInicio.getTime());
+    const diffEmDias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return diffEmDias <= 7;
   }
 
   previsaoTerminoRed(): Date {

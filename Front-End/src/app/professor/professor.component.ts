@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ProfessorComponent {
 
   constructor(
-    private authenticationService: authenticationService,
+    public authenticationService: authenticationService,
     private router: Router
   ) { }
 

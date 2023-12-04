@@ -5,6 +5,8 @@
             <mat-icon *ngIf="sidenav.opened">close</mat-icon>
         </button>
         Menu
+        <span class="spacer"></span>
+ Olá, {{authenticationService.userLogged?.nome.split(' ')[0]}} !
     </mat-toolbar>
 
     <mat-sidenav-container>

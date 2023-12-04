@@ -4,7 +4,9 @@
             <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
             <mat-icon *ngIf="sidenav.opened">close</mat-icon>
         </button>
-        Menu
+          Menu
+          <span class="spacer"></span>
+ Olá, {{authenticationService.userLogged?.nome}} !
     </mat-toolbar>
 
     <mat-sidenav-container>
