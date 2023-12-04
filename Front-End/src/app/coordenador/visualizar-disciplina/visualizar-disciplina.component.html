@@ -4,11 +4,7 @@
         <hr class="linha" />
     </div>
     <form [formGroup]="visualizarDisciplina" #formDir="ngForm">
-        <div id="tabela">
-            <mat-form-field>
-            <mat-label>Pesquisar Disciplina</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Banco de Dados">
-            </mat-form-field>                
+        <div id="tabela">             
             <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
                 <ng-container matColumnDef="professor">

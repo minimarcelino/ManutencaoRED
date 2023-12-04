@@ -69,7 +69,6 @@ export class ListarRedComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAll()
-
   }
 
   applyFilter(data: Event) {
@@ -77,6 +76,9 @@ export class ListarRedComponent implements OnInit {
     this.dataSource.filter = value;
   }
 
+  todosPeesPreenchidos(pee: any[]): boolean {
+    return pee.every(item => item.conteudo !== '');
+  }
 
   filterByCurso(event: MatSelectChange) {
     const selectedCurso = event.value;
@@ -100,6 +102,7 @@ export class ListarRedComponent implements OnInit {
   this.reds = response.data.reds;
   this.dataSource = new MatTableDataSource<any>(this.reds);
   this.dataSource.paginator = this.paginator;
+  console.log(this.reds);
 
   // Cria um conjunto para armazenar cursos únicos
   const uniqueCursos = new Set<number>();
