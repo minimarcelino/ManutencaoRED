@@ -57,13 +57,14 @@ export class ListarPeesComponent implements OnInit {
   }
 
   visualizarPee(pee: any){
+    console.log(pee);
     const editar = this.dialog.open(VisualizarPEEComponent, {
       data: {
         idpee: pee.idpee, RED_idRED: pee.RED_idRED, disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas, servidor_idservidor: pee.servidor_idservidor,
         percentualabono: pee.percentualabono, aluno_prontuario: pee.red.aluno.prontuario, nome_aluno: pee.red.aluno.nome, prazofinal: pee.prazofinal, conteudo: pee.conteudo,
         metodologia: pee.metodologia, trabalhos: pee.trabalhos, bibliografia: pee.bibliografia, criterios: pee.criterios, dataEnvioProposta: pee.dataEnvioProposta,
         canalComunicacao: pee.canalComunicacao, houveAvaliacao: pee.houveAvaliacao, avaliacoesRealizadas: pee.avaliacoesRealizadas, dataAvaliacao: pee.dataAvaliacao,
-        observacao: pee.observacao, 
+        observacao: pee.observacao, servidor: pee.servidor
       }
     });
     this.handleDialogConfirm(editar);
@@ -75,11 +76,12 @@ export class ListarPeesComponent implements OnInit {
     this.dataSource.filter = value;
   }
 
-  adicionarPee(pee: pee) {
+  adicionarPee(pee: any) {
+    console.log(pee);
     const editar = this.dialog.open(CadastrarPeeComponent, {
       data: {
         idpee: pee.idpee, RED_idRED: pee.RED_idRED, disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas, servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono
+        percentualabono: pee.percentualabono, emailServidor: pee.servidor.email,  
       }
     });
     this.handleDialogConfirm(editar);

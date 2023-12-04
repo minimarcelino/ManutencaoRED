@@ -33,7 +33,7 @@ export class CadastrarPeeComponent implements OnInit {
       bibliografia: new FormControl('', [Validators.required]),
       exigencia: new FormControl('', [Validators.required]),
       prazo: new FormControl('', [Validators.required]),
-      contato: new FormControl('', [Validators.required]),
+      contato: new FormControl(this.data.emailServidor, [Validators.required]),
       comunicacao: new FormControl(null),
       avaliacao: new FormControl(null),
       avaliacaoRealizada: new FormControl(null),
