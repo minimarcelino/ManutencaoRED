@@ -21,13 +21,18 @@ export class VisualizarPEEComponent implements OnInit{
   ngOnInit(): void {
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
+    var date = new Date(this.data.prazofinal);
+    var utcYear = date.getUTCFullYear();
+    var utcMonth = date.getUTCMonth();
+    var utcDay = date.getUTCDate();
+    var utcDate = new Date(utcYear, utcMonth, utcDay);  
     this.visualizarPee = new FormGroup({
       conteudo: new FormControl({value: this.data.conteudo, disabled: true}, [Validators.required]),
       metodologia: new FormControl({value: this.data.metodologia, disabled: true}, [Validators.required]),
       trabalhos: new FormControl({value: this.data.trabalhos, disabled: true}, [Validators.required]),
       bibliografia: new FormControl({value: this.data.bibliografia, disabled: true}, [Validators.required]),
       exigencia: new FormControl({value: this.data.criterios, disabled: true}, [Validators.required]),
-      prazo: new FormControl({value: this.data.prazofinal, disabled: true}, [Validators.required]),
+      prazo: new FormControl({value: utcDate, disabled: true}, [Validators.required]),
       contato: new FormControl({value: this.data.servidor.email, disabled: true}, [Validators.required]),
       comunicacao: new FormControl({value: this.data.canalComunicacao, disabled: true}),
       avaliacao: new FormControl({value: this.data.houveAvaliacao, disabled: true}),
