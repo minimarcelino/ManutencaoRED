@@ -47,4 +47,8 @@ export class VisualizarPeeComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
+  cancelar() {
+    this.dialog.close();
+  }
+
 }

@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AssociarProfessoresComponent } from './associar-professores/associar-professores.component';
 import { PeeComponent } from './pee/pee.component';
 import { VisualizarPeeComponent } from './pee/visualizar-pee/visualizar-pee.component';
+import { VisualizarDisciplinaComponent } from './visualizar-disciplina/visualizar-disciplina.component';
 @NgModule({
     declarations: [
         DisciplinasComponent,
@@ -38,6 +39,7 @@ import { VisualizarPeeComponent } from './pee/visualizar-pee/visualizar-pee.comp
         EditarDisciplinaComponent,
         AssociarProfessoresComponent,
         PeeComponent,
+        VisualizarDisciplinaComponent,
     ],
     imports: [
         CommonModule,

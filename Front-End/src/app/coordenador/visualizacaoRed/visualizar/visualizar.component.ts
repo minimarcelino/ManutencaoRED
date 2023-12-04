@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
@@ -9,6 +9,7 @@ import { cursoService } from 'src/app/services/cursos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { VisualizarDisciplinaComponent } from '../../visualizar-disciplina/visualizar-disciplina.component';
 
 @Component({
   selector: 'app-visualizar',
@@ -27,7 +28,7 @@ export class VisualizarComponent implements OnInit{
 
   constructor (private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog, private redService: redService,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<VisualizarComponent>, private _adapter: DateAdapter<any>, 
-    @Inject(MAT_DATE_LOCALE) private _locale: string, private cursoService: cursoService, private alunoService: alunoService) {}
+    @Inject(MAT_DATE_LOCALE) private _locale: string, private cursoService: cursoService, private alunoService: alunoService, private dialog2: MatDialog) {}
 
     ngOnInit(): void {
       this._locale = 'pt-BR';
@@ -43,6 +44,7 @@ export class VisualizarComponent implements OnInit{
       this.user = localStorage.getItem("user");
       this.user = JSON.parse(this.user);
       this.fetchAlunos();
+      console.log(this.data);
     }
 
   async updateRed(situacao: String) {
@@ -80,6 +82,15 @@ export class VisualizarComponent implements OnInit{
     this.alunos = this.alunos.filter(aluno => aluno.prontuario === this.data.aluno_prontuario);
     this.fetchCursos(); 
   }
+
+  visualizarDisciplina(red: any) {
+    const visualizar = this.dialog2.open(VisualizarDisciplinaComponent, {
+      data: {
+        idRED: red.idRED, pee: red.pee
+      }
+    });
+    this.handleDialogConfirm(visualizar);
+  }
   
   async fetchCursos() {
     const response = await this.cursoService.getCursos();
@@ -111,6 +122,10 @@ export class VisualizarComponent implements OnInit{
     this.isDisable = true;
   }
 
+  cancelar() {
+    this.dialog.close();
+  }
+
   displayFn(aluno: any): string {
     let pront = aluno.prontuario;
     let nome = aluno.nome;
@@ -118,7 +133,11 @@ export class VisualizarComponent implements OnInit{
     return aluno && pront_aluno;
 
   }
-  
+
+  handleDialogConfirm(dialog: any) {
+    dialog.afterClosed().subscribe((result: string) => {
+    });
+  }
 
   confirmarRed() {
     this.updateRed("Em andamento");

@@ -163,7 +163,7 @@ export class ListarRedComponent implements OnInit {
         idRED: red.idRED, aluno_prontuario: red.aluno.prontuario, nome: red.aluno.nome, dataInicioProcesso: red.dataInicioProcesso,
         dataPrevisaoTermino: red.dataPrevisaoTermino, motivoAfastamento: red.motivoAfastamento, situacao: red.situacao,
         coordenador: red.coordenador, aluno_id: red.aluno_id, inicioAfastamento: red.inicioAfastamento, observacao: red.observacao,
-        tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno
+        tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno, pee: red.pee
       }
     });
     this.handleDialogConfirm(visualizar);
