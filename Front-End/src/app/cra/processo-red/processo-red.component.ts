@@ -9,6 +9,9 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CadastrarAlunoComponent } from '../alunos/cadastrar/cadastrar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { messageDialog } from 'src/app/services/messageDialog.service';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { redService } from 'src/app/services/red.service';
 @Component({
   selector: 'app-processo-red',
   templateUrl: './processo-red.component.html',
@@ -17,7 +20,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 export class ProcessoREDComponent implements OnInit {
   constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService,
     private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string,
-    private dialog: MatDialog, public dialogQuestionService: messageDialog) { }
+    private dialog: MatDialog, public dialogQuestionService: messageDialog, private snackBar: MatSnackBar, private redservice: redService) { }
 
   alunos: any[] = [];
   cursos: any[] = [];
@@ -82,14 +85,31 @@ export class ProcessoREDComponent implements OnInit {
 
   async CadastrarAluno() {
     const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
-      data: { }
+      data: {}
     });
     this.handleDialogConfirm(cadastrarAluno);
   }
 
-
+  private dateToString(date: Date): string {
+    return new Date(date).toISOString().split('T')[0];
+  }
 
   async cadastrar() {
+
+     const redsExistente = await this.redservice.getRed();
+      const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
+      const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
+      const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
+      const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
+      const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
+    
+      return inicioAfastamentoRed === inicioAfastamentoThis && previsaoTerminoRed === previsaoTerminoThis;
+    });
+    if (redExistenteNoMesmoPeriodo) {
+      this.openSnackBar("Já existe um RED para este prontuário no mesmo período! ", null);
+      return;
+    }
+
     try {
       console.log(this.filtredCursos)
       await this.servidorservice.createRED({
@@ -105,6 +125,14 @@ export class ProcessoREDComponent implements OnInit {
         coordenador: this.filtredCursos[0].coordenador,
 
       });
+      if (this.tempoAfastamento < 15) {
+        this.openSnackBar("A quantidade de dias deve ser no mínimo 15! ", null);
+        return;
+      }
+      if (this.semestreAluno <= 0) {
+        this.openSnackBar("O semestre não pode ser menor que 1! ", null);
+        return;
+      }
       if (this.user.tiposervidor == 'administrador') {
         this.router.navigate(['admin/listarReds']);
       } else {
@@ -133,9 +161,26 @@ export class ProcessoREDComponent implements OnInit {
     }
   }
 
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
+    });
+  }
+
+
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
-      
+
     });
   }
 

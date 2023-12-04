@@ -2,21 +2,23 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { redService } from 'src/app/services/red.service';
 import { servidorService } from 'src/app/services/servidor.service';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-editar',
   templateUrl: './editar.component.html',
   styleUrls: ['./editar.component.css']
 })
-export class EditarREDComponent implements OnInit{
+export class EditarREDComponent implements OnInit {
   constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService,
-    private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, @Inject(MAT_DIALOG_DATA) public data: any, 
-    private dialog: MatDialogRef<EditarREDComponent>, private redservice: redService) {}
+    private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, @Inject(MAT_DIALOG_DATA) public data: any,
+    private snackBar: MatSnackBar, private dialog: MatDialogRef<EditarREDComponent>, private redservice: redService) { }
 
   alunos: any[] = [];
   cursos: any[] = [];
@@ -24,7 +26,7 @@ export class EditarREDComponent implements OnInit{
   filtredCursos: any[] = [];
   editarRed!: FormGroup;
   isDisable: boolean = false;
-  user:any;
+  user: any;
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
@@ -33,7 +35,7 @@ export class EditarREDComponent implements OnInit{
     var utcYear = date.getUTCFullYear();
     var utcMonth = date.getUTCMonth();
     var utcDay = date.getUTCDate();
-    var utcDate = new Date(utcYear, utcMonth, utcDay);  
+    var utcDate = new Date(utcYear, utcMonth, utcDay);
     console.log(this.data);
     this.displayFn(this.data.aluno);
     this.editarRed = new FormGroup({
@@ -103,13 +105,31 @@ export class EditarREDComponent implements OnInit{
         aluno_id: this.data.aluno_id,
         coordenador: this.data.coordenador,
       });
-      if(this.user.tiposervidor == 'administrador'){
+      const redsExistente = await this.redservice.getRed();
+      const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
+        if (red.idRED === this.data.id) {
+          return false;
+        }
+
+        const inicioAfastamentoRed = new Date(red.inicioAfastamento).toISOString().split('T')[0];
+        const previsaoTerminoRed = new Date(red.dataPrevisaoTermino).toISOString().split('T')[0];
+        const inicioAfastamentoThis = new Date(this.editarRed.value.inicioAfastamento).toISOString().split('T')[0];
+        const previsaoTerminoThis = new Date(this.previsaoTerminoRed()).toISOString().split('T')[0];
+
+        return inicioAfastamentoRed === inicioAfastamentoThis && previsaoTerminoRed === previsaoTerminoThis;
+      });
+
+      if (redExistenteNoMesmoPeriodo) {
+        this.openSnackBar("Já existe um RED para este prontuário no mesmo período! ", null);
+        return;
+      }
+      if (this.user.tiposervidor == 'administrador') {
         this.router.navigate(['admin/listarReds']);
         this.dialog.close();
-     } else {
-       this.router.navigate(['cra/listarRED']);
-       this.dialog.close();
-     }
+      } else {
+        this.router.navigate(['cra/listarRED']);
+        this.dialog.close();
+      }
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }
@@ -125,10 +145,25 @@ export class EditarREDComponent implements OnInit{
     return dataFinal;
   }
 
+  openSnackBar(message: string, error: string | Error | null) {
+    let data;
+    if (error === null) {
+      data = { message };
+    } else if (typeof error === 'string') {
+      data = { message: error };
+    } else if (error instanceof Error) {
+      data = { message: error.message };
+    }
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: data,
+      duration: 3000
+    });
+  }
+
   get aluno() {
     return this.editarRed.get('aluno')!.value;
   }
-  
+
   get curso() {
     return this.editarRed.get('curso')!.value;
   }
@@ -136,7 +171,7 @@ export class EditarREDComponent implements OnInit{
   get semestreAluno() {
     return this.editarRed.get('semestreAluno')!.value;
   }
-  
+
   get tempoAfastamento() {
     return this.editarRed.get('tempoAfastamento')!.value;
   }
@@ -151,5 +186,5 @@ export class EditarREDComponent implements OnInit{
   get observacao() {
     return this.editarRed.get('observacao')!.value;
   }
-  
+
 }
