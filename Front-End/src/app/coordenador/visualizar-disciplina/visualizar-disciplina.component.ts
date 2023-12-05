@@ -22,7 +22,7 @@ export class VisualizarDisciplinaComponent implements OnInit{
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['professor', 'sigla', 'nomedisciplina', ];
+  displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'conclusao'];
 
   constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog,
               private dialog: MatDialogRef<VisualizarDisciplinaComponent>, private disciplinaservice: disciplinaService, private peeservice: peeService,
