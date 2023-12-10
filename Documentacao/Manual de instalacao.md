@@ -17,7 +17,7 @@ Neste manual, é primordial que possua acesso as permissões de gerenciamento do
 
 ## 1. Acesso ao código fonte
 
-No momento da escrita deste manual de instalação `(13/12/2021)`, o repositório com o código fonte do sistema pode ser acessado pela URL `https://github.com/Fabrica-de-Software-Academica-IFSP-PEP/gerenciaRED` caso seu usuário do Github possui as devidas permissões a organização/repositório.
+No momento da escrita deste manual de instalação `(10/12/2023)`, o repositório com o código fonte do sistema pode ser acessado pela URL `https://github.com/Fabrica-de-Software-Academica-IFSP-PEP/gerenciaRED` caso seu usuário do Github possui as devidas permissões a organização/repositório.
 
 1. Acessar o servidor via SSH com o comando `ssh {usuario}@{ip}`, utilizando o usuário e endereço IP fornecido pela equipe de TI (normalmente é necessário acesso a VPN para que possa conectar ao servidor, por favor confira o tutorial de uso enviado no email pela equipe de TI)
 
@@ -63,11 +63,11 @@ No momento da escrita deste manual de instalação `(13/12/2021)`, o repositóri
    <div style="page-break-after: always;"></div>
 
 5. Com a chave SSH gerada, deve-se realizar o seu cadastro no Github, para isso siga a sequencia de passos demonstrada na imagem a seguir:
-    ![Imagem1](./imagens/Imagem1.png)
+    ![PrimeiraImagem](./Imagens/PrimeiraImagem.png)
 
 6. Nesta segunda página, deve se preenchar as informações da seguinte maneira:
 
-   ![Imagem2](./imagens/Imagem2.png)
+   ![SegundaImagem](./Imagens/SegundaImagem.png)
 
 7. Após preencher as informações, a chave ssh pode ser adicionada apenas ao clicar no botão verte `Add key`, ou em português `Adicionar chave`
 
@@ -76,10 +76,10 @@ No momento da escrita deste manual de instalação `(13/12/2021)`, o repositóri
 Apartir deste momento, já deve ser possível realizar o clone do projeto no servidor através do comando abaixo
 
 ```bash
-$ git clone git@github.com:Fabrica-de-Software-Academica-IFSP-PEP/gerenciador-eventos.git
+$ git clone git@github.com:Fabrica-de-Software-Academica-IFSP-PEP/gerenciaRED.git
 ou
 $ git clone {urlSSH}
-> Cloning into 'gerenciador-eventos'...
+> Cloning into 'gerenciaRED'...
 > The authenticity of host 'github.com (20.201.28.151)' can't be established.
 > ECDSA key fingerprint is SHA256:p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM.
 > Are you sure you want to continue connecting (yes/no/[fingerprint])? [Digitar yes]
