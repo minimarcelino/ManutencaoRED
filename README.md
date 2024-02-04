@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento Regime Exercício Domiciliar
+# Sistema de Gerenciamento Regime Exercício Domiciliar - 2023
 
 [Manual de Instalação](https://github.com/Fabrica-de-Software-Academica-IFSP-PEP/gerenciaRED/blob/main/Documentacao/Manual%20de%20instalacao.md)
 
