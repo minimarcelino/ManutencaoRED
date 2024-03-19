@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { disciplinaService } from 'src/app/services/disciplina.service';
@@ -9,17 +13,21 @@ import { cursoService } from '../../../services/cursos.service';
 @Component({
   selector: 'app-cadastrar',
   templateUrl: './cadastrar.component.html',
-  styleUrls: ['./cadastrar.component.css']
+  styleUrls: ['./cadastrar.component.css'],
 })
-export class CadastrarDisciplinaComponent implements OnInit{
-
+export class CadastrarDisciplinaComponent implements OnInit {
   cadastrarDisciplina!: FormGroup;
   isSubmitting: boolean = false;
   error: Error | null = null;
   cursos: any[] = [];
   user: any;
-  
-  constructor(private snackBar: MatSnackBar, private router: Router, private disciplinaservice: disciplinaService, private cursoservice: cursoService){}
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private disciplinaservice: disciplinaService,
+    private cursoservice: cursoService
+  ) {}
 
   ngOnInit(): void {
     this.cadastrarDisciplina = new FormGroup({
@@ -28,35 +36,38 @@ export class CadastrarDisciplinaComponent implements OnInit{
       Curso: new FormControl('', [Validators.required]),
     });
     this.fetchCurso();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async submit() {
     if (this.cadastrarDisciplina.invalid || this.isSubmitting) {
-      this.openSnackBar("Campos Obrigatórios", null);
+      this.openSnackBar('Campos Obrigatórios', null);
       return;
     } else {
       this.isSubmitting = true;
       try {
         console.log(this.curso_idcurso);
         await this.disciplinaservice.createDisciplina({
-          sigla: this.sigla.toUpperCase(),
-          nomeDisciplina: this.nomedisciplina,
-          curso_idcurso: this.curso_idcurso
-        }); 
-        this.openSnackBar("Disciplina cadastrada com sucesso!", null);
-        if(this.user.tiposervidor == 'administrador'){
+          sigla: this.sigla.trim().toUpperCase(),
+          nomeDisciplina: this.nomedisciplina.trim(),
+          curso_idcurso: this.curso_idcurso,
+        });
+        this.openSnackBar('Disciplina cadastrada com sucesso!', null);
+        if (this.user.tiposervidor == 'administrador') {
           this.router.navigate(['/admin/listarDisciplinas']);
         } else {
-          this.router.navigate(['/coordenador/disciplinas']);      
+          this.router.navigate(['/coordenador/disciplinas']);
         }
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar("Falha ao cadastrar disciplina", errorMessage);
+          this.openSnackBar('Falha ao cadastrar disciplina', errorMessage);
         } else {
-          this.openSnackBar("Falha ao cadastrar disciplina", "Ocorreu um erro durante o cadastro da disciplina.");
+          this.openSnackBar(
+            'Falha ao cadastrar disciplina',
+            'Ocorreu um erro durante o cadastro da disciplina.'
+          );
         }
       }
     }
@@ -71,10 +82,10 @@ export class CadastrarDisciplinaComponent implements OnInit{
     } else if (error instanceof Error) {
       data = { message: error.message };
     }
-    
+
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
 
@@ -82,21 +93,20 @@ export class CadastrarDisciplinaComponent implements OnInit{
     return Curso && Curso.nomeCurso;
   }
 
-  async fetchCurso(){
+  async fetchCurso() {
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
-
   }
-  
-  voltar(){
-    if(this.user.tiposervidor == 'administrador'){
-       this.router.navigate(['/admin/listarDisciplinas']);
+
+  voltar() {
+    if (this.user.tiposervidor == 'administrador') {
+      this.router.navigate(['/admin/listarDisciplinas']);
     } else {
-      this.router.navigate(['/coordenador/disciplinas']);      
+      this.router.navigate(['/coordenador/disciplinas']);
     }
   }
 
-  get sigla(){
+  get sigla() {
     return this.cadastrarDisciplina.get('sigla')!.value;
   }
 
@@ -108,4 +118,15 @@ export class CadastrarDisciplinaComponent implements OnInit{
     return this.cadastrarDisciplina.get('Curso')!.value.idcurso;
   }
 
+  // Validação de campos de entrada ==> Utilizar após a união de rotas
+  validarCampoDisciplina(campo: string) {
+    const campoDisciplinaControl = this.cadastrarDisciplina.get(campo);
+    if (
+      !campoDisciplinaControl?.value ||
+      campoDisciplinaControl?.value.trim() === ''
+    ) {
+      this.openSnackBar(`${campo} da disciplina é obrigatório.`, null);
+      return;
+    }
+  }
 }
