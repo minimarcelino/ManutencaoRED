@@ -13,11 +13,12 @@ import { storageService } from 'src/app/services/storage.service';
 import { EditarDisciplinaComponent } from './editar/editar.component';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidationService } from 'src/app/utils/validation.service';
 
 @Component({
   selector: 'app-disciplinas',
   templateUrl: './disciplinas.component.html',
-  styleUrls: ['./disciplinas.component.css']
+  styleUrls: ['./disciplinas.component.css'],
 })
 export class DisciplinasComponent implements OnInit {
   dataToImport: any;
@@ -25,21 +26,29 @@ export class DisciplinasComponent implements OnInit {
   disciplinas: any[] = [];
   dataSource: any;
   user: any;
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
 
-  constructor(private http: HttpClient, private router: Router, private servidorService: servidorService, public dialogQuestionService: messageDialog, private disciplinaservice: disciplinaService,
-    private dialog: MatDialog, private storage: storageService, private snackBar: MatSnackBar) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private servidorService: servidorService,
+    public dialogQuestionService: messageDialog,
+    private disciplinaservice: disciplinaService,
+    private dialog: MatDialog,
+    private storage: storageService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   ngOnInit() {
     this.findAll();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async cadastrar() {
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
 
     if (this.user.tiposervidor == 'administrador') {
@@ -69,32 +78,43 @@ export class DisciplinasComponent implements OnInit {
 
   editarDisciplina(disciplina: any) {
     const editar = this.dialog.open(EditarDisciplinaComponent, {
-      data: { iddisciplinas: disciplina.iddisciplinas, nomeDisciplina: disciplina.nomeDisciplina, sigla: disciplina.sigla, curso: disciplina.curso }
+      data: {
+        iddisciplinas: disciplina.iddisciplinas,
+        nomeDisciplina: disciplina.nomeDisciplina,
+        sigla: disciplina.sigla,
+        curso: disciplina.curso,
+      },
     });
     this.handleDialogConfirm(editar);
   }
 
   async deleteDisciplinaPermanent(iddisciplinas: number) {
     try {
-      let response = await this.disciplinaservice.deleteDisciplina(iddisciplinas);
+      let response = await this.disciplinaservice.deleteDisciplina(
+        iddisciplinas
+      );
       if (response) {
-        this.openSnackBar("Disciplina deletada com sucesso!!", null);
+        this.openSnackBar('Disciplina deletada com sucesso!!', null);
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar("Falha ao deletar disciplina", errorMessage);
+        this.openSnackBar('Falha ao deletar disciplina', errorMessage);
       } else {
-        this.openSnackBar("Falha ao deletar disciplina", "Ocorreu um erro durante a remoção da disciplina.");
+        this.openSnackBar(
+          'Falha ao deletar disciplina',
+          'Ocorreu um erro durante a remoção da disciplina.'
+        );
       }
     }
   }
 
-
-  async deleteDisciplina(disciplina: any){
+  async deleteDisciplina(disciplina: any) {
     let res = false;
-    res = await this.dialogQuestionService.openDialogConfirmDelete('disciplina');
+    res = await this.dialogQuestionService.openDialogConfirmDelete(
+      'disciplina'
+    );
     if (res) {
       await this.deleteDisciplinaPermanent(disciplina.iddisciplinas);
     }
@@ -118,8 +138,7 @@ export class DisciplinasComponent implements OnInit {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
-
 }

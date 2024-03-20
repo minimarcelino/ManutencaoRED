@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { disciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { cursoService } from '../../../services/cursos.service';
+import { ValidationService } from 'src/app/utils/validation.service';
 
 @Component({
   selector: 'app-cadastrar',
@@ -26,7 +27,8 @@ export class CadastrarDisciplinaComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private disciplinaservice: disciplinaService,
-    private cursoservice: cursoService
+    private cursoservice: cursoService,
+    public validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
@@ -116,17 +118,5 @@ export class CadastrarDisciplinaComponent implements OnInit {
 
   get curso_idcurso() {
     return this.cadastrarDisciplina.get('Curso')!.value.idcurso;
-  }
-
-  // Validação de campos de entrada ==> Utilizar após a união de rotas
-  validarCampoDisciplina(campo: string) {
-    const campoDisciplinaControl = this.cadastrarDisciplina.get(campo);
-    if (
-      !campoDisciplinaControl?.value ||
-      campoDisciplinaControl?.value.trim() === ''
-    ) {
-      this.openSnackBar(`${campo} da disciplina é obrigatório.`, null);
-      return;
-    }
   }
 }
