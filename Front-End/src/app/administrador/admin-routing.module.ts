@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdministradorComponent } from "./administrador.component";
-import { DisciplinasComponent } from "../coordenador/disciplinas/disciplinas.component";
+import { DisciplinasComponent } from "../modulos/disciplinas/disciplinas.component";
 import { ListarRedComponent } from "../csp/processo-red/listar/listar.component";
 import { ListarCursosComponent } from "../csp/cursos/listar/listar.component";
 import { ListarAlunoComponent } from "../cra/alunos/listar/listar.component";
-import { CadastrarDisciplinaComponent } from "../coordenador/disciplinas/cadastrar/cadastrar.component";
+import { CadastrarDisciplinaComponent } from "../modulos/disciplinas/cadastrar/cadastrar.component";
 import { CadastrarDocenteComponent } from "../csp/docente/cadastrar/cadastrar.component";
 import { ProcessoREDComponent } from "../cra/processo-red/processo-red.component";
 import { CadastrarCursoComponent } from "../csp/cursos/cadastrar/cadastrar.component";

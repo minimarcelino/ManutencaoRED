@@ -49,15 +49,15 @@ export class AssociarDisciplinaComponent implements OnInit{
   async findAll() {
     const response = await this.disciplinaservice.getDisciplina();
     this.disciplinas = response.data.disciplinas;
-  
+
     if (this.data.red && this.data.red.pee && this.data.red.pee.length > 0) {
       const idDisciplinasRed = this.data.red.pee.map((item: any) => item.disciplinas.iddisciplinas);
-  
+
       idDisciplinasRed.forEach((idDisciplinaRed: any) => {
         const disciplinaEncontrada = this.disciplinas.find(
           disciplina => disciplina.iddisciplinas === idDisciplinaRed
         );
-  
+
         if (disciplinaEncontrada) {
           this.disciplinas = this.disciplinas.filter(
             disciplina => disciplina.iddisciplinas !== idDisciplinaRed
@@ -65,11 +65,11 @@ export class AssociarDisciplinaComponent implements OnInit{
         }
       });
     }
-  
+
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
     this.dataSource.paginator = this.paginator;
   }
-  
+
 
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
@@ -80,14 +80,14 @@ export class AssociarDisciplinaComponent implements OnInit{
     const disciplinaExistenteIndex = this.disciplinasSelecionadas.findIndex(
       (disciplinaSelecionada) => disciplinaSelecionada.iddisciplinas === disciplina.iddisciplinas
     );
-  
+
     if (disciplinaExistenteIndex === -1) {
       this.disciplinasSelecionadas.push(disciplina);
       this.dataSource2 = new MatTableDataSource<disciplina>(this.disciplinasSelecionadas);
     } else {
       this.openSnackBar("Esta disciplina já foi associada", null);
     }
-  }  
+  }
 
   removerDisciplina(disciplina: any) {
     const index = this.disciplinasSelecionadas.findIndex((item) => item.iddisciplinas === disciplina.iddisciplinas);
@@ -138,7 +138,7 @@ export class AssociarDisciplinaComponent implements OnInit{
     } else if (error instanceof Error) {
       data = { message: error.message };
     }
-    
+
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
       duration: 3000

@@ -1,19 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import * as XLSX from 'xlsx';
-import { servidorService } from 'src/app/services/servidor.service';
 import { MatDialog } from '@angular/material/dialog';
-import { disciplinaService } from 'src/app/services/disciplina.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { messageDialog } from 'src/app/services/messageDialog.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { disciplina } from 'src/app/modelo/disciplina';
-import { storageService } from 'src/app/services/storage.service';
-import { EditarDisciplinaComponent } from './editar/editar.component';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ValidationService } from 'src/app/utils/validation.service';
+import { Router } from '@angular/router';
+
+import { disciplinaService } from 'src/app/services/disciplina.service';
+import { EditarDisciplinaComponent } from './editar/editar.component';
+import { messageDialog } from 'src/app/services/messageDialog.service';
+import { disciplina } from 'src/app/modelo/disciplina';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-disciplinas',
@@ -31,14 +27,11 @@ export class DisciplinasComponent implements OnInit {
   displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
 
   constructor(
-    private http: HttpClient,
     private router: Router,
-    private servidorService: servidorService,
     public dialogQuestionService: messageDialog,
     private disciplinaservice: disciplinaService,
     private dialog: MatDialog,
-    private storage: storageService,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -50,7 +43,6 @@ export class DisciplinasComponent implements OnInit {
   async cadastrar() {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
-
     if (this.user.tiposervidor == 'administrador') {
       this.router.navigate(['/admin/cadastrarDisciplina']);
     } else {
@@ -72,7 +64,9 @@ export class DisciplinasComponent implements OnInit {
 
   irAssociar() {
     if (this.user.tiposervidor == 'administrador') {
-      this.router.navigate(['admin/associarDisciplinas']);
+      this.router.navigate(['/admin/associarDisciplinas']);
+    } else {
+      this.router.navigate(['/csp/associarDisciplinas']);
     }
   }
 
@@ -121,7 +115,7 @@ export class DisciplinasComponent implements OnInit {
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe((result: string) => {
+    dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
   }
