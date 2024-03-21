@@ -35,7 +35,7 @@ const routes: Routes = [
                 component: CadastrarDocenteComponent
             },
             {
-                path: 'listar',
+                path: 'listarServidores',
                 component: ListarDocenteComponent
             },
             {

@@ -42,7 +42,7 @@ const routes: Routes = [
   },
   //administrador
   {
-    path: 'admin',
+    path: 'administrador',
     loadChildren: () => import('./administrador/admin-routing.module').then((module) => module.AdministradorRoutingModule),
     canActivate: [authorizationService]
   },

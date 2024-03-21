@@ -34,7 +34,7 @@ const routes: Routes = [
             },
             ////Rotas dos Docentes
             {
-                path: 'listarDocentes',
+                path: 'listarServidores',
                 component: DocenteComponent
             },
             {

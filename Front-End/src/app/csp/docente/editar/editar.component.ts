@@ -48,7 +48,7 @@ export class EditarDocenteComponent implements OnInit{
 
   async submit() {
     if (this.cadastrarDocente.invalid || this.isSubmitting) {
-      this.openSnackBar("Campos Obrigatórios", null);
+      this.openSnackBar('Campos Obrigatórios', null);
       return;
     } else {
       this.isSubmitting = true;
@@ -61,7 +61,7 @@ export class EditarDocenteComponent implements OnInit{
             email: this.email,
             tiposervidor: this.tiposervidor,
             senha: this.data.senha,
-          }); 
+          });
           this.openSnackBar("Docente editado com sucesso!!", null);
         } catch (error: any) {
           if (error && error.error && error.error.data) {
@@ -80,7 +80,7 @@ export class EditarDocenteComponent implements OnInit{
             email: this.email,
             tiposervidor: this.data.tiposervidor,
             senha: this.data.senha,
-          }); 
+          });
           this.openSnackBar("Docente editado com sucesso!!", null);
         } catch (error: any) {
           if (error && error.error && error.error.data) {
@@ -91,7 +91,7 @@ export class EditarDocenteComponent implements OnInit{
           }
         }
       }
-      
+
     }
   }
 
@@ -108,7 +108,7 @@ export class EditarDocenteComponent implements OnInit{
     } else if (error instanceof Error) {
       data = { message: error.message };
     }
-    
+
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
       duration: 3000

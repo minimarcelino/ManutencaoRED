@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   logging: boolean = true;
   user: any;
-  
+
 
   constructor(
     private router: Router,
@@ -48,18 +48,7 @@ export class LoginComponent implements OnInit {
         if (this.user != null) {
           this.user = JSON.parse(this.user);
           this.sessionservice.setSession(this.user); // Armazena o usuário na sessão
-         
-          if (this.user.tiposervidor == 'csp') {
-            this.router.navigate(['/csp']);
-          } else if (this.user.tiposervidor == 'cra') {
-            this.router.navigate(['/cra']);
-          } else if (this.user.tiposervidor == 'coordenador') {
-            this.router.navigate(['/coordenador']);
-          } else if (this.user.tiposervidor == 'administrador') {
-            this.router.navigate(['/admin']);
-          } else if (this.user.tiposervidor == 'professor') {
-            this.router.navigate(['/professor']);
-          }
+          this.router.navigate([`/${this.user.tiposervidor}`]);
         }
         this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });
       } else {
@@ -75,5 +64,5 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('senha')!.value;
   }
 
-  
+
 }

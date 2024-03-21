@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, 
-  CanActivate, 
-  Router, 
+import { ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
   RouterStateSnapshot } from '@angular/router';
 import { storageService } from './storage.service';
 import { authenticationService } from './authentication.service';
@@ -17,7 +17,7 @@ import { authenticationService } from './authentication.service';
         private authentication: authenticationService
       ) {}
 
-      async canActivate(next: ActivatedRouteSnapshot, 
+      async canActivate(next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Promise<boolean> {
           const token = await this.authentication.getToken();
           this.user = localStorage.getItem("user");
@@ -26,14 +26,14 @@ import { authenticationService } from './authentication.service';
             this.user = JSON.parse(this.user);
              // Verifique a rota atual
             const currentRoute = state.url;
-        
+
             if (token && this.user) {
               // Obtenha o nível de acesso do usuário atual
               const userAccessLevel = this.user.tiposervidor;
-        
+
               // Verifique o nível de acesso e a rota atual
-              if (userAccessLevel === 'coordenador' && (currentRoute === '/coordenador' || 
-                                                        currentRoute === '/coordenador/discipinas' || 
+              if (userAccessLevel === 'coordenador' && (currentRoute === '/coordenador' ||
+                                                        currentRoute === '/coordenador/discipinas' ||
                                                         currentRoute === '/coordenador/listarCurso' ||
                                                         currentRoute === '/coordenador/cadastrarCurso' ||
                                                         currentRoute === '/coordenador/cadastrar' ||
@@ -44,44 +44,44 @@ import { authenticationService } from './authentication.service';
                                                         currentRoute === '/coordenador/perfil' ||
                                                         currentRoute === '/coordenador/listarMeusPees')) {
                 return true;
-              } else if (userAccessLevel === 'cra' && (currentRoute === '/cra' || 
+              } else if (userAccessLevel === 'cra' && (currentRoute === '/cra' ||
                                                        currentRoute === '/cra/processo-red' ||
                                                        currentRoute === '/cra/listar' ||
                                                        currentRoute === '/cra/cadastrar'||
                                                        currentRoute === '/cra/listarRed' ||
                                                        currentRoute === '/cra/perfil')) {
                 return true;
-              } else if (userAccessLevel === 'csp' && (currentRoute === '/csp' || 
-                                                       currentRoute === '/csp/listar' || 
+              } else if (userAccessLevel === 'csp' && (currentRoute === '/csp' ||
+                                                       currentRoute === '/csp/listar' ||
                                                        currentRoute === '/csp/cadastrar' ||
-                                                       currentRoute === '/csp/docentes' || 
+                                                       currentRoute === '/csp/docentes' ||
                                                        currentRoute === '/csp/cadastrarDocentes' ||
-                                                       currentRoute === '/csp/listarRed' || 
+                                                       currentRoute === '/csp/listarRed' ||
                                                        currentRoute === '/csp/perfil')) {
                 return true;
-              } else if (userAccessLevel === 'docente' && (currentRoute === '/docente' || 
+              } else if (userAccessLevel === 'docente' && (currentRoute === '/docente' ||
                                                            currentRoute === '/docente/outra-rota-convidado')) {
                 return true;
-              } else if (userAccessLevel === 'administrador' && (currentRoute === '/admin' || 
-                                                                currentRoute === '/admin/listarReds'||
-                                                                currentRoute === '/admin/listarDisciplinas' ||
-                                                                currentRoute === '/admin/cadastrarDisciplina'||
-                                                                currentRoute === '/admin/listarDocentes'||
-                                                                currentRoute === '/admin/cadastrarDocente'||
-                                                                currentRoute === '/admin/listarAlunos'||
-                                                                currentRoute === '/admin/cadastrarAluno'||
-                                                                currentRoute === '/admin/listarCursos'||
-                                                                currentRoute === '/admin/cadastrarCurso')) {
+              } else if (userAccessLevel === 'administrador' && (currentRoute === '/administrador' ||
+                                                                currentRoute === '/administrador/listarReds'||
+                                                                currentRoute === '/administrador/listarDisciplinas' ||
+                                                                currentRoute === '/administrador/cadastrarDisciplina'||
+                                                                currentRoute === '/administrador/listarDocentes'||
+                                                                currentRoute === '/administrador/cadastrarDocente'||
+                                                                currentRoute === '/administrador/listarAlunos'||
+                                                                currentRoute === '/administrador/cadastrarAluno'||
+                                                                currentRoute === '/administrador/listarCursos'||
+                                                                currentRoute === '/administrador/cadastrarCurso')) {
                 return true;
-              } else if (userAccessLevel === 'professor' && (currentRoute === '/professor' || 
-                                                             currentRoute === '/professor/listarPees'|| 
+              } else if (userAccessLevel === 'professor' && (currentRoute === '/professor' ||
+                                                             currentRoute === '/professor/listarPees'||
                                                              currentRoute === '/professor/listarPeesAbonados' ||
                                                              currentRoute === '/professor/perfil')) {
                 return true;
               }
-              
+
             }
-          }        
+          }
           this.router.navigate(['login']);
           return false;
         }

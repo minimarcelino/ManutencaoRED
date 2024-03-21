@@ -43,11 +43,7 @@ export class DisciplinasComponent implements OnInit {
   async cadastrar() {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
-    if (this.user.tiposervidor == 'administrador') {
-      this.router.navigate(['/admin/cadastrarDisciplina']);
-    } else {
-      this.router.navigate(['/coordenador/cadastrarDisciplina']);
-    }
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarDisciplina`]);
   }
 
   applyFilter(data: Event) {
@@ -63,11 +59,7 @@ export class DisciplinasComponent implements OnInit {
   }
 
   irAssociar() {
-    if (this.user.tiposervidor == 'administrador') {
-      this.router.navigate(['/admin/associarDisciplinas']);
-    } else {
-      this.router.navigate(['/csp/associarDisciplinas']);
-    }
+    this.router.navigate([`/${this.user.tiposervidor}/associarDisciplinas`]);
   }
 
   editarDisciplina(disciplina: any) {
