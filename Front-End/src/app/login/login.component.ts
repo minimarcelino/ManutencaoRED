@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { sessionService } from '../services/session.service';
 import { authenticationService } from '../services/authentication.service';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -22,13 +16,12 @@ export class LoginComponent implements OnInit {
   logging: boolean = true;
   user: any;
 
-
   constructor(
     private router: Router,
     private sessionservice: sessionService,
     private authentication: authenticationService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -39,12 +32,17 @@ export class LoginComponent implements OnInit {
 
   async fazerLogin() {
     if (this.loginForm.invalid) {
-      this.snackBar.open('Por favor, preencha todos os campos!', '', { duration: 3000 });
+      this.snackBar.open('Por favor, preencha todos os campos!', '', {
+        duration: 3000,
+      });
       return;
     } else {
-      this.logging = await this.authentication.login({ prontuario: this.prontuario, senha: this.senha });
+      this.logging = await this.authentication.login({
+        prontuario: this.prontuario,
+        senha: this.senha,
+      });
       if (this.logging) {
-        this.user = localStorage.getItem("user");
+        this.user = localStorage.getItem('user');
         if (this.user != null) {
           this.user = JSON.parse(this.user);
           this.sessionservice.setSession(this.user); // Armazena o usuário na sessão
@@ -52,7 +50,9 @@ export class LoginComponent implements OnInit {
         }
         this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });
       } else {
-        this.snackBar.open('Email ou senha incorretos!', '', { duration: 3000 });
+        this.snackBar.open('Email ou senha incorretos!', '', {
+          duration: 3000,
+        });
       }
     }
   }
@@ -63,6 +63,4 @@ export class LoginComponent implements OnInit {
   get senha() {
     return this.loginForm.get('senha')!.value;
   }
-
-
 }

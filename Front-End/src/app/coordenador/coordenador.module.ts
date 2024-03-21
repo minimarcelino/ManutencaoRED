@@ -25,13 +25,13 @@ import { AssociarProfessoresComponent } from './associar-professores/associar-pr
 import { PeeComponent } from './pee/pee.component';
 import { VisualizarPeeComponent } from './pee/visualizar-pee/visualizar-pee.component';
 import { VisualizarDisciplinaComponent } from './visualizar-disciplina/visualizar-disciplina.component';
-import { DisciplinasComponent } from '../modulos/disciplinas/disciplinas.component';
+import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
 import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/cadastrar.component';
 import { EditarDisciplinaComponent } from '../modulos/disciplinas/editar/editar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
     declarations: [
-        DisciplinasComponent,
+        ListarDisciplinasComponent,
         CadastrarDocenteComponent,
         ListarDocenteComponent,
         EditarDocenteComponent,

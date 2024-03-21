@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { disciplinaService } from 'src/app/services/disciplina.service';
-import { EditarDisciplinaComponent } from './editar/editar.component';
+import { EditarDisciplinaComponent } from '../editar/editar.component';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
@@ -16,7 +16,7 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
   templateUrl: './disciplinas.component.html',
   styleUrls: ['./disciplinas.component.css'],
 })
-export class DisciplinasComponent implements OnInit {
+export class ListarDisciplinasComponent implements OnInit {
   dataToImport: any;
   data: any[] = [];
   disciplinas: any[] = [];

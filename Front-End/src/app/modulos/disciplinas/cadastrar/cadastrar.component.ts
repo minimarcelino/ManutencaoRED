@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
 import { disciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { cursoService } from '../../../services/cursos.service';
@@ -56,11 +53,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
           curso_idcurso: this.curso_idcurso,
         });
         this.openSnackBar('Disciplina cadastrada com sucesso!', null);
-        if (this.user.tiposervidor == 'administrador') {
-          this.router.navigate(['/admin/listarDisciplinas']);
-        } else {
-          this.router.navigate(['/coordenador/disciplinas']);
-        }
+        this.voltar();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
@@ -101,11 +94,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
   }
 
   voltar() {
-    if (this.user.tiposervidor == 'administrador') {
-      this.router.navigate(['/admin/listarDisciplinas']);
-    } else {
-      this.router.navigate(['/coordenador/disciplinas']);
-    }
+    this.router.navigate([`/${this.user.tiposervidor}/listarDisciplinas`]);
   }
 
   get sigla() {
