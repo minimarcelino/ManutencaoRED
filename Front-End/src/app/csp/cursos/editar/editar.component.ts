@@ -12,7 +12,7 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
   templateUrl: './editar.component.html',
   styleUrls: ['./editar.component.css']
 })
-export class EditarComponent implements OnInit{
+export class EditarCursoComponent implements OnInit{
 
   editarCurso!: FormGroup;
   servidores: any[] = [];
@@ -20,7 +20,7 @@ export class EditarComponent implements OnInit{
   isSubmitting: boolean = false;
 
   constructor(private cursoservice: cursoService, private snackBar: MatSnackBar, private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarComponent>){}
+    @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialogRef<EditarCursoComponent>){}
 
   ngOnInit(): void {
     this.fetchCoordenador();
@@ -43,7 +43,7 @@ export class EditarComponent implements OnInit{
           idcurso: this.data.idcurso,
           sigla: this.sigla.toUpperCase(),
           nomeCurso: this.nomeCurso,
-          coordenador: this.idcordenador}); 
+          coordenador: this.idcordenador});
         this.openSnackBar("Curso editado com sucesso!!", null);
         this.dialog.close();
       } catch (error: any) {
@@ -77,7 +77,7 @@ export class EditarComponent implements OnInit{
     } else if (error instanceof Error) {
       data = { message: error.message };
     }
-    
+
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
       duration: 3000

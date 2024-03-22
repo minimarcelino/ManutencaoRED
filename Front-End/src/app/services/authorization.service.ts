@@ -51,9 +51,9 @@ export class authorizationService {
             currentRoute === '/coordenador/listarServidores' ||
             currentRoute === '/coordenador/cadastrarServidores' ||
             //RED
-            currentRoute === '/coordenador/cadastrar' ||
+            currentRoute === '/coordenador/cadastrarREDs' ||
             currentRoute === '/coordenador/listar' ||
-            currentRoute === '/coordenador/listarRed' ||
+            currentRoute === '/coordenador/listarREDs' ||
             //PEE
             currentRoute === '/coordenador/listarPee' ||
             currentRoute === '/coordenador/listarMeusPees')
@@ -64,11 +64,11 @@ export class authorizationService {
           (currentRoute === '/cra' ||
             currentRoute === '/cra/perfil' ||
             // RED
-            currentRoute === '/cra/processo-red' ||
-            currentRoute === '/cra/listar' ||
-            currentRoute === '/cra/cadastrar' ||
-            currentRoute === '/cra/listarRed')
-          // Alunos
+            currentRoute === '/cra/listarREDs' ||
+            currentRoute === '/cra/cadastrarREDs' ||
+            // Alunos
+            currentRoute === '/cra/listarAlunos' ||
+            currentRoute === '/cra/cadastrarAlunos')
         ) {
           return true;
         } else if (
@@ -83,7 +83,7 @@ export class authorizationService {
             currentRoute === '/csp/listarCursos' ||
             currentRoute === '/csp/cadastrarCursos' ||
             // RED
-            currentRoute === '/csp/listarRed')
+            currentRoute === '/csp/listarREDs')
           // Cursos
         ) {
           return true;
@@ -104,7 +104,8 @@ export class authorizationService {
             currentRoute === '/administrador/listarDisciplinas' ||
             currentRoute === '/administrador/cadastrarDisciplina' ||
             // RED
-            currentRoute === '/administrador/listarReds' ||
+            currentRoute === '/administrador/listarREDs' ||
+            currentRoute === '/administrador/cadastrarREDs' ||
             // Servidores
             currentRoute === '/administrador/listarServidores' ||
             currentRoute === '/administrador/cadastrarServidores' ||

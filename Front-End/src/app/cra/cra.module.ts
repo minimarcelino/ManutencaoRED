@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -9,52 +8,59 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { CRAComponent } from './cra.component';
-import { ProcessoREDComponent } from './processo-red/processo-red.component';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CadastrarAlunoComponent } from './alunos/cadastrar/cadastrar.component';
-import { ListarAlunoComponent } from './alunos/listar/listar.component';
-import { EditarComponent } from './alunos/editar/editar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ListarREDComponent } from './processo-red/listar/listar.component';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { EditarREDComponent } from './processo-red/editar/editar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { VisualizarAlunoComponent } from './alunos/visualizar/visualizar.component';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MatMomentDateModule,
+} from '@angular/material-moment-adapter';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+//
+//
+import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
+import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
+import { EditarAlunosComponent } from '../modulos/alunos/editar/editar.component';
+import { VisualizarAlunoComponent } from '../modulos/alunos/visualizar/visualizar.component';
+//
+import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
+import { EditarREDComponent } from '../modulos/processo-red/editar/editar.component';
+import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
+
 @NgModule({
-    declarations: [
+  declarations: [
     CadastrarAlunoComponent,
     ListarAlunoComponent,
-    ProcessoREDComponent,
-    EditarComponent,
+    EditarAlunosComponent,
+    VisualizarAlunoComponent,
+    //
     ListarREDComponent,
     EditarREDComponent,
-    VisualizarAlunoComponent
+    CadastrarProcessoREDComponent
   ],
-    imports: [
-      CommonModule,
-      MatIconModule,
-      ReactiveFormsModule,
-      FormsModule,
-      MatFormFieldModule,
-      MatTooltipModule,
-      MatInputModule,
-      MatAutocompleteModule,
-      MatButtonModule,
-      MatSnackBarModule,
-      MatTableModule,
-      MatNativeDateModule,
-      MatDatepickerModule,
-      MatPaginatorModule,
-      MatMomentDateModule,
-      NgxMaskDirective,
-      NgxMaskPipe
-    ],
-    providers: [
-      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-      provideNgxMask()
-    ]
-  })
-  export class CraModule { }
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatPaginatorModule,
+    MatMomentDateModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    provideNgxMask(),
+  ],
+})
+export class CraModule {}

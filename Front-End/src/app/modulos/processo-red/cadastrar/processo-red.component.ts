@@ -3,24 +3,35 @@ import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { cursoService } from 'src/app/services/cursos.service';
-import { HttpClient } from '@angular/common/http';
-import { servidorService } from 'src/app/services/servidor.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { CadastrarAlunoComponent } from '../alunos/cadastrar/cadastrar.component';
 import { MatDialog } from '@angular/material/dialog';
+//
+import { servidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { redService } from 'src/app/services/red.service';
+import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
+
+
 @Component({
   selector: 'app-processo-red',
   templateUrl: './processo-red.component.html',
-  styleUrls: ['./processo-red.component.css']
+  styleUrls: ['./processo-red.component.css'],
 })
-export class ProcessoREDComponent implements OnInit {
-  constructor(private router: Router, private alunoservice: alunoService, private cursoservice: cursoService, private servidorservice: servidorService,
-    private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string,
-    private dialog: MatDialog, public dialogQuestionService: messageDialog, private snackBar: MatSnackBar, private redservice: redService) { }
+export class CadastrarProcessoREDComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private alunoservice: alunoService,
+    private cursoservice: cursoService,
+    private servidorservice: servidorService,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private dialog: MatDialog,
+    public dialogQuestionService: messageDialog,
+    private snackBar: MatSnackBar,
+    private redservice: redService
+  ) {}
 
   alunos: any[] = [];
   cursos: any[] = [];
@@ -29,7 +40,6 @@ export class ProcessoREDComponent implements OnInit {
   cadastrarRed!: FormGroup;
   isDisable: boolean = false;
   user: any;
-
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
@@ -44,20 +54,16 @@ export class ProcessoREDComponent implements OnInit {
       semestreAluno: new FormControl('', [Validators.required]),
     });
     this.fetchAlunos();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
-
-
 
   displayFn(aluno: any): string {
     let pront = aluno.prontuario;
     let nome = aluno.nome;
     let pront_aluno = pront + ' - ' + nome;
     return aluno && pront_aluno;
-
   }
-
 
   InputFile(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -72,11 +78,11 @@ export class ProcessoREDComponent implements OnInit {
     this.alunos = response.data.alunos;
   }
 
-
   async fetchCursos() {
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
-    this.filtredCursos = this.cursos.filter(curso => curso.idcurso === this.aluno.curso_idcurso);
+    this.filtredCursos = this.cursos.filter(
+      (curso) => curso.idcurso === this.aluno.curso_idcurso);
     this.inputCurso = this.filtredCursos[0].nomeCurso;
   }
 
@@ -86,9 +92,7 @@ export class ProcessoREDComponent implements OnInit {
   }
 
   async CadastrarAluno() {
-    const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
-      data: {}
-    });
+    const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {data: {},});
     this.handleDialogConfirm(cadastrarAluno);
   }
 
@@ -97,29 +101,42 @@ export class ProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
-
-    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(this.inicioAfastamento);
+    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
+      this.inicioAfastamento
+    );
     const redsExistente = await this.redservice.getRed();
-    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
-      const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
-      const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
-      const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
-      const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
+      (red: any) => {
+        const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
+        const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
+        const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
+        const previsaoTerminoThis = this.dateToString(
+          this.previsaoTerminoRed()
+        );
 
-      return inicioAfastamentoRed === inicioAfastamentoThis && previsaoTerminoRed === previsaoTerminoThis;
-    });
+        return (
+          inicioAfastamentoRed === inicioAfastamentoThis &&
+          previsaoTerminoRed === previsaoTerminoThis
+        );
+      }
+    );
     if (redExistenteNoMesmoPeriodo) {
-      this.openSnackBar("Já existe um RED para este prontuário no mesmo período! ", null);
+      this.openSnackBar(
+        'Já existe um RED para este prontuário no mesmo período! ',
+        null
+      );
       return;
     }
     if (!inicioAfastamentoValido) {
-      this.openSnackBar("O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ", null);
+      this.openSnackBar(
+        'O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',
+        null
+      );
       return;
     }
 
-
     try {
-      console.log(this.filtredCursos)
+      console.log(this.filtredCursos);
       await this.servidorservice.createRED({
         motivoAfastamento: this.motivoAfastamento,
         inicioAfastamento: this.inicioAfastamento,
@@ -131,21 +148,17 @@ export class ProcessoREDComponent implements OnInit {
         observacao: this.observacao,
         aluno_id: this.aluno.id,
         coordenador: this.filtredCursos[0].coordenador,
-
       });
       if (this.tempoAfastamento < 15) {
-        this.openSnackBar("A quantidade de dias deve ser no mínimo 15! ", null);
+        this.openSnackBar('A quantidade de dias deve ser no mínimo 15! ', null);
         return;
       }
       if (this.semestreAluno <= 0) {
-        this.openSnackBar("O semestre não pode ser menor que 1! ", null);
+        this.openSnackBar('O semestre não pode ser menor que 1! ', null);
         return;
       }
-      if (this.user.tiposervidor == 'administrador') {
-        this.router.navigate(['admin/listarReds']);
-      } else {
-        this.router.navigate(['cra/listarRED']);
-      }
+      this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
+
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }
@@ -170,11 +183,7 @@ export class ProcessoREDComponent implements OnInit {
   }
 
   teste() {
-    if (this.user.tiposervidor == 'administrador') {
-      this.router.navigate(['/admin/cadastrarAluno']);
-    } else {
-      this.router.navigate(['/cra/cadastrar']);
-    }
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarAlunos`]);
   }
 
   openSnackBar(message: string, error: string | Error | null) {
@@ -189,15 +198,12 @@ export class ProcessoREDComponent implements OnInit {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
 
-
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe((result: string) => {
-
-    });
+    dialog.afterClosed().subscribe((result: string) => {});
   }
 
   get aluno() {
@@ -224,7 +230,7 @@ export class ProcessoREDComponent implements OnInit {
   }
 
   get situacao() {
-    return "Esperando confirmação";
+    return 'Esperando confirmação';
   }
 
   get observacao() {

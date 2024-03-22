@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CoordenadorComponent } from './coordenador.component';
-import { ListarRedComponent } from './visualizacaoRed/listar/listar.component';
+import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
 import { ListarCursosComponent } from '../csp/cursos/listar/listar.component';
 import { CadastrarCursoComponent } from '../csp/cursos/cadastrar/cadastrar.component';
 import { PeeComponent } from './pee/pee.component';
@@ -47,8 +47,8 @@ const routes: Routes = [
 
       // Rotas dos RED
       {
-        path: 'listarRed',
-        component: ListarRedComponent,
+        path: 'listarREDs',
+        component: ListarREDsComponent,
       },
 
       // Rotas dos Servidores(Docentes)

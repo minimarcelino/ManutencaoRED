@@ -18,8 +18,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //
-import { ListarRedComponent } from './visualizacaoRed/listar/listar.component';
-import { VisualizarComponent } from './visualizacaoRed/visualizar/visualizar.component';
+import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
+import { VisualizarREDsComponent } from './visualizacaoRed/visualizar/visualizar.component';
 import { AssociarProfessoresComponent } from './associar-professores/associar-professores.component';
 import { PeeComponent } from './pee/pee.component';
 import { VisualizarPeeComponent } from './pee/visualizar-pee/visualizar-pee.component';
@@ -31,16 +31,17 @@ import { EditarDisciplinaComponent } from '../modulos/disciplinas/editar/editar.
 //
 @NgModule({
   declarations: [
+    VisualizarDisciplinaComponent,
+    //
     ListarDisciplinasComponent,
     CadastrarDisciplinaComponent,
-
-    ListarRedComponent,
-    VisualizarComponent,
-    VisualizarPeeComponent,
     EditarDisciplinaComponent,
+    //
+    ListarREDsComponent,
+    VisualizarREDsComponent,
+    VisualizarPeeComponent,
     AssociarProfessoresComponent,
     PeeComponent,
-    VisualizarDisciplinaComponent,
   ],
   imports: [
     CommonModule,

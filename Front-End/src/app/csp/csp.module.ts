@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CadastrarCursoComponent } from './cursos/cadastrar/cadastrar.component';
 import { ListarCursosComponent } from './cursos/listar/listar.component';
-import { EditarComponent } from './cursos/editar/editar.component';
+import { EditarCursoComponent } from './cursos/editar/editar.component';
 import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from './processo-red/visualizar/visualizar.component';
@@ -37,10 +36,11 @@ import { EditarServidoresComponent } from '../modulos/servidores/editar/editar.c
     //
     CadastrarCursoComponent,
     ListarCursosComponent,
-    EditarComponent,
+    EditarCursoComponent,
+    //
     ListarRedComponent,
-    AssociarDisciplinaComponent,
     VisualizarRedComponent,
+    AssociarDisciplinaComponent,
   ],
   imports: [
     CommonModule,

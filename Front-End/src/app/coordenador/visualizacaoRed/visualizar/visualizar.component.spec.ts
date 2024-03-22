@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VisualizarComponent } from './visualizar.component';
+import { VisualizarREDsComponent } from './visualizar.component';
 
 describe('VisualizarComponent', () => {
-  let component: VisualizarComponent;
-  let fixture: ComponentFixture<VisualizarComponent>;
+  let component: VisualizarREDsComponent;
+  let fixture: ComponentFixture<VisualizarREDsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VisualizarComponent]
+      declarations: [VisualizarREDsComponent]
     });
-    fixture = TestBed.createComponent(VisualizarComponent);
+    fixture = TestBed.createComponent(VisualizarREDsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

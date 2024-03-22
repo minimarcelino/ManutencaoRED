@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProcessoREDComponent } from './processo-red.component';
+import { CadastrarProcessoREDComponent } from './processo-red.component';
 
 describe('ProcessoREDComponent', () => {
-  let component: ProcessoREDComponent;
-  let fixture: ComponentFixture<ProcessoREDComponent>;
+  let component: CadastrarProcessoREDComponent;
+  let fixture: ComponentFixture<CadastrarProcessoREDComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProcessoREDComponent]
+      declarations: [CadastrarProcessoREDComponent]
     });
-    fixture = TestBed.createComponent(ProcessoREDComponent);
+    fixture = TestBed.createComponent(CadastrarProcessoREDComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

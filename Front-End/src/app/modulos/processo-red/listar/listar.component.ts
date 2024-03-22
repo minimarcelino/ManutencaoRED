@@ -1,19 +1,17 @@
 import { formatDate } from '@angular/common';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+
 import { curso } from 'src/app/modelo/curso';
-import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
-import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { EditarREDComponent } from '../editar/editar.component';
-import * as XLSX from 'xlsx';
 import { peeService } from 'src/app/services/pee.service';
 
 export interface aluno {
@@ -26,8 +24,8 @@ export interface aluno {
   curso: curso;
 }
 
-export interface red{
-  idRED: number,
+export interface red {
+  idRED: number;
   dataInicioProcesso: Date;
   dataPrevisaoTermino: Date;
   motivoAfastamento: String;
@@ -38,52 +36,63 @@ export interface red{
   inicioAfastamento: Date;
   tempoAfastamento: number;
   semestreOuAnoAluno: number;
-  }
+}
 
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css']
+  styleUrls: ['./listar.component.css'],
 })
-
 export class ListarREDComponent implements OnInit {
-
   reds: red[] = [];
   alunos: aluno[] = [];
   dataSource: any;
-  user:any;
-  @ViewChild(MatPaginator) paginator !:MatPaginator;
+  user: any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['Prontuário', 'Nome', 'Curso','Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
+  displayedColumns = [
+    'Prontuário',
+    'Nome',
+    'Curso',
+    'Início RED',
+    'Tempo Afastamento',
+    'Previsão Término',
+    'Situação',
+    'Ações',
+  ];
 
-  constructor(private router: Router,private alunoservice: alunoService,private redservice: redService,
-    public dialogQuestionService: messageDialog, private servidorservice: servidorService,
-    private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private snackBar: MatSnackBar,
-    private peeservice: peeService) { }
+  constructor(
+    private router: Router,
+    private redservice: redService,
+    public dialogQuestionService: messageDialog,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private peeservice: peeService
+  ) {}
 
   ngOnInit(): void {
     this.findAll();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async findAll() {
-  const response = await this.redservice.getRed();
-  this.reds = response.data.reds;
+    const response = await this.redservice.getRed();
+    this.reds = response.data.reds;
 
-  this.dataSource = new MatTableDataSource<any>(this.reds);
-  this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource<any>(this.reds);
+    this.dataSource.paginator = this.paginator;
 
-  this.dataSource.filterPredicate = (data: any, filter: string) => {
-    // Altere 'nome' para a propriedade que contém o nome no seu objeto de dados
-    return data.aluno.nome.toLowerCase().includes(filter.toLowerCase());
-  };
-}
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // Altere 'nome' para a propriedade que contém o nome no seu objeto de dados
+      return data.aluno.nome.toLowerCase().includes(filter.toLowerCase());
+    };
+  }
 
-applyFilter(event: Event) {
-  const value = (event.target as HTMLInputElement).value;
-  this.dataSource.filter = value;
-}
+  applyFilter(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = value;
+  }
 
   formatData(data: Date): string {
     if (data) {
@@ -93,23 +102,28 @@ applyFilter(event: Event) {
     }
   }
 
-
   async cadastrarRed() {
-    if(this.user.tiposervidor == 'administrador'){
-      this.router.navigate(['/admin/cadastrarRed'])
-    } else {
-      this.router.navigate(['/cra/processo-red']);
-    }
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarREDs`]);
   }
 
-  editarRed(red: any){
+  editarRed(red: any) {
     console.log(red);
     console.log(red.idRED);
-    const editar =  this.dialog.open(EditarREDComponent, {
-        data: {id: red.idRED, motivoAfastamento: red.motivoAfastamento, inicioAfastamento: red.inicioAfastamento,
-               dataPrevisaoTermino: red.dataPrevisaoTermino, situacao: red.situacao, observacao: red.observacao,
-               dataInicioProcesso: red.dataInicioProcesso, semestreAluno: red.semestreOuAnoAluno, tempoAfastamento: red.tempoAfastamento,
-               aluno_id: red.aluno_id, coordenador: red.coordenador, aluno: red.aluno}
+    const editar = this.dialog.open(EditarREDComponent, {
+      data: {
+        id: red.idRED,
+        motivoAfastamento: red.motivoAfastamento,
+        inicioAfastamento: red.inicioAfastamento,
+        dataPrevisaoTermino: red.dataPrevisaoTermino,
+        situacao: red.situacao,
+        observacao: red.observacao,
+        dataInicioProcesso: red.dataInicioProcesso,
+        semestreAluno: red.semestreOuAnoAluno,
+        tempoAfastamento: red.tempoAfastamento,
+        aluno_id: red.aluno_id,
+        coordenador: red.coordenador,
+        aluno: red.aluno,
+      },
     });
     this.handleDialogConfirm(editar);
   }
@@ -126,13 +140,13 @@ applyFilter(event: Event) {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
 
-  handleDialogConfirm(dialog: any){
-    dialog.afterClosed().subscribe((result: string) => {
-        this.findAll();
+  handleDialogConfirm(dialog: any) {
+    dialog.afterClosed().subscribe(() => {
+      this.findAll();
     });
   }
 
@@ -142,13 +156,19 @@ applyFilter(event: Event) {
 
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({
-        'Disciplina': item.disciplinas.nomeDisciplina,
-        'As atividades do aluno foram entregues ao professor?': item.atividades.dateEntregaAluno,
-        'O aluno cumpriu com as atividades propostas no PEE?': item.atividades.cumpriuAtividade,
-        'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?': item.atividades.novaAtividade,
-        'Houveram atividades avaliativas no periodo de afastamento do aluno?': item.houveAvaliacao,
-        'As atividades avaliativas necessárias já foram realizadas?': item.avaliacoesRealizadas,
-        'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.': item.dataAvaliacao,
+        Disciplina: item.disciplinas.nomeDisciplina,
+        'As atividades do aluno foram entregues ao professor?':
+          item.atividades.dateEntregaAluno,
+        'O aluno cumpriu com as atividades propostas no PEE?':
+          item.atividades.cumpriuAtividade,
+        'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?':
+          item.atividades.novaAtividade,
+        'Houveram atividades avaliativas no periodo de afastamento do aluno?':
+          item.houveAvaliacao,
+        'As atividades avaliativas necessárias já foram realizadas?':
+          item.avaliacoesRealizadas,
+        'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.':
+          item.dataAvaliacao,
       }));
 
       // Criar uma nova planilha

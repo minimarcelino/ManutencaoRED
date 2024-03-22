@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AdministradorComponent } from './administrador.component';
-import { ListarRedComponent } from '../csp/processo-red/listar/listar.component';
 import { ListarCursosComponent } from '../csp/cursos/listar/listar.component';
-import { ListarAlunoComponent } from '../cra/alunos/listar/listar.component';
-import { ProcessoREDComponent } from '../cra/processo-red/processo-red.component';
 import { CadastrarCursoComponent } from '../csp/cursos/cadastrar/cadastrar.component';
-import { CadastrarAlunoComponent } from '../cra/alunos/cadastrar/cadastrar.component';
 import { AssociarDisciplinaComponent } from '../csp/associar-disciplina/associar-disciplina.component';
 import { PerfilComponent } from '../perfil/perfil.component';
 //
@@ -16,6 +12,11 @@ import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/c
 //
 import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
 import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
+//
+import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
+import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
+import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
+import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
 
 const routes: Routes = [
   {
@@ -53,12 +54,12 @@ const routes: Routes = [
 
       //Rotas dos REDs
       {
-        path: 'listarReds',
-        component: ListarRedComponent,
+        path: 'listarREDs',
+        component: ListarREDComponent,
       },
       {
-        path: 'cadastrarRed',
-        component: ProcessoREDComponent,
+        path: 'cadastrarREDs',
+        component: CadastrarProcessoREDComponent,
       },
 
       //Rotas dos Cursos

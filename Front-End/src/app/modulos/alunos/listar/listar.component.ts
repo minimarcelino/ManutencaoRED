@@ -1,54 +1,56 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { aluno } from 'src/app/modelo/aluno';
-import { alunoService } from 'src/app/services/alunos.service';
-import { messageDialog } from 'src/app/services/messageDialog.service';
-import { EditarComponent } from '../editar/editar.component';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { aluno } from 'src/app/modelo/aluno';
+import { alunoService } from 'src/app/services/alunos.service';
+import { messageDialog } from 'src/app/services/messageDialog.service';
+import { EditarAlunosComponent } from '../editar/editar.component';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarAlunoComponent } from '../visualizar/visualizar.component';
 
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css']
+  styleUrls: ['./listar.component.css'],
 })
 export class ListarAlunoComponent implements OnInit {
-
   alunos: aluno[] = [];
   dataSource: any;
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   user: any;
 
   displayedColumns = ['prontuario', 'nome', 'telefone', 'email', 'acoes'];
 
-  constructor(private router: Router, public dialogQuestionService: messageDialog, private alunoservice: alunoService,
-    private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private snackBar: MatSnackBar) { }
+  constructor(
+    private router: Router,
+    public dialogQuestionService: messageDialog,
+    private alunoservice: alunoService,
+    private dialog: MatDialog,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.findAll();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async cadastrar() {
-    if (this.user.tiposervidor == 'administrador') {
-      this.router.navigate(['/admin/cadastrarAluno']);
-    } else {
-      this.router.navigate(['/cra/cadastrar']);
-    }
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarAlunos`])
   }
 
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
     this.dataSource.filter = value;
   }
-
 
   async findAll() {
     const response = await this.alunoservice.getAluno();
@@ -69,33 +71,50 @@ export class ListarAlunoComponent implements OnInit {
     try {
       let response = await this.alunoservice.deleteAluno(id);
       if (response) {
-        this.openSnackBar("Aluno deletado com sucesso!!", null);
+        this.openSnackBar('Aluno deletado com sucesso!!', null);
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar("Falha ao deletar aluno", errorMessage);
+        this.openSnackBar('Falha ao deletar aluno', errorMessage);
       } else {
-        this.openSnackBar("Falha ao deletar aluno", "Ocorreu um erro durante a remoção do aluno.");
+        this.openSnackBar(
+          'Falha ao deletar aluno',
+          'Ocorreu um erro durante a remoção do aluno.'
+        );
       }
     }
   }
 
   visualizarAluno(aluno: any) {
-    const editar =  this.dialog.open( VisualizarAlunoComponent ,{
-      data: {id: aluno.id, prontuario: aluno.prontuario, nome: aluno.nome, dataNascimento: aluno.dataNascimento, endereco: aluno.endereco,
-        telefone: aluno.telefone, email: aluno.email, curso: aluno.curso}
+    const editar = this.dialog.open(VisualizarAlunoComponent, {
+      data: {
+        id: aluno.id,
+        prontuario: aluno.prontuario,
+        nome: aluno.nome,
+        dataNascimento: aluno.dataNascimento,
+        endereco: aluno.endereco,
+        telefone: aluno.telefone,
+        email: aluno.email,
+        curso: aluno.curso,
+      },
     });
     this.handleDialogConfirm(editar);
   }
 
   editarAluno(aluno: any) {
-    const editar = this.dialog.open(EditarComponent, {
+    const editar = this.dialog.open(EditarAlunosComponent, {
       data: {
-        id: aluno.id, prontuario: aluno.prontuario, nome: aluno.nome, data: aluno.dataNascimento, endereco: aluno.endereco,
-        telefone: aluno.telefone, email: aluno.email, curso: aluno.curso
-      }
+        id: aluno.id,
+        prontuario: aluno.prontuario,
+        nome: aluno.nome,
+        data: aluno.dataNascimento,
+        endereco: aluno.endereco,
+        telefone: aluno.telefone,
+        email: aluno.email,
+        curso: aluno.curso,
+      },
     });
     this.handleDialogConfirm(editar);
   }
@@ -126,7 +145,7 @@ export class ListarAlunoComponent implements OnInit {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
 }

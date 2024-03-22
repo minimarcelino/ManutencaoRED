@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { EditarComponent } from './editar.component';
+import { EditarCursoComponent } from './editar.component';
 
 @NgModule({
     declarations: [

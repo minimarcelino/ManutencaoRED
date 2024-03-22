@@ -5,14 +5,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
-import { Data, Router } from '@angular/router';
-import { alunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { VisualizarComponent } from '../visualizar/visualizar.component';
-
-
+import { VisualizarREDsComponent } from '../visualizar/visualizar.component';
 
 export interface aluno {
   id: number;
@@ -27,12 +23,10 @@ export interface aluno {
 export interface curso {
   idcurso: number;
   sigla: string;
-
 }
 
-
 export interface red {
-  idRED: number,
+  idRED: number;
   dataInicioProcesso: Date;
   dataPrevisaoTermino: Date;
   motivoAfastamento: String;
@@ -48,10 +42,9 @@ export interface red {
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css']
+  styleUrls: ['./listar.component.css'],
 })
-export class ListarRedComponent implements OnInit {
-
+export class ListarREDsComponent implements OnInit {
   alunos: any[] = [];
   reds: any[] = [];
   filteredReds: any[] = [];
@@ -60,15 +53,28 @@ export class ListarRedComponent implements OnInit {
   selectedCurso = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['Nome', 'Curso', 'Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
+  displayedColumns = [
+    //Prontuário
+    'Nome',
+    'Curso',
+    'Início RED',
+    'Tempo Afastamento',
+    'Previsão Término',
+    'Situação',
+    'Ações',
+  ];
 
-  constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog, private alunoservice: alunoService,
-    private dialog: MatDialog, private redService: redService) {
+  constructor(
+    private snackBar: MatSnackBar,
+    public dialogQuestionService: messageDialog,
+    private dialog: MatDialog,
+    private redService: redService
+  ) {
     this.filteredReds = [];
   }
 
   ngOnInit(): void {
-    this.findAll()
+    this.findAll();
   }
 
   applyFilter(data: Event) {
@@ -77,7 +83,7 @@ export class ListarRedComponent implements OnInit {
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
-    return pee.every(item => item.conteudo !== '');
+    return pee.every((item) => item.conteudo !== '');
   }
 
   filterByCurso(event: MatSelectChange) {
@@ -88,7 +94,9 @@ export class ListarRedComponent implements OnInit {
       this.filteredReds = this.reds;
     } else {
       // Caso contrário, filtra os REDs por curso
-      this.filteredReds = this.reds.filter(a => a.aluno.curso.sigla === selectedCurso);
+      this.filteredReds = this.reds.filter(
+        (a) => a.aluno.curso.sigla === selectedCurso
+      );
     }
 
     // Atualiza o dataSource com os REDs filtrados
@@ -96,31 +104,33 @@ export class ListarRedComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  async findAll() {
+    const response = await this.redService.getRed();
+    this.reds = response.data.reds;
+    this.dataSource = new MatTableDataSource<any>(this.reds);
+    this.dataSource.paginator = this.paginator;
+    console.log(this.reds);
 
- async findAll() {
-  const response = await this.redService.getRed();
-  this.reds = response.data.reds;
-  this.dataSource = new MatTableDataSource<any>(this.reds);
-  this.dataSource.paginator = this.paginator;
-  console.log(this.reds);
+    // Cria um conjunto para armazenar cursos únicos
+    const uniqueCursos = new Set<number>();
 
-  // Cria um conjunto para armazenar cursos únicos
-  const uniqueCursos = new Set<number>();
+    this.reds.forEach((red) => {
+      uniqueCursos.add(red.aluno.curso.idcurso);
+    });
 
-  this.reds.forEach(red => {
-    uniqueCursos.add(red.aluno.curso.idcurso);
-  });
+    // Converte o conjunto de IDs de curso de volta para um array de cursos
+    this.cursos = Array.from(uniqueCursos).map(
+      (cursoId) =>
+        this.reds.find((red) => red.aluno.curso.idcurso === cursoId)?.aluno
+          .curso
+    );
 
-  // Converte o conjunto de IDs de curso de volta para um array de cursos
-  this.cursos = Array.from(uniqueCursos).map(cursoId => this.reds.find(red => red.aluno.curso.idcurso === cursoId)?.aluno.curso);
+    // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
+    this.cursos = this.cursos.filter((curso) => curso !== undefined);
 
-  // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
-  this.cursos = this.cursos.filter(curso => curso !== undefined);
-
-  // Log para depuração
-  console.log('Cursos:', this.cursos);
-}
-
+    // Log para depuração
+    console.log('Cursos:', this.cursos);
+  }
 
   formatData(data: Date): string {
     if (data) {
@@ -130,7 +140,6 @@ export class ListarRedComponent implements OnInit {
     }
   }
 
-
   async finalizarProcessoPermanent(red: any) {
     try {
       let response = await this.redService.updateRed({
@@ -138,15 +147,18 @@ export class ListarRedComponent implements OnInit {
         situacao: 'Finalizado',
       });
       if (response) {
-        this.openSnackBar("RED finalizado com sucesso!!", null);
+        this.openSnackBar('RED finalizado com sucesso!!', null);
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar("Falha ao finalizar RED", errorMessage);
+        this.openSnackBar('Falha ao finalizar RED', errorMessage);
       } else {
-        this.openSnackBar("Falha ao finalizar RED", "Ocorreu um erro durante a finalização do RED.");
+        this.openSnackBar(
+          'Falha ao finalizar RED',
+          'Ocorreu um erro durante a finalização do RED.'
+        );
       }
     }
   }
@@ -161,19 +173,29 @@ export class ListarRedComponent implements OnInit {
 
   visualizarRed(red: any) {
     console.log(red);
-    const visualizar = this.dialog.open(VisualizarComponent, {
+    const visualizar = this.dialog.open(VisualizarREDsComponent, {
       data: {
-        idRED: red.idRED, aluno_prontuario: red.aluno.prontuario, nome: red.aluno.nome, dataInicioProcesso: red.dataInicioProcesso,
-        dataPrevisaoTermino: red.dataPrevisaoTermino, motivoAfastamento: red.motivoAfastamento, situacao: red.situacao,
-        coordenador: red.coordenador, aluno_id: red.aluno_id, inicioAfastamento: red.inicioAfastamento, observacao: red.observacao,
-        tempoAfastamento: red.tempoAfastamento, semestreOuAnoAluno: red.semestreOuAnoAluno, pee: red.pee
-      }
+        idRED: red.idRED,
+        aluno_prontuario: red.aluno.prontuario,
+        nome: red.aluno.nome,
+        dataInicioProcesso: red.dataInicioProcesso,
+        dataPrevisaoTermino: red.dataPrevisaoTermino,
+        motivoAfastamento: red.motivoAfastamento,
+        situacao: red.situacao,
+        coordenador: red.coordenador,
+        aluno_id: red.aluno_id,
+        inicioAfastamento: red.inicioAfastamento,
+        observacao: red.observacao,
+        tempoAfastamento: red.tempoAfastamento,
+        semestreOuAnoAluno: red.semestreOuAnoAluno,
+        pee: red.pee,
+      },
     });
     this.handleDialogConfirm(visualizar);
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe((result: string) => {
+    dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
   }
@@ -190,8 +212,7 @@ export class ListarRedComponent implements OnInit {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
-
 }

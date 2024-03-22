@@ -6,7 +6,7 @@ import { servidor } from 'src/app/modelo/servidor';
 import { messageDialog } from '../../../services/messageDialog.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { MatDialog } from '@angular/material/dialog';
-import { EditarComponent } from '../editar/editar.component';
+import { EditarCursoComponent } from '../editar/editar.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
@@ -59,7 +59,7 @@ export class ListarCursosComponent implements OnInit{
     }
 
     editarCurso(curso: any){
-      const editar =  this.dialog.open(EditarComponent, {
+      const editar =  this.dialog.open(EditarCursoComponent, {
           data: {idcurso: curso.idcurso, nomeCurso: curso.nomeCurso, sigla: curso.sigla, coordenador: curso.servidor}
       });
       this.handleDialogConfirm(editar);
@@ -82,7 +82,7 @@ export class ListarCursosComponent implements OnInit{
         }
       }
     }
-  
+
     async deleteCurso(curso: any){
       let res = false;
       res = await this.dialogQuestionService.openDialogConfirmDelete('curso');
@@ -111,13 +111,13 @@ export class ListarCursosComponent implements OnInit{
         this.data = data.map((item: any) => {
           const componente = item["Componente"];
           const nomeSplit = componente.split(" - ");
-          
+
           if (nomeSplit.length === 2) {
             const nome = nomeSplit[1];
             const sigla = item["Sigla"];
             const regexSiglaResult = /\((.*?)\)/.exec(sigla);
             const dentroParenteses = regexSiglaResult ? regexSiglaResult[1] : null;
-        
+
             return {
               sigla: dentroParenteses,
               curso_idcurso: curso.idcurso,
@@ -148,7 +148,7 @@ export class ListarCursosComponent implements OnInit{
       } else if (error instanceof Error) {
         data = { message: error.message };
       }
-      
+
       this.snackBar.openFromComponent(SnackBarComponent, {
         data: data,
         duration: 3000

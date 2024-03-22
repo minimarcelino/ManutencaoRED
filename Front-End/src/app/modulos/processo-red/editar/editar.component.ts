@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { redService } from 'src/app/services/red.service';
-import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -20,7 +19,6 @@ export class EditarREDComponent implements OnInit {
     private router: Router,
     private alunoservice: alunoService,
     private cursoservice: cursoService,
-    private servidorservice: servidorService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     @Inject(MAT_DIALOG_DATA) public data: any,

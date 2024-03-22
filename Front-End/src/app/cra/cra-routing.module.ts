@@ -1,37 +1,44 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CRAComponent } from './cra.component';
-import { ProcessoREDComponent } from './processo-red/processo-red.component';
-import { ListarAlunoComponent } from './alunos/listar/listar.component';
-import { CadastrarAlunoComponent } from './alunos/cadastrar/cadastrar.component';
-import { ListarREDComponent } from './processo-red/listar/listar.component';
 import { PerfilComponent } from '../perfil/perfil.component';
+//
+import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
+import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
+//
+import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
+import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: '',
     component: CRAComponent,
     children: [
-      {
-        path: 'processo-red',
-        component: ProcessoREDComponent
-      },
-      {
-        path: 'listar',
-        component: ListarAlunoComponent
-      },
-      {
-        path: 'cadastrar',
-        component: CadastrarAlunoComponent
-      },
-      {
-        path: 'listarRED',
-        component: ListarREDComponent
-      },
       {
         path: 'perfil',
         component: PerfilComponent,
       },
+
+      // RED
+      {
+        path: 'cadastrarREDs',
+        component: CadastrarProcessoREDComponent
+      },
+      {
+        path: 'listarREDs',
+        component: ListarREDComponent
+      },
+
+      // Aluno
+      {
+        path: 'listarAlunos',
+        component: ListarAlunoComponent
+      },
+      {
+        path: 'cadastrarAlunos',
+        component: CadastrarAlunoComponent
+      },
+
     ]
   },
 ];

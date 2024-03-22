@@ -4,21 +4,21 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+
 import { red } from 'src/app/modelo/red';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { AssociarDisciplinaComponent } from '../../associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from '../visualizar/visualizar.component';
 import { peeService } from 'src/app/services/pee.service';
-import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css']
+  styleUrls: ['./listar.component.css'],
 })
 export class ListarRedComponent implements OnInit {
-
   reds: red[] = [];
   pee: any[] = [];
   filtredReds: red[] = [];
@@ -26,14 +26,32 @@ export class ListarRedComponent implements OnInit {
   mostrarBotao: boolean = false;
   user: any;
 
-  displayedColumns = ['nomeAluno', 'inicioRed', 'terminoRed', 'prazoPee', 'Situação', 'concluido', 'acoes'];
+  displayedColumns = [
+    //Prontuário
+    'nomeAluno',
+    //Curso
+    'inicioRed',
+    'terminoRed',
+    'prazoPee',
+    'Situação',
+    'concluido',
+    'acoes',
+  ];
 
-  constructor(private router: Router, public dialogQuestionService: messageDialog, private redservice: redService,
-    private dialog: MatDialog, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private peeservice: peeService) { }
+
+  constructor(
+    private router: Router,
+    public dialogQuestionService: messageDialog,
+    private redservice: redService,
+    private dialog: MatDialog,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private peeservice: peeService
+  ) {}
 
   ngOnInit(): void {
     this.findAll();
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
@@ -41,13 +59,15 @@ export class ListarRedComponent implements OnInit {
     try {
       const response = await this.redservice.getRed();
       this.reds = response.data.reds;
-      this.reds = this.reds.filter(red => red.situacao === "Em andamento"  || red.situacao === "Finalizado");
+/*       this.reds = this.reds.filter(
+        (red) =>
+          red.situacao === 'Em andamento' || red.situacao === 'Finalizado'
+      ); */
       this.dataSource = new MatTableDataSource<red>(this.reds);
-
     } catch (error) {
-      console.error("Erro ao buscar REDs:", error);
+      console.error('Erro ao buscar REDs:', error);
     }
-    if(this.user.tiposervidor == 'administrador'){
+    if (this.user.tiposervidor == 'administrador') {
       this.mostrarBotao = true;
     }
   }
@@ -66,13 +86,19 @@ export class ListarRedComponent implements OnInit {
 
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({
-        'Disciplina': item.disciplinas.nomeDisciplina,
-        'As atividades do aluno foram entregues ao professor?': item.atividades.dateEntregaAluno,
-        'O aluno cumpriu com as atividades propostas no PEE?': item.atividades.cumpriuAtividade,
-        'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?': item.atividades.novaAtividade,
-        'Houveram atividades avaliativas no periodo de afastamento do aluno?': item.houveAvaliacao,
-        'As atividades avaliativas necessárias já foram realizadas?': item.avaliacoesRealizadas,
-        'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.': item.dataAvaliacao,
+        Disciplina: item.disciplinas.nomeDisciplina,
+        'As atividades do aluno foram entregues ao professor?':
+          item.atividades.dateEntregaAluno,
+        'O aluno cumpriu com as atividades propostas no PEE?':
+          item.atividades.cumpriuAtividade,
+        'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?':
+          item.atividades.novaAtividade,
+        'Houveram atividades avaliativas no periodo de afastamento do aluno?':
+          item.houveAvaliacao,
+        'As atividades avaliativas necessárias já foram realizadas?':
+          item.avaliacoesRealizadas,
+        'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.':
+          item.dataAvaliacao,
       }));
 
       // Criar uma nova planilha
@@ -106,29 +132,26 @@ export class ListarRedComponent implements OnInit {
   }
 
   visualizarRed(red: any) {
-    const editar =  this.dialog.open( VisualizarRedComponent ,{
-      data: {idRED: red.idRED, servidor_idservidor: red.coordenador}
+    const editar = this.dialog.open(VisualizarRedComponent, {
+      data: { idRED: red.idRED, servidor_idservidor: red.coordenador },
     });
     this.handleDialogConfirm(editar);
   }
 
-
-  associarDisciplina(red: red){
-    const editar =  this.dialog.open(AssociarDisciplinaComponent, {
-      data: {idRED: red.idRED, servidor_idservidor: red.coordenador, red: red}
-  });
-  this.handleDialogConfirm(editar);
-  }
-
-  handleDialogConfirm(dialog: any){
-    dialog.afterClosed().subscribe((result: string) => {
-        this.findAll();
+  associarDisciplina(red: red) {
+    const editar = this.dialog.open(AssociarDisciplinaComponent, {
+      data: {
+        idRED: red.idRED,
+        servidor_idservidor: red.coordenador,
+        red: red,
+      },
     });
+    this.handleDialogConfirm(editar);
   }
 
-  cadastrarRed() {
-    if(this.user.tiposervidor == 'administrador'){
-      this.router.navigate(['/admin/cadastrarRed']);
-    }
+  handleDialogConfirm(dialog: any) {
+    dialog.afterClosed().subscribe((result: string) => {
+      this.findAll();
+    });
   }
 }
