@@ -2,16 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CoordenadorComponent } from './coordenador.component';
-import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
-import { CadastrarDocenteComponent } from './docentes/cadastrar/cadastrar.component';
-import { ListarDocenteComponent } from './docentes/listar/listar.component';
 import { ListarRedComponent } from './visualizacaoRed/listar/listar.component';
 import { ListarCursosComponent } from '../csp/cursos/listar/listar.component';
 import { CadastrarCursoComponent } from '../csp/cursos/cadastrar/cadastrar.component';
 import { PeeComponent } from './pee/pee.component';
 import { PerfilComponent } from '../perfil/perfil.component';
 import { ListarPeesComponent } from '../professor/listar/listar.component';
+//
 import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/cadastrar.component';
+import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
+//
+import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
+import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
 
 const routes: Routes = [
   {
@@ -51,12 +53,12 @@ const routes: Routes = [
 
       // Rotas dos Servidores(Docentes)
       {
-        path: 'cadastrar',
-        component: CadastrarDocenteComponent,
+        path: 'cadastrarServidores',
+        component: CadastrarServidoresComponent,
       },
       {
         path: 'listarServidores',
-        component: ListarDocenteComponent,
+        component: ListarServidoresComponent,
       },
 
       // Rotas dos PEE

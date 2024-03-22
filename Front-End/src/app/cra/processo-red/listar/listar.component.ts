@@ -13,7 +13,6 @@ import { redService } from 'src/app/services/red.service';
 import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { EditarREDComponent } from '../editar/editar.component';
-import * as fs from 'fs';
 import * as XLSX from 'xlsx';
 import { peeService } from 'src/app/services/pee.service';
 
@@ -54,7 +53,7 @@ export class ListarREDComponent implements OnInit {
   dataSource: any;
   user:any;
   @ViewChild(MatPaginator) paginator !:MatPaginator;
-  
+
   displayedColumns = ['Prontuário', 'Nome', 'Curso','Início RED', 'Tempo Afastamento', 'Previsão Término', 'Situação', 'Ações'];
 
   constructor(private router: Router,private alunoservice: alunoService,private redservice: redService,
@@ -85,12 +84,12 @@ applyFilter(event: Event) {
   const value = (event.target as HTMLInputElement).value;
   this.dataSource.filter = value;
 }
-  
+
   formatData(data: Date): string {
     if (data) {
       return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
     } else {
-      return ''; 
+      return '';
     }
   }
 
@@ -107,8 +106,8 @@ applyFilter(event: Event) {
     console.log(red);
     console.log(red.idRED);
     const editar =  this.dialog.open(EditarREDComponent, {
-        data: {id: red.idRED, motivoAfastamento: red.motivoAfastamento, inicioAfastamento: red.inicioAfastamento, 
-               dataPrevisaoTermino: red.dataPrevisaoTermino, situacao: red.situacao, observacao: red.observacao, 
+        data: {id: red.idRED, motivoAfastamento: red.motivoAfastamento, inicioAfastamento: red.inicioAfastamento,
+               dataPrevisaoTermino: red.dataPrevisaoTermino, situacao: red.situacao, observacao: red.observacao,
                dataInicioProcesso: red.dataInicioProcesso, semestreAluno: red.semestreOuAnoAluno, tempoAfastamento: red.tempoAfastamento,
                aluno_id: red.aluno_id, coordenador: red.coordenador, aluno: red.aluno}
     });
@@ -124,7 +123,7 @@ applyFilter(event: Event) {
     } else if (error instanceof Error) {
       data = { message: error.message };
     }
-    
+
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
       duration: 3000
@@ -140,7 +139,7 @@ applyFilter(event: Event) {
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
       const redAluno = await this.peeservice.getPeeRED(red.idRED);
-    
+
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({
         'Disciplina': item.disciplinas.nomeDisciplina,
@@ -151,10 +150,10 @@ applyFilter(event: Event) {
         'As atividades avaliativas necessárias já foram realizadas?': item.avaliacoesRealizadas,
         'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.': item.dataAvaliacao,
       }));
-  
+
       // Criar uma nova planilha
       const ws = XLSX.utils.json_to_sheet(dados);
-  
+
       // Definir largura de colunas (Exemplo: coluna A com largura 20, coluna B com largura 30)
       const colWidths = [
         { wch: 30 }, // Largura da coluna A
@@ -167,15 +166,15 @@ applyFilter(event: Event) {
         // Adicione mais larguras de coluna conforme necessário para suas colunas
       ];
       ws['!cols'] = colWidths;
-  
+
       // Criar um novo livro de trabalho e adicionar a planilha
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Relatorio_Faltas_Abonadas');
-    
+
       // Salvar o arquivo XLSX
       const nomeArquivo = 'relatorio_faltas_abonadas.xlsx';
       XLSX.writeFile(wb, nomeArquivo);
-    
+
       console.log(`Arquivo ${nomeArquivo} gerado com sucesso.`);
     } catch (error) {
       console.error('Erro ao gerar o arquivo XLSX:', error);

@@ -47,6 +47,9 @@ export class authorizationService {
             // Curso
             currentRoute === '/coordenador/listarCurso' ||
             currentRoute === '/coordenador/cadastrarCurso' ||
+            // Servidores (Docentes)
+            currentRoute === '/coordenador/listarServidores' ||
+            currentRoute === '/coordenador/cadastrarServidores' ||
             //RED
             currentRoute === '/coordenador/cadastrar' ||
             currentRoute === '/coordenador/listar' ||
@@ -72,13 +75,15 @@ export class authorizationService {
           userAccessLevel === 'csp' &&
           (currentRoute === '/csp' ||
             currentRoute === '/csp/perfil' ||
+            // Servidores (Docentes)
+            currentRoute === '/csp/cadastrarServidores' ||
+            currentRoute === '/csp/listarServidores' ||
+            currentRoute === '/csp/editarServidores' ||
+            // Cursos
+            currentRoute === '/csp/listarCursos' ||
+            currentRoute === '/csp/cadastrarCursos' ||
             // RED
-            currentRoute === '/csp/listar' ||
-            currentRoute === '/csp/cadastrar' ||
-            currentRoute === '/csp/listarRed' ||
-            // Docentes
-            currentRoute === '/csp/docentes' ||
-            currentRoute === '/csp/cadastrarDocentes')
+            currentRoute === '/csp/listarRed')
           // Cursos
         ) {
           return true;
@@ -100,9 +105,9 @@ export class authorizationService {
             currentRoute === '/administrador/cadastrarDisciplina' ||
             // RED
             currentRoute === '/administrador/listarReds' ||
-            // Docentes
-            currentRoute === '/administrador/listarDocentes' ||
-            currentRoute === '/administrador/cadastrarDocente' ||
+            // Servidores
+            currentRoute === '/administrador/listarServidores' ||
+            currentRoute === '/administrador/cadastrarServidores' ||
             // Alunos
             currentRoute === '/administrador/listarAlunos' ||
             currentRoute === '/administrador/cadastrarAluno' ||

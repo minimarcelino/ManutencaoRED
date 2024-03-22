@@ -4,14 +4,12 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { aluno } from 'src/app/modelo/aluno';
 import { red } from 'src/app/modelo/red';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { redService } from 'src/app/services/red.service';
 import { AssociarDisciplinaComponent } from '../../associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from '../visualizar/visualizar.component';
 import { peeService } from 'src/app/services/pee.service';
-import * as fs from 'fs';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -44,8 +42,8 @@ export class ListarRedComponent implements OnInit {
       const response = await this.redservice.getRed();
       this.reds = response.data.reds;
       this.reds = this.reds.filter(red => red.situacao === "Em andamento"  || red.situacao === "Finalizado");
-      this.dataSource = new MatTableDataSource<red>(this.reds);   
-      
+      this.dataSource = new MatTableDataSource<red>(this.reds);
+
     } catch (error) {
       console.error("Erro ao buscar REDs:", error);
     }
@@ -58,14 +56,14 @@ export class ListarRedComponent implements OnInit {
     if (data) {
       return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
     } else {
-      return ''; 
+      return '';
     }
   }
 
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
       const redAluno = await this.peeservice.getPeeRED(red.idRED);
-    
+
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({
         'Disciplina': item.disciplinas.nomeDisciplina,
@@ -76,10 +74,10 @@ export class ListarRedComponent implements OnInit {
         'As atividades avaliativas necessárias já foram realizadas?': item.avaliacoesRealizadas,
         'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.': item.dataAvaliacao,
       }));
-  
+
       // Criar uma nova planilha
       const ws = XLSX.utils.json_to_sheet(dados);
-  
+
       // Definir largura de colunas (Exemplo: coluna A com largura 20, coluna B com largura 30)
       const colWidths = [
         { wch: 30 }, // Largura da coluna A
@@ -92,15 +90,15 @@ export class ListarRedComponent implements OnInit {
         // Adicione mais larguras de coluna conforme necessário para suas colunas
       ];
       ws['!cols'] = colWidths;
-  
+
       // Criar um novo livro de trabalho e adicionar a planilha
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Relatorio_Faltas_Abonadas');
-    
+
       // Salvar o arquivo XLSX
       const nomeArquivo = 'relatorio_faltas_abonadas.xlsx';
       XLSX.writeFile(wb, nomeArquivo);
-    
+
       console.log(`Arquivo ${nomeArquivo} gerado com sucesso.`);
     } catch (error) {
       console.error('Erro ao gerar o arquivo XLSX:', error);
@@ -114,7 +112,7 @@ export class ListarRedComponent implements OnInit {
     this.handleDialogConfirm(editar);
   }
 
-  
+
   associarDisciplina(red: red){
     const editar =  this.dialog.open(AssociarDisciplinaComponent, {
       data: {idRED: red.idRED, servidor_idservidor: red.coordenador, red: red}

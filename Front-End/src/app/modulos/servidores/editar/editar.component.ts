@@ -11,33 +11,35 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
   templateUrl: './editar.component.html',
   styleUrls: ['./editar.component.css'],
 })
-export class EditarDocenteComponent implements OnInit {
-  cadastrarDocente!: FormGroup;
+export class EditarServidoresComponent implements OnInit {
+  cadastrarServidor!: FormGroup;
   cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
+  tipoServidores: string[] = ["administrador", "professor", "coordenador", "cra", "csp"];
 
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
     private docenteservice: docenteService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialogRef<EditarDocenteComponent>
+    private dialog: MatDialogRef<EditarServidoresComponent>
   ) {}
 
   ngOnInit(): void {
-    this.cadastrarDocente = new FormGroup({
+    this.cadastrarServidor = new FormGroup({
       prontuario: new FormControl(this.data.prontuario, [Validators.required]),
       nome: new FormControl(this.data.nome, [Validators.required]),
       email: new FormControl(this.data.email, [Validators.required]),
+      tiposervidor: new FormControl(this.data.tiposervidor, [Validators.required,]),
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async submit() {
-    if (this.cadastrarDocente.invalid || this.isSubmitting) {
+    if (this.cadastrarServidor.invalid || this.isSubmitting) {
       this.openSnackBar('Campos Obrigatórios', null);
       return;
     } else {
@@ -89,14 +91,22 @@ export class EditarDocenteComponent implements OnInit {
   }
 
   get prontuario() {
-    return this.cadastrarDocente.get('prontuario')!.value;
+    return this.cadastrarServidor.get('prontuario')!.value;
   }
 
   get nome() {
-    return this.cadastrarDocente.get('nome')!.value;
+    return this.cadastrarServidor.get('nome')!.value;
   }
 
   get email() {
-    return this.cadastrarDocente.get('email')!.value;
+    return this.cadastrarServidor.get('email')!.value;
+  }
+
+  get tiposervidor() {
+    return this.cadastrarServidor.get('tiposervidor')!.value;
+  }
+
+  mostrarCampo(){
+    return this.user.tiposervidor == 'administrador'
   }
 }

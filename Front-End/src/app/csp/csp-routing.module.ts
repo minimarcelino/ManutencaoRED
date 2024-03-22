@@ -3,31 +3,32 @@ import { RouterModule, Routes } from '@angular/router';
 import { CSPComponent } from './csp.component';
 import { ListarCursosComponent } from './cursos/listar/listar.component';
 import { CadastrarCursoComponent } from './cursos/cadastrar/cadastrar.component';
-import { DocenteComponent } from './docente/docente.component';
-import { CadastrarDocenteComponent } from './docente/cadastrar/cadastrar.component';
+
 import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { PerfilComponent } from '../perfil/perfil.component';
+import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
+import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: '',
     component: CSPComponent,
     children: [
         {
-            path: 'listar', 
+            path: 'listarCursos',
             component: ListarCursosComponent
         },
         {
-            path: 'cadastrar', 
+            path: 'cadastrarCursos',
             component:  CadastrarCursoComponent,
         },
         {
-          path: 'docentes',
-          component: DocenteComponent,
+          path: 'listarServidores',
+          component: ListarServidoresComponent,
         },
         {
-          path: 'cadastrarDocentes',
-          component: CadastrarDocenteComponent,
+          path: 'cadastrarServidores',
+          component: CadastrarServidoresComponent,
         },
         {
           path: 'listarRed',
