@@ -62,7 +62,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     CspModule,
     CraModule,
     ProfessorModule,
-    CoordenadorModule,
+    // CoordenadorModule,
     UsuarioModule,
   ],
   providers: [

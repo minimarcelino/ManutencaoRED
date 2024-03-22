@@ -21,6 +21,9 @@ import { ListarREDComponent } from '../modulos/processo-red/listar/listar.compon
 import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
 import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
 
+import { GerenciarPEEComponent } from '../modulos/pee/gerenciar/gerenciar-pee.component';
+import { PEEAbonadosComponent } from '../modulos/pee/abonados/pees-abonados.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -83,6 +86,15 @@ const routes: Routes = [
       {
         path: 'cadastrarAlunos',
         component: CadastrarAlunoComponent,
+      },
+      // Rotas dos PEE
+      {
+        path: 'gerenciarPEEs',
+        component: GerenciarPEEComponent,
+      },
+      {
+        path: 'PEEsAbonados',
+        component: PEEAbonadosComponent,
       },
     ],
   },

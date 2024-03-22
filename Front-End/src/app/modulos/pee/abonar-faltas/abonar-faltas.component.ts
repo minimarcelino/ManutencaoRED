@@ -3,24 +3,29 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+//
 import { peeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-abonar-falta',
   templateUrl: './abonar-falta.component.html',
-  styleUrls: ['./abonar-falta.component.css']
+  styleUrls: ['./abonar-falta.component.css'],
 })
 export class AbonarFaltaComponent implements OnInit {
-  
   abonarFaltaPee!: FormGroup;
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
 
-  constructor(private snackBar: MatSnackBar, private router: Router, @Inject(MAT_DIALOG_DATA) public data: any,
-  private dialog: MatDialogRef<AbonarFaltaComponent>, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string, private peeservice: peeService) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialogRef<AbonarFaltaComponent>,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private peeservice: peeService
+  ) {}
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
@@ -32,13 +37,13 @@ export class AbonarFaltaComponent implements OnInit {
       novaAtividade: new FormControl('', [Validators.required]),
       percentualAbono: new FormControl('', [Validators.required]),
     });
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async submit() {
     if (this.abonarFaltaPee.invalid || this.isSubmitting) {
-      this.openSnackBar("Campos Obrigatórios", null);
+      this.openSnackBar('Campos Obrigatórios', null);
       return;
     } else {
       this.isSubmitting = true;
@@ -73,14 +78,17 @@ export class AbonarFaltaComponent implements OnInit {
           dataAvaliacao: this.data.dataAvaliacao,
           observacao: this.data.observacao,
         });
-        this.openSnackBar("Faltas abonadas com sucesso!!", null);
+        this.openSnackBar('Faltas abonadas com sucesso!!', null);
         this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar("Falha ao abonar as Faltas", errorMessage);
+          this.openSnackBar('Falha ao abonar as Faltas', errorMessage);
         } else {
-          this.openSnackBar("Falha ao abonar as Faltas", "Ocorreu um erro durante o abono das faltas.");
+          this.openSnackBar(
+            'Falha ao abonar as Faltas',
+            'Ocorreu um erro durante o abono das faltas.'
+          );
         }
       }
     }
@@ -98,7 +106,7 @@ export class AbonarFaltaComponent implements OnInit {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
 

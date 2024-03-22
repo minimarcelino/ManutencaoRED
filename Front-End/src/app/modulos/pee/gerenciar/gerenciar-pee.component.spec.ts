@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PeeComponent } from './pee.component';
+import { GerenciarPEEComponent } from './gerenciar-pee.component';
 
 describe('PeeComponent', () => {
-  let component: PeeComponent;
-  let fixture: ComponentFixture<PeeComponent>;
+  let component: GerenciarPEEComponent;
+  let fixture: ComponentFixture<GerenciarPEEComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PeeComponent]
+      declarations: [GerenciarPEEComponent]
     });
-    fixture = TestBed.createComponent(PeeComponent);
+    fixture = TestBed.createComponent(GerenciarPEEComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

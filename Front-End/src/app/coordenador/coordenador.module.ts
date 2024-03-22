@@ -20,15 +20,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //
 import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
 import { VisualizarREDsComponent } from './visualizacaoRed/visualizar/visualizar.component';
-import { AssociarProfessoresComponent } from './associar-professores/associar-professores.component';
-import { PeeComponent } from './pee/pee.component';
-import { VisualizarPeeComponent } from './pee/visualizar-pee/visualizar-pee.component';
 import { VisualizarDisciplinaComponent } from './visualizar-disciplina/visualizar-disciplina.component';
 //
 import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
 import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/cadastrar.component';
 import { EditarDisciplinaComponent } from '../modulos/disciplinas/editar/editar.component';
-//
+
 @NgModule({
   declarations: [
     VisualizarDisciplinaComponent,
@@ -39,10 +36,7 @@ import { EditarDisciplinaComponent } from '../modulos/disciplinas/editar/editar.
     //
     ListarREDsComponent,
     VisualizarREDsComponent,
-    VisualizarPeeComponent,
-    //
-    AssociarProfessoresComponent,
-    PeeComponent,
+
   ],
   imports: [
     CommonModule,

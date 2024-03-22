@@ -4,24 +4,29 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { isEmpty } from 'rxjs';
 import { peeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-cadastrar-pee',
   templateUrl: './cadastrar-pee.component.html',
-  styleUrls: ['./cadastrar-pee.component.css']
+  styleUrls: ['./cadastrar-pee.component.css'],
 })
-export class CadastrarPeeComponent implements OnInit {
-
+export class CadastrarPEEComponent implements OnInit {
   cadastrarPee!: FormGroup;
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
 
-  constructor(private snackBar: MatSnackBar, private router: Router, private peeservice: peeService, @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialogRef<CadastrarPeeComponent>, private _adapter: DateAdapter<any>, @Inject(MAT_DATE_LOCALE) private _locale: string) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private peeservice: peeService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialogRef<CadastrarPEEComponent>,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string
+  ) {}
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
@@ -40,7 +45,7 @@ export class CadastrarPeeComponent implements OnInit {
       dataAvaliacao: new FormControl(null),
       observacao: new FormControl(null),
     });
-    this.user = localStorage.getItem("user");
+    this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
@@ -48,14 +53,13 @@ export class CadastrarPeeComponent implements OnInit {
     const dataAtual = new Date();
     const prazoSelecionado = new Date(this.prazo);
     if (this.cadastrarPee.invalid || this.isSubmitting) {
-      this.openSnackBar("Campos Obrigatórios", null);
+      this.openSnackBar('Campos Obrigatórios', null);
       return;
     }
     if (prazoSelecionado < dataAtual) {
-      this.openSnackBar("A data deve ser posterior à data atual", null);
+      this.openSnackBar('A data deve ser posterior à data atual', null);
       return;
-    }
-    else {
+    } else {
       this.isSubmitting = true;
       try {
         await this.peeservice.updateWithEmail({
@@ -70,21 +74,24 @@ export class CadastrarPeeComponent implements OnInit {
           disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
           servidor_idservidor: this.data.servidor_idservidor,
           percentualabono: this.data.percentualabono,
-          dataEnvioProposta: new Date,
+          dataEnvioProposta: new Date(),
           canalComunicacao: this.comunicacao,
           houveAvaliacao: this.avaliacao,
           avaliacoesRealizadas: this.avaliacaoRealizada,
           dataAvaliacao: this.dataAvaliacao,
           observacao: this.observacao,
         });
-        this.openSnackBar("PEE cadastrado com sucesso!!", null);
+        this.openSnackBar('PEE cadastrado com sucesso!!', null);
         this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar("Falha ao cadastrar Pee", errorMessage);
+          this.openSnackBar('Falha ao cadastrar Pee', errorMessage);
         } else {
-          this.openSnackBar("Falha ao cadastrar Pee", "Ocorreu um erro durante o cadastro do Pee.");
+          this.openSnackBar(
+            'Falha ao cadastrar Pee',
+            'Ocorreu um erro durante o cadastro do Pee.'
+          );
         }
       }
     }
@@ -106,7 +113,7 @@ export class CadastrarPeeComponent implements OnInit {
 
     this.snackBar.openFromComponent(SnackBarComponent, {
       data: data,
-      duration: 3000
+      duration: 3000,
     });
   }
 

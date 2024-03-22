@@ -1,5 +1,5 @@
 <div class="title">
-  <h1>PEEs dos Professores</h1>
+  <h1>Gerenciar PEEs</h1>
   <hr class="linha" />
 </div>
 
@@ -34,7 +34,7 @@
       <ng-container matColumnDef="disciplina">
         <th mat-header-cell *matHeaderCellDef> Disciplina </th>
         <td mat-cell *matCellDef="let a"> {{a.disciplinas.nomeDisciplina}} </td>
-      </ng-container>  
+      </ng-container>
 
       <ng-container matColumnDef="concluido">
         <th mat-header-cell *matHeaderCellDef> Conclusão </th>
@@ -47,14 +47,15 @@
           </ng-container>
         </td>
       </ng-container>
-      
+
       <ng-container matColumnDef="Ações">
         <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
         <td class="actionsColumns" mat-cell *matCellDef="let a">
           <button mat-icon-button matTooltip="Visualizar PEE" (click)="visualizarPEE(a)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Associar professor" (click)="associarProfessor(a)">
+          <button mat-icon-button matTooltip="Associar professor" (click)="associarProfessor(a)"
+            *ngIf="!a.conteudo || a.conteudo.trim().length === 0">
             <mat-icon>book</mat-icon>
           </button>
         </td>

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PeesAbonadosComponent } from './pees-abonados.component';
+import { PEEAbonadosComponent } from './pees-abonados.component';
 
 describe('PeesAbonadosComponent', () => {
-  let component: PeesAbonadosComponent;
-  let fixture: ComponentFixture<PeesAbonadosComponent>;
+  let component: PEEAbonadosComponent;
+  let fixture: ComponentFixture<PEEAbonadosComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PeesAbonadosComponent]
+      declarations: [PEEAbonadosComponent]
     });
-    fixture = TestBed.createComponent(PeesAbonadosComponent);
+    fixture = TestBed.createComponent(PEEAbonadosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

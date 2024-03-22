@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CoordenadorComponent } from './coordenador.component';
 import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
-import { PeeComponent } from './pee/pee.component';
 import { PerfilComponent } from '../perfil/perfil.component';
-import { ListarPeesComponent } from '../professor/listar/listar.component';
 //
 import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/cadastrar.component';
 import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
@@ -15,6 +13,10 @@ import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.c
 //
 import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
 import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
+//
+import { GerenciarPEEComponent } from '../modulos/pee/gerenciar/gerenciar-pee.component';
+import { ListarPEEComponent } from '../modulos/pee/listar/listar.component';
+import { PEEAbonadosComponent } from '../modulos/pee/abonados/pees-abonados.component';
 
 const routes: Routes = [
   {
@@ -64,12 +66,16 @@ const routes: Routes = [
 
       // Rotas dos PEE
       {
-        path: 'listarPEEs',
-        component: PeeComponent,
+        path: 'gerenciarPEEs',
+        component: GerenciarPEEComponent,
       },
       {
-        path: 'listarMeusPEEs',
-        component: ListarPeesComponent,
+        path: 'listarPEEs',
+        component: ListarPEEComponent,
+      },
+      {
+        path: 'PEEsAbonados',
+        component: PEEAbonadosComponent,
       },
     ],
   },

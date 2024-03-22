@@ -35,14 +35,18 @@
                 <mat-icon>settings</mat-icon>
                 <span>REDs</span>
             </button>
+            <button mat-button class="menu-button" routerLink="/coordenador/gerenciarPEEs">
+                <mat-icon>create</mat-icon>
+                <span>Gerenciar PEEs</span>
+            </button>
             <button mat-button class="menu-button" routerLink="/coordenador/listarPEEs">
-                <mat-icon>create</mat-icon>
-                <span>PEEs Professores</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/listarMeusPEEs">
-                <mat-icon>create</mat-icon>
-                <span>Meus PEEs</span>
-            </button>
+              <mat-icon>book</mat-icon>
+              <span>Meus PEEs</span>
+          </button>
+          <button mat-button class="menu-button" routerLink="/coordenador/PEEsAbonados">
+              <mat-icon>book</mat-icon>
+              <span>PEEs finalizados</span>
+          </button>
             <button mat-button class="menu-button" (click)="logout()">
                 <mat-icon>logout</mat-icon>
                 <span>Sair</span>

@@ -14,22 +14,30 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ListarPeesComponent } from './listar/listar.component';
-import { CadastrarPeeComponent } from './cadastrar-pee/cadastrar-pee.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { AbonarFaltaComponent } from './abonar-faltas/abonar-faltas.component';
-import { PeesAbonadosComponent } from './pees-abonados/pees-abonados.component';
-import { VisualizarPEEComponent } from './visualizar/visualizar.component';
+//
+import { ListarPEEComponent } from '../modulos/pee/listar/listar.component';
+import { CadastrarPEEComponent } from '../modulos/pee/cadastrar/cadastrar-pee.component';
+import { AbonarFaltaComponent } from '../modulos/pee/abonar-faltas/abonar-faltas.component';
+import { PEEAbonadosComponent } from '../modulos/pee/abonados/pees-abonados.component';
+import { VisualizarPEEComponent } from '../modulos/pee/visualizar/visualizar.component';
+import { GerenciarPEEComponent } from '../modulos/pee/gerenciar/gerenciar-pee.component';
+import { GerenciarVisualizarPeeComponent } from '../modulos/pee/gerenciar/gerenciar-visualizar/gerenciar-visualizar.component';
+import { AssociarProfessoresComponent } from '../coordenador/associar-professores/associar-professores.component';
+
 
 
 @NgModule({
     declarations: [
-      ListarPeesComponent,
-      CadastrarPeeComponent,
+      ListarPEEComponent,
+      CadastrarPEEComponent,
       AbonarFaltaComponent,
-      PeesAbonadosComponent,
-      VisualizarPEEComponent
+      PEEAbonadosComponent,
+      VisualizarPEEComponent,
+      GerenciarPEEComponent,
+      GerenciarVisualizarPeeComponent,
+      AssociarProfessoresComponent
   ],
     imports: [
       CommonModule,
@@ -47,7 +55,7 @@ import { VisualizarPEEComponent } from './visualizar/visualizar.component';
       MatPaginatorModule,
       NgxMaskPipe,
       NgxMaskDirective,
-      MatCheckboxModule, 
+      MatCheckboxModule,
       MatTooltipModule,
       MatDatepickerModule
     ],

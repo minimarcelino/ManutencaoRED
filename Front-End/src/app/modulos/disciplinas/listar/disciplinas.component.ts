@@ -43,7 +43,7 @@ export class ListarDisciplinasComponent implements OnInit {
   async cadastrar() {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
-    this.router.navigate([`/${this.user.tiposervidor}/cadastrarDisciplina`]);
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarDisciplinas`]);
   }
 
   applyFilter(data: Event) {

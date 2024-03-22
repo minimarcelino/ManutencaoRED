@@ -26,7 +26,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       prontuario: new FormControl('', Validators.required),
-      senha: new FormControl('', Validators.required),
+      //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
+      // senha: new FormControl('', Validators.required),
+      senha: new FormControl('',),
     });
   }
 
@@ -39,7 +41,9 @@ export class LoginComponent implements OnInit {
     } else {
       this.logging = await this.authentication.login({
         prontuario: this.prontuario,
-        senha: this.senha,
+        //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
+        //senha: this.senha,
+        senha: '123',
       });
       if (this.logging) {
         this.user = localStorage.getItem('user');

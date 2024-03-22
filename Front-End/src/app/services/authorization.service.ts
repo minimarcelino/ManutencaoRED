@@ -54,8 +54,9 @@ export class authorizationService {
             currentRoute === '/coordenador/cadastrarREDs' ||
             currentRoute === '/coordenador/listarREDs' ||
             //PEE
+            currentRoute === '/coordenador/gerenciarPEEs' ||
             currentRoute === '/coordenador/listarPEEs' ||
-            currentRoute === '/coordenador/listarMeusPEEs' ||
+            currentRoute === '/coordenador/PEEAbonados' ||
             //
             currentRoute === '/coordenador/listar')
         ) {
@@ -115,8 +116,11 @@ export class authorizationService {
             currentRoute === '/administrador/cadastrarAlunos' ||
             // Curso
             currentRoute === '/administrador/listarCursos' ||
-            currentRoute === '/administrador/cadastrarCursos')
-          //PEE
+            currentRoute === '/administrador/cadastrarCursos' ||
+            //PEE
+            currentRoute === '/administrador/gerenciarPEEs' ||
+            currentRoute === '/administrador/PEEAbonados'
+            )
         ) {
           return true;
         } else if (
@@ -124,8 +128,8 @@ export class authorizationService {
           (currentRoute === '/professor' ||
             currentRoute === '/professor/perfil' ||
             //PEE
-            currentRoute === '/professor/listarPees' ||
-            currentRoute === '/professor/listarPeesAbonados')
+            currentRoute === '/professor/listarPEEs' ||
+            currentRoute === '/professor/PEEAbonados')
         ) {
           return true;
         }
