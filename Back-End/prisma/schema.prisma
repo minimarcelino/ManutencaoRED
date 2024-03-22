@@ -95,7 +95,7 @@ model red {
   situacao            String   @db.VarChar(40)
   coordenador         Int
   aluno_id            Int
-  observacao          String   @db.VarChar(200)
+  observacao          String?   @db.VarChar(200)
   inicioAfastamento   DateTime @db.Date
   tempoAfastamento    Int?
   semestreOuAnoAluno  Int?
