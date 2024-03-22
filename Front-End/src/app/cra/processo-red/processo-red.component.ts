@@ -37,7 +37,7 @@ export class ProcessoREDComponent implements OnInit {
     this.cadastrarRed = new FormGroup({
       aluno: new FormControl('', [Validators.required]),
       curso: new FormControl('', [Validators.required]),
-      observacao: new FormControl('', [Validators.required]),
+      observacao: new FormControl(''),
       motivoAfastamento: new FormControl('', [Validators.required]),
       inicioAfastamento: new FormControl('', [Validators.required]),
       tempoAfastamento: new FormControl('', [Validators.required]),
