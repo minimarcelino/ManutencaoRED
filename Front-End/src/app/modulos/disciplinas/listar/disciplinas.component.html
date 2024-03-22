@@ -6,9 +6,9 @@
 <div class="listagem">
     <div id="tabela">
 
-        <mat-form-field>
+        <mat-form-field style="width: 30%;">
           <mat-label>Pesquisar Disciplina</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Banco de Dados">
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. PEPBDD | Banco de Dados">
         </mat-form-field>
         <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
