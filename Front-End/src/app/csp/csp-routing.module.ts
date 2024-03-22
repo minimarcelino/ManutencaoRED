@@ -31,7 +31,7 @@ const routes: Routes = [
           component: CadastrarServidoresComponent,
         },
         {
-          path: 'listarRed',
+          path: 'listarREDs',
           component: ListarRedComponent,
         },
         {

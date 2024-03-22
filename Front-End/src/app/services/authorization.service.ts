@@ -43,7 +43,7 @@ export class authorizationService {
             currentRoute === '/coordenador/perfil' ||
             // Disciplinas
             currentRoute === '/coordenador/listarDisciplinas' ||
-            currentRoute === '/coordenador/cadastrarDisciplina' ||
+            currentRoute === '/coordenador/cadastrarDisciplinas' ||
             // Curso
             currentRoute === '/coordenador/listarCurso' ||
             currentRoute === '/coordenador/cadastrarCurso' ||
@@ -52,11 +52,12 @@ export class authorizationService {
             currentRoute === '/coordenador/cadastrarServidores' ||
             //RED
             currentRoute === '/coordenador/cadastrarREDs' ||
-            currentRoute === '/coordenador/listar' ||
             currentRoute === '/coordenador/listarREDs' ||
             //PEE
-            currentRoute === '/coordenador/listarPee' ||
-            currentRoute === '/coordenador/listarMeusPees')
+            currentRoute === '/coordenador/listarPEEs' ||
+            currentRoute === '/coordenador/listarMeusPEEs' ||
+            //
+            currentRoute === '/coordenador/listar')
         ) {
           return true;
         } else if (
@@ -102,7 +103,7 @@ export class authorizationService {
             currentRoute === '/administrador/perfil' ||
             // Disciplinas
             currentRoute === '/administrador/listarDisciplinas' ||
-            currentRoute === '/administrador/cadastrarDisciplina' ||
+            currentRoute === '/administrador/cadastrarDisciplinas' ||
             // RED
             currentRoute === '/administrador/listarREDs' ||
             currentRoute === '/administrador/cadastrarREDs' ||
@@ -111,7 +112,7 @@ export class authorizationService {
             currentRoute === '/administrador/cadastrarServidores' ||
             // Alunos
             currentRoute === '/administrador/listarAlunos' ||
-            currentRoute === '/administrador/cadastrarAluno' ||
+            currentRoute === '/administrador/cadastrarAlunos' ||
             // Curso
             currentRoute === '/administrador/listarCursos' ||
             currentRoute === '/administrador/cadastrarCurso')

@@ -37,11 +37,11 @@ const routes: Routes = [
 
       // Rotas dos Curso
       {
-        path: 'cadastrarCurso',
+        path: 'cadastrarCursos',
         component: CadastrarCursoComponent,
       },
       {
-        path: 'listarCurso',
+        path: 'listarCursos',
         component: ListarCursosComponent,
       },
 
@@ -63,11 +63,11 @@ const routes: Routes = [
 
       // Rotas dos PEE
       {
-        path: 'listarPee',
+        path: 'listarPEEs',
         component: PeeComponent,
       },
       {
-        path: 'listarMeusPees',
+        path: 'listarMeusPEEs',
         component: ListarPeesComponent,
       },
     ],
