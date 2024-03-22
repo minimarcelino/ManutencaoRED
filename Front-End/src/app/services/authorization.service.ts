@@ -45,8 +45,8 @@ export class authorizationService {
             currentRoute === '/coordenador/listarDisciplinas' ||
             currentRoute === '/coordenador/cadastrarDisciplinas' ||
             // Curso
-            currentRoute === '/coordenador/listarCurso' ||
-            currentRoute === '/coordenador/cadastrarCurso' ||
+            currentRoute === '/coordenador/listarCursos' ||
+            currentRoute === '/coordenador/cadastrarCursos' ||
             // Servidores (Docentes)
             currentRoute === '/coordenador/listarServidores' ||
             currentRoute === '/coordenador/cadastrarServidores' ||
@@ -115,7 +115,7 @@ export class authorizationService {
             currentRoute === '/administrador/cadastrarAlunos' ||
             // Curso
             currentRoute === '/administrador/listarCursos' ||
-            currentRoute === '/administrador/cadastrarCurso')
+            currentRoute === '/administrador/cadastrarCursos')
           //PEE
         ) {
           return true;

@@ -40,6 +40,7 @@ import { EditarDisciplinaComponent } from '../modulos/disciplinas/editar/editar.
     ListarREDsComponent,
     VisualizarREDsComponent,
     VisualizarPeeComponent,
+    //
     AssociarProfessoresComponent,
     PeeComponent,
   ],

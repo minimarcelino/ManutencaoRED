@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CoordenadorComponent } from './coordenador.component';
 import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
-import { ListarCursosComponent } from '../csp/cursos/listar/listar.component';
-import { CadastrarCursoComponent } from '../csp/cursos/cadastrar/cadastrar.component';
 import { PeeComponent } from './pee/pee.component';
 import { PerfilComponent } from '../perfil/perfil.component';
 import { ListarPeesComponent } from '../professor/listar/listar.component';
@@ -14,6 +12,9 @@ import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/discip
 //
 import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
 import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
+//
+import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
+import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
 
 const routes: Routes = [
   {

@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AdministradorComponent } from './administrador.component';
-import { ListarCursosComponent } from '../csp/cursos/listar/listar.component';
-import { CadastrarCursoComponent } from '../csp/cursos/cadastrar/cadastrar.component';
+
 import { AssociarDisciplinaComponent } from '../csp/associar-disciplina/associar-disciplina.component';
 import { PerfilComponent } from '../perfil/perfil.component';
 //
@@ -15,8 +14,12 @@ import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/ca
 //
 import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
 import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
+//
 import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
 import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
+//
+import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
+import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
 
 const routes: Routes = [
   {
@@ -68,7 +71,7 @@ const routes: Routes = [
         component: ListarCursosComponent,
       },
       {
-        path: 'cadastrarCurso',
+        path: 'cadastrarCursos',
         component: CadastrarCursoComponent,
       },
 

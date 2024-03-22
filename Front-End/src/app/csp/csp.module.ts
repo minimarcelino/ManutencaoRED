@@ -17,9 +17,6 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { CadastrarCursoComponent } from './cursos/cadastrar/cadastrar.component';
-import { ListarCursosComponent } from './cursos/listar/listar.component';
-import { EditarCursoComponent } from './cursos/editar/editar.component';
 import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from './processo-red/visualizar/visualizar.component';
@@ -27,6 +24,10 @@ import { VisualizarRedComponent } from './processo-red/visualizar/visualizar.com
 import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
 import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
 import { EditarServidoresComponent } from '../modulos/servidores/editar/editar.component';
+//
+import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
+import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
+import { EditarCursoComponent } from '../modulos/cursos/editar/editar.component';
 
 @NgModule({
   declarations: [
