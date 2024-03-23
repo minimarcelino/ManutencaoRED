@@ -8,15 +8,15 @@
       <mat-form-field>
         <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput
           [matAutocomplete]="auto">
-          
+
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
           <mat-option *ngFor="let a of alunos" [value]="a">
             {{a.prontuario}} - {{a.nome}}
           </mat-option>
         </mat-autocomplete>
-        
+
       </mat-form-field>
-      
+
       <button mat-icon-button matTooltip="Cadastrar aluno" (click)="CadastrarAluno()">
         <mat-icon>add_circle</mat-icon>
       </button>
@@ -27,7 +27,7 @@
 
       <mat-form-field class="motivoAfastamento">
         <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
-        <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço"></textarea>
+        <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço"  maxlength="4000" spellcheck="true"></textarea>
       </mat-form-field>
 
       <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 400px;">
