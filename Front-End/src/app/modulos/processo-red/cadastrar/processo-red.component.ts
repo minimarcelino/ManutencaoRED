@@ -12,7 +12,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { redService } from 'src/app/services/red.service';
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
-
+import { RedValidationService } from 'src/app/utils/red-utils/red-validation.service';
 
 @Component({
   selector: 'app-processo-red',
@@ -30,6 +30,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     private dialog: MatDialog,
     public dialogQuestionService: messageDialog,
     private snackBar: MatSnackBar,
+    private redValidation: RedValidationService,
     private redservice: redService
   ) {}
 
@@ -47,11 +48,21 @@ export class CadastrarProcessoREDComponent implements OnInit {
     this.cadastrarRed = new FormGroup({
       aluno: new FormControl('', [Validators.required]),
       curso: new FormControl('', [Validators.required]),
-      observacao: new FormControl(''),
-      motivoAfastamento: new FormControl('', [Validators.required]),
+      observacao: new FormControl('', [Validators.maxLength(4000)]),
+      motivoAfastamento: new FormControl('',
+        [Validators.required,
+        Validators.maxLength(4000)
+    ]),
       inicioAfastamento: new FormControl('', [Validators.required]),
-      tempoAfastamento: new FormControl('', [Validators.required]),
-      semestreAluno: new FormControl('', [Validators.required]),
+      tempoAfastamento: new FormControl('', [
+        Validators.required,
+        Validators.min(15),
+        Validators.max(360),
+      ]),
+      semestreAluno: new FormControl('', [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(24)]),
     });
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
@@ -65,13 +76,13 @@ export class CadastrarProcessoREDComponent implements OnInit {
     return aluno && pront_aluno;
   }
 
-  InputFile(event: any) {
+  /*   InputFile(event: any) {
     if (event.target.files && event.target.files[0]) {
       const pdf = event.target.files[0];
       const formData = new FormData();
       formData.append('pdf', pdf);
     }
-  }
+  } */
 
   async fetchAlunos() {
     const response = await this.alunoservice.getAluno();
@@ -82,7 +93,8 @@ export class CadastrarProcessoREDComponent implements OnInit {
     const response = await this.cursoservice.getCursos();
     this.cursos = response.data.cursos;
     this.filtredCursos = this.cursos.filter(
-      (curso) => curso.idcurso === this.aluno.curso_idcurso);
+      (curso) => curso.idcurso === this.aluno.curso_idcurso
+    );
     this.inputCurso = this.filtredCursos[0].nomeCurso;
   }
 
@@ -92,7 +104,9 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async CadastrarAluno() {
-    const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {data: {},});
+    const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
+      data: {},
+    });
     this.handleDialogConfirm(cadastrarAluno);
   }
 
@@ -101,46 +115,10 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
-    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
-      this.inicioAfastamento
-    );
-    const redsExistente = await this.redservice.getRed();
-    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
-      (red: any) => {
-        const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
-        const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
-        const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
-        const previsaoTerminoThis = this.dateToString(
-          this.previsaoTerminoRed()
-        );
-
-        return (
-          inicioAfastamentoRed === inicioAfastamentoThis &&
-          previsaoTerminoRed === previsaoTerminoThis
-        );
-      }
-    );
-    if (redExistenteNoMesmoPeriodo) {
-      this.openSnackBar(
-        'Já existe um RED para este prontuário no mesmo período! ',
-        null
-      );
-      return;
-    }
-    if (!inicioAfastamentoValido) {
-      this.openSnackBar(
-        'O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',
-        null
-      );
-      return;
-    }
-
-    try {
-      console.log(this.filtredCursos);
-      await this.servidorservice.createRED({
-        motivoAfastamento: this.motivoAfastamento,
+    let red = {
+      motivoAfastamento: this.motivoAfastamento,
         inicioAfastamento: this.inicioAfastamento,
-        dataPrevisaoTermino: this.previsaoTerminoRed(),
+        dataPrevisaoTermino: this.redValidation.previsaoTerminoRed(this.inicioAfastamento, this.tempoAfastamento),
         dataInicioProcesso: new Date(),
         semestreOuAnoAluno: this.semestreAluno,
         tempoAfastamento: this.tempoAfastamento,
@@ -148,38 +126,24 @@ export class CadastrarProcessoREDComponent implements OnInit {
         observacao: this.observacao,
         aluno_id: this.aluno.id,
         coordenador: this.filtredCursos[0].coordenador,
-      });
-      if (this.tempoAfastamento < 15) {
-        this.openSnackBar('A quantidade de dias deve ser no mínimo 15! ', null);
-        return;
-      }
-      if (this.semestreAluno <= 0) {
-        this.openSnackBar('O semestre não pode ser menor que 1! ', null);
-        return;
-      }
-      this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
+    }
+    this.redValidation.validarRED(red);
 
+    try {
+      console.log(this.filtredCursos);
+      await this.servidorservice.createRED({red});
+      this.retornarParaLista();
     } catch (error) {
-      console.error('Error submitting ProcessoRED:', error);
+      console.error('Erro ao cadastrar RED:', error);
     }
   }
 
-  verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
-    const hoje = new Date();
-    const dataInicio = new Date(dataInicioAfastamento);
-    const diff = Math.abs(hoje.getTime() - dataInicio.getTime());
-    const diffEmDias = Math.floor(diff / (1000 * 60 * 60 * 24));
-    return diffEmDias <= 7;
+  retornarParaLista() {
+    this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
   }
 
-  previsaoTerminoRed(): Date {
-    const dataTerminoRed = new Date(this.inicioAfastamento);
-    dataTerminoRed.setDate(dataTerminoRed.getDate() + this.tempoAfastamento);
-
-    // Adiciona mais 30 dias ao resultado anterior
-    const dataFinal = new Date(dataTerminoRed);
-    dataFinal.setDate(dataFinal.getDate() + 30);
-    return dataFinal;
+  updateCharacterCount(campoTexto: string): number {
+    return 4000 - campoTexto.length;
   }
 
   teste() {

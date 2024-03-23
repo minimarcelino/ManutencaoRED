@@ -1,10 +1,10 @@
 <div class="container" translate="no">
-    <div class="title">
-        <h1>Editar RED</h1>
-        <hr class="linha" />
-    </div>
+  <div class="title">
+    <h1>Editar RED</h1>
+    <hr class="linha" />
+  </div>
 
-    <h2>Aluno</h2>
+  <h2>Aluno</h2>
   <form [formGroup]="editarRed" #formDir="ngForm">
     <mat-form-field style="min-width: 50%; max-width: 100%;">
       <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput
@@ -24,7 +24,11 @@
     <h2>Motivo do afastamento</h2>
     <mat-form-field class="motivoAfastamento" style="min-width: 60%; max-width: 100%;">
       <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
-      <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço"></textarea>
+      <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço" maxlength="4000"
+        rows="3" spellcheck="true">
+      </textarea>
+      <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
+        restantes</mat-hint>
     </mat-form-field>
 
     <h2>Inicio do afastamento</h2>
@@ -33,33 +37,47 @@
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <div *ngIf="editarRed.get('inicioAfastamento')?.invalid && formDir.submitted" class="validation">
-          <p>Inicio do afastamento obrigatório!</p>
+        <p>Inicio do afastamento obrigatório!</p>
       </div>
     </mat-form-field>
 
     <h2>Período do afastamento</h2>
     <mat-form-field class="tempoAfastamento">
       <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
-      <input type="number" formControlName="tempoAfastamento" matInput placeholder="Ex. 15"/>
+      <input type="number" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
+      <mat-error *ngIf="editarRed.get('tempoAfastamento')?.errors && (editarRed.get('tempoAfastamento')?.dirty || editarRed.get('tempoAfastamento')?.touched)">
+        <span *ngIf="editarRed.get('tempoAfastamento')?.errors?.['required']">Campo obrigatório.</span>
+        <span *ngIf="editarRed.get('tempoAfastamento')?.errors?.['min']">O tempo mínimo de afastamento é 15 dias.</span>
+        <span *ngIf="editarRed.get('tempoAfastamento')?.errors?.['max']">O tempo máximo de afastamento é 360 dias.</span>
+      </mat-error>
     </mat-form-field>
 
     <h2>Semestre do aluno</h2>
     <mat-form-field class="semestreAluno">
       <mat-label>Digite o semestre que o aluno se encontra</mat-label>
-      <input type="number" formControlName="semestreAluno" matInput placeholder="Ex. 4"/>
+      <input type="number" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
+      <mat-error *ngIf="editarRed.get('semestreAluno')?.errors && (editarRed.get('semestreAluno')?.dirty || editarRed.get('semestreAluno')?.touched)">
+        <span *ngIf="editarRed.get('semestreAluno')?.errors?.['required']">Campo obrigatório.</span>
+        <span *ngIf="editarRed.get('semestreAluno')?.errors?.['min']">O valor mínimo para o semestre é 1.</span>
+        <span *ngIf="editarRed.get('semestreAluno')?.errors?.['max']">O valor máximo para o semestre é 24.</span>
+      </mat-error>
     </mat-form-field>
 
     <h2>Observação</h2>
     <mat-form-field class="observacao">
       <mat-label>Faça uma observação</mat-label>
-      <textarea formControlName="observacao" matInput placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias"></textarea>
+      <textarea formControlName="observacao" matInput
+        placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias" maxlength="4000" rows="3"
+        spellcheck="true">
+      </textarea>
+      <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
     </mat-form-field>
 
     <br><br>
     <button mat-raised-button color="primary" (click)="cancelar()" style="margin-right: 20px;">Cancelar</button>
     <button mat-raised-button color="primary" (click)="editar()" style="margin-right: 20px;">Confirmar</button>
 
-   <!--  <input type="file" (change)="InputFile($event)" style="margin-right: 50px;" /> -->
+    <!--  <input type="file" (change)="InputFile($event)" style="margin-right: 50px;" /> -->
   </form>
 
 </div>

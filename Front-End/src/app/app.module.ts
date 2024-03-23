@@ -61,7 +61,7 @@ import { CoordenadorModule } from './niveis-acesso/coordenador/coordenador.modul
     MatToolbarModule,
     MatDialogModule,
     CspModule,
-    CraModule,
+    // CraModule,
     ProfessorModule,
     CoordenadorModule,
     UsuarioModule,
