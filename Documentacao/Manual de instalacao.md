@@ -128,7 +128,13 @@ Este procedimento garantirá que você tenha a versão mais recente e estável d
 
 1. Acessar a pasta do backend, onde ela está localizada
 
-2. Criar um .env e adicionar estas informações:
+2. Para começar, é necessário instalar as dependências do Back-End. execute o seguinte comando:
+
+```bash
+$ npm install
+```
+
+3. Criar um .env e adicionar estas informações:
 
 ```bash
 ACCESS_TOKEN_SECRET=tokensecret
@@ -136,28 +142,28 @@ NODE_ENV=dev
 BACKEND_PORT=3333
 DATABASE_URL="mysql://root:senha@localhost:3306/nomeDoSeuBanco"
 ```
-3. Logo em seguida é necessário installar o prisma. Navegue até a pasta Back-End do projeto e digite o seguinte comando:
+4. Logo em seguida é necessário installar o prisma. Navegue até a pasta Back-End do projeto e digite o seguinte comando:
 
 ```bash
 $ npm i @prisma/client
 ```
-4. Logo após a installação digite o próximo comando:
+5. Logo após a instalação digite o próximo comando:
 
 ```bash
 $ npm install prisma --save-dev
 ```
 - Para mais informações, consulte este link https://www.prisma.io/docs/concepts/components/prisma-client
 
-4. Com os comandos devidamentes utilizados, digitando npx prisma -v é possível visualizar a versão do prisma installado.
+6. Com os comandos devidamentes utilizados, digitando npx prisma -v é possível visualizar a versão do prisma installado.
 
-5. O prisma possui vários comandos, digitando npx prisma é possível visualizar alguns comando mais utilizados. Após verificar os comandos é possível notar um comando que manda o prisma_schema para o banco de dados, entao digite este comando na pasta do Back-End do projeto:
+7. O prisma possui vários comandos, digitando npx prisma é possível visualizar alguns comando mais utilizados. Após verificar os comandos é possível notar um comando que manda o prisma_schema para o banco de dados, entao digite este comando na pasta do Back-End do projeto:
 
 ```bash
 $ npx prisma db push
 ```
 - obs: O comando vai funcionar se o .env estiver correto com as suas configurações do banco de dados. 
 
-6. Para iniciar o Back-End utilize o seguinte comando:
+8. Para iniciar o Back-End utilize o seguinte comando:
 
 ```bash
 $ npm run dev
@@ -167,18 +173,20 @@ $ npm run dev
 
 **Caso ocorra erro de permissão em alguma instalação adiciona o comando sudo antes do comando npm
 
-1. Para começar, é necessário instalar as dependências do projeto. Certifique-se de estar na pasta correta do Frontend e execute o seguinte comando:
+1. Acessar a pasta do frontend, onde ela está localizada
+ 
+2. Para começar, é necessário instalar as dependências do FrontEnd. Certifique-se de estar na pasta correta do Frontend e execute o seguinte comando:
 
 ```bash
 $ npm install
 ```
 
-2. Após a conclusão da instalação das dependências, é preciso instalar o Angular CLI. Isso permite usar o comando `ng` em qualquer lugar do seu sistema. Execute o seguinte comando:
+3. Após a conclusão da instalação das dependências, é preciso instalar o Angular CLI. Isso permite usar o comando `ng` em qualquer lugar do seu sistema. Execute o seguinte comando:
 ```bash
 $ npm install -g @angular/cli
 ```
 
-3. Com as dependências instaladas e o Angular CLI configurado, agora você pode iniciar o servidor de desenvolvimento. Execute o seguinte comando:
+4. Com as dependências instaladas e o Angular CLI configurado, agora você pode iniciar o servidor de desenvolvimento. Execute o seguinte comando:
 ```bash
 $ ng serve
 ```
