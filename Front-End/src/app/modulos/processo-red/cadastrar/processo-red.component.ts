@@ -101,68 +101,62 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
-    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
-      this.inicioAfastamento
-    );
+    // Verificação se o RED já existe no mesmo período
     const redsExistente = await this.redservice.getRed();
-    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
-      (red: any) => {
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
         const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
         const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
         const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
-        const previsaoTerminoThis = this.dateToString(
-          this.previsaoTerminoRed()
-        );
-
+        const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
+        
         return (
-          inicioAfastamentoRed === inicioAfastamentoThis &&
-          previsaoTerminoRed === previsaoTerminoThis
+            inicioAfastamentoRed === inicioAfastamentoThis &&
+            previsaoTerminoRed === previsaoTerminoThis
         );
-      }
-    );
+    });
+
     if (redExistenteNoMesmoPeriodo) {
-      this.openSnackBar(
-        'Já existe um RED para este prontuário no mesmo período! ',
-        null
-      );
-      return;
-    }
-    if (!inicioAfastamentoValido) {
-      this.openSnackBar(
-        'O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',
-        null
-      );
-      return;
+        this.openSnackBar('Já existe um RED para este prontuário no mesmo período! ', null);
+        return;
     }
 
-    try {
-      console.log(this.filtredCursos);
-      await this.servidorservice.createRED({
-        motivoAfastamento: this.motivoAfastamento,
-        inicioAfastamento: this.inicioAfastamento,
-        dataPrevisaoTermino: this.previsaoTerminoRed(),
-        dataInicioProcesso: new Date(),
-        semestreOuAnoAluno: this.semestreAluno,
-        tempoAfastamento: this.tempoAfastamento,
-        situacao: this.situacao,
-        observacao: this.observacao,
-        aluno_id: this.aluno.id,
-        coordenador: this.filtredCursos[0].coordenador,
-      });
-      if (this.tempoAfastamento < 15) {
-        this.openSnackBar('A quantidade de dias deve ser no mínimo 15! ', null);
+    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(this.inicioAfastamento);
+    if (!inicioAfastamentoValido) {
+        this.openSnackBar('O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ', null);
         return;
-      }
-      if (this.semestreAluno <= 0) {
+    }
+
+    if (this.tempoAfastamento < 15 || this.tempoAfastamento > 365) {
+        this.openSnackBar('A quantidade de dias deve ser no mínimo 15 e no máximo 365! ', null);
+        return;
+    }
+
+    if (this.semestreAluno <= 0) {
         this.openSnackBar('O semestre não pode ser menor que 1! ', null);
         return;
-      }
-      this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
+    }
+
+    // Criação do RED
+    try {
+        await this.servidorservice.createRED({
+            motivoAfastamento: this.motivoAfastamento,
+            inicioAfastamento: this.inicioAfastamento,
+            dataPrevisaoTermino: this.previsaoTerminoRed(),
+            dataInicioProcesso: new Date(),
+            semestreOuAnoAluno: this.semestreAluno,
+            tempoAfastamento: this.tempoAfastamento,
+            situacao: this.situacao,
+            observacao: this.observacao,
+            aluno_id: this.aluno.id,
+            coordenador: this.filtredCursos[0].coordenador,
+        });
+
+        this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
 
     } catch (error) {
-      console.error('Error submitting ProcessoRED:', error);
+        console.error('Error submitting ProcessoRED:', error);
     }
-  }
+}
 
   verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
     const hoje = new Date();
