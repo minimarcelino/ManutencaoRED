@@ -39,7 +39,6 @@ export class EditarAlunosComponent implements OnInit {
       prontuario: new FormControl(this.data.prontuario, [Validators.required]),
       nome: new FormControl(this.data.nome, [Validators.required]),
       data: new FormControl(utcDate, [Validators.required]),
-      endereco: new FormControl(this.data.endereco, [Validators.required]),
       telefone: new FormControl(this.data.telefone, [Validators.required]),
       email: new FormControl(this.data.email, [Validators.required]),
       curso: new FormControl(this.data.curso, [Validators.required]),
@@ -61,7 +60,6 @@ export class EditarAlunosComponent implements OnInit {
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
           data_nascimento: this.data_nascimento,
-          endereco: this.endereco,
           telefone: this.telefone,
           email: this.email,
           curso: this.idcurso,
@@ -120,10 +118,6 @@ export class EditarAlunosComponent implements OnInit {
   }
   get data_nascimento() {
     return this.editarAluno.get('data')!.value;
-  }
-
-  get endereco() {
-    return this.editarAluno.get('endereco')!.value;
   }
 
   get telefone() {

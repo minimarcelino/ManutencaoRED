@@ -67,7 +67,6 @@ export class alunoService {
                         prontuario: aluno.prontuario,
                         nome: aluno.nome,
                         dataNascimento: aluno.dataNascimento,
-                        endereco: aluno.endereco,
                         telefone: aluno.telefone,
                         email: aluno.email,
                         curso_idcurso: aluno.curso_idcurso,
