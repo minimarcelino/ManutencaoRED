@@ -92,21 +92,35 @@ Warning: Permanently added 'github.com,20.201.28.151' (ECDSA) to the list of kno
 > Resolving deltas: 100% (7578/7578), done.
 ```
 
-## 2 Instalação do Node.js
+## 2 Instalando NPM e NodeJS
 
-No momento de escrita deste manual (05/12/2023), estamos utilizando o Node.js.
+1. Instalando o npm:
 
-```bash
-$ sudo apt-get install -y nodejs
-```
+    ```bash
+    sudo apt install npm
+    ```
 
-- Para outras versões, consulte este link https://github.com/nodesource/distributions/blob/master/README.md
+2. Instale o módulo `n` via npm:
 
-1. Instalação das dependências
+    ```bash
+    sudo npm install -g n
+    ```
 
-   - Para instalar as dependências do projeto deve ser realizado o acesso em duas pastas deste, sendo elas `backend` e `frontend`
+3. Escolha a Versão do Node.js:
 
-   - Em cada uma destas pastas devem ser rodados o comando `npm i`
+    Para instalar a última versão lançada do Node.js, utilize o comando abaixo:
+
+    ```bash
+    sudo n latest
+    ```
+
+    No entanto, é importante observar que a última versão nem sempre é a mais recomendada para todos os casos. Para garantir estabilidade, é recomendado instalar a versão mais recente que é considerada estável. Para isso, utilize o comando:
+
+    ```bash
+    sudo n stable
+    ```
+
+Este procedimento garantirá que você tenha a versão mais recente e estável do Node.js instalada em seu sistema.
 
 ## 3 Configuração do projeto
 
@@ -151,8 +165,36 @@ $ npm run dev
 
 ## 3.2 **Frontend**
 
-1. No Front-end é mais simples, bastas apenas navegar a pasta do Front-End e digitar o seguinte comando:
+**Caso ocorra erro de permissão em alguma instalação adiciona o comando sudo antes do comando npm
+
+1. Para começar, é necessário instalar as dependências do projeto. Certifique-se de estar na pasta correta do Frontend e execute o seguinte comando:
 
 ```bash
+$ npm install
+```
+
+2. Após a conclusão da instalação das dependências, é preciso instalar o Angular CLI. Isso permite usar o comando `ng` em qualquer lugar do seu sistema. Execute o seguinte comando:
+```bash
+$ npm install -g @angular/cli
+```
+
+3. Com as dependências instaladas e o Angular CLI configurado, agora você pode iniciar o servidor de desenvolvimento. Execute o seguinte comando:
+```bash
 $ ng serve
+```
+
+## 3.3 Criando o administrador
+
+Na pasta `Back-End/ScriptsUtilitarios/BancoDeDados`, Execute o seguinte comando para cadastrar o administrador:
+
+```bash
+$ node createAdmin.js
+```
+
+**Ou**
+
+Execute o seguinte comando para cadastrar o administrador e mais alguns usuários de testes (Cordenador, Csp, Cra, Professor):
+
+```bash
+$ node seedBanco.js
 ```
