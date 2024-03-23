@@ -17,16 +17,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 //
-import { ListarPEEComponent } from '../modulos/pee/listar/listar.component';
-import { CadastrarPEEComponent } from '../modulos/pee/cadastrar/cadastrar-pee.component';
-import { AbonarFaltaComponent } from '../modulos/pee/abonar-faltas/abonar-faltas.component';
-import { PEEAbonadosComponent } from '../modulos/pee/abonados/pees-abonados.component';
-import { VisualizarPEEComponent } from '../modulos/pee/visualizar/visualizar.component';
-import { GerenciarPEEComponent } from '../modulos/pee/gerenciar/gerenciar-pee.component';
-import { GerenciarVisualizarPeeComponent } from '../modulos/pee/gerenciar/gerenciar-visualizar/gerenciar-visualizar.component';
+import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
+import { AbonarFaltaComponent } from 'src/app/modulos/pee/abonar-faltas/abonar-faltas.component';
+import { CadastrarPEEComponent } from 'src/app/modulos/pee/cadastrar/cadastrar-pee.component';
+import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
+import { GerenciarVisualizarPeeComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-visualizar/gerenciar-visualizar.component';
+import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
+import { VisualizarPEEComponent } from 'src/app/modulos/pee/visualizar/visualizar.component';
 import { AssociarProfessoresComponent } from '../coordenador/associar-professores/associar-professores.component';
-
-
 
 @NgModule({
     declarations: [

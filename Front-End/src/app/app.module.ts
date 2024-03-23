@@ -19,17 +19,18 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MessageDialogComponent } from './utils/message-dialog/message-dialog.component';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
-import { CRAComponent } from './cra/cra.component';
-import { CSPComponent } from './csp/csp.component';
-import { CspModule } from './csp/csp.module';
-import { CraModule } from './cra/cra.module';
-import { CoordenadorComponent } from './coordenador/coordenador.component';
-import { CoordenadorModule } from './coordenador/coordenador.module';
-import { AdministradorComponent } from './administrador/administrador.component';
-import { ProfessorComponent } from './professor/professor.component';
-import { ProfessorModule } from './professor/professor.module';
 import { UsuarioModule } from './usuario-nao-autenticado/usuario.module';
 import { PerfilComponent } from './perfil/perfil.component';
+import { CRAComponent } from './niveis-acesso/cra/cra.component';
+import { CSPComponent } from './niveis-acesso/csp/csp.component';
+import { CoordenadorComponent } from './niveis-acesso/coordenador/coordenador.component';
+import { AdministradorComponent } from './niveis-acesso/administrador/administrador.component';
+import { ProfessorComponent } from './niveis-acesso/professor/professor.component';
+import { CraModule } from './niveis-acesso/cra/cra.module';
+import { CspModule } from './niveis-acesso/csp/csp.module';
+import { ProfessorModule } from './niveis-acesso/professor/professor.module';
+import { CoordenadorModule } from './niveis-acesso/coordenador/coordenador.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     CspModule,
     CraModule,
     ProfessorModule,
-    // CoordenadorModule,
+    CoordenadorModule,
     UsuarioModule,
   ],
   providers: [

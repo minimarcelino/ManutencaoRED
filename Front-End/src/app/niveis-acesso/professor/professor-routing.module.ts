@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ProfessorComponent } from './professor.component';
-import { PerfilComponent } from '../perfil/perfil.component';
-//
-import { ListarPEEComponent } from '../modulos/pee/listar/listar.component';
-import { PEEAbonadosComponent } from '../modulos/pee/abonados/pees-abonados.component';
+import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
+import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
+import { PerfilComponent } from 'src/app/perfil/perfil.component';
 
 const routes: Routes = [
   {

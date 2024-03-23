@@ -17,16 +17,15 @@ import {
   MatMomentDateModule,
 } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+
+import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
+import { EditarAlunosComponent } from 'src/app/modulos/alunos/editar/editar.component';
+import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
+import { VisualizarAlunoComponent } from 'src/app/modulos/alunos/visualizar/visualizar.component';
 //
-//
-import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
-import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
-import { EditarAlunosComponent } from '../modulos/alunos/editar/editar.component';
-import { VisualizarAlunoComponent } from '../modulos/alunos/visualizar/visualizar.component';
-//
-import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
-import { EditarREDComponent } from '../modulos/processo-red/editar/editar.component';
-import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
+import { CadastrarProcessoREDComponent } from 'src/app/modulos/processo-red/cadastrar/processo-red.component';
+import { EditarREDComponent } from 'src/app/modulos/processo-red/editar/editar.component';
+import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.component';
 
 @NgModule({
   declarations: [

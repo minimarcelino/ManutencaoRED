@@ -21,13 +21,13 @@ import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from './processo-red/visualizar/visualizar.component';
 //
-import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
-import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
-import { EditarServidoresComponent } from '../modulos/servidores/editar/editar.component';
+import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
+import { EditarCursoComponent } from 'src/app/modulos/cursos/editar/editar.component';
+import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
 //
-import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
-import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
-import { EditarCursoComponent } from '../modulos/cursos/editar/editar.component';
+import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
+import { EditarServidoresComponent } from 'src/app/modulos/servidores/editar/editar.component';
+import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
 
 @NgModule({
   declarations: [

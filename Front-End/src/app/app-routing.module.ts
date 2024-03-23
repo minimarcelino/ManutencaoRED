@@ -14,25 +14,25 @@ const routes: Routes = [
   //csp
   {
     path: 'csp',
-    loadChildren: () => import('./csp/csp-routing.module').then((module) => module.CspRoutingModule),
+    loadChildren: () => import('./niveis-acesso/csp/csp-routing.module').then((module) => module.CspRoutingModule),
     canActivate: [authorizationService]
   },
   //cra
   {
     path: 'cra',
-    loadChildren: () => import('./cra/cra-routing.module').then((module) => module.CraRoutingModule),
+    loadChildren: () => import('./niveis-acesso/cra/cra-routing.module').then((module) => module.CraRoutingModule),
     canActivate: [authorizationService]
   },
   //coordenador
   {
     path: 'coordenador',
-    loadChildren: () => import('./coordenador/coordenador-routing.module').then((module) => module.CoordenadorRoutingModule),
+    loadChildren: () => import('./niveis-acesso/coordenador/coordenador-routing.module').then((module) => module.CoordenadorRoutingModule),
     canActivate: [authorizationService]
   },
   //professor
   {
     path: 'professor',
-    loadChildren: () => import('./professor/professor-routing.module').then((module) => module.ProfessorRoutingModule),
+    loadChildren: () => import('./niveis-acesso/professor/professor-routing.module').then((module) => module.ProfessorRoutingModule),
     canActivate: [authorizationService]
   },
   //usuarioNaoAutenticado
@@ -43,7 +43,7 @@ const routes: Routes = [
   //administrador
   {
     path: 'administrador',
-    loadChildren: () => import('./administrador/admin-routing.module').then((module) => module.AdministradorRoutingModule),
+    loadChildren: () => import('./niveis-acesso/administrador/admin-routing.module').then((module) => module.AdministradorRoutingModule),
     canActivate: [authorizationService]
   },
 ];

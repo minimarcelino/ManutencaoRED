@@ -4,25 +4,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdministradorComponent } from './administrador.component';
 
 import { AssociarDisciplinaComponent } from '../csp/associar-disciplina/associar-disciplina.component';
-import { PerfilComponent } from '../perfil/perfil.component';
+import { PerfilComponent } from '../../perfil/perfil.component';
 //
-import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
-import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/cadastrar.component';
+import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/disciplinas.component';
+import { CadastrarDisciplinaComponent } from '../../modulos/disciplinas/cadastrar/cadastrar.component';
 //
-import { ListarServidoresComponent } from '../modulos/servidores/listar/listar.component';
-import { CadastrarServidoresComponent } from '../modulos/servidores/cadastrar/cadastrar.component';
+import { ListarServidoresComponent } from '../../modulos/servidores/listar/listar.component';
+import { CadastrarServidoresComponent } from '../../modulos/servidores/cadastrar/cadastrar.component';
 //
-import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
-import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
+import { ListarAlunoComponent } from '../../modulos/alunos/listar/listar.component';
+import { CadastrarAlunoComponent } from '../../modulos/alunos/cadastrar/cadastrar.component';
 //
-import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
-import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
+import { CadastrarProcessoREDComponent } from '../../modulos/processo-red/cadastrar/processo-red.component';
+import { ListarREDComponent } from '../../modulos/processo-red/listar/listar.component';
 //
-import { ListarCursosComponent } from '../modulos/cursos/listar/listar.component';
-import { CadastrarCursoComponent } from '../modulos/cursos/cadastrar/cadastrar.component';
+import { ListarCursosComponent } from '../../modulos/cursos/listar/listar.component';
+import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastrar.component';
 
-import { GerenciarPEEComponent } from '../modulos/pee/gerenciar/gerenciar-pee.component';
-import { PEEAbonadosComponent } from '../modulos/pee/abonados/pees-abonados.component';
+import { GerenciarPEEComponent } from '../../modulos/pee/gerenciar/gerenciar-pee.component';
+import { PEEAbonadosComponent } from '../../modulos/pee/abonados/pees-abonados.component';
 
 const routes: Routes = [
   {

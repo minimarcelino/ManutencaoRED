@@ -22,9 +22,9 @@ import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
 import { VisualizarREDsComponent } from './visualizacaoRed/visualizar/visualizar.component';
 import { VisualizarDisciplinaComponent } from './visualizar-disciplina/visualizar-disciplina.component';
 //
-import { ListarDisciplinasComponent } from '../modulos/disciplinas/listar/disciplinas.component';
-import { CadastrarDisciplinaComponent } from '../modulos/disciplinas/cadastrar/cadastrar.component';
-import { EditarDisciplinaComponent } from '../modulos/disciplinas/editar/editar.component';
+import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
+import { EditarDisciplinaComponent } from 'src/app/modulos/disciplinas/editar/editar.component';
+import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 
 @NgModule({
   declarations: [

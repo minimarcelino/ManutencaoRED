@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'; // Importe o Router
-import { authenticationService } from '../services/authentication.service'; // Importe o authenticationService
+import { authenticationService } from '../../services/authentication.service'; // Importe o authenticationService
 
 @Component({
   selector: 'app-cra',
@@ -9,7 +9,7 @@ import { authenticationService } from '../services/authentication.service'; // I
 })
 export class CRAComponent {
   constructor(
-    public authenticationService: authenticationService, 
+    public authenticationService: authenticationService,
     private router: Router // Injete o Router
   ) { }
 

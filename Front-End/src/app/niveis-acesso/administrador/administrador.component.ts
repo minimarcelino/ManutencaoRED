@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { authenticationService } from '../services/authentication.service';
+import { authenticationService } from '../../services/authentication.service';
 
 @Component({
-  selector: 'app-csp',
-  templateUrl: './csp.component.html',
-  styleUrls: ['./csp.component.css']
+  selector: 'app-administrador',
+  templateUrl: './administrador.component.html',
+  styleUrls: ['./administrador.component.css']
 })
-export class CSPComponent {
+export class AdministradorComponent {
   constructor(
     public authenticationService: authenticationService,
     private router: Router

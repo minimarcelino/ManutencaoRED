@@ -9,8 +9,9 @@ import { formatDate } from '@angular/common';
 import { peeService } from 'src/app/services/pee.service';
 import { red } from 'src/app/modelo/red';
 import { pee } from 'src/app/modelo/pee';
-import { AssociarProfessoresComponent } from 'src/app/coordenador/associar-professores/associar-professores.component';
+import { AssociarProfessoresComponent } from 'src/app/niveis-acesso/coordenador/associar-professores/associar-professores.component';
 import { GerenciarVisualizarPeeComponent } from './gerenciar-visualizar/gerenciar-visualizar.component';
+
 
 
 @Component({

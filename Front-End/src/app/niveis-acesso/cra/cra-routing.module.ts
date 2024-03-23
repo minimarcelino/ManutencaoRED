@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CRAComponent } from './cra.component';
-import { PerfilComponent } from '../perfil/perfil.component';
+import { PerfilComponent } from 'src/app/perfil/perfil.component';
 //
-import { ListarAlunoComponent } from '../modulos/alunos/listar/listar.component';
-import { CadastrarAlunoComponent } from '../modulos/alunos/cadastrar/cadastrar.component';
+import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
+import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
 //
-import { CadastrarProcessoREDComponent } from '../modulos/processo-red/cadastrar/processo-red.component';
-import { ListarREDComponent } from '../modulos/processo-red/listar/listar.component';
+import { CadastrarProcessoREDComponent } from 'src/app/modulos/processo-red/cadastrar/processo-red.component';
+import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.component';
 
 const routes: Routes = [
   {
