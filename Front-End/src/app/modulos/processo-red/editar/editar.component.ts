@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { alunoService } from 'src/app/services/alunos.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { redService } from 'src/app/services/red.service';
-import { RedValidationService } from 'src/app/utils/red-utils/red-validation.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -25,7 +24,6 @@ export class EditarREDComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBar: MatSnackBar,
     private dialog: MatDialogRef<EditarREDComponent>,
-    private REDValidation: RedValidationService,
     private redservice: redService
   ) {}
 
@@ -111,11 +109,48 @@ export class EditarREDComponent implements OnInit {
   }
 
   async editar() {
-    let red = {
-      idRED: this.data.id,
+    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
+      this.inicioAfastamento
+    );
+    const redsExistente = await this.redservice.getRed();
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
+      (red: any) => {
+        const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
+        const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
+        const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
+        const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
+
+        return (
+          inicioAfastamentoRed === inicioAfastamentoThis &&
+          previsaoTerminoRed === previsaoTerminoThis
+        );
+      }
+    );
+    if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
+      this.openSnackBar(
+        'O período de afastamento deve ser entre 15 a 360 dias.',null);
+      return;
+    }
+    if (this.data.semestreAluno <= 0 || this.data.semestreAluno > 20) {
+      this.openSnackBar('O semestre informado deve estar entre 1 e 24.', null);
+      return;
+    }
+    if (redExistenteNoMesmoPeriodo) {
+      this.openSnackBar('Já existe um RED para este prontuário no mesmo período! ',null);
+      return;
+    }
+    if (!inicioAfastamentoValido) {
+      this.openSnackBar('O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',null);
+      return;
+    }
+
+
+    try {
+      await this.redservice.updateRed({
+        idRED: this.data.id,
       motivoAfastamento: this.motivoAfastamento,
         inicioAfastamento: this.inicioAfastamento,
-        dataPrevisaoTermino: this.REDValidation.previsaoTerminoRed(this.inicioAfastamento, this.tempoAfastamento),
+        dataPrevisaoTermino: this.previsaoTerminoRed(),
         dataInicioProcesso: this.data.dataInicioProcesso,
         semestreOuAnoAluno: this.data.semestreAluno,
         tempoAfastamento: this.tempoAfastamento,
@@ -123,12 +158,7 @@ export class EditarREDComponent implements OnInit {
         observacao: this.observacao,
         aluno_id: this.data.aluno_id,
         coordenador: this.data.coordenador,
-    }
-    this.REDValidation.validarRED(red);
-
-
-    try {
-      await this.redservice.updateRed({red});
+      });
       this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
       this.dialog.close();
     } catch (error) {
@@ -181,5 +211,27 @@ export class EditarREDComponent implements OnInit {
 
   get observacao() {
     return this.editarRed.get('observacao')!.value;
+  }
+
+  private verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
+    const hoje = new Date();
+    const dataInicio = new Date(dataInicioAfastamento);
+    const diff = Math.abs(hoje.getTime() - dataInicio.getTime());
+    const diffEmDias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return diffEmDias <= 7;
+  }
+
+  private dateToString(date: Date): string {
+    return new Date(date).toISOString().split('T')[0];
+  }
+
+  private previsaoTerminoRed(): Date {
+    const dataTerminoRed = new Date(this.inicioAfastamento);
+    dataTerminoRed.setDate(dataTerminoRed.getDate() + this.tempoAfastamento);
+
+    // Adiciona mais 30 dias ao resultado anterior
+    const dataFinal = new Date(dataTerminoRed);
+    dataFinal.setDate(dataFinal.getDate() + 30);
+    return dataFinal;
   }
 }
