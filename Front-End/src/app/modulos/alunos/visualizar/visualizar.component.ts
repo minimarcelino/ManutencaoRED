@@ -34,7 +34,6 @@ export class VisualizarAlunoComponent implements OnInit {
       prontuario: new FormControl({ value: this.data.prontuario, disabled: true },[Validators.required]),
       metodologia: new FormControl({ value: this.data.metodologia, disabled: true },[Validators.required]),
       dataNascimento: new FormControl({ value: utcDate, disabled: true }, [Validators.required,]),
-      endereco: new FormControl({ value: this.data.endereco, disabled: true }, [Validators.required,]),
       telefone: new FormControl({ value: this.data.telefone, disabled: true }, [Validators.required,]),
       email: new FormControl({ value: this.data.email, disabled: true }, [Validators.required,]),
       curso: new FormControl({ value: this.data.curso.nomeCurso, disabled: true },[Validators.required]),

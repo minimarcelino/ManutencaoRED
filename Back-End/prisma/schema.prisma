@@ -11,7 +11,6 @@ model aluno {
   prontuario     String   @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
   nome           String   @db.VarChar(60)
   dataNascimento DateTime @db.Date
-  endereco       String   @db.VarChar(150)
   telefone       String   @unique(map: "telefone_UNIQUE") @db.VarChar(11)
   email          String   @unique(map: "email_UNIQUE") @db.VarChar(100)
   curso_idcurso  Int

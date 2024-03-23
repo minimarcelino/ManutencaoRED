@@ -37,7 +37,6 @@ export class CadastrarAlunoComponent implements OnInit {
       prontuario: new FormControl('', [Validators.required]),
       nome: new FormControl('', [Validators.required]),
       data: new FormControl('', [Validators.required]),
-      endereco: new FormControl('', [Validators.required]),
       telefone: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
       curso: new FormControl('', [Validators.required]),
@@ -65,7 +64,6 @@ export class CadastrarAlunoComponent implements OnInit {
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,
           dataNascimento: this.data_nascimento,
-          endereco: this.endereco,
           telefone: this.telefone,
           email: this.email,
           curso_idcurso: this.idcurso,
@@ -133,10 +131,6 @@ export class CadastrarAlunoComponent implements OnInit {
 
   get data_nascimento() {
     return this.cadastrarAluno.get('data')!.value;
-  }
-
-  get endereco() {
-    return this.cadastrarAluno.get('endereco')!.value;
   }
 
   get telefone() {
