@@ -9,6 +9,7 @@
 
 mat-form-field {
     width: 50%;
+    position: relative;
 }
 .form_curso {
     width: 60%;
@@ -20,4 +21,10 @@ mat-label {
 
 input.mat-input {
     width: 100%;
+}
+
+.hint-inside {
+  position: absolute;
+  right: 2%;
+  bottom: 1%;
 }

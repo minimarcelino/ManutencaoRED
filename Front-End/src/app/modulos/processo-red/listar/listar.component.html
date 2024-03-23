@@ -1,5 +1,5 @@
 <div class="title">
-    <h1>Processos</h1>
+    <h1>Processos RED</h1>
     <hr class="linha" />
 </div>
 
@@ -8,7 +8,7 @@
         <mat-form-field>
             <mat-label>Pesquisar Aluno</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
-          </mat-form-field>  
+          </mat-form-field>
         <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <!-- Prontuario Column -->
             <ng-container matColumnDef="Prontuário">
@@ -59,9 +59,9 @@
                     </button>
                     <button *ngIf="a.situacao === 'Finalizado'" mat-icon-button matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
                         <mat-icon>description</mat-icon>
-                      </button> 
-                  </td> 
-            </ng-container> 
+                      </button>
+                  </td>
+            </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
