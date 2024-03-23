@@ -32,18 +32,33 @@ export class CadastrarPEEComponent implements OnInit {
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
     this.cadastrarPee = new FormGroup({
-      conteudo: new FormControl('', [Validators.required]),
-      metodologia: new FormControl('', [Validators.required]),
-      trabalhos: new FormControl('', [Validators.required]),
-      bibliografia: new FormControl('', [Validators.required]),
-      exigencia: new FormControl('', [Validators.required]),
+      conteudo: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(4000)
+      ]),
+      metodologia: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(4000)
+      ]),
+      trabalhos: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(2000)
+    ]),
+      bibliografia: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(2000)
+      ]),
+      exigencia: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(2000)
+      ]),
       prazo: new FormControl('', [Validators.required]),
       contato: new FormControl(this.data.emailServidor, [Validators.required]),
       comunicacao: new FormControl(null),
       avaliacao: new FormControl(null),
       avaliacaoRealizada: new FormControl(null),
       dataAvaliacao: new FormControl(null),
-      observacao: new FormControl(null),
+      observacao: new FormControl('', [Validators.maxLength(4000)]),
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
@@ -99,6 +114,10 @@ export class CadastrarPEEComponent implements OnInit {
 
   cancelar() {
     this.dialog.close();
+  }
+
+  updateCharacterCount(campoTexto: string, limite: number): number {
+    return limite - campoTexto.length;
   }
 
   openSnackBar(message: string, error: string | Error | null) {

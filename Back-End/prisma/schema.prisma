@@ -60,11 +60,11 @@ model disciplinas {
 
 model pee {
   idpee                     Int          @id @default(autoincrement())
-  conteudo                  String       @db.VarChar(1000)
-  metodologia               String       @db.VarChar(1000)
-  trabalhos                 String       @db.VarChar(2000)
-  bibliografia              String       @db.VarChar(1000)
-  criterios                 String       @db.VarChar(1000)
+  conteudo                  String       @db.Text
+  metodologia               String       @db.Text
+  trabalhos                 String       @db.Text
+  bibliografia              String       @db.Text
+  criterios                 String       @db.Text
   prazofinal                DateTime     @db.Date
   RED_idRED                 Int
   disciplinas_iddisciplinas Int
@@ -75,7 +75,7 @@ model pee {
   houveAvaliacao            String?      @db.Char(1)
   avaliacoesRealizadas      String?      @db.Char(1)
   dataAvaliacao             DateTime?    @db.Date
-  observacoes               String?      @db.VarChar(2000)
+  observacoes               String?      @db.Text
   atividades                atividades[]
   red                       red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
   disciplinas               disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")

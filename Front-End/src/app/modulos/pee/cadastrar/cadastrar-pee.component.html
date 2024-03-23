@@ -1,108 +1,124 @@
 <div class="container">
-    <div>
-        <h1>Proposta de Estudo</h1>
-        <hr>
-    </div>
-    <div class="fields">
-        <form [formGroup]="cadastrarPee" #formDir="ngForm">
-            <mat-form-field class="example-full-width">
-                <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
-                <textarea matInput name="conteudo" formControlName="conteudo"></textarea>
-                <div *ngIf="cadastrarPee.get('conteudo')?.invalid && formDir.submitted" class="validation">
-                    <p>Conteúdo obrigatório!</p>
-                </div>
-            </mat-form-field>
+  <div>
+    <h1>Proposta de Estudo</h1>
+    <hr>
+  </div>
+  <div class="fields">
+    <form [formGroup]="cadastrarPee" #formDir="ngForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
+        <textarea matInput name="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
+        spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(conteudo, 4000) }} caracteres
+          restantes</mat-hint>
+        <div *ngIf="cadastrarPee.get('conteudo')?.invalid && formDir.submitted" class="validation">
+          <p>Conteúdo obrigatório!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>A METODOLOGIA A SER UTILIZADA</mat-label>
-                <textarea matInput name="metodologia" formControlName="metodologia"></textarea>
-                <div *ngIf="cadastrarPee.get('metodologia')?.invalid && formDir.submitted" class="validation">
-                    <p>Metodologia obrigatória!</p>
-                </div>
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>A METODOLOGIA A SER UTILIZADA</mat-label>
+        <textarea matInput name="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
+          spellcheck="true"></textarea>
+          <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(metodologia, 4000) }} caracteres
+            restantes</mat-hint>
+        <div *ngIf="cadastrarPee.get('metodologia')?.invalid && formDir.submitted" class="validation">
+          <p>Metodologia obrigatória!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>TRABALHOS A SEREM CUMPRIDOS</mat-label>
-                <textarea matInput name="trabalhos" formControlName="trabalhos"></textarea>
-                <div *ngIf="cadastrarPee.get('trabalhos')?.invalid && formDir.submitted" class="validation">
-                    <p>Trabalho obrigatório!</p>
-                </div>
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>TRABALHOS A SEREM CUMPRIDOS</mat-label>
+        <textarea matInput name="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
+        spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(trabalhos, 2000) }} caracteres
+          restantes</mat-hint>
+        <div *ngIf="cadastrarPee.get('trabalhos')?.invalid && formDir.submitted" class="validation">
+          <p>Trabalho obrigatório!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>INDICAÇÕES BIBLIOGRÁFICAS</mat-label>
-                <textarea matInput name="bibliografia" formControlName="bibliografia"></textarea>
-                <div *ngIf="cadastrarPee.get('bibliografia')?.invalid && formDir.submitted" class="validation">
-                    <p>Bibliografia obrigatória!</p>
-                </div>
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>INDICAÇÕES BIBLIOGRÁFICAS</mat-label>
+        <textarea matInput name="bibliografia" formControlName="bibliografia" maxlength="2000" rows="5"
+        spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(bibliografia, 2000) }} caracteres
+          restantes</mat-hint>
+        <div *ngIf="cadastrarPee.get('bibliografia')?.invalid && formDir.submitted" class="validation">
+          <p>Bibliografia obrigatória!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>CRITÉRIOS DE EXIGÊNCIA</mat-label>
-                <textarea matInput name="exigencia" formControlName="exigencia"></textarea>
-                <div *ngIf="cadastrarPee.get('exigencia')?.invalid && formDir.submitted" class="validation">
-                    <p>Exigência obrigatória!</p>
-                </div>
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>CRITÉRIOS DE EXIGÊNCIA</mat-label>
+        <textarea matInput name="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
+        spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(exigencia, 2000) }} caracteres
+          restantes</mat-hint>
+        <div *ngIf="cadastrarPee.get('exigencia')?.invalid && formDir.submitted" class="validation">
+          <p>Exigência obrigatória!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field style="min-width: 100%; max-width: 100%; margin-right: 400px;">
-                <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="prazo">
-                <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <div *ngIf="cadastrarPee.get('prazo')?.invalid && formDir.submitted" class="validation">
-                    <p>Prazo obrigatório!</p>
-                </div>
-            </mat-form-field>
+      <mat-form-field style="min-width: 100%; max-width: 100%; margin-right: 400px;">
+        <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="prazo">
+        <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <div *ngIf="cadastrarPee.get('prazo')?.invalid && formDir.submitted" class="validation">
+          <p>Prazo obrigatório!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>CONTATOS DO PROFESSOR</mat-label>
-                <textarea matInput name="contato" formControlName="contato"></textarea>
-                <div *ngIf="cadastrarPee.get('contato')?.invalid && formDir.submitted" class="validation">
-                    <p>Contato obrigatório!</p>
-                </div>
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>CONTATOS DO PROFESSOR</mat-label>
+        <textarea matInput name="contato" formControlName="contato"></textarea>
+        <div *ngIf="cadastrarPee.get('contato')?.invalid && formDir.submitted" class="validation">
+          <p>Contato obrigatório!</p>
+        </div>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>Canal de comunicação</mat-label>
-                <input matInput name="comunicacao" formControlName="comunicacao" />
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Canal de comunicação</mat-label>
+        <input matInput name="comunicacao" formControlName="comunicacao" />
+      </mat-form-field>
 
-            <div>
-                <p>Houve avaliação</p>
-                <mat-radio-group formControlName="avaliacao" class="example-radio-group">
-                    <mat-radio-button value="S">Sim</mat-radio-button>
-                    <mat-radio-button value="N">Não</mat-radio-button>
-                </mat-radio-group>
-            </div>
+      <div>
+        <p>Houve avaliação</p>
+        <mat-radio-group formControlName="avaliacao" class="example-radio-group">
+          <mat-radio-button value="S">Sim</mat-radio-button>
+          <mat-radio-button value="N">Não</mat-radio-button>
+        </mat-radio-group>
+      </div>
 
-            <div>
-                <p>Caso tenha, ja foi realizada ?</p>
-                <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
-                    <mat-radio-button value="S">Sim</mat-radio-button>
-                    <mat-radio-button value="N">Não</mat-radio-button>
-                </mat-radio-group>
-            </div>
+      <div>
+        <p>Caso tenha, ja foi realizada ?</p>
+        <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
+          <mat-radio-button value="S">Sim</mat-radio-button>
+          <mat-radio-button value="N">Não</mat-radio-button>
+        </mat-radio-group>
+      </div>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>Data da nova avalição caso teve</mat-label>
-                <input matInput [matDatepicker]="picker2" formControlName="dataAvaliacao">
-                <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Data da nova avalição caso teve</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="dataAvaliacao">
+        <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <mat-label>Observações</mat-label>
-                <textarea matInput name="observacao" formControlName="observacao"></textarea>
-            </mat-form-field>
-            <div id="buttons">
-                <button mat-raised-button color="primary" (click)="cancelar()"
-                    style="margin-left: 4px;">Cancelar</button>
-                <button mat-raised-button color="primary" (click)="submit()"
-                    style="margin-left: 4px;">Cadastrar</button>
-            </div>
-        </form>
-    </div>
+      <mat-form-field class="example-full-width">
+        <mat-label>Observações</mat-label>
+        <textarea matInput name="observacao" formControlName="observacao" maxlength="4000" rows="3"
+        spellcheck="true"></textarea>
+        <!-- <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }} caracteres
+          restantes</mat-hint> -->
+      </mat-form-field>
+      <div id="buttons">
+        <button mat-raised-button color="primary" (click)="cancelar()" style="margin-left: 4px;">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Cadastrar</button>
+      </div>
+    </form>
+  </div>
 </div>
