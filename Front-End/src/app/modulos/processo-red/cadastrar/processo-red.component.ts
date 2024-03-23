@@ -110,20 +110,17 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
-    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
-      this.inicioAfastamento
-    );
+    // Verificação se o RED já existe no mesmo período
     const redsExistente = await this.redservice.getRed();
-    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
-      (red: any) => {
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
         const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
         const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
         const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
         const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
 
         return (
-          inicioAfastamentoRed === inicioAfastamentoThis &&
-          previsaoTerminoRed === previsaoTerminoThis
+            inicioAfastamentoRed === inicioAfastamentoThis &&
+            previsaoTerminoRed === previsaoTerminoThis
         );
       }
     );
@@ -140,11 +137,14 @@ export class CadastrarProcessoREDComponent implements OnInit {
       this.openSnackBar('Já existe um RED para este prontuário no mesmo período! ',null);
       return;
     }
+
+    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(this.inicioAfastamento);
     if (!inicioAfastamentoValido) {
       this.openSnackBar('O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',null);
       return;
     }
 
+    // Criação do RED
     try {
       console.log(this.filtredCursos);
       await this.servidorservice.createRED({
@@ -164,7 +164,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     } catch (error) {
       console.error('Erro ao cadastrar RED:', error);
     }
-  }
+}
 
   retornarParaLista() {
     this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
