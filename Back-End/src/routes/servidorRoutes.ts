@@ -15,7 +15,7 @@ router.post('/create',authentication.validate, servidorcontroller.Create);
 router.put('/update/:id',authentication.validate, servidorcontroller.Update);
 router.put('/updatePerfil/:id',authentication.validate, servidorcontroller.UpdatePerfil);
 router.delete('/delete/:id', authentication.validate,servidorcontroller.Delete);
-router.post('/login', servidorcontroller.Login);
+// router.post('/login', servidorcontroller.Login);
 router.get('/profile', servidorcontroller.getProfile);
 //router.post('/cra/processo-red/create', servidorcontroller.createRED);
 router.put('/updatePerfil/:id',authentication.validate, servidorcontroller.UpdatePerfil);

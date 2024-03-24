@@ -45,6 +45,8 @@ export class LoginComponent implements OnInit {
         //senha: this.senha,
         senha: '123',
       });
+      console.log(this.logging);
+
       if (this.logging) {
         this.user = localStorage.getItem('user');
         if (this.user != null) {

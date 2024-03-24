@@ -17,7 +17,7 @@ export class authenticationService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private session: sessionService,
+    private session: sessionService
   ) {
     this.init();
   }
@@ -67,9 +67,14 @@ export class authenticationService {
     }
   }
 
-  async login(usuario: { prontuario: string; senha: string }): Promise<boolean> {
+  async login(usuario: {
+    prontuario: string;
+    senha: string;
+  }): Promise<boolean> {
     try {
-      const resultado: any = await this.http.post<boolean>(`${environment.API}/login`, usuario).toPromise();
+      const resultado: any = await this.http
+        .post<boolean>(`${environment.API}login`, usuario)
+        .toPromise();
       this.saveTokenToStorage(resultado.token);
       this.session.setSession(resultado.data);
       await this.getLogUser();
