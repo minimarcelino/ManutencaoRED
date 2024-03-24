@@ -2,11 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 //
 import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
 import { VisualizarPEEComponent } from '../visualizar/visualizar.component';
 import { CadastrarPEEComponent } from '../cadastrar/cadastrar-pee.component';
@@ -25,9 +24,8 @@ export class ListarPEEComponent implements OnInit {
   displayedColumns = ['disciplina', 'nome', 'prontuario', 'email', 'acoes'];
 
   constructor(
-    private router: Router,
     public dialogQuestionService: messageDialog,
-    private peeService: peeService,
+    private peeService: PeeService,
     private dialog: MatDialog
   ) {}
 

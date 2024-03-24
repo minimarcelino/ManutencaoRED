@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 
 @Component({
   selector: 'app-visualizar-disciplina',
@@ -25,7 +25,7 @@ export class VisualizarDisciplinaComponent implements OnInit{
   displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'conclusao'];
 
   constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog,
-              private dialog: MatDialogRef<VisualizarDisciplinaComponent>, private disciplinaservice: DisciplinaService, private peeservice: peeService,
+              private dialog: MatDialogRef<VisualizarDisciplinaComponent>, private disciplinaservice: DisciplinaService, private peeservice: PeeService,
               @Inject(MAT_DIALOG_DATA) public data: any){}
 
   ngOnInit(): void {

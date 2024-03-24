@@ -9,10 +9,10 @@ import * as XLSX from 'xlsx';
 
 import { curso } from 'src/app/modelo/curso';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { redService } from 'src/app/services/red.service';
+import { RedService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { EditarREDComponent } from '../editar/editar.component';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 
 export interface aluno {
   id: number;
@@ -63,11 +63,11 @@ export class ListarREDComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private redservice: redService,
+    private redService: RedService,
     public dialogQuestionService: messageDialog,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private peeservice: peeService
+    private peeService: PeeService
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +77,7 @@ export class ListarREDComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.redservice.getRed();
+    const response = await this.redService.getRed();
     this.reds = response.data.reds;
 
     this.dataSource = new MatTableDataSource<any>(this.reds);
@@ -152,7 +152,7 @@ export class ListarREDComponent implements OnInit {
 
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
-      const redAluno = await this.peeservice.getPeeRED(red.idRED);
+      const redAluno = await this.peeService.getPeeRED(red.idRED);
 
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({

@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 
 @Component({
   selector: 'app-visualizar',
@@ -35,7 +35,7 @@ export class VisualizarRedComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<VisualizarRedComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private peeservice: peeService  ) {}
+    private peeservice: PeeService  ) {}
 
   ngOnInit() {
     this.findAll();

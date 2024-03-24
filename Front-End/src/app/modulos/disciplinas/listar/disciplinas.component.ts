@@ -29,7 +29,7 @@ export class ListarDisciplinasComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private disciplinaservice: DisciplinaService,
+    private disciplinaService: DisciplinaService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -52,7 +52,7 @@ export class ListarDisciplinasComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.disciplinaservice.getDisciplina();
+    const response = await this.disciplinaService.getDisciplina();
     this.disciplinas = response.data.disciplinas;
     this.dataSource = new MatTableDataSource<disciplina>(this.disciplinas);
     this.dataSource.paginator = this.paginator;
@@ -76,7 +76,7 @@ export class ListarDisciplinasComponent implements OnInit {
 
   async deleteDisciplinaPermanent(iddisciplinas: number) {
     try {
-      let response = await this.disciplinaservice.deleteDisciplina(
+      let response = await this.disciplinaService.deleteDisciplina(
         iddisciplinas
       );
       if (response) {

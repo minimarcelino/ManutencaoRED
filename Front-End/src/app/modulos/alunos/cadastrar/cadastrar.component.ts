@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { alunoService } from 'src/app/services/alunos.service';
-import { cursoService } from 'src/app/services/cursos.service';
+import { AlunoService } from 'src/app/services/alunos.service';
+import { CursoService } from 'src/app/services/cursos.service';
 import { curso } from 'src/app/modelo/curso';
 
 @Component({
@@ -24,8 +24,8 @@ export class CadastrarAlunoComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    private alunoService: alunoService,
-    private cursoService: cursoService,
+    private alunoService: AlunoService,
+    private cursoService: CursoService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string
   ) {}

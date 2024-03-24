@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 import { curso } from '../../../modelo/curso';
 import { servidor } from 'src/app/modelo/servidor';
 import { messageDialog } from '../../../services/messageDialog.service';
-import { cursoService } from 'src/app/services/cursos.service';
+import { CursoService } from 'src/app/services/cursos.service';
 import { EditarCursoComponent } from '../editar/editar.component';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
@@ -31,7 +31,7 @@ export class ListarCursosComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private cursoService: cursoService,
+    private cursoService: CursoService,
     private dialog: MatDialog,
     private disciplinaService: DisciplinaService,
     private snackBar: MatSnackBar

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
 import { SnackBarComponent } from '../utils/snack-bar/snack-bar.component';
 import { ServidorService } from '../services/servidor.service';
 
@@ -15,7 +17,9 @@ export class PerfilComponent implements OnInit {
   error: Error | null = null;
   user: any;
 
+
   constructor(
+    private router: Router,
     private snackBar: MatSnackBar,
     private servidorService: ServidorService  ) {}
 
@@ -43,6 +47,7 @@ export class PerfilComponent implements OnInit {
           prontuario: this.user.prontuario,
         });
         this.openSnackBar('Perfil alterado com sucesso!!', null);
+        this.router.navigate([`/${this.user.tiposervidor}`]);
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;

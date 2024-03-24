@@ -8,10 +8,10 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { alunoService } from 'src/app/services/alunos.service';
-import { cursoService } from 'src/app/services/cursos.service';
+import { AlunoService } from 'src/app/services/alunos.service';
+import { CursoService } from 'src/app/services/cursos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { redService } from 'src/app/services/red.service';
+import { RedService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarDisciplinaComponent } from '../../visualizar-disciplina/visualizar-disciplina.component';
 
@@ -32,13 +32,13 @@ export class VisualizarREDsComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     public dialogQuestionService: messageDialog,
-    private redService: redService,
+    private redService: RedService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<VisualizarREDsComponent>,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
-    private cursoService: cursoService,
-    private alunoService: alunoService,
+    private cursoService: CursoService,
+    private alunoService: AlunoService,
     private dialog2: MatDialog
   ) {}
 

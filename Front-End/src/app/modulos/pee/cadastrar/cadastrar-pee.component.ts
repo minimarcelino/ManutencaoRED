@@ -4,7 +4,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -20,8 +20,7 @@ export class CadastrarPEEComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private router: Router,
-    private peeservice: peeService,
+    private peeservice: PeeService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<CadastrarPEEComponent>,
     private _adapter: DateAdapter<any>,

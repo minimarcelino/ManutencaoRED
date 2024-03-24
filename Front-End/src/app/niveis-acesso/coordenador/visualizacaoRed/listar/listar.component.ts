@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { redService } from 'src/app/services/red.service';
+import { RedService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarREDsComponent } from '../visualizar/visualizar.component';
 
@@ -68,7 +68,7 @@ export class ListarREDsComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialogQuestionService: messageDialog,
     private dialog: MatDialog,
-    private redService: redService
+    private redService: RedService
   ) {
     this.filteredReds = [];
   }

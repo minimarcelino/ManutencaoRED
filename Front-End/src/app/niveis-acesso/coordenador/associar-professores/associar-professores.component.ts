@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -31,7 +31,7 @@ export class AssociarProfessoresComponent implements OnInit {
     private docenteservice: ServidorService,
     public dialogQuestionService: messageDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private peeservice: peeService,
+    private peeservice: PeeService,
     private snackBar: MatSnackBar
   ) {}
 

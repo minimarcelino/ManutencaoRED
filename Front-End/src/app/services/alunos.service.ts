@@ -7,7 +7,7 @@ import { authenticationService } from './authentication.service';
     providedIn: 'root',
   })
 
-export class alunoService {
+export class AlunoService {
     constructor(private http: HttpClient, private authentication: authenticationService){}
 
     async getAluno(): Promise<any>{

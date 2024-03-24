@@ -30,7 +30,7 @@ app.use('/curso', cursoRoutes);
 app.use('/red', redRoutes);
 app.use('/disciplina',disciplinaRoutes);
 app.use('/pee', peeRoutes);
-app.use('/usuario', usuarioNaoAutenticado);
+app.use('/usuario', usuarioNaoAutenticado); // Verificar, da acesso a atividades do pee
 app.use('/login', loginRoutes);
 app.use('/coordenador', coordenadorRoutes);
 

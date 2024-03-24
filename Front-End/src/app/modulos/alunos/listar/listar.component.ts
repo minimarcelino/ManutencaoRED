@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { aluno } from 'src/app/modelo/aluno';
-import { alunoService } from 'src/app/services/alunos.service';
+import { AlunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarAlunosComponent } from '../editar/editar.component';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
@@ -29,7 +29,7 @@ export class ListarAlunoComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private alunoservice: alunoService,
+    private alunoservice: AlunoService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}

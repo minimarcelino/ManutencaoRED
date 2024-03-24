@@ -6,7 +6,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { formatDate } from '@angular/common';
 
 //
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 import { red } from 'src/app/modelo/red';
 import { pee } from 'src/app/modelo/pee';
 import { AssociarProfessoresComponent } from 'src/app/niveis-acesso/coordenador/associar-professores/associar-professores.component';
@@ -40,7 +40,7 @@ export class GerenciarPEEComponent implements OnInit {
 
   constructor(
     public dialogQuestionService: messageDialog,
-    private peeservice: peeService,
+    private peeService: PeeService,
     private dialog: MatDialog  ) {}
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class GerenciarPEEComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.peeservice.getPee();
+    const response = await this.peeService.getPee();
     this.pees = response.data.pees;
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;

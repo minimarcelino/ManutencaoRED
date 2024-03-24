@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 import { storageService } from 'src/app/services/storage.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
@@ -31,7 +31,7 @@ export class AssociarDisciplinaComponent implements OnInit{
   displayedColumns = ['sigla', 'nomedisciplina', 'acoes'];
 
   constructor (private http: HttpClient, private router: Router, private disciplinaservice: DisciplinaService, public dialogQuestionService: messageDialog,
-    private dialog: MatDialogRef<AssociarDisciplinaComponent>, private storage: storageService, @Inject(MAT_DIALOG_DATA) public data: any, private peeservice: peeService,
+    private dialog: MatDialogRef<AssociarDisciplinaComponent>, private storage: storageService, @Inject(MAT_DIALOG_DATA) public data: any, private peeservice: PeeService,
     private snackBar: MatSnackBar) {
   }
 

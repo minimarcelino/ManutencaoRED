@@ -1,16 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { alunoService } from 'src/app/services/alunos.service';
+import { AlunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { cursoService } from 'src/app/services/cursos.service';
+import { CursoService } from 'src/app/services/cursos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 //
-import { servidoresService } from 'src/app/services/servidores.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { redService } from 'src/app/services/red.service';
+import { RedService } from 'src/app/services/red.service';
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
 
 @Component({
@@ -21,15 +20,14 @@ import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadast
 export class CadastrarProcessoREDComponent implements OnInit {
   constructor(
     private router: Router,
-    private alunoservice: alunoService,
-    private cursoservice: cursoService,
-    private servidorservice: servidoresService,
+    private alunoService: AlunoService,
+    private cursoService: CursoService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     private dialog: MatDialog,
     public dialogQuestionService: messageDialog,
     private snackBar: MatSnackBar,
-    private redservice: redService
+    private redService: RedService
   ) {}
 
   alunos: any[] = [];
@@ -84,12 +82,12 @@ export class CadastrarProcessoREDComponent implements OnInit {
   } */
 
   async fetchAlunos() {
-    const response = await this.alunoservice.getAluno();
+    const response = await this.alunoService.getAluno();
     this.alunos = response.data.alunos;
   }
 
   async fetchCursos() {
-    const response = await this.cursoservice.getCursos();
+    const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
     this.filtredCursos = this.cursos.filter(
       (curso) => curso.idcurso === this.aluno.curso_idcurso
@@ -111,7 +109,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
 
   async cadastrar() {
     // Verificação se o RED já existe no mesmo período
-    const redsExistente = await this.redservice.getRed();
+    const redsExistente = await this.redService.getRed();
     const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
         const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
         const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
@@ -147,7 +145,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     // Criação do RED
     try {
       console.log(this.filtredCursos);
-      await this.servidorservice.createRED({
+      await this.redService.createRed({
         motivoAfastamento: this.motivoAfastamento,
         inicioAfastamento: this.inicioAfastamento,
         dataPrevisaoTermino: this.previsaoTerminoRed(),

@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { curso } from 'src/app/modelo/curso';
-import { cursoService } from 'src/app/services/cursos.service';
+import { CursoService } from 'src/app/services/cursos.service';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { ValidationService } from 'src/app/utils/validation.service';
@@ -21,10 +21,10 @@ export class EditarDisciplinaComponent implements OnInit {
   user: any;
 
   constructor(
-    private disciplinaservice: DisciplinaService,
+    private disciplinaService: DisciplinaService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private cursoservice: cursoService,
+    private cursoService: CursoService,
     private dialog: MatDialogRef<EditarDisciplinaComponent>,
     public validationService: ValidationService
   ) {}
@@ -48,7 +48,7 @@ export class EditarDisciplinaComponent implements OnInit {
     } else {
       this.isSubmitting = true;
       try {
-        await this.disciplinaservice.updateDisciplina({
+        await this.disciplinaService.updateDisciplina({
           iddisciplinas: this.data.iddisciplinas,
           sigla: this.sigla.trim().toUpperCase(),
           nomeDisciplina: this.nomeDisciplina.trim(),
@@ -91,7 +91,7 @@ export class EditarDisciplinaComponent implements OnInit {
   }
 
   async fetchCurso() {
-    const getCursos = await this.cursoservice.getCursos();
+    const getCursos = await this.cursoService.getCursos();
     this.cursos = getCursos.data.cursos;
   }
 

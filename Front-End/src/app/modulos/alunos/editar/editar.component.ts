@@ -4,9 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateAdapter } from '@angular/material/core';
 
-import { alunoService } from 'src/app/services/alunos.service';
+import { AlunoService } from 'src/app/services/alunos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { cursoService } from '../../../services/cursos.service';
+import { CursoService } from '../../../services/cursos.service';
 
 import { curso } from 'src/app/modelo/curso';
 
@@ -22,11 +22,11 @@ export class EditarAlunosComponent implements OnInit {
   user: any;
 
   constructor(
-    private alunoService: alunoService,
+    private alunoService: AlunoService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<EditarAlunosComponent>,
-    private cursoService: cursoService,
+    private cursoService: CursoService,
     private _adapter: DateAdapter<any>  ) {}
 
   ngOnInit(): void {

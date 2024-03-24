@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { cursoService } from '../../../services/cursos.service';
+import { CursoService } from '../../../services/cursos.service';
 import { ValidationService } from 'src/app/utils/validation.service';
 
 @Component({
@@ -23,8 +23,8 @@ export class CadastrarDisciplinaComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    private disciplinaservice: DisciplinaService,
-    private cursoservice: cursoService,
+    private disciplinaService: DisciplinaService,
+    private cursoService: CursoService,
     public validationService: ValidationService
   ) {}
 
@@ -47,7 +47,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
       this.isSubmitting = true;
       try {
         console.log(this.curso_idcurso);
-        await this.disciplinaservice.createDisciplina({
+        await this.disciplinaService.createDisciplina({
           sigla: this.sigla.trim().toUpperCase(),
           nomeDisciplina: this.nomedisciplina.trim(),
           curso_idcurso: this.curso_idcurso,
@@ -89,7 +89,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
   }
 
   async fetchCurso() {
-    const response = await this.cursoservice.getCursos();
+    const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
   }
 

@@ -1,10 +1,10 @@
 import express from "express";
 import { AuthenticationService } from "../middleware/authentication";
-import { peeController } from "../controller/peeController";
+import { PeeController } from "../controller/peeController";
 
 const router = express.Router();
 const authentication = new AuthenticationService();
-const peecontroller = new peeController();
+const peecontroller = new PeeController();
 
 router.get('/all', authentication.validate, peecontroller.getAll);
 router.post('/create', authentication.validate, peecontroller.Create);
@@ -14,6 +14,6 @@ router.put('/updateAtividade/:id', authentication.validate, peecontroller.Update
 router.put('/updateWithEmail/:id', authentication.validate, peecontroller.UpdateWithEmail);
 router.delete('/delete/:id', authentication.validate, peecontroller.Delete);
 router.delete('/deleteAtividade/:id/:idpee', authentication.validate, peecontroller.DeleteAtividade);
-router.get('/:id', authentication.validate, peecontroller.getByIdRED);
+router.get('/red/:id', authentication.validate, peecontroller.getByIdRED);
 
 export default router;

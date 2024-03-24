@@ -1,8 +1,8 @@
 import express from "express";
-import { peeController } from "../controller/peeController";
+import { PeeController } from "../controller/peeController";
 
 const router = express.Router();
-const peecontroller = new peeController();
+const peecontroller = new PeeController();
 
 router.get('/:id', peecontroller.getById);
 

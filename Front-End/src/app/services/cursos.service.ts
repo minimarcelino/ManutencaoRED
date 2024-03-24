@@ -6,7 +6,7 @@ import { authenticationService } from './authentication.service';
 @Injectable({
   providedIn: 'root',
 })
-export class cursoService {
+export class CursoService {
   constructor(
     private http: HttpClient,
     private authentication: authenticationService

@@ -4,7 +4,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 //
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -24,7 +24,7 @@ export class AbonarFaltaComponent implements OnInit {
     private dialog: MatDialogRef<AbonarFaltaComponent>,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
-    private peeservice: peeService
+    private peeService: PeeService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class AbonarFaltaComponent implements OnInit {
       try {
         console.log(this.cumprimento);
         console.log(this.novaAtividade);
-        await this.peeservice.createAtividade({
+        await this.peeService.createAtividade({
           descricao: this.descricao,
           prazoatividade: this.data.prazofinal,
           pee_idpee: this.data.idpee,
@@ -59,7 +59,7 @@ export class AbonarFaltaComponent implements OnInit {
           novaAtividade: this.novaAtividade,
         });
 
-        await this.peeservice.updatePee({
+        await this.peeService.updatePee({
           idpee: this.data.idpee,
           conteudo: this.data.conteudo,
           metodologia: this.data.metodologia,

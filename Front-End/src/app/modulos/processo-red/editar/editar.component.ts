@@ -4,9 +4,9 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { alunoService } from 'src/app/services/alunos.service';
-import { cursoService } from 'src/app/services/cursos.service';
-import { redService } from 'src/app/services/red.service';
+import { AlunoService } from 'src/app/services/alunos.service';
+import { CursoService } from 'src/app/services/cursos.service';
+import { RedService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -17,14 +17,14 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 export class EditarREDComponent implements OnInit {
   constructor(
     private router: Router,
-    private alunoservice: alunoService,
-    private cursoservice: cursoService,
+    private alunoService: AlunoService,
+    private cursoService: CursoService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBar: MatSnackBar,
     private dialog: MatDialogRef<EditarREDComponent>,
-    private redservice: redService
+    private redService: RedService
   ) {}
 
   alunos: any[] = [];
@@ -90,12 +90,12 @@ export class EditarREDComponent implements OnInit {
   }
 
   async fetchAlunos() {
-    const response = await this.alunoservice.getAluno();
+    const response = await this.alunoService.getAluno();
     this.alunos = response.data.alunos;
   }
 
   async fetchCursos() {
-    const response = await this.cursoservice.getCursos();
+    const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
     this.filtredCursos = this.cursos.filter(
       (curso) => curso.idcurso === this.aluno.curso_idcurso
@@ -112,7 +112,7 @@ export class EditarREDComponent implements OnInit {
     const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
       this.inicioAfastamento
     );
-    const redsExistente = await this.redservice.getRed();
+    const redsExistente = await this.redService.getRed();
     const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
       (red: any) => {
         const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
@@ -146,7 +146,7 @@ export class EditarREDComponent implements OnInit {
 
 
     try {
-      await this.redservice.updateRed({
+      await this.redService.updateRed({
         idRED: this.data.id,
       motivoAfastamento: this.motivoAfastamento,
         inicioAfastamento: this.inicioAfastamento,

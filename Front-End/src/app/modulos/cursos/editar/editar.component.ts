@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 //
 import { servidor } from 'src/app/modelo/servidor';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
-import { cursoService } from 'src/app/services/cursos.service';
+import { CursoService } from 'src/app/services/cursos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class EditarCursoComponent implements OnInit {
   isSubmitting: boolean = false;
 
   constructor(
-    private cursoService: cursoService,
+    private cursoService: CursoService,
     private coodenadorService: CoordenadorService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,

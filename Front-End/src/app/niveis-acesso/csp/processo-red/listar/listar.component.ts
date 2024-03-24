@@ -8,10 +8,10 @@ import * as XLSX from 'xlsx';
 
 import { red } from 'src/app/modelo/red';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { redService } from 'src/app/services/red.service';
+import { RedService } from 'src/app/services/red.service';
 import { AssociarDisciplinaComponent } from '../../associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from '../visualizar/visualizar.component';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 
 @Component({
   selector: 'app-listar',
@@ -42,11 +42,11 @@ export class ListarRedComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private redservice: redService,
+    private redService: RedService,
     private dialog: MatDialog,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
-    private peeservice: peeService
+    private peeService: PeeService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class ListarRedComponent implements OnInit {
 
   async findAll() {
     try {
-      const response = await this.redservice.getRed();
+      const response = await this.redService.getRed();
       this.reds = response.data.reds;
 /*       this.reds = this.reds.filter(
         (red) =>
@@ -82,7 +82,7 @@ export class ListarRedComponent implements OnInit {
 
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
-      const redAluno = await this.peeservice.getPeeRED(red.idRED);
+      const redAluno = await this.peeService.getPeeRED(red.idRED);
 
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({

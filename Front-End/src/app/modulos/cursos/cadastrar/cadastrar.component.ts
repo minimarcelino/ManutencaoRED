@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { cursoService } from '../../../services/cursos.service';
+import { CursoService } from '../../../services/cursos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
 
@@ -20,7 +20,7 @@ export class CadastrarCursoComponent implements OnInit {
   user: any;
 
   constructor(
-    private cursoservice: cursoService,
+    private cursoservice: CursoService,
     private coodenadorService: CoordenadorService,
     private snackBar: MatSnackBar,
     private router: Router

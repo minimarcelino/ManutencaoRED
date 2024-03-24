@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { peeService } from 'src/app/services/pee.service';
+import { PeeService } from 'src/app/services/pee.service';
 
 @Component({
   selector: 'app-pees-abonados',
@@ -21,7 +21,7 @@ export class PEEAbonadosComponent implements OnInit {
 
   constructor(
     public dialogQuestionService: messageDialog,
-    private peeService: peeService
+    private peeService: PeeService
   ) {}
 
   ngOnInit(): void {
