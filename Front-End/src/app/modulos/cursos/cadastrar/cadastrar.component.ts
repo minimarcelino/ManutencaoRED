@@ -34,7 +34,7 @@ export class CadastrarCursoComponent implements OnInit {
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
-    this.fetchCoordenador();
+    this.buscarCoordenador();
   }
 
   async submit() {
@@ -99,15 +99,12 @@ export class CadastrarCursoComponent implements OnInit {
   }
 
   displayFn(Coordenador: any): string {
-    return Coordenador && Coordenador.email;
+    return Coordenador && Coordenador.nome;
   }
 
-  async fetchCoordenador() {
+  async buscarCoordenador() {
     const response = await this.coodenadorService.getCoordenador();
-    this.servidores = response.data.servidores;
-    this.coordenadores = this.servidores.filter(
-      (coordenador) => coordenador.tiposervidor === 'coordenador'
-    );
+    this.coordenadores = response.data;
   }
 
   get sigla() {
