@@ -41,29 +41,42 @@ export class CadastrarCursoComponent implements OnInit {
     if (this.cadastrarCurso.invalid || this.isSubmitting) {
       this.openSnackBar('Campos obrigatórios!!', null);
       return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        await this.cursoservice.createCurso({
-          sigla: this.sigla.toUpperCase(),
-          nomeCurso: this.nomeCurso,
-          coordenador: this.idcordenador,
-        });
-        this.openSnackBar('Curso cadastrado com sucesso!!', null);
-        this.voltar();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao cadastrar curso', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao cadastrar curso',
-            'Ocorreu um erro durante o cadastro do curso.'
-          );
-        }
+    }
+  
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nomeCurso.trim() === '') {
+      this.openSnackBar('Nome do curso deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.sigla.trim() === '') {
+      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+      return;
+    }
+  
+    // Todos os campos obrigatórios estão preenchidos corretamente
+    this.isSubmitting = true;
+    try {
+      await this.cursoservice.createCurso({
+        sigla: this.sigla.toUpperCase(),
+        nomeCurso: this.nomeCurso,
+        coordenador: this.idcordenador,
+      });
+      this.openSnackBar('Curso cadastrado com sucesso!!', null);
+      this.voltar();
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar('Falha ao cadastrar curso', errorMessage);
+      } else {
+        this.openSnackBar(
+          'Falha ao cadastrar curso',
+          'Ocorreu um erro durante o cadastro do curso.'
+        );
       }
     }
   }
+  
 
   voltar() {
     this.router.navigate([`/${this.user.tiposervidor}/listarCursos`]);

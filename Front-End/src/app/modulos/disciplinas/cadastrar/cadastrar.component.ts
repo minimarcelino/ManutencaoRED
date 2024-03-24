@@ -40,6 +40,17 @@ export class CadastrarDisciplinaComponent implements OnInit {
   }
 
   async submit() {
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nomedisciplina.trim() === '') {
+      this.openSnackBar('Nome da disciiplina deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.sigla.trim() === '') {
+      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+      return;
+    }
+    
     if (this.cadastrarDisciplina.invalid || this.isSubmitting) {
       this.openSnackBar('Campos Obrigatórios', null);
       return;
@@ -67,6 +78,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
       }
     }
   }
+  
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;

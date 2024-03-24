@@ -64,6 +64,32 @@ export class CadastrarPEEComponent implements OnInit {
   }
 
   async submit() {
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.conteudo.trim() === '') {
+      this.openSnackBar('Conteúdos deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.metodologia.trim() === '') {
+      this.openSnackBar('Metodologia deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.trabalhos.trim() === '') {
+      this.openSnackBar('Trabalhos deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.bibliografia.trim() === '') {
+      this.openSnackBar('Indicações bibliográficas deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.exigencia.trim() === '') {
+      this.openSnackBar('Critérios de exigência deve ser preenchido corretamente.', null);
+      return;
+    }
+
     const dataAtual = new Date();
     const prazoSelecionado = new Date(this.prazo);
     if (this.cadastrarPee.invalid || this.isSubmitting) {

@@ -109,6 +109,14 @@ export class EditarREDComponent implements OnInit {
   }
 
   async editar() {
+    // Verifica se o motivo de afastamento não é apenas espaços em branco
+    if (this.motivoAfastamento.trim() === '') {
+      this.openSnackBar(
+        'Motivo do affastamento deve ser preenchido corretamente.',
+        null
+      );
+      return;
+    }
     const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
       this.inicioAfastamento
     );
