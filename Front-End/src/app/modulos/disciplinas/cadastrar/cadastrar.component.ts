@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { disciplinaService } from 'src/app/services/disciplina.service';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { cursoService } from '../../../services/cursos.service';
 import { ValidationService } from 'src/app/utils/validation.service';
@@ -23,7 +23,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    private disciplinaservice: disciplinaService,
+    private disciplinaservice: DisciplinaService,
     private cursoservice: cursoService,
     public validationService: ValidationService
   ) {}

@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { docente } from 'src/app/modelo/docente';
-import { docenteService } from 'src/app/services/docente.service';
+import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { peeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
@@ -28,7 +28,7 @@ export class AssociarProfessoresComponent implements OnInit {
   displayedColumns = ['nome', 'email', 'acoes'];
 
   constructor(
-    private docenteservice: docenteService,
+    private docenteservice: ServidorService,
     public dialogQuestionService: messageDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private peeservice: peeService,
@@ -47,7 +47,7 @@ export class AssociarProfessoresComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.docenteservice.getDocente();
+    const response = await this.docenteservice.getServidores();
     this.professores = response.data.servidores;
     this.dataSource = new MatTableDataSource<docente>(this.professores);
     this.dataSource.paginator = this.paginator;

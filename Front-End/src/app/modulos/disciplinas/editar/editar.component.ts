@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { curso } from 'src/app/modelo/curso';
 import { cursoService } from 'src/app/services/cursos.service';
-import { disciplinaService } from 'src/app/services/disciplina.service';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { ValidationService } from 'src/app/utils/validation.service';
 
@@ -21,7 +21,7 @@ export class EditarDisciplinaComponent implements OnInit {
   user: any;
 
   constructor(
-    private disciplinaservice: disciplinaService,
+    private disciplinaservice: DisciplinaService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private cursoservice: cursoService,

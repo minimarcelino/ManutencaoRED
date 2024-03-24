@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { docente } from 'src/app/modelo/docente';
-import { docenteService } from 'src/app/services/docente.service';
+import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarServidoresComponent } from '../editar/editar.component';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
@@ -27,7 +27,7 @@ export class ListarServidoresComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private docenteservice: docenteService,
+    private servidorService: ServidorService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -48,7 +48,7 @@ export class ListarServidoresComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.docenteservice.getDocente();
+    const response = await this.servidorService.getServidores();
     const servidor = response.data.servidores;
 
     // Niveis de acesso diferente de Administrador não devem enxergar alem de docentes
@@ -81,7 +81,7 @@ export class ListarServidoresComponent implements OnInit {
 
   async deleteDocentePermanent(idservidor: number) {
     try {
-      let response = await this.docenteservice.deleteDocente(idservidor);
+      let response = await this.servidorService.deleteServidor(idservidor);
       if (response) {
         this.openSnackBar('Docente deletado com sucesso!!', null);
         this.findAll();

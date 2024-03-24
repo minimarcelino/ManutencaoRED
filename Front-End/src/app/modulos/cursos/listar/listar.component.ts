@@ -10,8 +10,8 @@ import { servidor } from 'src/app/modelo/servidor';
 import { messageDialog } from '../../../services/messageDialog.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { EditarCursoComponent } from '../editar/editar.component';
-import { servidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 
 @Component({
   selector: 'app-listar',
@@ -33,7 +33,7 @@ export class ListarCursosComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private cursoService: cursoService,
     private dialog: MatDialog,
-    private servidorservice: servidorService,
+    private disciplinaService: DisciplinaService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -141,7 +141,7 @@ export class ListarCursosComponent implements OnInit {
           };
         }
       });
-      this.data.forEach((item) => this.servidorservice.exportDisciplina(item));
+      this.data.forEach((item) => this.disciplinaService.exportDisciplina(item));
       this.openSnackBar('Importação das disciplinas realizadas! ', null);
     };
   }

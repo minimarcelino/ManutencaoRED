@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { disciplinaService } from 'src/app/services/disciplina.service';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { peeService } from 'src/app/services/pee.service';
 
@@ -25,7 +25,7 @@ export class VisualizarDisciplinaComponent implements OnInit{
   displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'conclusao'];
 
   constructor(private snackBar: MatSnackBar, private router: Router, public dialogQuestionService: messageDialog,
-              private dialog: MatDialogRef<VisualizarDisciplinaComponent>, private disciplinaservice: disciplinaService, private peeservice: peeService,
+              private dialog: MatDialogRef<VisualizarDisciplinaComponent>, private disciplinaservice: DisciplinaService, private peeservice: peeService,
               @Inject(MAT_DIALOG_DATA) public data: any){}
 
   ngOnInit(): void {

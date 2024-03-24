@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { docenteService } from 'src/app/services/docente.service';
+import { ServidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class EditarServidoresComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    private docenteservice: docenteService,
+    private servidorService: ServidorService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<EditarServidoresComponent>
   ) {}
@@ -45,7 +45,7 @@ export class EditarServidoresComponent implements OnInit {
     } else {
       this.isSubmitting = true;
       try {
-        await this.docenteservice.updateDocente({
+        await this.servidorService.updateServidor({
           idservidor: this.data.idservidor,
           prontuario: this.prontuario.toUpperCase(),
           nome: this.nome,

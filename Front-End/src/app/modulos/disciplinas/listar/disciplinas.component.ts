@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { disciplinaService } from 'src/app/services/disciplina.service';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { EditarDisciplinaComponent } from '../editar/editar.component';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { disciplina } from 'src/app/modelo/disciplina';
@@ -29,7 +29,7 @@ export class ListarDisciplinasComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private disciplinaservice: disciplinaService,
+    private disciplinaservice: DisciplinaService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { docenteService } from 'src/app/services/docente.service';
+import { ServidorService } from 'src/app/services/servidor.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class CadastrarServidoresComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
-    private docenteservice: docenteService,
+    private servidorService: ServidorService,
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class CadastrarServidoresComponent implements OnInit {
     } else {
       this.isSubmitting = true;
       try {
-        await this.docenteservice.createDocente({
+        await this.servidorService.createServidor({
           prontuario: this.prontuario.trim().toUpperCase(),
           nome: this.nome.trim(),
           email: this.email.trim(),

@@ -6,24 +6,65 @@ import { authenticationService } from './authentication.service';
 @Injectable({
   providedIn: 'root',
 })
+export class ServidorService {
+  constructor(
+    private http: HttpClient,
+    private authentication: authenticationService
+  ) {}
 
-export class servidorService {
-  constructor(private http: HttpClient, private authentication: authenticationService) { }
-  async createRED(red: any): Promise<any> {
+  async getServidores(): Promise<any> {
     try {
-      const response = await this.http.post(`${environment.API}/cra/processo-red/create`, red, this.authentication.getHttpOptions())
-        .toPromise()
+      const response = await this.http
+        .get(
+          `${environment.API}/servidor/all`,
+          this.authentication.getHttpOptions()
+        )
+        .toPromise();
       return response;
     } catch (error) {
       throw error;
     }
   }
 
-  async exportProfessor(Professor: any): Promise<any>{
+  async createServidor(docente: any): Promise<any> {
     try {
-        const response = await this.http.post(`${environment.API}/create`, Professor, this.authentication.getHttpOptions())
-        .toPromise()
-        return response;
+      const response = await this.http
+        .post(
+          `${environment.API}/servidor/create`,
+          docente,
+          this.authentication.getHttpOptions()
+        )
+        .toPromise();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateServidor(docente: any): Promise<any> {
+    try {
+      const response = await this.http
+        .put(
+          `${environment.API}/servidor/update/${docente.idservidor}`,
+          docente,
+          this.authentication.getHttpOptions()
+        )
+        .toPromise();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteServidor(idservidor: number): Promise<any> {
+    try {
+      const response = await this.http
+        .delete(
+          `${environment.API}/servidor/delete/${idservidor}`,
+          this.authentication.getHttpOptions()
+        )
+        .toPromise();
+      return response;
     } catch (error) {
       throw error;
     }
@@ -31,19 +72,14 @@ export class servidorService {
 
   async alterarPerfil(servidor: any): Promise<any> {
     try {
-      const response = await this.http.put(`${environment.API}/updatePerfil/${servidor.idservidor}`, servidor, this.authentication.getHttpOptions())
-        .toPromise()
+      const response = await this.http
+        .put(
+          `${environment.API}/servidor/updatePerfil/${servidor.idservidor}`,
+          servidor,
+          this.authentication.getHttpOptions()
+        )
+        .toPromise();
       return response;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async exportDisciplina(Disciplina: any): Promise<any>{
-    try {
-        const response = await this.http.post(`${environment.API}/coordenador/create`, Disciplina, this.authentication.getHttpOptions())
-        .toPromise()
-        return response;
     } catch (error) {
       throw error;
     }

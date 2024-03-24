@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 //
-import { servidorService } from 'src/app/services/servidor.service';
+import { servidoresService } from 'src/app/services/servidores.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { redService } from 'src/app/services/red.service';
@@ -23,7 +23,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     private router: Router,
     private alunoservice: alunoService,
     private cursoservice: cursoService,
-    private servidorservice: servidorService,
+    private servidorservice: servidoresService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     private dialog: MatDialog,

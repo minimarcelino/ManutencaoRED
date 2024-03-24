@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { disciplina } from 'src/app/modelo/disciplina';
-import { disciplinaService } from 'src/app/services/disciplina.service';
+import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { peeService } from 'src/app/services/pee.service';
 import { storageService } from 'src/app/services/storage.service';
@@ -30,7 +30,7 @@ export class AssociarDisciplinaComponent implements OnInit{
 
   displayedColumns = ['sigla', 'nomedisciplina', 'acoes'];
 
-  constructor (private http: HttpClient, private router: Router, private disciplinaservice: disciplinaService, public dialogQuestionService: messageDialog,
+  constructor (private http: HttpClient, private router: Router, private disciplinaservice: DisciplinaService, public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<AssociarDisciplinaComponent>, private storage: storageService, @Inject(MAT_DIALOG_DATA) public data: any, private peeservice: peeService,
     private snackBar: MatSnackBar) {
   }
