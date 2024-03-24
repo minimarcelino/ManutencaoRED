@@ -12,7 +12,7 @@ export class AdministradorComponent {
     public authenticationService: authenticationService,
     private router: Router
   ) { }
-
+ 
   async logout() {
     await this.authenticationService.logout();
     this.router.navigate(['/login']);

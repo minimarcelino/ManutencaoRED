@@ -52,33 +52,50 @@ export class EditarAlunosComponent implements OnInit {
     if (this.editarAluno.invalid || this.isSubmitting) {
       this.openSnackBar('Campos obrigatórios!!', null);
       return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        await this.alunoService.updateAluno({
-          id: this.data.id,
-          prontuario: this.prontuario.toUpperCase(),
-          nome: this.nome,
-          data_nascimento: this.data_nascimento,
-          telefone: this.telefone,
-          email: this.email,
-          curso: this.idcurso,
-        });
-        this.openSnackBar('Aluno editado com sucesso!!', null);
-        this.dialog.close();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao editar aluno', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao editar aluno',
-            'Ocorreu um erro durante a edição do aluno.'
-          );
-        }
+    }
+  
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nome.trim() === '') {
+      this.openSnackBar('Nome deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.telefone.trim() === '') {
+      this.openSnackBar('Telefone deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.email.trim() === '') {
+      this.openSnackBar('E-mail deve ser preenchido corretamente.', null);
+      return;
+    }
+  
+    this.isSubmitting = true;
+    try {
+      await this.alunoService.updateAluno({
+        id: this.data.id,
+        prontuario: this.prontuario.toUpperCase(),
+        nome: this.nome,
+        data_nascimento: this.data_nascimento,
+        telefone: this.telefone,
+        email: this.email,
+        curso: this.idcurso,
+      });
+      this.openSnackBar('Aluno editado com sucesso!!', null);
+      this.dialog.close();
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar('Falha ao editar aluno', errorMessage);
+      } else {
+        this.openSnackBar(
+          'Falha ao editar aluno',
+          'Ocorreu um erro durante a edição do aluno.'
+        );
       }
     }
   }
+  
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;

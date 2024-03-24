@@ -42,6 +42,17 @@ export class EditarDisciplinaComponent implements OnInit {
   }
 
   async submit() {
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nomeDisciplina.trim() === '') {
+      this.openSnackBar('Nome da disciiplina deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.sigla.trim() === '') {
+      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+      return;
+    }
+
     if (this.editarDisciplina.invalid || this.isSubmitting) {
       this.openSnackBar('Campos obrigatórios!!', null);
       return;
@@ -69,6 +80,7 @@ export class EditarDisciplinaComponent implements OnInit {
       }
     }
   }
+  
 
   cancelar() {
     this.dialog.close();

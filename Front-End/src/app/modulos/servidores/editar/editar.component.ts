@@ -39,6 +39,18 @@ export class EditarServidoresComponent implements OnInit {
   }
 
   async submit() {
+
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nome.trim() === '') {
+      this.openSnackBar('Nome deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.email.trim() === '') {
+      this.openSnackBar('E-mail deve ser preenchido corretamente.', null);
+      return;
+    }
+
     if (this.cadastrarServidor.invalid || this.isSubmitting) {
       this.openSnackBar('Campos Obrigatórios', null);
       return;

@@ -108,6 +108,14 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
+    // Verifica se o motivo de afastamento não é apenas espaços em branco
+    if (this.motivoAfastamento.trim() === '') {
+      this.openSnackBar(
+        'Motivo do affastamento deve ser preenchido corretamente.',
+        null
+      );
+      return;
+    }
     // Verificação se o RED já existe no mesmo período
     const redsExistente = await this.redService.getRed();
     const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
