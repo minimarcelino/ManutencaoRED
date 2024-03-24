@@ -16,7 +16,7 @@ export class CoordenadorService {
     try {
       const response = await this.http
         .get(
-          `${environment.API}/coordenador/all`,
+          `${environment.API}coordenador/all`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -30,7 +30,7 @@ export class CoordenadorService {
     try {
       const response = await this.http
         .get(
-          `${environment.API}/coordenador/${id}`,
+          `${environment.API}coordenador/${id}`,
           this.authentication.getHttpOptions()
         )
         .toPromise();

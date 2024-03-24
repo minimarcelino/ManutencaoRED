@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { authenticationService } from './authentication.service';
 
@@ -16,7 +16,7 @@ export class ServidorService {
     try {
       const response = await this.http
         .get(
-          `${environment.API}/servidor/all`,
+          `${environment.API}servidor/all`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -30,7 +30,7 @@ export class ServidorService {
     try {
       const response = await this.http
         .post(
-          `${environment.API}/servidor/create`,
+          `${environment.API}servidor/create`,
           docente,
           this.authentication.getHttpOptions()
         )
@@ -45,7 +45,7 @@ export class ServidorService {
     try {
       const response = await this.http
         .put(
-          `${environment.API}/servidor/update/${docente.idservidor}`,
+          `${environment.API}servidor/update/${docente.idservidor}`,
           docente,
           this.authentication.getHttpOptions()
         )
@@ -60,7 +60,7 @@ export class ServidorService {
     try {
       const response = await this.http
         .delete(
-          `${environment.API}/servidor/delete/${idservidor}`,
+          `${environment.API}servidor/delete/${idservidor}`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -74,7 +74,7 @@ export class ServidorService {
     try {
       const response = await this.http
         .put(
-          `${environment.API}/servidor/updatePerfil/${servidor.idservidor}`,
+          `${environment.API}servidor/updatePerfil/${servidor.idservidor}`,
           servidor,
           this.authentication.getHttpOptions()
         )

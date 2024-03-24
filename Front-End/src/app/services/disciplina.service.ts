@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { authenticationService } from './authentication.service';
 
@@ -16,7 +16,7 @@ export class DisciplinaService {
     try {
       const response = await this.http
         .get(
-          `${environment.API}/disciplina/all`,
+          `${environment.API}disciplina/all`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -30,7 +30,7 @@ export class DisciplinaService {
     try {
       const response = await this.http
         .post(
-          `${environment.API}/disciplina/create`,
+          `${environment.API}disciplina/create`,
           disciplina,
           this.authentication.getHttpOptions()
         )
@@ -45,7 +45,7 @@ export class DisciplinaService {
     try {
       const response = await this.http
         .put(
-          `${environment.API}/disciplina/update/${disciplina.iddisciplinas}`,
+          `${environment.API}disciplina/update/${disciplina.iddisciplinas}`,
           disciplina,
           this.authentication.getHttpOptions()
         )
@@ -60,7 +60,7 @@ export class DisciplinaService {
     try {
       const response = await this.http
         .delete(
-          `${environment.API}/disciplina/delete/${iddisciplinas}`,
+          `${environment.API}disciplina/delete/${iddisciplinas}`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -74,7 +74,7 @@ export class DisciplinaService {
     try {
       const response = await this.http
         .post(
-          `${environment.API}/disciplina/create`,
+          `${environment.API}disciplina/create`,
           Disciplina,
           this.authentication.getHttpOptions()
         )

@@ -16,7 +16,7 @@ export class CursoService {
     try {
       const response = await this.http
         .get(
-          `${environment.API}/curso/all`,
+          `${environment.API}curso/all`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -30,7 +30,7 @@ export class CursoService {
     try {
       const response = await this.http
         .get(
-          `${environment.API}/curso/${id}`,
+          `${environment.API}curso/${id}`,
           this.authentication.getHttpOptions()
         )
         .toPromise();
@@ -44,7 +44,7 @@ export class CursoService {
     try {
       const response = await this.http
         .post(
-          `${environment.API}/curso/create`,
+          `${environment.API}curso/create`,
           curso,
           this.authentication.getHttpOptions()
         )
@@ -60,7 +60,7 @@ export class CursoService {
       console.log(curso);
       const response = await this.http
         .put(
-          `${environment.API}/curso/update/${curso.idcurso}`,
+          `${environment.API}curso/update/${curso.idcurso}`,
           curso,
           this.authentication.getHttpOptions()
         )
@@ -75,7 +75,7 @@ export class CursoService {
     try {
       const response = await this.http
         .delete(
-          `${environment.API}/curso/delete/${id}`,
+          `${environment.API}curso/delete/${id}`,
           this.authentication.getHttpOptions()
         )
         .toPromise();

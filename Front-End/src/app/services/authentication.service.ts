@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment.development';
-import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { sessionService } from './session.service'; // Renomeei para seguir a convenção de nomenclatura
 
@@ -16,7 +15,6 @@ export class authenticationService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private session: sessionService
   ) {
     this.init();

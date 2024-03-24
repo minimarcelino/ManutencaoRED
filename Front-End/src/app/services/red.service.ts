@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { authenticationService } from './authentication.service';
 
@@ -15,7 +15,7 @@ export class RedService {
   async getRed(): Promise<any> {
     try {
       const response = await this.http
-        .get(`${environment.API}/red/all`, this.authentication.getHttpOptions())
+        .get(`${environment.API}red/all`, this.authentication.getHttpOptions())
         .toPromise();
       return response;
     } catch (error) {
@@ -27,7 +27,7 @@ export class RedService {
     try {
       const response = await this.http
         .post(
-          `${environment.API}/red/create`,
+          `${environment.API}red/create`,
           red,
           this.authentication.getHttpOptions()
         )
@@ -43,7 +43,7 @@ export class RedService {
       console.log(red);
       const response = await this.http
         .put(
-          `${environment.API}/red/update/${red.idRED}`,
+          `${environment.API}red/update/${red.idRED}`,
           red,
           this.authentication.getHttpOptions()
         )
@@ -58,7 +58,7 @@ export class RedService {
     try {
       const response = await this.http
         .delete(
-          `${environment.API}/red/delete/${id}`,
+          `${environment.API}red/delete/${id}`,
           this.authentication.getHttpOptions()
         )
         .toPromise();

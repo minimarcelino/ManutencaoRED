@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
-import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +11,7 @@ export class usuarioNaoAutenticadoService {
 
     async getPee(id: number): Promise<any> {
         try {
-            const response = await this.http.get(`${environment.API}/usuario/${id}`)
+            const response = await this.http.get(`${environment.API}usuario/${id}`)
                 .toPromise();
             return response;
         } catch (error) {
