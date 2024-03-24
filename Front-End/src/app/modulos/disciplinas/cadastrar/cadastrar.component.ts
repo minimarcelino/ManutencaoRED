@@ -40,33 +40,46 @@ export class CadastrarDisciplinaComponent implements OnInit {
   }
 
   async submit() {
+    // Verifica se o formulário é inválido ou se já está sendo enviado
     if (this.cadastrarDisciplina.invalid || this.isSubmitting) {
       this.openSnackBar('Campos Obrigatórios', null);
       return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        console.log(this.curso_idcurso);
-        await this.disciplinaservice.createDisciplina({
-          sigla: this.sigla.trim().toUpperCase(),
-          nomeDisciplina: this.nomedisciplina.trim(),
-          curso_idcurso: this.curso_idcurso,
-        });
-        this.openSnackBar('Disciplina cadastrada com sucesso!', null);
-        this.voltar();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao cadastrar disciplina', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao cadastrar disciplina',
-            'Ocorreu um erro durante o cadastro da disciplina.'
-          );
-        }
+    }
+  
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nomedisciplina.trim() === '') {
+      this.openSnackBar('Nome da disciiplina deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.sigla.trim() === '') {
+      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+      return;
+    }
+  
+    // Todos os campos obrigatórios estão preenchidos corretamente
+    this.isSubmitting = true;
+    try {
+      await this.disciplinaservice.createDisciplina({
+        sigla: this.sigla.trim().toUpperCase(),
+        nomeDisciplina: this.nomedisciplina.trim(),
+        curso_idcurso: this.curso_idcurso,
+      });
+      this.openSnackBar('Disciplina cadastrada com sucesso!', null);
+      this.voltar();
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar('Falha ao cadastrar disciplina', errorMessage);
+      } else {
+        this.openSnackBar(
+          'Falha ao cadastrar disciplina',
+          'Ocorreu um erro durante o cadastro da disciplina.'
+        );
       }
     }
   }
+  
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;

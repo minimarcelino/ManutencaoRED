@@ -47,12 +47,20 @@ export class EditarREDComponent implements OnInit {
     this.displayFn(this.data.aluno);
     this.editarRed = new FormGroup({
       aluno: new FormControl(this.data.aluno, [Validators.required]),
-      curso: new FormControl(this.data.aluno.curso.nomeCurso, [Validators.required,]),
+      curso: new FormControl(this.data.aluno.curso.nomeCurso, [
+        Validators.required,
+      ]),
       observacao: new FormControl(this.data.observacao),
-      motivoAfastamento: new FormControl(this.data.motivoAfastamento, [Validators.required,]),
+      motivoAfastamento: new FormControl(this.data.motivoAfastamento, [
+        Validators.required,
+      ]),
       inicioAfastamento: new FormControl(utcDate, [Validators.required]),
-      tempoAfastamento: new FormControl(this.data.tempoAfastamento, [Validators.required]),
-      semestreAluno: new FormControl(this.data.semestreAluno, [Validators.required]),
+      tempoAfastamento: new FormControl(this.data.tempoAfastamento, [
+        Validators.required,
+      ]),
+      semestreAluno: new FormControl(this.data.semestreAluno, [
+        Validators.required,
+      ]),
     });
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
@@ -99,6 +107,14 @@ export class EditarREDComponent implements OnInit {
 
   async editar() {
     try {
+      // Verifica se o motivo de afastamento não é apenas espaços em branco
+      if (this.motivoAfastamento.trim() === '') {
+        this.openSnackBar(
+          'Motivo do affastamento deve ser preenchido corretamente.',
+          null
+        );
+        return;
+      }
       await this.redservice.updateRed({
         idRED: this.data.id,
         motivoAfastamento: this.motivoAfastamento,

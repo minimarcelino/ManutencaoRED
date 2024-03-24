@@ -51,39 +51,53 @@ export class CadastrarAlunoComponent implements OnInit {
       this.openSnackBar('Campos Obrigatórios', null);
       return;
     }
-    if (
-      this.data_nascimento &&
-      !this.verificarIdadeMinima(this.data_nascimento)
-    ) {
+  
+    if (this.data_nascimento && !this.verificarIdadeMinima(this.data_nascimento)) {
       this.openSnackBar('O aluno deve ter pelo menos 13 anos de idade.', null);
       return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        await this.alunoService.createAluno({
-          prontuario: this.prontuario.toUpperCase(),
-          nome: this.nome,
-          dataNascimento: this.data_nascimento,
-          telefone: this.telefone,
-          email: this.email,
-          curso_idcurso: this.idcurso,
-        });
-        this.openSnackBar('Aluno cadastrado com sucesso!!', null);
-        this.voltar();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao cadastrar aluno', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao cadastrar aluno',
-            'Ocorreu um erro durante o cadastro do aluno.'
-          );
-        }
+    }
+  
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nome.trim() === '') {
+      this.openSnackBar('Nome deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.telefone.trim() === '') {
+      this.openSnackBar('Telefone deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.email.trim() === '') {
+      this.openSnackBar('E-mail deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    this.isSubmitting = true;
+    try {
+      await this.alunoService.createAluno({
+        prontuario: this.prontuario.toUpperCase(),
+        nome: this.nome,
+        dataNascimento: this.data_nascimento,
+        telefone: this.telefone,
+        email: this.email,
+        curso_idcurso: this.idcurso,
+      });
+      this.openSnackBar('Aluno cadastrado com sucesso!!', null);
+      this.voltar();
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar('Falha ao cadastrar aluno', errorMessage);
+      } else {
+        this.openSnackBar(
+          'Falha ao cadastrar aluno',
+          'Ocorreu um erro durante o cadastro do aluno.'
+        );
       }
     }
   }
-
+  
   verificarIdadeMinima(dataNascimento: Date): boolean {
     const hoje = new Date();
     const dataNasc = new Date(dataNascimento);

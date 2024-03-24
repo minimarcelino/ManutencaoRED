@@ -42,6 +42,12 @@ export class AbonarFaltaComponent implements OnInit {
   }
 
   async submit() {
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.descricao.trim() === '') {
+      this.openSnackBar('Descrição deve ser preenchido corretamente.', null);
+      return;
+    }
+
     if (this.abonarFaltaPee.invalid || this.isSubmitting) {
       this.openSnackBar('Campos Obrigatórios', null);
       return;

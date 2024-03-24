@@ -42,33 +42,47 @@ export class EditarDisciplinaComponent implements OnInit {
   }
 
   async submit() {
+    // Verifica se o formulário é inválido ou se já está sendo enviado
     if (this.editarDisciplina.invalid || this.isSubmitting) {
       this.openSnackBar('Campos obrigatórios!!', null);
       return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        await this.disciplinaservice.updateDisciplina({
-          iddisciplinas: this.data.iddisciplinas,
-          sigla: this.sigla.trim().toUpperCase(),
-          nomeDisciplina: this.nomeDisciplina.trim(),
-          curso_idcurso: this.idcurso,
-        });
-        this.openSnackBar('Disciplina editada com sucesso!!', null);
-        this.dialog.close();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao editar disciplina', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao editar disciplina',
-            'Ocorreu um erro durante a edição da disciplina.'
-          );
-        }
+    }
+  
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nomeDisciplina.trim() === '') {
+      this.openSnackBar('Nome da disciiplina deve ser preenchido corretamente.', null);
+      return;
+    }
+
+    if (this.sigla.trim() === '') {
+      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+      return;
+    }
+  
+    // Todos os campos obrigatórios estão preenchidos corretamente
+    this.isSubmitting = true;
+    try {
+      await this.disciplinaservice.updateDisciplina({
+        iddisciplinas: this.data.iddisciplinas,
+        sigla: this.sigla.trim().toUpperCase(),
+        nomeDisciplina: this.nomeDisciplina.trim(),
+        curso_idcurso: this.idcurso,
+      });
+      this.openSnackBar('Disciplina editada com sucesso!!', null);
+      this.dialog.close();
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar('Falha ao editar disciplina', errorMessage);
+      } else {
+        this.openSnackBar(
+          'Falha ao editar disciplina',
+          'Ocorreu um erro durante a edição da disciplina.'
+        );
       }
     }
   }
+  
 
   cancelar() {
     this.dialog.close();

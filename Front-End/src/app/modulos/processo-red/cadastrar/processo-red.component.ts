@@ -101,25 +101,29 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
+    // Verifica se o motivo de afastamento não é apenas espaços em branco
+    if (this.motivoAfastamento.trim() === '') {
+      this.openSnackBar('Motivo do affastamento deve ser preenchido corretamente.', null);
+      return;
+    }
+
     const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
       this.inicioAfastamento
     );
+  
     const redsExistente = await this.redservice.getRed();
-    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
-      (red: any) => {
-        const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
-        const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
-        const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
-        const previsaoTerminoThis = this.dateToString(
-          this.previsaoTerminoRed()
-        );
-
-        return (
-          inicioAfastamentoRed === inicioAfastamentoThis &&
-          previsaoTerminoRed === previsaoTerminoThis
-        );
-      }
-    );
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
+      const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
+      const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
+      const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
+      const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
+  
+      return (
+        inicioAfastamentoRed === inicioAfastamentoThis &&
+        previsaoTerminoRed === previsaoTerminoThis
+      );
+    });
+  
     if (redExistenteNoMesmoPeriodo) {
       this.openSnackBar(
         'Já existe um RED para este prontuário no mesmo período! ',
@@ -127,6 +131,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
       );
       return;
     }
+  
     if (!inicioAfastamentoValido) {
       this.openSnackBar(
         'O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',
@@ -134,7 +139,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
       );
       return;
     }
-
+  
     try {
       console.log(this.filtredCursos);
       await this.servidorservice.createRED({
@@ -149,20 +154,23 @@ export class CadastrarProcessoREDComponent implements OnInit {
         aluno_id: this.aluno.id,
         coordenador: this.filtredCursos[0].coordenador,
       });
+  
       if (this.tempoAfastamento < 15) {
         this.openSnackBar('A quantidade de dias deve ser no mínimo 15! ', null);
         return;
       }
+  
       if (this.semestreAluno <= 0) {
         this.openSnackBar('O semestre não pode ser menor que 1! ', null);
         return;
       }
+  
       this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
-
     } catch (error) {
       console.error('Error submitting ProcessoRED:', error);
     }
   }
+  
 
   verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
     const hoje = new Date();

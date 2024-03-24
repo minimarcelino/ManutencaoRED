@@ -36,34 +36,46 @@ export class EditarCursoComponent implements OnInit {
   }
 
   async submit() {
-    if (this.editarCurso.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos obrigatórios!!', null);
-      return;
+  if (this.editarCurso.invalid || this.isSubmitting) {
+    this.openSnackBar('Campos obrigatórios!!', null);
+    return;
+  }
+
+  // Verifica se algum campo obrigatório é apenas espaços em branco
+  if (this.nomeCurso.trim() === '') {
+    this.openSnackBar('Nome do curso deve ser preenchido corretamente.', null);
+    return;
+  }
+
+  if (this.sigla.trim() === '') {
+    this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+    return;
+  }
+
+  // Todos os campos obrigatórios estão preenchidos corretamente
+  this.isSubmitting = true;
+  try {
+    await this.cursoservice.updateCurso({
+      idcurso: this.data.idcurso,
+      sigla: this.sigla.toUpperCase(),
+      nomeCurso: this.nomeCurso,
+      coordenador: this.idcordenador,
+    });
+    this.openSnackBar('Curso editado com sucesso!!', null);
+    this.dialog.close();
+  } catch (error: any) {
+    if (error && error.error && error.error.data) {
+      const errorMessage = error.error.data;
+      this.openSnackBar('Falha ao editar curso', errorMessage);
     } else {
-      this.isSubmitting = true;
-      try {
-        await this.cursoservice.updateCurso({
-          idcurso: this.data.idcurso,
-          sigla: this.sigla.toUpperCase(),
-          nomeCurso: this.nomeCurso,
-          coordenador: this.idcordenador,
-        });
-        this.openSnackBar('Curso editado com sucesso!!', null);
-        this.dialog.close();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao editar curso', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao editar curso',
-            'Ocorreu um erro durante a edição do curso.'
-          );
-        }
-      }
-      this.dialog.close('Confirmar');
+      this.openSnackBar(
+        'Falha ao editar curso',
+        'Ocorreu um erro durante a edição do curso.'
+      );
     }
   }
+}
+
 
   async fetchCoordenador() {
     const response = await this.cursoservice.getCoordenador();
