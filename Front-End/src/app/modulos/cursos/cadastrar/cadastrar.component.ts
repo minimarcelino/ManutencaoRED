@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { cursoService } from '../../../services/cursos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { Router } from '@angular/router';
+
+import { cursoService } from '../../../services/cursos.service';
+import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { CoordenadorService } from 'src/app/services/coordenador.service';
 
 @Component({
   selector: 'app-cadastrar',
@@ -19,6 +21,7 @@ export class CadastrarCursoComponent implements OnInit {
 
   constructor(
     private cursoservice: cursoService,
+    private coodenadorService: CoordenadorService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
@@ -87,7 +90,7 @@ export class CadastrarCursoComponent implements OnInit {
   }
 
   async fetchCoordenador() {
-    const response = await this.cursoservice.getCoordenador();
+    const response = await this.coodenadorService.getCoordenador();
     this.servidores = response.data.servidores;
     this.coordenadores = this.servidores.filter(
       (coordenador) => coordenador.tiposervidor === 'coordenador'

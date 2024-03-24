@@ -87,7 +87,7 @@ export class servidorService {
     }
 
 
-    async createDisciplina(disciplina: disciplinas) {
+/*     async createDisciplina(disciplina: disciplinas) {
 
         try {
             const existingDisciplina = await prisma.disciplinas.findFirst({
@@ -108,7 +108,7 @@ export class servidorService {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
-    }
+    } */
 
     async update(servidor: servidor, id: number) {
         try {
@@ -274,7 +274,7 @@ export class servidorService {
         }
     }
 
-    async createRED(red: red) {
+/*     async createRED(red: red) {
 
         try {
             const existingRED = await prisma.red.findFirst({
@@ -296,7 +296,7 @@ export class servidorService {
             console.log(error);
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
-    }
+    } */
 
 
 }

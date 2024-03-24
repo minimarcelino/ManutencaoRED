@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 //
 import { servidor } from 'src/app/modelo/servidor';
+import { CoordenadorService } from 'src/app/services/coordenador.service';
 import { cursoService } from 'src/app/services/cursos.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
@@ -19,7 +20,8 @@ export class EditarCursoComponent implements OnInit {
   isSubmitting: boolean = false;
 
   constructor(
-    private cursoservice: cursoService,
+    private cursoService: cursoService,
+    private coodenadorService: CoordenadorService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<EditarCursoComponent>
@@ -42,7 +44,7 @@ export class EditarCursoComponent implements OnInit {
     } else {
       this.isSubmitting = true;
       try {
-        await this.cursoservice.updateCurso({
+        await this.cursoService.updateCurso({
           idcurso: this.data.idcurso,
           sigla: this.sigla.toUpperCase(),
           nomeCurso: this.nomeCurso,
@@ -66,7 +68,7 @@ export class EditarCursoComponent implements OnInit {
   }
 
   async fetchCoordenador() {
-    const response = await this.cursoservice.getCoordenador();
+    const response = await this.coodenadorService.getCoordenador();
     this.servidores = response.data.servidores;
     this.coordenadores = this.servidores.filter(
       (coordenador) => coordenador.tiposervidor === 'coordenador'

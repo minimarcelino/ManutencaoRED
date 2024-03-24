@@ -6,7 +6,6 @@ import { emailController } from "../controller/emailController";
 const router = express.Router();
 const authentication = new AuthenticationService();
 const cracontroller = new servidorController();
-const emailcontroller = new emailController();
 
 router.get('/', authentication.validate, cracontroller.getCra);
 router.get('/all', cracontroller.getAll);

@@ -21,15 +21,6 @@ export class servidorController {
         }
     }
 
-    /*async getServidor(req: Request, res: Response) {
-        const response = await servidorservice.findById(Number(req.params.id));
-        if (response.ok) {
-            return res.status(StatusCodes.OK).send(response);
-        } else {
-            return res.status(StatusCodes.BAD_REQUEST).send(response);
-        }
-    }*/
-
     async Create(req: Request, res: Response) {
         const response = await servidorservice.create(req.body);
         if (response.ok) {
@@ -39,14 +30,14 @@ export class servidorController {
         }
     }
 
-    async CreateDisciplina(req: Request, res: Response) {
+/*     async CreateDisciplina(req: Request, res: Response) {
         const response = await servidorservice.createDisciplina(req.body);
         if (response.ok) {
             return res.status(StatusCodes.OK).send(response.data)
         } else {
             return res.status(StatusCodes.BAD_REQUEST).send(response)
         }
-    }
+    } */
 
     async Delete(req: Request, res: Response) {
         const response = await servidorservice.delete(Number(req.params.id));
@@ -77,15 +68,6 @@ export class servidorController {
 
     async getAll(req: Request, res: Response) {
         const response = await servidorservice.findAll();
-        if (response.ok) {
-            return res.status(StatusCodes.OK).send(response);
-        } else {
-            return res.status(StatusCodes.BAD_REQUEST).send(response);
-        }
-    }
-
-    async getCoordenador(req: Request, res: Response) {
-        const response = await servidorservice.findCoordenador();
         if (response.ok) {
             return res.status(StatusCodes.OK).send(response);
         } else {
@@ -140,7 +122,7 @@ export class servidorController {
         return res.status(401);
     }
 
-    async createRED(req: Request, res: Response) {
+ /*    async createRED(req: Request, res: Response) {
         const { authorization } = req.headers
         if (!authorization) {
             return res.status(StatusCodes.FORBIDDEN)
@@ -154,21 +136,21 @@ export class servidorController {
         if (response.ok) {
             if (typeof response.data === 'object' && 'coordenador' in response.data) {
                 const coordenadorResponse = await servidorservice.findByIdCoordenador(response.data.coordenador);
-                
+
                 if (coordenadorResponse.ok) {
                   const coordenador = coordenadorResponse.data;
-          
+
                   if (typeof coordenador !== 'string' && coordenador) {
-                    const coordenadorEmail = coordenador.email; 
-          
+                    const coordenadorEmail = coordenador.email;
+
                     const texto =
                       `O processo RED do aluno ${req.body.aluno_prontuario} foi criado. 👍
-                      
+
                       Por favor, entre no sistema e confirme a abertura do Processo RED.
-                      
-                      Atenciosamente, 
-          
-                      Equipe de suporte do RED. 
+
+                      Atenciosamente,
+
+                      Equipe de suporte do RED.
                       `
                     sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
                   }
@@ -179,6 +161,6 @@ export class servidorController {
             }
 
         }
-    }   
+    } */
 
 }

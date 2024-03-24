@@ -31,7 +31,7 @@ export class ListarCursosComponent implements OnInit {
   constructor(
     private router: Router,
     public dialogQuestionService: messageDialog,
-    private cursoservice: cursoService,
+    private cursoService: cursoService,
     private dialog: MatDialog,
     private servidorservice: servidorService,
     private snackBar: MatSnackBar
@@ -48,7 +48,7 @@ export class ListarCursosComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.cursoservice.getCursos();
+    const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
     this.dataSource = new MatTableDataSource<curso>(this.cursos);
   }
@@ -72,7 +72,7 @@ export class ListarCursosComponent implements OnInit {
 
   async deleteCursoPermanent(id: number) {
     try {
-      let response = await this.cursoservice.deleteCurso(id);
+      let response = await this.cursoService.deleteCurso(id);
       if (response) {
         this.openSnackBar('Curso deletado com sucesso!!', null);
         this.findAll();

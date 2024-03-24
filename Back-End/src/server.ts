@@ -9,6 +9,9 @@ import redRoutes from './routes/redRoutes';
 import disciplinaRoutes from './routes/disciplinaRoutes';
 import peeRoutes from './routes/peeRoutes';
 import usuarioNaoAutenticado from './routes/usuarioRoutes';
+import coordenadorRoutes from './routes/coordenadorRoutes';
+import loginRoutes from './routes/loginRoutes';
+
 
 const PORT = process.env.BACKEND_PORT || 3333;
 const app = express();
@@ -21,13 +24,15 @@ const corsOptions = {
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.use('/servidor/aluno', alunoRoutes);
+app.use('/aluno', alunoRoutes);
 app.use('/servidor', servidorRoutes);
-app.use('/servidor/curso', cursoRoutes);
-app.use('/servidor/red', redRoutes);
-app.use('/servidor/disciplina',disciplinaRoutes);
-app.use('/servidor/pee', peeRoutes);
-app.use('/servidor/usuario', usuarioNaoAutenticado);
+app.use('/curso', cursoRoutes);
+app.use('/red', redRoutes);
+app.use('/disciplina',disciplinaRoutes);
+app.use('/pee', peeRoutes);
+app.use('/usuario', usuarioNaoAutenticado);
+app.use('/login', loginRoutes);
+app.use('/coordenador', coordenadorRoutes);
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
 

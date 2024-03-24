@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -32,8 +31,6 @@ export class ListarAlunoComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private alunoservice: alunoService,
     private dialog: MatDialog,
-    private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string,
     private snackBar: MatSnackBar
   ) {}
 
@@ -126,7 +123,7 @@ export class ListarAlunoComponent implements OnInit {
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe((result: string) => {
+    dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
   }
