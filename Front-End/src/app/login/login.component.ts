@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         }
         this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });
       } else {
-        this.snackBar.open('Email ou senha incorretos!', '', {
+        this.snackBar.open('Prontuário ou senha incorretos!', '', {
           duration: 3000,
         });
       }
