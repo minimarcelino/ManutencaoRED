@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 export class redController {
 
     async getAll(req: Request, res: Response){
-        const response = await redservice.findAll();      
+        const response = await redservice.findAll();
         if(response.ok){
             return res.status(StatusCodes.OK).send(response);
         } else{
