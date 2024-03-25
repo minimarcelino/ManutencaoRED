@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService} from '../services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -34,9 +34,7 @@ export class LoginComponent implements OnInit {
 
   async fazerLogin() {
     if (this.loginForm.invalid) {
-      this.snackBar.open('Por favor, preencha todos os campos!', '', {
-        duration: 3000,
-      });
+      this.snackBarService.open('Por favor, preencha todos os campos!');
       return;
     } else {
       this.logging = await this.authenticationService.login({
@@ -54,11 +52,9 @@ export class LoginComponent implements OnInit {
           this.sessionService.setSession(this.user); // Armazena o usuário na sessão
           this.router.navigate([`/${this.user.tiposervidor}`]);
         }
-        this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });
+        this.snackBarService.open('Login bem sucedido');
       } else {
-        this.snackBar.open('Prontuário ou senha incorretos!', '', {
-          duration: 3000,
-        });
+        this.snackBarService.open('Prontuário ou senha incorretos!');
       }
     }
   }
