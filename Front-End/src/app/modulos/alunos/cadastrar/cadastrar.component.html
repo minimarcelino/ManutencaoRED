@@ -28,10 +28,10 @@
                 <div *ngIf="cadastrarAluno.get('data')?.invalid && formDir.submitted" class="validation">
                     <p>Data obrigatório!</p>
                 </div>
-              </mat-form-field>              
+              </mat-form-field>
             <mat-form-field appearance="fill" style="min-width: 35%; max-width: 100%;">
                 <mat-label>Telefone</mat-label>
-                <input matInput name="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']" 
+                <input matInput name="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']"
                 mask="(00)00000-0000"/>
                 <div *ngIf="cadastrarAluno.get('telefone')?.invalid && formDir.submitted" class="validation">
                     <p>Telefone obrigatório!</p>
