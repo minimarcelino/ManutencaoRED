@@ -34,7 +34,7 @@ const routes: Routes = [
         component: ListarDisciplinasComponent,
       },
       {
-        path: 'cadastrarDisciplina',
+        path: 'cadastrarDisciplinas',
         component: CadastrarDisciplinaComponent,
       },
 
