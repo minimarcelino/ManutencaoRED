@@ -104,6 +104,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
       data: {},
     });
+    cadastrarAluno.componentInstance.destino = 'cadastrarREDs';
     this.handleDialogConfirm(cadastrarAluno);
   }
 

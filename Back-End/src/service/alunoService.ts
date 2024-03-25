@@ -1,4 +1,4 @@
-import { aluno } from "@prisma/client";
+import { Prisma, aluno } from "@prisma/client";
 import { prisma } from "../../prisma/client"
 import { StatusCodes } from 'http-status-codes';
 
@@ -40,8 +40,14 @@ export class alunoService {
             const createAluno = await prisma.aluno.create({ data: aluno });
             return { ok: true, data: createAluno };
         } catch (error) {
-            console.log(error);
-            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
+          if (error instanceof Prisma.PrismaClientKnownRequestError){
+            let errorPrisma = {
+              code: error.code,
+              meta: error.meta
+            };
+            console.log("alServ: ", error.code);
+            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR, error  }
+          }
         }
     }
 

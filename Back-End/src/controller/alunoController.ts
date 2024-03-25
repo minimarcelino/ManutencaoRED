@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 export class alunoController {
 
         async getAll(req: Request, res: Response){
-            const response = await alunoservice.findAll();      
+            const response = await alunoservice.findAll();
             if(response.ok){
                 return res.status(StatusCodes.OK).send(response);
             } else{
@@ -18,7 +18,7 @@ export class alunoController {
 
         async Create(req: Request, res: Response){
             const response = await alunoservice.create(req.body);
-            if (response.ok){
+            if (response?.ok){
                 return res.status(StatusCodes.OK).send(response.data)
             } else {
                 return res.status(StatusCodes.BAD_REQUEST).send(response)
