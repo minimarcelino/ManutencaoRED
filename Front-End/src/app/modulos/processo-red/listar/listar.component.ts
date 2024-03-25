@@ -107,6 +107,11 @@ export class ListarREDComponent implements OnInit {
   }
 
   editarRed(red: any) {
+    if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
+      // Exibir uma mensagem ao usuário informando que a edição não é permitida
+      this.openSnackBar('Não é possível editar uma RED que está Finalizada ou Recusada.', null);
+      return;
+    }
     console.log(red);
     console.log(red.idRED);
     const editar = this.dialog.open(EditarREDComponent, {
