@@ -53,6 +53,11 @@ export class EditarAlunosComponent implements OnInit {
       this.openSnackBar('Campos obrigatórios!!', null);
       return;
     }
+
+    if (this.data_nascimento && !this.verificarIdadeMinima(this.data_nascimento)) {
+      this.openSnackBar('O aluno deve ter pelo menos 13 anos de idade.',null);
+      return;
+    }
   
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
@@ -76,10 +81,10 @@ export class EditarAlunosComponent implements OnInit {
         id: this.data.id,
         prontuario: this.prontuario.toUpperCase(),
         nome: this.nome,
-        data_nascimento: this.data_nascimento,
+        dataNascimento: this.data_nascimento,
         telefone: this.telefone,
-        email: this.email,
-        curso: this.idcurso,
+        email: this.email,  
+        curso_idcurso: this.idcurso,
       });
       this.openSnackBar('Aluno editado com sucesso!!', null);
       this.dialog.close();
@@ -96,6 +101,13 @@ export class EditarAlunosComponent implements OnInit {
     }
   }
   
+  verificarIdadeMinima(dataNascimento: Date): boolean {
+    const hoje = new Date();
+    const dataNasc = new Date(dataNascimento);
+    const diff = Math.abs(hoje.getTime() - dataNasc.getTime());
+    const idade = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+    return idade >= 13;
+  }
 
   openSnackBar(message: string, error: string | Error | null) {
     let data;
