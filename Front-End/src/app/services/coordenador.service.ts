@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment.development';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { authenticationService } from './authentication.service';
 export class CoordenadorService {
   constructor(
     private http: HttpClient,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async getCoordenador(): Promise<any> {
@@ -17,7 +17,7 @@ export class CoordenadorService {
       const response = await this.http
         .get(
           `${environment.API}coordenador/all`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -31,7 +31,7 @@ export class CoordenadorService {
       const response = await this.http
         .get(
           `${environment.API}coordenador/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,13 +9,13 @@ import { authenticationService } from './authentication.service';
 export class PeeService {
   constructor(
     private http: HttpClient,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async getPee(): Promise<any> {
     try {
       const response = await this.http
-        .get(`${environment.API}pee/all`, this.authentication.getHttpOptions())
+        .get(`${environment.API}pee/all`, this.authenticationService.getHttpOptions())
         .toPromise();
       return response;
     } catch (error) {
@@ -29,7 +29,7 @@ export class PeeService {
         .post(
           `${environment.API}pee/create`,
           pee,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -44,7 +44,7 @@ export class PeeService {
         .post(
           `${environment.API}pee/createAtividade`,
           atividade,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -59,7 +59,7 @@ export class PeeService {
         .put(
           `${environment.API}pee/update/${pee.idpee}`,
           pee,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -74,7 +74,7 @@ export class PeeService {
         .put(
           `${environment.API}pee/update/${atividade.idatividades}`,
           atividade,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -89,7 +89,7 @@ export class PeeService {
         .put(
           `${environment.API}pee/updateWithEmail/${pee.idpee}`,
           pee,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -103,7 +103,7 @@ export class PeeService {
       const response = await this.http
         .delete(
           `${environment.API}pee/delete/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -117,7 +117,7 @@ export class PeeService {
       const response = await this.http
         .delete(
           `${environment.API}pee/deleteAtividade/${id}/${idpee}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -131,7 +131,7 @@ export class PeeService {
       const response = await this.http
         .get(
           `${environment.API}pee/red/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;

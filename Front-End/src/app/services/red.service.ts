@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,13 +9,13 @@ import { authenticationService } from './authentication.service';
 export class RedService {
   constructor(
     private http: HttpClient,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async getRed(): Promise<any> {
     try {
       const response = await this.http
-        .get(`${environment.API}red/all`, this.authentication.getHttpOptions())
+        .get(`${environment.API}red/all`, this.authenticationService.getHttpOptions())
         .toPromise();
       return response;
     } catch (error) {
@@ -29,7 +29,7 @@ export class RedService {
         .post(
           `${environment.API}red/create`,
           red,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -45,7 +45,7 @@ export class RedService {
         .put(
           `${environment.API}red/update/${red.idRED}`,
           red,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -59,7 +59,7 @@ export class RedService {
       const response = await this.http
         .delete(
           `${environment.API}red/delete/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { authenticationService } from './authentication.service';
 export class AlunoService {
   constructor(
     private http: HttpClient,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async getAluno(): Promise<any> {
@@ -17,7 +17,7 @@ export class AlunoService {
       const response = await this.http
         .get(
           `${environment.API}aluno/all`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -32,7 +32,7 @@ export class AlunoService {
         .post(
           `${environment.API}aluno/create`,
           aluno,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -47,7 +47,7 @@ export class AlunoService {
         .put(
           `${environment.API}aluno/update/${aluno.id}`,
           aluno,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -61,7 +61,7 @@ export class AlunoService {
       const response = await this.http
         .delete(
           `${environment.API}aluno/delete/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;

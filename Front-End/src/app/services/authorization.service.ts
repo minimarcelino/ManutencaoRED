@@ -5,8 +5,7 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { storageService } from './storage.service';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +14,14 @@ export class authorizationService {
   user: any;
   constructor(
     private router: Router,
-    private storage: storageService,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    const token = await this.authentication.getToken();
+    const token = await this.authenticationService.getToken();
     this.user = localStorage.getItem('user');
 
     if (this.user != null) {
