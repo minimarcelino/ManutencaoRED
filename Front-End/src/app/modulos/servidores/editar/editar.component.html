@@ -13,21 +13,21 @@
 
   <div class="fields">
     <form [formGroup]="cadastrarServidor" #formDir="ngForm">
-      <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
+      <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%; margin-left: 1%;">
         <mat-label>Prontuário</mat-label>
         <input matInput name="prontuario" formControlName="prontuario" mask="AA00000A" />
         <div *ngIf="cadastrarServidor.get('prontuario')?.invalid && formDir.submitted" class="validation">
           <p>Prontuario obrigatório!</p>
         </div>
       </mat-form-field>
-      <mat-form-field appearance="fill" style="min-width: 25%; max-width: 100%; margin-right: 600px;">
+      <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%;">
         <mat-label>Nome</mat-label>
         <input matInput name="nome" formControlName="nome" />
         <div *ngIf="cadastrarServidor.get('nome')?.invalid && formDir.submitted" class="validation">
           <p>Nome obrigatório!</p>
         </div>
       </mat-form-field>
-      <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
+      <mat-form-field appearance="fill" style="min-width: 84%; max-width: 100%; margin-left: 1%;">
         <mat-label>Email</mat-label>
         <input matInput name="email" formControlName="email" />
         <div *ngIf="cadastrarServidor.get('email')?.invalid && formDir.submitted" class="validation">
@@ -35,7 +35,7 @@
         </div>
       </mat-form-field>
       <div *ngIf="mostrarCampo()">
-        <mat-form-field style="min-width: 40%; max-width: 100%; margin-right: 10px;">
+        <mat-form-field style="min-width: 84%; max-width: 100%; margin-left: 1%;">
           <mat-label>Categoria de Servidor</mat-label>
           <input matInput name="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
@@ -49,8 +49,8 @@
         </mat-form-field>
       </div>
       <div id="buttons">
-        <button mat-raised-button color="primary" (click)="cancelar()" style="margin-left: 4px;">Cancelar</button>
-        <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Confirmar</button>
+        <button mat-raised-button color="primary" (click)="cancelar()" style="margin-left: 1%;">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 1%;">Confirmar</button>
       </div>
     </form>
   </div>

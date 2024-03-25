@@ -5,21 +5,21 @@
     </div>
     <div class="fields">
         <form [formGroup]="cadastrarDisciplina" #formDir="ngForm">
-            <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
+            <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%;">
                 <mat-label>Sigla</mat-label>
                 <input matInput name="sigla" formControlName="sigla" (blur)="validationService.validarCampoDisciplina('Sigla', cadastrarDisciplina)"/>
                 <div *ngIf="cadastrarDisciplina.get('sigla')?.invalid && formDir.submitted" class="validation">
                     <p>Sigla obrigatória!</p>
                 </div>
             </mat-form-field>
-            <mat-form-field appearance="fill" style="min-width: 25%; max-width: 100%; margin-right: 600px;">
+            <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%">
                 <mat-label>Nome</mat-label>
                 <input matInput name="nomedisciplina" formControlName="nomedisciplina" (blur)="validationService.validarCampoDisciplina('Nome', cadastrarDisciplina)"/>
                 <div *ngIf="cadastrarDisciplina.get('nomedisciplina')?.invalid && formDir.submitted" class="validation">
                     <p>Nome da disciplina obrigatório!</p>
                 </div>
             </mat-form-field>
-            <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
+            <mat-form-field appearance="fill" style="min-width: 71%; max-width: 100%">
                 <mat-label>Curso</mat-label>
                 <input formControlName="Curso" type="text" placeholder="Selecione um curso"  matInput [matAutocomplete]="auto" (blur)="validationService.validarSelectDisciplina('Curso', cadastrarDisciplina)">
                 <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">

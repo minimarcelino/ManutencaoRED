@@ -5,7 +5,7 @@
   </div>
   <div class="fields">
     <form [formGroup]="editarDisciplina" #formDir="ngForm">
-      <mat-form-field appearance="fill" style="margin-right: 10px; min-width: 10%; max-width: 100%;">
+      <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 10%; max-width: 100%; margin-left: 1%">
         <mat-label>Sigla</mat-label>
         <input matInput name="sigla" formControlName="sigla"
         (blur)="validationService.validarCampoDisciplina('Sigla', editarDisciplina)"/>
@@ -13,7 +13,7 @@
           <p>Sigla obrigatória!</p>
         </div>
       </mat-form-field>
-      <mat-form-field appearance="fill" style="min-width: 25%; max-width: 100%; margin-right: 600px;">
+      <mat-form-field appearance="fill" style="min-width: 60%; max-width: 100%;">
         <mat-label>Nome</mat-label>
         <input matInput name="nomeDisciplina" formControlName="nomeDisciplina"
         (blur)="validationService.validarCampoDisciplina('Sigla', editarDisciplina)"/>
@@ -21,7 +21,7 @@
           <p>Nome da disciplina obrigatório!</p>
         </div>
       </mat-form-field>
-      <mat-form-field appearance="fill" style="min-width: 40%; max-width: 100%; margin-right: 10px;">
+      <mat-form-field appearance="fill" style="min-width: 94%; max-width: 100%; margin-left: 1%">
         <mat-label>Curso</mat-label>
         <input formControlName="curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto"
         (blur)="validationService.validarSelectDisciplina('Curso', editarDisciplina)">
