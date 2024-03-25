@@ -8,7 +8,7 @@
             <div class="fields">
                 <mat-form-field appearance="fill">
                     <mat-label>Prontuário</mat-label>
-                    <input matInput name="prontuario" formControlName="prontuario" required/>
+                    <input matInput name="prontuario" formControlName="prontuario" maxlength="9" required/>
                     <mat-icon matSuffix>email</mat-icon>
                     <div *ngIf="prontuario.invalid && formDir.submitted" class="validation">
                         <p>O Prontuário é obrigatório!</p>

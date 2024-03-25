@@ -51,51 +51,56 @@ export class AbonarFaltaComponent implements OnInit {
     if (this.abonarFaltaPee.invalid || this.isSubmitting) {
       this.openSnackBar('Campos Obrigatórios', null);
       return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        console.log(this.cumprimento);
-        console.log(this.novaAtividade);
-        await this.peeService.createAtividade({
-          descricao: this.descricao,
-          prazoatividade: this.data.prazofinal,
-          pee_idpee: this.data.idpee,
-          dateEntregaAluno: this.entregaAluno,
-          cumpriuAtividade: this.cumprimento,
-          novaAtividade: this.novaAtividade,
-        });
+    }
 
-        await this.peeService.updatePee({
-          idpee: this.data.idpee,
-          conteudo: this.data.conteudo,
-          metodologia: this.data.metodologia,
-          trabalhos: this.data.trabalhos,
-          bibliografia: this.data.bibliografia,
-          criterios: this.data.exigencia,
-          prazofinal: this.data.prazofinal,
-          RED_idRED: this.data.RED_idRED,
-          disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
-          servidor_idservidor: this.data.servidor_idservidor,
-          percentualabono: this.percentualAbono,
-          dataEnvioProposta: this.data.dataEnvioProposta,
-          canalComunicacao: this.data.canalComunicacao,
-          houveAvaliacao: this.data.houveAvaliacao,
-          avaliacoesRealizadas: this.data.avaliacoesRealizadas,
-          dataAvaliacao: this.data.dataAvaliacao,
-          observacao: this.data.observacao,
-        });
-        this.openSnackBar('Faltas abonadas com sucesso!!', null);
-        this.dialog.close();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao abonar as Faltas', errorMessage);
-        } else {
-          this.openSnackBar(
-            'Falha ao abonar as Faltas',
-            'Ocorreu um erro durante o abono das faltas.'
-          );
-        }
+    if (this.percentualAbono < 0 || this.percentualAbono > 100) {
+      this.openSnackBar('O percentual de faltas abonadas deve ser entre 0 e 100.', null);
+      return;
+    }
+
+    this.isSubmitting = true;
+    try {
+      console.log(this.cumprimento);
+      console.log(this.novaAtividade);
+      await this.peeService.createAtividade({
+        descricao: this.descricao,
+        prazoatividade: this.data.prazofinal,
+        pee_idpee: this.data.idpee,
+        dateEntregaAluno: this.entregaAluno,
+        cumpriuAtividade: this.cumprimento,
+        novaAtividade: this.novaAtividade,
+      });
+
+      await this.peeService.updatePee({
+        idpee: this.data.idpee,
+        conteudo: this.data.conteudo,
+        metodologia: this.data.metodologia,
+        trabalhos: this.data.trabalhos,
+        bibliografia: this.data.bibliografia,
+        criterios: this.data.exigencia,
+        prazofinal: this.data.prazofinal,
+        RED_idRED: this.data.RED_idRED,
+        disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
+        servidor_idservidor: this.data.servidor_idservidor,
+        percentualabono: this.percentualAbono,
+        dataEnvioProposta: this.data.dataEnvioProposta,
+        canalComunicacao: this.data.canalComunicacao,
+        houveAvaliacao: this.data.houveAvaliacao,
+        avaliacoesRealizadas: this.data.avaliacoesRealizadas,
+        dataAvaliacao: this.data.dataAvaliacao,
+        observacao: this.data.observacao,
+      });
+      this.openSnackBar('Faltas abonadas com sucesso!!', null);
+      this.dialog.close();
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.openSnackBar('Falha ao abonar as Faltas', errorMessage);
+      } else {
+        this.openSnackBar(
+          'Falha ao abonar as Faltas',
+          'Ocorreu um erro durante o abono das faltas.'
+        );
       }
     }
   }
