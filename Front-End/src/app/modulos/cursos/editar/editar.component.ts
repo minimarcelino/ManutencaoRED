@@ -57,7 +57,7 @@ export class EditarCursoComponent implements OnInit {
   // Todos os campos obrigatórios estão preenchidos corretamente
   this.isSubmitting = true;
   try {
-    await this.cursoservice.updateCurso({
+    await this.cursoService.updateCurso({
       idcurso: this.data.idcurso,
       sigla: this.sigla.toUpperCase(),
       nomeCurso: this.nomeCurso,
@@ -70,7 +70,6 @@ export class EditarCursoComponent implements OnInit {
       const errorMessage = error.error.data;
       this.openSnackBar('Falha ao editar curso', errorMessage);
     } else {
-<<<<<<< HEAD
       this.isSubmitting = true;
       try {
         await this.cursoService.updateCurso({
@@ -93,12 +92,6 @@ export class EditarCursoComponent implements OnInit {
         }
       }
       this.dialog.close('Confirmar');
-=======
-      this.openSnackBar(
-        'Falha ao editar curso',
-        'Ocorreu um erro durante a edição do curso.'
-      );
->>>>>>> natalia
     }
   }
 }
