@@ -1,13 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { curso } from 'src/app/modelo/curso';
 import { CursoService } from 'src/app/services/cursos.service';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { ValidationService } from 'src/app/utils/validation.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-editar',
@@ -22,19 +20,16 @@ export class EditarDisciplinaComponent implements OnInit {
 
   constructor(
     private disciplinaService: DisciplinaService,
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private cursoService: CursoService,
     private dialog: MatDialogRef<EditarDisciplinaComponent>,
-    public validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
     this.editarDisciplina = new FormGroup({
       sigla: new FormControl(this.data.sigla, [Validators.required]),
-      nomeDisciplina: new FormControl(this.data.nomeDisciplina, [
-        Validators.required,
-      ]),
+      nomeDisciplina: new FormControl(this.data.nomeDisciplina, [Validators.required]),
       curso: new FormControl(this.data.curso, [Validators.required]),
     });
     this.fetchCurso();
@@ -43,18 +38,13 @@ export class EditarDisciplinaComponent implements OnInit {
 
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.nomeDisciplina.trim() === '') {
-      this.openSnackBar('Nome da disciiplina deve ser preenchido corretamente.', null);
-      return;
-    }
-
-    if (this.sigla.trim() === '') {
-      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+    if (this.nomeDisciplina.trim() === '' || this.sigla.trim() === '') {
+      this.snackBarService.open('Campos devem ser preenchidos corretamente.');
       return;
     }
 
     if (this.editarDisciplina.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos obrigatórios!!', null);
+      this.snackBarService.open('Campos obrigatórios!!');
       return;
     } else {
       this.isSubmitting = true;
@@ -65,41 +55,30 @@ export class EditarDisciplinaComponent implements OnInit {
           nomeDisciplina: this.nomeDisciplina.trim(),
           curso_idcurso: this.idcurso,
         });
-        this.openSnackBar('Disciplina editada com sucesso!!', null);
+        this.snackBarService.open('Disciplina editada com sucesso!!');
         this.dialog.close();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao editar disciplina', errorMessage);
+      } catch (error: any) {const errorData = error.error.data;
+        const errorPrisma = error.error.error;
+
+       if (errorPrisma) {
+          const campoErro = errorPrisma.meta['target'].split('_')[0];
+          if (errorPrisma.code === 'P2002') {
+            this.snackBarService.open(`Falha ao cadastrar disciplina: Campo ${campoErro} já cadastrado`,'', 7000);
+          } else {
+            this.snackBarService.open(`Falha ao cadastrar disciplina: Erro ${errorPrisma.code}`);
+          }
+        } else if (errorData) {
+          this.snackBarService.open(`Falha ao cadastrar disciplina: ${errorData}`);
         } else {
-          this.openSnackBar(
-            'Falha ao editar disciplina',
-            'Ocorreu um erro durante a edição da disciplina.'
-          );
+          this.snackBarService.open('Falha ao cadastrar disciplina');
         }
       }
     }
   }
-  
+
 
   cancelar() {
     this.dialog.close();
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   async fetchCurso() {
