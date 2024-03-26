@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Location } from '@angular/common';
 
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { AlunoService } from 'src/app/services/alunos.service';
@@ -30,11 +31,15 @@ export class CadastrarAlunoComponent implements OnInit {
     private alunoService: AlunoService,
     private cursoService: CursoService,
     private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    @Optional() private dialogRef: MatDialogRef<CadastrarAlunoComponent>,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
+    
     this._adapter.setLocale(this._locale);
     this.cadastrarAluno = new FormGroup({
       prontuario: new FormControl('', [Validators.required]),
@@ -91,7 +96,11 @@ export class CadastrarAlunoComponent implements OnInit {
           curso_idcurso: this.idcurso,
         });
         this.snackBarService.open('Aluno cadastrado com sucesso!!');
-        this.voltar(this.destino);
+        this.voltar();
+
+        if (this.data.dialog) {
+          this.dialogRef.close();
+        }
 
       } catch (error: any) {
         const errorData = error.error.data;
@@ -129,8 +138,9 @@ export class CadastrarAlunoComponent implements OnInit {
     return curso && curso.nomeCurso;
   }
 
-  voltar(destino: string = 'listarAlunos') {
-    this.router.navigate([`/${this.user.tiposervidor}/${destino}`]);
+  voltar() {
+    //this.router.navigate([`/${this.user.tiposervidor}/${destino}`]);
+    this.location.back();
   }
 
   get prontuario() {

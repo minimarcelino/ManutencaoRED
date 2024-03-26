@@ -14,7 +14,7 @@ export class cursoController {
       Number(perPage),
       String(orderBy)
     );
-    if (response.ok) {
+    if (response?.ok) {
       return res.status(StatusCodes.OK).send(response);
     } else {
       return res.status(StatusCodes.BAD_REQUEST).send(response);

@@ -41,7 +41,7 @@ export class PEEAbonadosComponent implements OnInit {
 
     // Poderia ser uma flag, ou um get proprio, e não uma comparação
     // Filtro de exibição dos PEEs abonados
-    this.pees = this.pees.filter((pee) => pee.percentualabono >= 0);
+    this.pees = this.pees.filter((pee) => pee.percentualabono != -1.0);
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
