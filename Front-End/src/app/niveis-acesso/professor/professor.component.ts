@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { authenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ProfessorComponent {
 
   constructor(
-    public authenticationService: authenticationService,
+    public authenticationService: AuthenticationService,
     private router: Router
   ) { }
 

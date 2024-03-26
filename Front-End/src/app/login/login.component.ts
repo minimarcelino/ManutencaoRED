@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { sessionService } from '../services/session.service';
-import { authenticationService } from '../services/authentication.service';
+import { SessionService } from '../services/session.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService} from '../services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +18,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sessionservice: sessionService,
-    private authentication: authenticationService,
-    private snackBar: MatSnackBar
+    private sessionService: SessionService,
+    private authenticationService: AuthenticationService,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -34,12 +34,10 @@ export class LoginComponent implements OnInit {
 
   async fazerLogin() {
     if (this.loginForm.invalid) {
-      this.snackBar.open('Por favor, preencha todos os campos!', '', {
-        duration: 3000,
-      });
+      this.snackBarService.open('Por favor, preencha todos os campos!');
       return;
     } else {
-      this.logging = await this.authentication.login({
+      this.logging = await this.authenticationService.login({
         prontuario: this.prontuario,
         //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
         //senha: this.senha,
@@ -51,14 +49,12 @@ export class LoginComponent implements OnInit {
         this.user = localStorage.getItem('user');
         if (this.user != null) {
           this.user = JSON.parse(this.user);
-          this.sessionservice.setSession(this.user); // Armazena o usuário na sessão
+          this.sessionService.setSession(this.user); // Armazena o usuário na sessão
           this.router.navigate([`/${this.user.tiposervidor}`]);
         }
-        this.snackBar.open('Login bem sucedido!', '', { duration: 3000 });
+        this.snackBarService.open('Login bem sucedido');
       } else {
-        this.snackBar.open('Prontuário ou senha incorretos!', '', {
-          duration: 3000,
-        });
+        this.snackBarService.open('Prontuário ou senha incorretos!');
       }
     }
   }

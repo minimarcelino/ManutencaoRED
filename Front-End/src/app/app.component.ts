@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { authenticationService } from '../app/services/authentication.service';
+import { AuthenticationService } from '../app/services/authentication.service';
 import { authorizationService } from './services/authorization.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -12,12 +12,12 @@ import { Router } from '@angular/router'; // Importe o Router
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild(MatSidenav) 
+  @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
-  constructor(private authenticationService: authenticationService, 
+  constructor(private authenticationService: AuthenticationService,
     private authorization :authorizationService, private router: Router) {
-  } 
+  }
   title = 'Front-End';
   isLogged = false;
   opened = false;
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.isLogged = await this.authenticationService.isLogado();
-    
+
   }
 
   async logout() {

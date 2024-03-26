@@ -2,12 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
-import { sessionService } from './session.service'; // Renomeei para seguir a convenção de nomenclatura
+import { SessionService } from './session.service'; // Renomeei para seguir a convenção de nomenclatura
 
 @Injectable({
   providedIn: 'root',
 })
-export class authenticationService {
+export class AuthenticationService {
   private tokenKey = 'auth_token'; // Chave para armazenar o token no localStorage
   userLogged: any;
   private token: string | null = null;
@@ -15,7 +15,7 @@ export class authenticationService {
 
   constructor(
     private http: HttpClient,
-    private session: sessionService
+    private session: SessionService
   ) {
     this.init();
   }

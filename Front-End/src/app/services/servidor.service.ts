@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { authenticationService } from './authentication.service';
 export class ServidorService {
   constructor(
     private http: HttpClient,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async getServidores(): Promise<any> {
@@ -17,7 +17,7 @@ export class ServidorService {
       const response = await this.http
         .get(
           `${environment.API}servidor/all`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -32,7 +32,7 @@ export class ServidorService {
         .post(
           `${environment.API}servidor/create`,
           docente,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -47,7 +47,7 @@ export class ServidorService {
         .put(
           `${environment.API}servidor/update/${docente.idservidor}`,
           docente,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -61,7 +61,7 @@ export class ServidorService {
       const response = await this.http
         .delete(
           `${environment.API}servidor/delete/${idservidor}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -76,7 +76,7 @@ export class ServidorService {
         .put(
           `${environment.API}servidor/updatePerfil/${servidor.idservidor}`,
           servidor,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;

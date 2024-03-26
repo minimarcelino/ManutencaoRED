@@ -9,6 +9,7 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { CursoService } from '../../../services/cursos.service';
 
 import { curso } from 'src/app/modelo/curso';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-editar',
@@ -23,7 +24,7 @@ export class EditarAlunosComponent implements OnInit {
 
   constructor(
     private alunoService: AlunoService,
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<EditarAlunosComponent>,
     private cursoService: CursoService,
@@ -40,7 +41,7 @@ export class EditarAlunosComponent implements OnInit {
       nome: new FormControl(this.data.nome, [Validators.required]),
       data: new FormControl(utcDate, [Validators.required]),
       telefone: new FormControl(this.data.telefone, [Validators.required]),
-      email: new FormControl(this.data.email, [Validators.required]),
+      email: new FormControl(this.data.email, [Validators.required, Validators.email]),
       curso: new FormControl(this.data.curso, [Validators.required]),
     });
     this.fetchCurso();
@@ -50,31 +51,31 @@ export class EditarAlunosComponent implements OnInit {
 
   async submit() {
     if (this.editarAluno.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos obrigatórios!!', null);
+      this.snackBarService.open('Campos obrigatórios!!');
       return;
     }
 
     if (this.data_nascimento && !this.verificarIdadeMinima(this.data_nascimento)) {
-      this.openSnackBar('O aluno deve ter pelo menos 13 anos de idade.',null);
+      this.snackBarService.open('O aluno deve ter pelo menos 13 anos de idade.');
       return;
     }
-  
+
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
-      this.openSnackBar('Nome deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Nome deve ser preenchido corretamente.');
       return;
     }
 
     if (this.telefone.trim() === '') {
-      this.openSnackBar('Telefone deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Telefone deve ser preenchido corretamente.');
       return;
     }
 
     if (this.email.trim() === '') {
-      this.openSnackBar('E-mail deve ser preenchido corretamente.', null);
+      this.snackBarService.open('E-mail deve ser preenchido corretamente.');
       return;
     }
-  
+
     this.isSubmitting = true;
     try {
       await this.alunoService.updateAluno({
@@ -83,46 +84,36 @@ export class EditarAlunosComponent implements OnInit {
         nome: this.nome,
         dataNascimento: this.data_nascimento,
         telefone: this.telefone,
-        email: this.email,  
+        email: this.email,
         curso_idcurso: this.idcurso,
       });
-      this.openSnackBar('Aluno editado com sucesso!!', null);
+      this.snackBarService.open('Aluno editado com sucesso!!');
       this.dialog.close();
     } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao editar aluno', errorMessage);
+      const errorData = error.error.data;
+      const errorPrisma = error.error.error;
+
+      if (errorPrisma) {
+        const campoErro = errorPrisma.meta['target'].split('_')[0];
+        if (errorPrisma.code === 'P2002') {
+          this.snackBarService.open(`Falha ao editar aluno: Campo ${campoErro} já cadastrado`);
+        } else {
+          this.snackBarService.open(`Falha ao editar aluno: Erro ${errorPrisma.code}`);
+        }
+      } else if (errorData) {
+        this.snackBarService.open(`Falha ao editar aluno: Erro ${errorData}`);
       } else {
-        this.openSnackBar(
-          'Falha ao editar aluno',
-          'Ocorreu um erro durante a edição do aluno.'
-        );
+        this.snackBarService.open('Falha ao editar aluno');
       }
     }
   }
-  
+
   verificarIdadeMinima(dataNascimento: Date): boolean {
     const hoje = new Date();
     const dataNasc = new Date(dataNascimento);
     const diff = Math.abs(hoje.getTime() - dataNasc.getTime());
     const idade = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
     return idade >= 13;
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   cancelar() {

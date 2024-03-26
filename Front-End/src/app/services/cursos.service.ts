@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
-import { authenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { authenticationService } from './authentication.service';
 export class CursoService {
   constructor(
     private http: HttpClient,
-    private authentication: authenticationService
+    private authenticationService: AuthenticationService
   ) {}
 
   async getCursos(): Promise<any> {
@@ -17,7 +17,7 @@ export class CursoService {
       const response = await this.http
         .get(
           `${environment.API}curso/all`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -31,7 +31,7 @@ export class CursoService {
       const response = await this.http
         .get(
           `${environment.API}curso/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -46,7 +46,7 @@ export class CursoService {
         .post(
           `${environment.API}curso/create`,
           curso,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -62,7 +62,7 @@ export class CursoService {
         .put(
           `${environment.API}curso/update/${curso.idcurso}`,
           curso,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
@@ -76,7 +76,7 @@ export class CursoService {
       const response = await this.http
         .delete(
           `${environment.API}curso/delete/${id}`,
-          this.authentication.getHttpOptions()
+          this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
