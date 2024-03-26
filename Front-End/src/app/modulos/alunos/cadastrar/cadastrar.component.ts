@@ -9,6 +9,7 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { AlunoService } from 'src/app/services/alunos.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { curso } from 'src/app/modelo/curso';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-cadastrar',
@@ -24,7 +25,7 @@ export class CadastrarAlunoComponent implements OnInit {
   destino = '';
 
   constructor(
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private router: Router,
     private alunoService: AlunoService,
     private cursoService: CursoService,
@@ -40,10 +41,10 @@ export class CadastrarAlunoComponent implements OnInit {
       nome: new FormControl('', [Validators.required]),
       data: new FormControl('', [Validators.required]),
       telefone: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       curso: new FormControl('', [Validators.required]),
     });
-    this.fetchCurso();
+    this.buscarCursos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
@@ -52,29 +53,29 @@ export class CadastrarAlunoComponent implements OnInit {
     console.log('Destino: ', this.destino);
 
     if (this.cadastrarAluno.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos Obrigatórios');
+      this.snackBarService.open('Campos Obrigatórios');
       return;
     }
 
 
     if (this.data_nascimento && !this.verificarIdadeMinima(this.data_nascimento)) {
-      this.openSnackBar('O aluno deve ter pelo menos 13 anos de idade.');
+      this.snackBarService.open('O aluno deve ter pelo menos 13 anos de idade.');
       return;
     }
 
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
-      this.openSnackBar('Nome deve ser preenchido corretamente.');
+      this.snackBarService.open('Nome deve ser preenchido corretamente.');
       return;
     }
 
     if (this.telefone.trim() === '') {
-      this.openSnackBar('Telefone deve ser preenchido corretamente.');
+      this.snackBarService.open('Telefone deve ser preenchido corretamente.');
       return;
     }
 
     if (this.email.trim() === '') {
-      this.openSnackBar('E-mail deve ser preenchido corretamente.');
+      this.snackBarService.open('E-mail deve ser preenchido corretamente.');
       return;
     }
 
@@ -89,7 +90,7 @@ export class CadastrarAlunoComponent implements OnInit {
           email: this.email,
           curso_idcurso: this.idcurso,
         });
-        this.openSnackBar('Aluno cadastrado com sucesso!!');
+        this.snackBarService.open('Aluno cadastrado com sucesso!!');
         this.voltar(this.destino);
 
       } catch (error: any) {
@@ -99,19 +100,17 @@ export class CadastrarAlunoComponent implements OnInit {
         if (errorPrisma) {
           const campoErro = errorPrisma.meta['target'].split('_')[0];
           if (errorPrisma.code === 'P2002') {
-            this.openSnackBar(`Falha ao cadastrar aluno: Campo ${campoErro} já cadastrado`);
+            this.snackBarService.open(`Falha ao cadastrar aluno: Campo ${campoErro} já cadastrado`);
           } else {
-            this.openSnackBar(`Falha ao cadastrar aluno: Erro ${errorPrisma.code}`);
+            this.snackBarService.open(`Falha ao cadastrar aluno: Erro ${errorPrisma.code}`);
           }
         } else if (errorData) {
-          this.openSnackBar(`Falha ao cadastrar aluno: Erro ${errorData}`);
+          this.snackBarService.open(`Falha ao cadastrar aluno: Erro ${errorData}`);
         } else {
-          this.openSnackBar('Falha ao cadastrar aluno');
+          this.snackBarService.open('Falha ao cadastrar aluno');
         }
-
       }
     }
-  
 
   verificarIdadeMinima(dataNascimento: Date): boolean {
     const hoje = new Date();
@@ -121,28 +120,13 @@ export class CadastrarAlunoComponent implements OnInit {
     return idade >= 13;
   }
 
-  async fetchCurso() {
+  async buscarCursos() {
     const getCursos = await this.cursoService.getCursos();
     this.cursos = getCursos.data.cursos;
   }
 
   displayFn(curso: curso): string {
     return curso && curso.nomeCurso;
-  }
-
-  openSnackBar(message: string | Error | null) {
-    let data;
-    if (message === null) {
-      data = { message };
-    } else if (typeof message === 'string') {
-      data = { message: message };
-    } else if (message instanceof Error) {
-      data = { message: message.message };
-    }
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   voltar(destino: string = 'listarAlunos') {
