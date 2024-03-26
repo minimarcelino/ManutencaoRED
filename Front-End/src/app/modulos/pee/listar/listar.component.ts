@@ -41,7 +41,7 @@ export class ListarPEEComponent implements OnInit {
     this.pees = this.pees.filter(
       (pee) => pee.servidor_idservidor == this.user.idservidor
     );
-    this.pees = this.pees.filter((pee) => pee.percentualabono == 0);
+    this.pees = this.pees.filter((pee) => pee.dataEnvioProposta == null);
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
