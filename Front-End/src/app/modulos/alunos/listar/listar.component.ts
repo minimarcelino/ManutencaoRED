@@ -1,17 +1,16 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { aluno } from 'src/app/modelo/aluno';
 import { AlunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarAlunosComponent } from '../editar/editar.component';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarAlunoComponent } from '../visualizar/visualizar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-listar',
@@ -31,7 +30,7 @@ export class ListarAlunoComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private alunoservice: AlunoService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +40,7 @@ export class ListarAlunoComponent implements OnInit {
   }
 
   async cadastrar() {
-    this.router.navigate([`/${this.user.tiposervidor}/cadastrarAlunos`])
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarAlunos`]);
   }
 
   applyFilter(data: Event) {
@@ -68,15 +67,15 @@ export class ListarAlunoComponent implements OnInit {
     try {
       let response = await this.alunoservice.deleteAluno(id);
       if (response) {
-        this.openSnackBar('Aluno deletado com sucesso!!', null);
+        this.snackBarService.open('Aluno deletado com sucesso!!');
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao deletar aluno', errorMessage);
+        this.snackBarService.open('Falha ao deletar aluno', errorMessage);
       } else {
-        this.openSnackBar(
+        this.snackBarService.open(
           'Falha ao deletar aluno',
           'Ocorreu um erro durante a remoção do aluno.'
         );
@@ -125,22 +124,6 @@ export class ListarAlunoComponent implements OnInit {
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
       this.findAll();
-    });
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
     });
   }
 }
