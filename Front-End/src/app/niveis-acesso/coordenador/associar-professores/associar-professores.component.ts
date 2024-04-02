@@ -91,7 +91,7 @@ export class AssociarProfessoresComponent implements OnInit {
           RED_idRED: this.data.idRED,
           disciplinas_iddisciplinas: item.iddisciplinas,
           servidor_idservidor: this.professoresSelecionados[0].idservidor,
-          percentualabono: 0.0,
+          percentualabono: this.data.percentualabono,
         });
       }
       this.openSnackBar('Professores associados com sucesso!!', null);
