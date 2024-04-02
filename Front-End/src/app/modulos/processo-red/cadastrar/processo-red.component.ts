@@ -3,14 +3,13 @@ import { Router } from '@angular/router';
 import { AlunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CursoService } from 'src/app/services/cursos.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 //
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { RedService } from 'src/app/services/red.service';
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-processo-red',
@@ -26,7 +25,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     private dialog: MatDialog,
     public dialogQuestionService: messageDialog,
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private redService: RedService
   ) {}
 
@@ -102,7 +101,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
 
   async CadastrarAluno() {
     const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
-      data: {dialog: true},
+      data: { dialog: true },
     });
     cadastrarAluno.componentInstance.destino = 'cadastrarREDs';
     this.handleDialogConfirm(cadastrarAluno);
@@ -111,43 +110,44 @@ export class CadastrarProcessoREDComponent implements OnInit {
   async cadastrar() {
     // Verifica se o motivo de afastamento não é apenas espaços em branco
     if (this.motivoAfastamento.trim() === '') {
-      this.openSnackBar(
-        'Motivo do affastamento deve ser preenchido corretamente.',
-        null
-      );
+      this.snackBarService.open('Motivo do affastamento deve ser preenchido corretamente.');
       return;
     }
     // Verificação se o RED já existe no mesmo período
     const redsExistente = await this.redService.getRed();
-    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find((red: any) => {
+    const redExistenteNoMesmoPeriodo = redsExistente.data.reds.find(
+      (red: any) => {
         const inicioAfastamentoRed = this.dateToString(red.inicioAfastamento);
         const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
         const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
-        const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
+        const previsaoTerminoThis = this.dateToString(
+          this.previsaoTerminoRed()
+        );
 
         return (
-            inicioAfastamentoRed === inicioAfastamentoThis &&
-            previsaoTerminoRed === previsaoTerminoThis
+          inicioAfastamentoRed === inicioAfastamentoThis &&
+          previsaoTerminoRed === previsaoTerminoThis
         );
       }
     );
     if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
-      this.openSnackBar(
-        'O período de afastamento deve ser entre 15 a 360 dias.',null);
+      this.snackBarService.open('O período de afastamento deve ser entre 15 a 360 dias.');
       return;
     }
     if (this.semestreAluno <= 0 || this.semestreAluno > 20) {
-      this.openSnackBar('O semestre informado deve estar entre 1 e 24.', null);
+      this.snackBarService.open('O semestre informado deve estar entre 1 e 24.');
       return;
     }
     if (redExistenteNoMesmoPeriodo) {
-      this.openSnackBar('Já existe um RED para este prontuário no mesmo período! ',null);
+      this.snackBarService.open('Já existe um RED para este prontuário no mesmo período! ');
       return;
     }
 
-    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(this.inicioAfastamento);
+    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
+      this.inicioAfastamento
+    );
     if (!inicioAfastamentoValido) {
-      this.openSnackBar('O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',null);
+      this.snackBarService.open('O início do afastamento deve ser no máximo 7 dias antes da data de hoje!');
       return;
     }
 
@@ -171,7 +171,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     } catch (error) {
       console.error('Erro ao cadastrar RED:', error);
     }
-}
+  }
 
   retornarParaLista() {
     this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
@@ -183,22 +183,6 @@ export class CadastrarProcessoREDComponent implements OnInit {
 
   teste() {
     this.router.navigate([`/${this.user.tiposervidor}/cadastrarAlunos`]);
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   handleDialogConfirm(dialog: any) {

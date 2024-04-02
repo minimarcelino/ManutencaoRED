@@ -2,12 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+//
 import { AlunoService } from 'src/app/services/alunos.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { RedService } from 'src/app/services/red.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-editar',
@@ -16,13 +16,13 @@ import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 })
 export class EditarREDComponent implements OnInit {
   constructor(
-    private router: Router,
-    private alunoService: AlunoService,
-    private cursoService: CursoService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar,
+    private router: Router,
+    private alunoService: AlunoService,
+    private cursoService: CursoService,
+    private snackBarService: SnackBarService,
     private dialog: MatDialogRef<EditarREDComponent>,
     private redService: RedService
   ) {}
@@ -111,10 +111,7 @@ export class EditarREDComponent implements OnInit {
   async editar() {
     // Verifica se o motivo de afastamento não é apenas espaços em branco
     if (this.motivoAfastamento.trim() === '') {
-      this.openSnackBar(
-        'Motivo do affastamento deve ser preenchido corretamente.',
-        null
-      );
+      this.snackBarService.open('Motivo do affastamento deve ser preenchido corretamente.');
       return;
     }
     const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
@@ -135,20 +132,18 @@ export class EditarREDComponent implements OnInit {
       }
     );
     if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
-      this.openSnackBar(
-        'O período de afastamento deve ser entre 15 a 360 dias.',null);
+      this.snackBarService.open('O período de afastamento deve ser entre 15 a 360 dias.');
       return;
     }
     if (this.data.semestreAluno <= 0 || this.data.semestreAluno > 20) {
-      this.openSnackBar('O semestre informado deve estar entre 1 e 24.', null);
+      this.snackBarService.open('O semestre informado deve estar entre 1 e 24.');
       return;
     }
     if (redExistenteNoMesmoPeriodo) {
-      this.openSnackBar('Já existe um RED para este prontuário no mesmo período! ',null);
+      this.snackBarService.open('Já existe um RED para este prontuário no mesmo período!');
       return;
     }
-    if (!inicioAfastamentoValido) {
-      this.openSnackBar('O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ',null);
+    if (!inicioAfastamentoValido) {this.snackBarService.open('O início do afastamento deve ser no máximo 7 dias antes da data de hoje! ');
       return;
     }
 
@@ -177,21 +172,6 @@ export class EditarREDComponent implements OnInit {
 
   updateCharacterCount(campoTexto: string): number {
     return 4000 - campoTexto.length;
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   get aluno() {

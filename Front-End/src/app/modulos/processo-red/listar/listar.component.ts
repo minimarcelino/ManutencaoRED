@@ -2,7 +2,6 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
@@ -10,9 +9,9 @@ import * as XLSX from 'xlsx';
 import { curso } from 'src/app/modelo/curso';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 export interface aluno {
   id: number;
@@ -66,7 +65,7 @@ export class ListarREDComponent implements OnInit {
     private redService: RedService,
     public dialogQuestionService: messageDialog,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private peeService: PeeService
   ) {}
 
@@ -109,7 +108,7 @@ export class ListarREDComponent implements OnInit {
   editarRed(red: any) {
     if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
       // Exibir uma mensagem ao usuário informando que a edição não é permitida
-      this.openSnackBar('Não é possível editar uma RED que está Finalizada ou Recusada.', null);
+      this.snackBarService.open('Não é possível editar uma RED que está Finalizada ou Recusada.');
       return;
     }
     console.log(red);
@@ -131,22 +130,6 @@ export class ListarREDComponent implements OnInit {
       },
     });
     this.handleDialogConfirm(editar);
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   handleDialogConfirm(dialog: any) {
