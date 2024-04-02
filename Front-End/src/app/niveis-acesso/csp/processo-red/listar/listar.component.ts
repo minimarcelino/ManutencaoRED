@@ -40,12 +40,9 @@ export class ListarRedComponent implements OnInit {
 
 
   constructor(
-    private router: Router,
     public dialogQuestionService: messageDialog,
     private redService: RedService,
     private dialog: MatDialog,
-    private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string,
     private peeService: PeeService
   ) {}
 
@@ -150,7 +147,7 @@ export class ListarRedComponent implements OnInit {
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe((result: string) => {
+    dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
   }

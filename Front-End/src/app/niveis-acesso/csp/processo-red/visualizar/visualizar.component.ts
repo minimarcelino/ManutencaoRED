@@ -35,14 +35,14 @@ export class VisualizarRedComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<VisualizarRedComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private peeservice: PeeService  ) {}
+    private peeService: PeeService  ) {}
 
   ngOnInit() {
     this.findAll();
   }
 
   async findAll() {
-    const pees = await this.peeservice.getPee();
+    const pees = await this.peeService.getPee();
     this.pee = pees.data.pees;
     this.pee = this.pee.filter((pee) => pee.RED_idRED === this.data.idRED);
     this.dataSource = new MatTableDataSource<any>(this.pee);
