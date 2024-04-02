@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { SnackBarComponent } from '../utils/snack-bar/snack-bar.component';
 import { ServidorService } from '../services/servidor.service';
+import { SnackBarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,11 +16,11 @@ export class PerfilComponent implements OnInit {
   error: Error | null = null;
   user: any;
 
-
   constructor(
     private router: Router,
-    private snackBar: MatSnackBar,
-    private servidorService: ServidorService  ) {}
+    private snackBarService: SnackBarService,
+    private servidorService: ServidorService
+  ) {}
 
   ngOnInit(): void {
     this.alterarPerfil = new FormGroup({
@@ -33,7 +32,7 @@ export class PerfilComponent implements OnInit {
 
   async submit() {
     if (this.alterarPerfil.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos Obrigatórios', null);
+      this.snackBarService.open('Campos Obrigatórios');
       return;
     } else {
       this.isSubmitting = true;
@@ -46,41 +45,22 @@ export class PerfilComponent implements OnInit {
           nome: this.user.nome,
           prontuario: this.user.prontuario,
         });
-        this.openSnackBar('Perfil alterado com sucesso!!', null);
+        this.snackBarService.open('Perfil alterado com sucesso!!');
         this.router.navigate([`/${this.user.tiposervidor}`]);
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
           // Verifica se o erro é devido a um prontuário duplicado
           if (errorMessage.includes('prontuario')) {
-            this.openSnackBar('Falha ao alterar perfil', 'Falha ao alterar perfil');
+            this.snackBarService.open(`Prontuário duplicado`);
           } else {
-            this.openSnackBar('Falha ao alterar perfil', errorMessage);
+            this.snackBarService.open(`Falha ao alterar perfil: ${errorMessage}`);
           }
         } else {
-          this.openSnackBar(
-            'Falha ao alterar perfil',
-            'Ocorreu um erro durante a alteração do perfil.'
-          );
+          this.snackBarService.open('Falha ao alterar perfil');
         }
       }
     }
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   get senha() {
