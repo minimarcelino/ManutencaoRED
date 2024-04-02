@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
 import { ServidorService } from 'src/app/services/servidor.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -17,12 +17,18 @@ export class CadastrarServidoresComponent implements OnInit {
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
-  tipoServidores: string[] = ["administrador", "professor", "coordenador", "cra", "csp"];
+  tipoServidores: string[] = [
+    'administrador',
+    'professor',
+    'coordenador',
+    'cra',
+    'csp',
+  ];
 
   constructor(
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private router: Router,
-    private servidorService: ServidorService,
+    private servidorService: ServidorService
   ) {}
 
   ngOnInit(): void {
@@ -37,23 +43,22 @@ export class CadastrarServidoresComponent implements OnInit {
   }
 
   async submit() {
-
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
-      this.openSnackBar('Nome deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Nome deve ser preenchido corretamente.');
       return;
     }
 
     if (this.email.trim() === '') {
-      this.openSnackBar('E-mail deve ser preenchido corretamente.', null);
+      this.snackBarService.open('E-mail deve ser preenchido corretamente.');
       return;
     }
-    
-    let catServidor =  this.tiposervidor.charAt(0).toUpperCase() + this.tiposervidor.slice(1);
+
+    let catServidor =
+      this.tiposervidor.charAt(0).toUpperCase() + this.tiposervidor.slice(1);
     if (this.cadastrarServidor.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos Obrigatórios', null);
+      this.snackBarService.open('Campos Obrigatórios');
       return;
-      
     } else {
       this.isSubmitting = true;
       try {
@@ -64,36 +69,17 @@ export class CadastrarServidoresComponent implements OnInit {
           tiposervidor: this.tiposervidor || 'professor',
           senha: '123',
         });
-        this.openSnackBar(`${catServidor} cadastrado com sucesso!!`, null);
+        this.snackBarService.open(`${catServidor} cadastrado com sucesso!!`);
         this.voltar();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar(`Falha ao cadastrar ${catServidor}`, errorMessage);
+          this.snackBarService.open(`Falha ao cadastrar ${catServidor}: ${errorMessage}`);
         } else {
-          this.openSnackBar(
-            `Falha ao cadastrar ${catServidor}`,
-            `Ocorreu um erro durante o cadastro do ${catServidor}.`
-          );
+          this.snackBarService.open(`Falha ao cadastrar ${catServidor}`);
         }
       }
     }
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   voltar() {
@@ -116,7 +102,7 @@ export class CadastrarServidoresComponent implements OnInit {
     return this.cadastrarServidor.get('tiposervidor')!.value;
   }
 
-  mostrarCampo(){
-    return this.user.tiposervidor === 'administrador'
+  mostrarCampo() {
+    return this.user.tiposervidor === 'administrador';
   }
 }

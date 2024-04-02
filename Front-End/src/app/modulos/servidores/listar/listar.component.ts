@@ -3,13 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarServidoresComponent } from '../editar/editar.component';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-listar',
@@ -29,7 +28,7 @@ export class ListarServidoresComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private servidorService: ServidorService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -83,18 +82,15 @@ export class ListarServidoresComponent implements OnInit {
     try {
       let response = await this.servidorService.deleteServidor(idservidor);
       if (response) {
-        this.openSnackBar('Docente deletado com sucesso!!', null);
+        this.snackBarService.open('Docente deletado com sucesso!!');
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao deletar professor', errorMessage);
+        this.snackBarService.open(`Falha ao deletar professor: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao deletar professor',
-          'Ocorreu um erro durante a remoção do professor.'
-        );
+        this.snackBarService.open('Falha ao deletar professor');
       }
     }
   }
@@ -110,22 +106,6 @@ export class ListarServidoresComponent implements OnInit {
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
       this.findAll();
-    });
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
     });
   }
 }

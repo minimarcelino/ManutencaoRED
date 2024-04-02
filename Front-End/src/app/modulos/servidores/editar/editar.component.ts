@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { Router } from '@angular/router';
 import { ServidorService } from 'src/app/services/servidor.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-editar',
@@ -17,10 +17,16 @@ export class EditarServidoresComponent implements OnInit {
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
-  tipoServidores: string[] = ["administrador", "professor", "coordenador", "cra", "csp"];
+  tipoServidores: string[] = [
+    'administrador',
+    'professor',
+    'coordenador',
+    'cra',
+    'csp',
+  ];
 
   constructor(
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private router: Router,
     private servidorService: ServidorService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,27 +38,28 @@ export class EditarServidoresComponent implements OnInit {
       prontuario: new FormControl(this.data.prontuario, [Validators.required]),
       nome: new FormControl(this.data.nome, [Validators.required]),
       email: new FormControl(this.data.email, [Validators.required]),
-      tiposervidor: new FormControl(this.data.tiposervidor, [Validators.required,]),
+      tiposervidor: new FormControl(this.data.tiposervidor, [
+        Validators.required,
+      ]),
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   async submit() {
-
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
-      this.openSnackBar('Nome deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Nome deve ser preenchido corretamente.');
       return;
     }
 
     if (this.email.trim() === '') {
-      this.openSnackBar('E-mail deve ser preenchido corretamente.', null);
+      this.snackBarService.open('E-mail deve ser preenchido corretamente.');
       return;
     }
 
     if (this.cadastrarServidor.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos Obrigatórios', null);
+      this.snackBarService.open('Campos Obrigatórios');
       return;
     } else {
       this.isSubmitting = true;
@@ -65,18 +72,15 @@ export class EditarServidoresComponent implements OnInit {
           tiposervidor: this.tiposervidor,
           senha: this.data.senha,
         });
-        this.openSnackBar('Docente editado com sucesso!!', null);
+        this.snackBarService.open('Docente editado com sucesso!!');
         this.router.navigate([`${this.user.tiposervidor}/listarServidores`]);
         this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao editar docente', errorMessage);
+          this.snackBarService.open(`Falha ao editar docente: ${errorMessage}`);
         } else {
-          this.openSnackBar(
-            'Falha ao editar docente',
-            'Ocorreu um erro durante a edição do docente.'
-          );
+          this.snackBarService.open('Falha ao editar docente');
         }
       }
     }
@@ -84,22 +88,6 @@ export class EditarServidoresComponent implements OnInit {
 
   cancelar() {
     this.dialog.close();
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   get prontuario() {
@@ -118,7 +106,7 @@ export class EditarServidoresComponent implements OnInit {
     return this.cadastrarServidor.get('tiposervidor')!.value;
   }
 
-  mostrarCampo(){
-    return this.user.tiposervidor == 'administrador'
+  mostrarCampo() {
+    return this.user.tiposervidor == 'administrador';
   }
 }
