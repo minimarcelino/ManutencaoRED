@@ -2,14 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { EditarDisciplinaComponent } from '../editar/editar.component';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { disciplina } from 'src/app/modelo/disciplina';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-disciplinas',
@@ -31,7 +30,7 @@ export class ListarDisciplinasComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private disciplinaService: DisciplinaService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit() {
@@ -80,18 +79,15 @@ export class ListarDisciplinasComponent implements OnInit {
         iddisciplinas
       );
       if (response) {
-        this.openSnackBar('Disciplina deletada com sucesso!!', null);
+        this.snackBarService.open('Disciplina deletada com sucesso!!');
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao deletar disciplina', errorMessage);
+        this.snackBarService.open(`Falha ao deletar disciplina: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao deletar disciplina',
-          'Ocorreu um erro durante a remoção da disciplina.'
-        );
+        this.snackBarService.open('Falha ao deletar disciplina');
       }
     }
   }
@@ -109,22 +105,6 @@ export class ListarDisciplinasComponent implements OnInit {
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
       this.findAll();
-    });
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
     });
   }
 }
