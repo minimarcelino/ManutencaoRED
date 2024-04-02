@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+
 import { PeeService } from 'src/app/services/pee.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -19,12 +19,12 @@ export class CadastrarPEEComponent implements OnInit {
   user: any;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private peeservice: PeeService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<CadastrarPEEComponent>,
     private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private snackBarService: SnackBarService,
+    private peeService: PeeService
   ) {}
 
   ngOnInit(): void {
@@ -33,23 +33,23 @@ export class CadastrarPEEComponent implements OnInit {
     this.cadastrarPee = new FormGroup({
       conteudo: new FormControl('', [
         Validators.required,
-        Validators.maxLength(4000)
+        Validators.maxLength(4000),
       ]),
       metodologia: new FormControl('', [
         Validators.required,
-        Validators.maxLength(4000)
+        Validators.maxLength(4000),
       ]),
       trabalhos: new FormControl('', [
         Validators.required,
-        Validators.maxLength(2000)
-    ]),
+        Validators.maxLength(2000),
+      ]),
       bibliografia: new FormControl('', [
         Validators.required,
-        Validators.maxLength(2000)
+        Validators.maxLength(2000),
       ]),
       exigencia: new FormControl('', [
         Validators.required,
-        Validators.maxLength(2000)
+        Validators.maxLength(2000),
       ]),
       prazo: new FormControl('', [Validators.required]),
       contato: new FormControl(this.data.emailServidor, [Validators.required]),
@@ -66,43 +66,43 @@ export class CadastrarPEEComponent implements OnInit {
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.conteudo.trim() === '') {
-      this.openSnackBar('Conteúdos deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Conteúdos deve ser preenchido corretamente.');
       return;
     }
 
     if (this.metodologia.trim() === '') {
-      this.openSnackBar('Metodologia deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Metodologia deve ser preenchido corretamente.');
       return;
     }
 
     if (this.trabalhos.trim() === '') {
-      this.openSnackBar('Trabalhos deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Trabalhos deve ser preenchido corretamente.');
       return;
     }
 
     if (this.bibliografia.trim() === '') {
-      this.openSnackBar('Indicações bibliográficas deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Indicações bibliográficas deve ser preenchido corretamente.');
       return;
     }
 
     if (this.exigencia.trim() === '') {
-      this.openSnackBar('Critérios de exigência deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Critérios de exigência deve ser preenchido corretamente.');
       return;
     }
 
     const dataAtual = new Date();
     const prazoSelecionado = new Date(this.prazo);
     if (this.cadastrarPee.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos Obrigatórios', null);
+      this.snackBarService.open('Campos Obrigatórios');
       return;
     }
     if (prazoSelecionado < dataAtual) {
-      this.openSnackBar('A data deve ser posterior à data atual', null);
+      this.snackBarService.open('A data deve ser posterior à data atual');
       return;
     } else {
       this.isSubmitting = true;
       try {
-        await this.peeservice.updateWithEmail({
+        await this.peeService.updateWithEmail({
           idpee: this.data.idpee,
           conteudo: this.conteudo,
           metodologia: this.metodologia,
@@ -121,17 +121,14 @@ export class CadastrarPEEComponent implements OnInit {
           dataAvaliacao: this.dataAvaliacao,
           observacao: this.observacao,
         });
-        this.openSnackBar('PEE cadastrado com sucesso!!', null);
+        this.snackBarService.open('PEE cadastrado com sucesso!!');
         this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao cadastrar Pee', errorMessage);
+          this.snackBarService.open(`Falha ao cadastrar PEE: ${errorMessage}`);
         } else {
-          this.openSnackBar(
-            'Falha ao cadastrar Pee',
-            'Ocorreu um erro durante o cadastro do Pee.'
-          );
+          this.snackBarService.open('Falha ao cadastrar Pee');
         }
       }
     }
@@ -143,22 +140,6 @@ export class CadastrarPEEComponent implements OnInit {
 
   updateCharacterCount(campoTexto: string, limite: number): number {
     return limite - campoTexto.length;
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   get conteudo() {

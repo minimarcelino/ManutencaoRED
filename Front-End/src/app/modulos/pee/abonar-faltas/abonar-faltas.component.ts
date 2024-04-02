@@ -2,10 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 //
 import { PeeService } from 'src/app/services/pee.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-abonar-falta',
@@ -19,7 +18,7 @@ export class AbonarFaltaComponent implements OnInit {
   user: any;
 
   constructor(
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<AbonarFaltaComponent>,
     private _adapter: DateAdapter<any>,
@@ -44,17 +43,17 @@ export class AbonarFaltaComponent implements OnInit {
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.descricao.trim() === '') {
-      this.openSnackBar('Descrição deve ser preenchido corretamente.', null);
+      this.snackBarService.open('Descrição deve ser preenchido corretamente.');
       return;
     }
 
     if (this.abonarFaltaPee.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos Obrigatórios', null);
+      this.snackBarService.open('Campos Obrigatórios');
       return;
     }
 
     if (this.percentualAbono < 0 || this.percentualAbono > 100) {
-      this.openSnackBar('O percentual de faltas abonadas deve ser entre 0 e 100.', null);
+      this.snackBarService.open('O percentual de faltas abonadas deve ser entre 0 e 100.');
       return;
     }
 
@@ -90,35 +89,16 @@ export class AbonarFaltaComponent implements OnInit {
         dataAvaliacao: this.data.dataAvaliacao,
         observacao: this.data.observacao,
       });
-      this.openSnackBar('Faltas abonadas com sucesso!!', null);
+      this.snackBarService.open('Faltas abonadas com sucesso!!');
       this.dialog.close();
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao abonar as Faltas', errorMessage);
+        this.snackBarService.open(`Falha ao abonar as Faltas: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao abonar as Faltas',
-          'Ocorreu um erro durante o abono das faltas.'
-        );
+        this.snackBarService.open('Falha ao abonar as Faltas');
       }
     }
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   cancelar() {

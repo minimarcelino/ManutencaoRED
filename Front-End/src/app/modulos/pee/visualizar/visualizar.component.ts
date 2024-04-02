@@ -2,8 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-visualizar',
@@ -15,8 +13,6 @@ export class VisualizarPEEComponent implements OnInit {
   user: any;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<VisualizarPEEComponent>,
     private _adapter: DateAdapter<any>,
