@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import * as XLSX from 'xlsx';
 
 import { curso } from '../../../modelo/curso';
@@ -10,8 +9,8 @@ import { servidor } from 'src/app/modelo/servidor';
 import { messageDialog } from '../../../services/messageDialog.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { EditarCursoComponent } from '../editar/editar.component';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-listar',
@@ -34,7 +33,7 @@ export class ListarCursosComponent implements OnInit {
     private cursoService: CursoService,
     private dialog: MatDialog,
     private disciplinaService: DisciplinaService,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -74,19 +73,16 @@ export class ListarCursosComponent implements OnInit {
     try {
       let response = await this.cursoService.deleteCurso(id);
       if (response) {
-        this.openSnackBar('Curso deletado com sucesso!!', null);
+        this.snackBarService.open('Curso deletado com sucesso!!');
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         console.log(error.error.data);
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao deletar curso', errorMessage);
+        this.snackBarService.open(`Falha ao deletar curso: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao deletar curso',
-          'Ocorreu um erro durante a remoção do curso.'
-        );
+        this.snackBarService.open('Falha ao deletar curso');
       }
     }
   }
@@ -141,24 +137,10 @@ export class ListarCursosComponent implements OnInit {
           };
         }
       });
-      this.data.forEach((item) => this.disciplinaService.exportDisciplina(item));
-      this.openSnackBar('Importação das disciplinas realizadas! ', null);
+      this.data.forEach((item) =>
+        this.disciplinaService.exportDisciplina(item)
+      );
+      this.snackBarService.open('Importação das disciplinas realizadas! ');
     };
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 }

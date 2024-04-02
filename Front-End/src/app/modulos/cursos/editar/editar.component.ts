@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 //
 import { servidor } from 'src/app/modelo/servidor';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
 import { CursoService } from 'src/app/services/cursos.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
@@ -22,7 +22,7 @@ export class EditarCursoComponent implements OnInit {
   constructor(
     private cursoService: CursoService,
     private coodenadorService: CoordenadorService,
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<EditarCursoComponent>
   ) {}
@@ -39,18 +39,18 @@ export class EditarCursoComponent implements OnInit {
 
   async submit() {
   if (this.editarCurso.invalid || this.isSubmitting) {
-    this.openSnackBar('Campos obrigatórios!!', null);
+    this.snackBarService.open('Campos obrigatórios!!');
     return;
   }
 
   // Verifica se algum campo obrigatório é apenas espaços em branco
   if (this.nomeCurso.trim() === '') {
-    this.openSnackBar('Nome do curso deve ser preenchido corretamente.', null);
+    this.snackBarService.open('Nome do curso deve ser preenchido corretamente.');
     return;
   }
 
   if (this.sigla.trim() === '') {
-    this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+    this.snackBarService.open('Sigla deve ser preenchida corretamente.');
     return;
   }
 
@@ -63,12 +63,12 @@ export class EditarCursoComponent implements OnInit {
       nomeCurso: this.nomeCurso,
       coordenador: this.idcordenador,
     });
-    this.openSnackBar('Curso editado com sucesso!!', null);
+    this.snackBarService.open('Curso editado com sucesso!!');
     this.dialog.close();
   } catch (error: any) {
     if (error && error.error && error.error.data) {
       const errorMessage = error.error.data;
-      this.openSnackBar('Falha ao editar curso', errorMessage);
+      this.snackBarService.open(`Falha ao editar curso: ${errorMessage}`);
     } else {
       this.isSubmitting = true;
       try {
@@ -78,16 +78,15 @@ export class EditarCursoComponent implements OnInit {
           nomeCurso: this.nomeCurso,
           coordenador: this.idcordenador,
         });
-        this.openSnackBar('Curso editado com sucesso!!', null);
+        this.snackBarService.open('Curso editado com sucesso!!');
         this.dialog.close();
       } catch (error: any) {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
-          this.openSnackBar('Falha ao editar curso', errorMessage);
+          this.snackBarService.open(`Falha ao editar curso: ${errorMessage}`);
         } else {
-          this.openSnackBar(
+          this.snackBarService.open(
             'Falha ao editar curso',
-            'Ocorreu um erro durante a edição do curso.'
           );
         }
       }
@@ -107,22 +106,6 @@ export class EditarCursoComponent implements OnInit {
 
   cancelar() {
     this.dialog.close();
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   displayFn(Coordenador: servidor): string {

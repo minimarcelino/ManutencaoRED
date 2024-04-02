@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { CursoService } from '../../../services/cursos.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-cadastrar',
@@ -22,7 +21,7 @@ export class CadastrarCursoComponent implements OnInit {
   constructor(
     private cursoservice: CursoService,
     private coodenadorService: CoordenadorService,
-    private snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private router: Router
   ) {}
 
@@ -39,21 +38,23 @@ export class CadastrarCursoComponent implements OnInit {
 
   async submit() {
     if (this.cadastrarCurso.invalid || this.isSubmitting) {
-      this.openSnackBar('Campos obrigatórios!!', null);
+      this.snackBarService.open('Campos obrigatórios!!');
       return;
     }
-  
+
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nomeCurso.trim() === '') {
-      this.openSnackBar('Nome do curso deve ser preenchido corretamente.', null);
+      this.snackBarService.open(
+        'Nome do curso deve ser preenchido corretamente.'
+      );
       return;
     }
 
     if (this.sigla.trim() === '') {
-      this.openSnackBar('Sigla deve ser preenchida corretamente.', null);
+      this.snackBarService.open('Sigla deve ser preenchida corretamente.');
       return;
     }
-  
+
     // Todos os campos obrigatórios estão preenchidos corretamente
     this.isSubmitting = true;
     try {
@@ -62,40 +63,20 @@ export class CadastrarCursoComponent implements OnInit {
         nomeCurso: this.nomeCurso,
         coordenador: this.idcordenador,
       });
-      this.openSnackBar('Curso cadastrado com sucesso!!', null);
+      this.snackBarService.open('Curso cadastrado com sucesso!!');
       this.voltar();
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao cadastrar curso', errorMessage);
+        this.snackBarService.open(`Falha ao cadastrar curso: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao cadastrar curso',
-          'Ocorreu um erro durante o cadastro do curso.'
-        );
+        this.snackBarService.open('Falha ao cadastrar curso');
       }
     }
   }
-  
 
   voltar() {
     this.router.navigate([`/${this.user.tiposervidor}/listarCursos`]);
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 
   displayFn(Coordenador: any): string {
