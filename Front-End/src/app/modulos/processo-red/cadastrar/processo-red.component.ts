@@ -142,12 +142,8 @@ export class CadastrarProcessoREDComponent implements OnInit {
       this.snackBarService.open('Já existe um RED para este prontuário no mesmo período! ');
       return;
     }
-
-    const inicioAfastamentoValido = this.verificarDataInicioAfastamento(
-      this.inicioAfastamento
-    );
-    if (!inicioAfastamentoValido) {
-      this.snackBarService.open('O início do afastamento deve ser no máximo 7 dias antes da data de hoje!');
+    if (!this.verificarDataInicioAfastamento(this.inicioAfastamento)) {
+      this.snackBarService.open('O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!');
       return;
     }
 
