@@ -14,6 +14,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarDisciplinaComponent } from '../../visualizar-disciplina/visualizar-disciplina.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-visualizar',
@@ -30,16 +31,17 @@ export class VisualizarREDsComponent implements OnInit {
   isDisable: boolean = false;
 
   constructor(
-    private snackBar: MatSnackBar,
-    public dialogQuestionService: messageDialog,
-    private redService: RedService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialog: MatDialogRef<VisualizarREDsComponent>,
+    private dialogRefVisualizarRED: MatDialogRef<VisualizarREDsComponent>,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
+    public dialogQuestionService: messageDialog,
+    private snackBarService: SnackBarService,
+    private dialog: MatDialog,
+    private redService: RedService,
     private cursoService: CursoService,
     private alunoService: AlunoService,
-    private dialog2: MatDialog
+
   ) {}
 
   ngOnInit(): void {
@@ -76,17 +78,14 @@ export class VisualizarREDsComponent implements OnInit {
         tempoAfastamento: this.data.tempoAfastamento,
         semestreOuAnoAluno: this.data.semestreOuAnoAluno,
       });
-      this.openSnackBar('RED alterado com sucesso!!', null);
-      this.dialog.close();
+      this.snackBarService.open('RED alterado com sucesso!!');
+      this.dialogRefVisualizarRED.close();
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao alterar o RED', errorMessage);
+        this.snackBarService.open(`Falha ao alterar o RED: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao alterar o RED',
-          'Ocorreu um erro durante a edição do RED.'
-        );
+        this.snackBarService.open('Falha ao alterar o RED');
       }
     }
   }
@@ -101,7 +100,7 @@ export class VisualizarREDsComponent implements OnInit {
   }
 
   visualizarDisciplina(red: any) {
-    const visualizar = this.dialog2.open(VisualizarDisciplinaComponent, {
+    const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
       data: {
         idRED: red.idRED,
         pee: red.pee,
@@ -121,29 +120,13 @@ export class VisualizarREDsComponent implements OnInit {
     }
   }
 
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
-  }
-
   changeCurso() {
     this.fetchCursos();
     this.isDisable = true;
   }
 
   cancelar() {
-    this.dialog.close();
+    this.dialogRefVisualizarRED.close();
   }
 
   displayFn(aluno: any): string {

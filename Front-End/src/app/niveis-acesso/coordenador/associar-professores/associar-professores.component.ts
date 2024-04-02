@@ -10,6 +10,7 @@ import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-associar-professores',
@@ -28,11 +29,11 @@ export class AssociarProfessoresComponent implements OnInit {
   displayedColumns = ['nome', 'email', 'acoes'];
 
   constructor(
-    private docenteservice: ServidorService,
     public dialogQuestionService: messageDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private peeservice: PeeService,
-    private snackBar: MatSnackBar
+    private docenteService: ServidorService,
+    private peeService: PeeService,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class AssociarProfessoresComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.docenteservice.getServidores();
+    const response = await this.docenteService.getServidores();
     this.professores = response.data.servidores;
     this.dataSource = new MatTableDataSource<docente>(this.professores);
     this.dataSource.paginator = this.paginator;
@@ -80,7 +81,7 @@ export class AssociarProfessoresComponent implements OnInit {
   async cadastrar() {
     try {
       for (const item of this.professoresSelecionados) {
-        await this.peeservice.updatePee({
+        await this.peeService.updatePee({
           idpee: this.data.idPEE,
           conteudo: '',
           metodologia: '',
@@ -94,33 +95,14 @@ export class AssociarProfessoresComponent implements OnInit {
           percentualabono: this.data.percentualabono,
         });
       }
-      this.openSnackBar('Professores associados com sucesso!!', null);
+      this.snackBarService.open('Professores associados com sucesso!!');
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao cadastrar disciplina', errorMessage);
+        this.snackBarService.open(`Falha ao associar Professor: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao cadastrar disciplina',
-          'Ocorreu um erro durante o cadastro da disciplina.'
-        );
+        this.snackBarService.open('Falha ao associar Professor');
       }
     }
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
-    });
   }
 }

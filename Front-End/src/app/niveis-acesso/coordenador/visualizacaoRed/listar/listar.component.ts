@@ -2,13 +2,13 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
+
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 import { VisualizarREDsComponent } from '../visualizar/visualizar.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 export interface aluno {
   id: number;
@@ -65,8 +65,8 @@ export class ListarREDsComponent implements OnInit {
   ];
 
   constructor(
-    private snackBar: MatSnackBar,
     public dialogQuestionService: messageDialog,
+    private snackBarService: SnackBarService,
     private dialog: MatDialog,
     private redService: RedService
   ) {
@@ -147,18 +147,15 @@ export class ListarREDsComponent implements OnInit {
         situacao: 'Finalizado',
       });
       if (response) {
-        this.openSnackBar('RED finalizado com sucesso!!', null);
+        this.snackBarService.open('RED finalizado com sucesso!!');
         this.findAll();
       }
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.openSnackBar('Falha ao finalizar RED', errorMessage);
+        this.snackBarService.open(`Falha ao finalizar RED: ${errorMessage}`);
       } else {
-        this.openSnackBar(
-          'Falha ao finalizar RED',
-          'Ocorreu um erro durante a finalização do RED.'
-        );
+        this.snackBarService.open('Falha ao finalizar RED');
       }
     }
   }
@@ -197,22 +194,6 @@ export class ListarREDsComponent implements OnInit {
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
       this.findAll();
-    });
-  }
-
-  openSnackBar(message: string, error: string | Error | null) {
-    let data;
-    if (error === null) {
-      data = { message };
-    } else if (typeof error === 'string') {
-      data = { message: error };
-    } else if (error instanceof Error) {
-      data = { message: error.message };
-    }
-
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      data: data,
-      duration: 3000,
     });
   }
 }
