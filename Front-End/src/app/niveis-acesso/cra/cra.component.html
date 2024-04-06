@@ -1,41 +1,41 @@
 <div class="container">
-    <mat-toolbar class="mat-elevation-z8">
-        <button mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
-            <mat-icon *ngIf="sidenav.opened">close</mat-icon>
-        </button>
-        Menu
-        <span class="spacer"></span>
-        Olá, {{authenticationService.userLogged?.nome}} !
-    </mat-toolbar>
+  <mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+      <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+    </button>
+    Menu
+    <span class="spacer"></span>
+    Olá, {{authenticationService.userLogged?.nome}} !
+  </mat-toolbar>
 
-    <mat-sidenav-container>
-        <mat-sidenav #sidenav="matSidenav" mode="side">
-            <button mat-button class="menu-button" routerLink="/cra">
-                <mat-icon>home</mat-icon>
-                <span>Home</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/cra/perfil">
-                <mat-icon>account_circle</mat-icon>
-                <span>Perfil</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/cra/listarREDs">
-                <mat-icon>local_library</mat-icon>
-                <span>Processo RED</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/cra/listarAlunos">
-                <mat-icon>face</mat-icon>
-                <span>Alunos</span>
-            </button>
-            <button mat-button class="menu-button" (click)="logout()">
-                <mat-icon>logout</mat-icon>
-                <span>Sair</span>
-            </button>
-        </mat-sidenav>
-        <mat-sidenav-content>
-            <div class="content mat-elevation-z8">
-                <router-outlet></router-outlet>
-            </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" mode="side" opened="true">
+      <button mat-button class="menu-button" routerLink="/cra">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/cra/perfil">
+        <mat-icon>account_circle</mat-icon>
+        <span>Perfil</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/cra/listarREDs">
+        <mat-icon>local_library</mat-icon>
+        <span>Processo RED</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/cra/listarAlunos">
+        <mat-icon>face</mat-icon>
+        <span>Alunos</span>
+      </button>
+      <button mat-button class="menu-button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
