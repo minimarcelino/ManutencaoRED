@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, startWith, map } from 'rxjs';
 
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { CursoService } from '../../../services/cursos.service';
@@ -17,12 +18,13 @@ export class CadastrarDisciplinaComponent implements OnInit {
   error: Error | null = null;
   cursos: any[] = [];
   user: any;
+  filteredCursos: Observable<any[]> | undefined;
 
   constructor(
     private snackBarService: SnackBarService,
     private router: Router,
     private disciplinaService: DisciplinaService,
-    private cursoService: CursoService,
+    private cursoService: CursoService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +36,7 @@ export class CadastrarDisciplinaComponent implements OnInit {
     this.buscarCursos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+    this.filterCurso();
   }
 
   async submit() {
@@ -60,15 +63,23 @@ export class CadastrarDisciplinaComponent implements OnInit {
         const errorData = error.error.data;
         const errorPrisma = error.error.error;
 
-       if (errorPrisma) {
+        if (errorPrisma) {
           const campoErro = errorPrisma.meta['target'].split('_')[0];
           if (errorPrisma.code === 'P2002') {
-            this.snackBarService.open(`Falha ao cadastrar disciplina: Campo ${campoErro} já cadastrado`,'', 7000);
+            this.snackBarService.open(
+              `Falha ao cadastrar disciplina: Campo ${campoErro} já cadastrado`,
+              '',
+              7000
+            );
           } else {
-            this.snackBarService.open(`Falha ao cadastrar disciplina: Erro ${errorPrisma.code}`);
+            this.snackBarService.open(
+              `Falha ao cadastrar disciplina: Erro ${errorPrisma.code}`
+            );
           }
         } else if (errorData) {
-          this.snackBarService.open(`Falha ao cadastrar disciplina: ${errorData}`);
+          this.snackBarService.open(
+            `Falha ao cadastrar disciplina: ${errorData}`
+          );
         } else {
           this.snackBarService.open('Falha ao cadastrar disciplina');
         }
@@ -83,6 +94,27 @@ export class CadastrarDisciplinaComponent implements OnInit {
   async buscarCursos() {
     const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
+  }
+
+  filterCurso() {
+    if (this.cadastrarDisciplina && this.cadastrarDisciplina.get('Curso')) {
+      this.filteredCursos = this.cadastrarDisciplina
+        .get('Curso')!
+        .valueChanges.pipe(
+          startWith(''),
+          map((value) => (typeof value === 'string' ? value : value.nomeCurso)),
+          map((nomeCurso) =>
+            nomeCurso ? this._filterCursos(nomeCurso) : this.cursos.slice()
+          )
+        );
+    }
+  }
+
+  private _filterCursos(nomeCurso: string): any[] {
+    const filterValue = nomeCurso.toLowerCase();
+    return this.cursos.filter(
+      (curso) => curso.nomeCurso.toLowerCase().indexOf(filterValue) !== -1
+    );
   }
 
   voltar() {

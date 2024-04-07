@@ -28,7 +28,10 @@
         <mat-label>Curso</mat-label>
         <input formControlName="Curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto">
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
-          <mat-option *ngFor="let c of cursos" [value]="c">
+          <!-- <mat-option *ngFor="let c of cursos" [value]="c">
+            {{c.nomeCurso}}
+          </mat-option> -->
+          <mat-option *ngFor="let c of filteredCursos | async" [value]="c">
             {{c.nomeCurso}}
           </mat-option>
         </mat-autocomplete>
