@@ -6,17 +6,26 @@
 <div class="listagem">
   <div id="tabela">
     <mat-form-field>
-      <mat-label>Pesquisar Prontuários</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
+      <mat-label>Pesquisar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000">
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Curso</mat-label>
-     <mat-select [(value)]="selectedCurso" (selectionChange)="filterByCurso($event)">
-  <mat-option value="">Todos os cursos</mat-option>
-  <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
-</mat-select>
+      <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
+        <mat-option value="todos">Todos os cursos</mat-option>
+        <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
+      </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Situação</mat-label>
+      <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
+        <mat-option value="todos">Apresentar todas</mat-option>
+        <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- Prontuario Column -->
       <ng-container matColumnDef="Nome">
@@ -60,9 +69,10 @@
           <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee)" mat-icon-button matTooltip="Finalizar RED" (click)="finalizarRed(a)">
+          <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee)" mat-icon-button
+            matTooltip="Finalizar RED" (click)="finalizarRed(a)">
             <mat-icon>done</mat-icon>
-          </button>          
+          </button>
         </td>
       </ng-container>
 

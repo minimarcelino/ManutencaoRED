@@ -50,7 +50,9 @@ export class ListarREDsComponent implements OnInit {
   filteredReds: any[] = [];
   cursos: curso[] = [];
   dataSource: any;
-  selectedCurso = '';
+  selectedCurso = 'todos';
+  situacaoSelecionada = 'todos';
+  situacao = ['Esperando confirmação', 'Em andamento', 'Finalizado', 'Arquivado'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
@@ -84,24 +86,6 @@ export class ListarREDsComponent implements OnInit {
 
   todosPeesPreenchidos(pee: any[]): boolean {
     return pee.every((item) => item.conteudo !== '');
-  }
-
-  filterByCurso(event: MatSelectChange) {
-    const selectedCurso = event.value;
-
-    if (selectedCurso === '') {
-      // Se o curso selecionado for '', remove a filtragem
-      this.filteredReds = this.reds;
-    } else {
-      // Caso contrário, filtra os REDs por curso
-      this.filteredReds = this.reds.filter(
-        (a) => a.aluno.curso.sigla === selectedCurso
-      );
-    }
-
-    // Atualiza o dataSource com os REDs filtrados
-    this.dataSource = new MatTableDataSource<any>(this.filteredReds);
-    this.dataSource.paginator = this.paginator;
   }
 
   async findAll() {
@@ -189,6 +173,33 @@ export class ListarREDsComponent implements OnInit {
       },
     });
     this.handleDialogConfirm(visualizar);
+  }
+
+  aplicarFiltros() {
+    // Aplica os filtros de curso e situação simultaneamente
+    this.filteredReds = this.reds.filter(
+      (red) =>
+        (this.selectedCurso === 'todos' ||
+          red.aluno.curso.sigla === this.selectedCurso) &&
+        (this.situacaoSelecionada === 'todos' ||
+          red.situacao === this.situacaoSelecionada)
+    );
+
+    // Atualiza o dataSource com os REDs filtrados
+    this.dataSource = new MatTableDataSource<any>(this.filteredReds);
+    this.dataSource.paginator = this.paginator;
+  }
+
+  filroPorCurso(event: MatSelectChange) {
+    // Atualiza o filtro de curso e aplica todos os filtros novamente
+    this.selectedCurso = event.value;
+    this.aplicarFiltros();
+  }
+
+  filtroPorSituacao(event: MatSelectChange) {
+    // Atualiza o filtro de situação e aplica todos os filtros novamente
+    this.situacaoSelecionada = event.value;
+    this.aplicarFiltros();
   }
 
   handleDialogConfirm(dialog: any) {
