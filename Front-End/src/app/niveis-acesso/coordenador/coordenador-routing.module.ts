@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CoordenadorComponent } from './coordenador.component';
-import { ListarREDsComponent } from './visualizacaoRed/listar/listar.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
 //
 import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
@@ -17,6 +16,9 @@ import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component'
 //
 import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
 import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
+//
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
 
 const routes: Routes = [
   {
@@ -51,7 +53,11 @@ const routes: Routes = [
       // Rotas dos RED
       {
         path: 'listarREDs',
-        component: ListarREDsComponent,
+        component: ListarREDComponent,
+      },
+      {
+        path: 'visualizarDisciplinasREDs',
+        component: VisualizarDisciplinaComponent,
       },
 
       // Rotas dos Servidores(Docentes)

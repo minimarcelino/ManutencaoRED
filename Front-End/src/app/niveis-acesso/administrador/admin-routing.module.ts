@@ -15,14 +15,15 @@ import { CadastrarServidoresComponent } from '../../modulos/servidores/cadastrar
 import { ListarAlunoComponent } from '../../modulos/alunos/listar/listar.component';
 import { CadastrarAlunoComponent } from '../../modulos/alunos/cadastrar/cadastrar.component';
 //
-import { CadastrarProcessoREDComponent } from '../../modulos/processo-red/cadastrar/processo-red.component';
-import { ListarREDComponent } from '../../modulos/processo-red/listar/listar.component';
+import { CadastrarProcessoREDComponent } from '../../modulos/red/cadastrar/processo-red.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 //
 import { ListarCursosComponent } from '../../modulos/cursos/listar/listar.component';
 import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastrar.component';
 
 import { GerenciarPEEComponent } from '../../modulos/pee/gerenciar/gerenciar-pee.component';
 import { PEEAbonadosComponent } from '../../modulos/pee/abonados/pees-abonados.component';
+
 
 const routes: Routes = [
   {

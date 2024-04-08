@@ -6,8 +6,8 @@ import { PerfilComponent } from 'src/app/perfil/perfil.component';
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
 //
-import { CadastrarProcessoREDComponent } from 'src/app/modulos/processo-red/cadastrar/processo-red.component';
-import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.component';
+import { CadastrarProcessoREDComponent } from 'src/app/modulos/red/cadastrar/processo-red.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 
 const routes: Routes = [
   {

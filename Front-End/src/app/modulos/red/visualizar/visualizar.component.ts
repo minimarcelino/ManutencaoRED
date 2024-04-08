@@ -6,14 +6,12 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AlunoService } from 'src/app/services/alunos.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
-import { VisualizarDisciplinaComponent } from '../../visualizar-disciplina/visualizar-disciplina.component';
+import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -21,7 +19,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   templateUrl: './visualizar.component.html',
   styleUrls: ['./visualizar.component.css'],
 })
-export class VisualizarREDsComponent implements OnInit {
+export class VisualizarREDComponent implements OnInit {
   visualizarRed!: FormGroup;
   user: any;
   alunos: any[] = [];
@@ -32,7 +30,7 @@ export class VisualizarREDsComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRefVisualizarRED: MatDialogRef<VisualizarREDsComponent>,
+    private dialogRefVisualizarRED: MatDialogRef<VisualizarREDComponent>,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     public dialogQuestionService: messageDialog,
@@ -146,5 +144,9 @@ export class VisualizarREDsComponent implements OnInit {
 
   recusarRed() {
     this.updateRed('Recusado');
+  }
+
+  isCOORD(){
+    return this.user.tiposervidor === 'coordenador';
   }
 }

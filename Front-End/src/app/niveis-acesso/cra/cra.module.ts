@@ -12,6 +12,7 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MatMomentDateModule,
@@ -23,9 +24,10 @@ import { EditarAlunosComponent } from 'src/app/modulos/alunos/editar/editar.comp
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
 import { VisualizarAlunoComponent } from 'src/app/modulos/alunos/visualizar/visualizar.component';
 //
-import { CadastrarProcessoREDComponent } from 'src/app/modulos/processo-red/cadastrar/processo-red.component';
-import { EditarREDComponent } from 'src/app/modulos/processo-red/editar/editar.component';
-import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.component';
+import { CadastrarProcessoREDComponent } from 'src/app/modulos/red/cadastrar/processo-red.component';
+import { EditarREDComponent } from 'src/app/modulos/red/editar/editar.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { VisualizarREDComponent } from 'src/app/modulos/red/visualizar/visualizar.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.c
     //
     ListarREDComponent,
     EditarREDComponent,
+    VisualizarREDComponent,
     CadastrarProcessoREDComponent
   ],
   imports: [
@@ -46,6 +49,7 @@ import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.c
     MatFormFieldModule,
     MatTooltipModule,
     MatInputModule,
+    MatSelectModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatSnackBarModule,
@@ -56,6 +60,7 @@ import { ListarREDComponent } from 'src/app/modulos/processo-red/listar/listar.c
     MatMomentDateModule,
     NgxMaskDirective,
     NgxMaskPipe,
+
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
