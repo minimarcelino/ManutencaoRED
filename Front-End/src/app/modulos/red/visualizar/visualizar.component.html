@@ -50,7 +50,8 @@
           style="margin-left: 4px;">Visualizar disciplinas</button>
       </div>
 
-      <div id="buttons" *ngIf=" isCOORD() && this.data.situacao !== 'Finalizado' && this.data.situacao !== 'Em andamento'">
+      <div id="buttons"
+        *ngIf=" (isCOORD() || isADM()) && this.data.situacao !== 'Finalizado' && this.data.situacao !== 'Em andamento'">
         <button mat-raised-button color="primary" (click)="confirmarRed()" style="margin-left: 4px;">Aceitar o
           Processo</button>
         <button mat-raised-button color="primary" (click)="recusarRed()" style="margin-left: 4px;">Recusar o

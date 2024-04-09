@@ -149,4 +149,8 @@ export class VisualizarREDComponent implements OnInit {
   isCOORD(){
     return this.user.tiposervidor === 'coordenador';
   }
+
+  isADM(){
+    return this.user.tiposervidor === 'administrador';
+  }
 }
