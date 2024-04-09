@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { formatDate } from '@angular/common';
 
@@ -25,6 +26,12 @@ export class GerenciarPEEComponent implements OnInit {
   reds: red[] = [];
   user: any;
   alunos: any[] = [];
+  filteredPEEs: any[] = [];
+  situacaoSelecionada = 'todos';
+  situacao = [
+    'Sem Associação',
+    'Associado',
+  ];
 
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -53,11 +60,6 @@ export class GerenciarPEEComponent implements OnInit {
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
-  }
-
-  applyFilter(data: Event) {
-    const value = (data.target as HTMLInputElement).value;
-    this.dataSource.filter = value;
   }
 
   formatData(data: Date): string {
@@ -98,6 +100,33 @@ export class GerenciarPEEComponent implements OnInit {
     });
     this.handleDialogConfirm(visualizar);
   }
+
+  aplicarFiltros() {
+    // Aplica os filtros de curso e situação simultaneamente
+    this.filteredPEEs = this.pees.filter(
+      (pee) =>
+        (this.situacaoSelecionada === 'todos' ||
+          pee.situacao === this.situacaoSelecionada)
+    );
+
+    // Atualiza o dataSource com os REDs filtrados
+    this.dataSource = new MatTableDataSource<any>(this.filteredPEEs);
+    this.dataSource.paginator = this.paginator;
+  }
+
+  filtroPorSituacao(event: MatSelectChange) {
+    // Atualiza o filtro de situação e aplica todos os filtros novamente
+    this.situacaoSelecionada = event.value;
+    this.aplicarFiltros();
+  }
+
+  pesquisar(data: Event) {
+    console.log(this.dataSource);
+
+    const value = (data.target as HTMLInputElement).value;
+    this.dataSource.filter = value;
+  }
+
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {

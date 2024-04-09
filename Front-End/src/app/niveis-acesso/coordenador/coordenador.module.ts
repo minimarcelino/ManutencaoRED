@@ -6,7 +6,7 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,6 +39,7 @@ import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-di
     FormsModule,
     MatFormFieldModule,
     MatSelectModule,
+    // MatSelectChange,
     MatInputModule,
     MatAutocompleteModule,
     MatButtonModule,

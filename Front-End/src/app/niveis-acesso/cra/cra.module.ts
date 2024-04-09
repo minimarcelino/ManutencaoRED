@@ -12,7 +12,7 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MatMomentDateModule,
@@ -50,6 +50,7 @@ import { VisualizarREDComponent } from 'src/app/modulos/red/visualizar/visualiza
     MatTooltipModule,
     MatInputModule,
     MatSelectModule,
+    // MatSelectChange,
     MatAutocompleteModule,
     MatButtonModule,
     MatSnackBarModule,

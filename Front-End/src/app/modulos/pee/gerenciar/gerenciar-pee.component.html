@@ -6,15 +6,21 @@
 <div class="listagem">
   <div id="tabela">
 
-    <!-- <mat-form-field>
-        <mat-label> Filtrar por cursos</mat-label>
-        <mat-select (selectionChange)="filterByCurso($event)">
-          <mat-option *ngFor="let a of reds" [value]="a.aluno.curso.sigla">
-            {{a.aluno.curso.sigla}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
+    <mat-form-field>
+      <mat-label>Pesquisar</mat-label>
+      <input matInput (keyup)="pesquisar($event)" placeholder="Carlos | PE0000">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Situação</mat-label>
+      <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
+        <mat-option value="todos">Apresentar todas</mat-option>
+        <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
       <!-- Prontuario Column -->
       <ng-container matColumnDef="professor">
         <th mat-header-cell *matHeaderCellDef> Professor </th>
