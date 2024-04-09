@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
@@ -51,6 +52,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
     MatFormFieldModule,
     MatTooltipModule,
     MatInputModule,
+    MatSelectModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatSnackBarModule,
