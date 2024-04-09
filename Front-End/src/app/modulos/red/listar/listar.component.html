@@ -76,6 +76,11 @@
         <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
         <td class="actionsColumns" mat-cell *matCellDef="let a">
 
+          <button *ngIf="isCOORD()"
+          mat-icon-button matTooltip="Visualizar Disciplinas" (click)="visualizarDisciplina(a)">
+            <mat-icon>book</mat-icon>
+          </button>
+
           <button *ngIf="a.situacao !== 'Finalizado' && isADM()"
           mat-icon-button matTooltip="Editar RED" (click)="editarRed(a)">
             <mat-icon>edit</mat-icon>

@@ -10,6 +10,7 @@ import * as XLSX from 'xlsx';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
 import { VisualizarREDComponent } from '../visualizar/visualizar.component';
+import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
@@ -160,6 +161,16 @@ export class ListarREDComponent implements OnInit {
         this.snackBarService.open('Falha ao finalizar RED');
       }
     }
+  }
+
+  async visualizarDisciplina(red: any){
+    const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
+      data: {
+        idRED: red.idRED,
+        pee: red.pee,
+      },
+    });
+    this.handleDialogConfirm(visualizar);
   }
 
   async finalizarRed(red: any) {
