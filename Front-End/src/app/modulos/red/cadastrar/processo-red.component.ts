@@ -42,7 +42,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
     this._adapter.setLocale(this._locale);
     this.cadastrarRed = new FormGroup({
       aluno: new FormControl('', [Validators.required]),
-      curso: new FormControl('', [Validators.required]),
+      curso: new FormControl({value: '', disabled: true}, [Validators.required]),
       observacao: new FormControl('', [Validators.maxLength(4000)]),
       motivoAfastamento: new FormControl('', [
         Validators.required,

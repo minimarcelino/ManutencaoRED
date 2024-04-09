@@ -28,3 +28,7 @@ input.mat-input {
   right: 2%;
   bottom: 1%;
 }
+
+input[disabled] {
+  cursor: not-allowed; /* Cursor do mouse */
+}
