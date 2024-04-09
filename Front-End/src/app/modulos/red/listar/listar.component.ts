@@ -139,7 +139,7 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  async cadastrarRed() {
+  async cadastrarRED() {
     this.router.navigate([`/${this.user.tiposervidor}/cadastrarREDs`]);
   }
 
@@ -173,7 +173,7 @@ export class ListarREDComponent implements OnInit {
     this.handleDialogConfirm(visualizar);
   }
 
-  async finalizarRed(red: any) {
+  async finalizarRED(red: any) {
     let res = false;
     res = await this.dialogQuestionService.openDialogConfirmDone('red');
     if (res) {
@@ -181,7 +181,7 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  editarRed(red: any) {
+  editarRED(red: any) {
     if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
       // Exibir uma mensagem ao usuário informando que a edição não é permitida
       this.snackBarService.open('Não é possível editar uma RED que está Finalizada ou Recusada.');
@@ -208,7 +208,7 @@ export class ListarREDComponent implements OnInit {
     this.handleDialogConfirm(editar);
   }
 
-  visualizarRed(red: any) {
+  visualizarRED(red: any) {
     console.log(red);
     const visualizar = this.dialog.open(VisualizarREDComponent, {
       data: {
@@ -229,6 +229,10 @@ export class ListarREDComponent implements OnInit {
       },
     });
     this.handleDialogConfirm(visualizar);
+  }
+
+  arquivarRED(red: any){
+    
   }
 
   aplicarFiltros() {

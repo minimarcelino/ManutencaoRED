@@ -37,7 +37,7 @@
       <ng-container matColumnDef="Prontuário">
         <th mat-header-cell *matHeaderCellDef> Prontuário </th>
         <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-    </ng-container>
+      </ng-container>
 
       <!-- Coluna CURSO -->
       <ng-container matColumnDef="Curso">
@@ -59,7 +59,8 @@
 
       <!-- Coluna Previsão Término -->
       <ng-container matColumnDef="Término">
-        <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término </th>
+        <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
+        </th>
         <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
       </ng-container>
 
@@ -76,33 +77,33 @@
         <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
         <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-          <button *ngIf="isCOORD()"
-          mat-icon-button matTooltip="Visualizar Disciplinas" (click)="visualizarDisciplina(a)">
-            <mat-icon>book</mat-icon>
+          <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
+            (click)="visualizarDisciplina(a)">
+            <mat-icon>library_books</mat-icon>
           </button>
 
-          <button *ngIf="a.situacao !== 'Finalizado' && isADM()"
-          mat-icon-button matTooltip="Editar RED" (click)="editarRed(a)">
+          <button *ngIf="a.situacao !== 'Finalizado' && isADM()" mat-icon-button matTooltip="Editar RED"
+            (click)="editarRED(a)">
             <mat-icon>edit</mat-icon>
           </button>
 
-          <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
+          <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRED(a)">
             <mat-icon>visibility</mat-icon>
           </button>
 
-          <button *ngIf="a.situacao === 'Finalizado' && isADM()"
-          mat-icon-button matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
+          <button *ngIf="a.situacao === 'Finalizado' && isADM()" mat-icon-button matTooltip="Gerar relatório de faltas"
+            (click)="gerarRelatorioFaltasAbonadas(a)">
             <mat-icon>description</mat-icon>
           </button>
 
-          <button *ngIf="a.situacao === 'Finalizado' && isADM()"
-          mat-icon-button matTooltip="Arquivar RED" (click)="editarRed(a)">
-            <mat-icon>archive</mat-icon>
+          <button *ngIf="a.situacao === 'Finalizado' && isADM()" mat-icon-button matTooltip="Arquivar RED"
+            (click)="arquivarRED(a)">
+            <mat-icon>inventory_2</mat-icon>
           </button>
 
-          <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee) && isCOORD()"
-          mat-icon-button matTooltip="Finalizar RED" (click)="finalizarRed(a)">
-            <mat-icon>done</mat-icon>
+          <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee) && isCOORD()" mat-icon-button
+            matTooltip="Finalizar RED" (click)="finalizarRED(a)">
+            <mat-icon>task_alt</mat-icon>
           </button>
 
         </td>
@@ -113,6 +114,8 @@
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
   </div>
-  <button *ngIf="isADM()"
-  mat-raised-button color="primary" (click)="cadastrarRed()" id="cadastrarRED">Cadastrar RED</button>
+  <button *ngIf="isADM()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED">
+    <mat-icon>add</mat-icon>
+    Cadastrar RED
+  </button>
 </div>

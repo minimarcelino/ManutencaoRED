@@ -11,7 +11,7 @@
 <div class="listagem">
   <div id="tabela">
 
-    <mat-form-field  style="width: 30%;">
+    <mat-form-field style="width: 30%;">
       <mat-label>Pesquisar Servidor</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. André | PE000000 | servidor@ifsp.edu.br">
     </mat-form-field>
@@ -62,6 +62,8 @@
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
   </div>
-  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" style="margin-top: 10px;">Cadastrar
-    Docente</button>
+  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" style="margin-top: 10px;">
+    <mat-icon>add</mat-icon>
+    Cadastrar Docente
+  </button>
 </div>
