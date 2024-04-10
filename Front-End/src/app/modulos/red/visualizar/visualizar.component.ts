@@ -13,6 +13,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
 import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { red } from 'src/app/modelo/red';
 
 @Component({
   selector: 'app-visualizar',
@@ -42,51 +43,21 @@ export class VisualizarREDComponent implements OnInit {
 
   ) {}
 
-  ngOnInit(): void {
-    this._locale = 'pt-BR';
-    this._adapter.setLocale(this._locale);
-    this.visualizarRed = new FormGroup({
-      prontuario: new FormControl({value: this.data.nome + ' - ' + this.data.aluno_prontuario, disabled: true,},[Validators.required]),
-      curso: new FormControl({ value: this.inputCurso, disabled: true }, [Validators.required,]),
-      motivoAfastamento: new FormControl({ value: this.data.motivoAfastamento, disabled: true },[Validators.required]),
-      inicioAfastamento: new FormControl({ value: this.data.inicioAfastamento, disabled: true },[Validators.required]),
-      previsaoTermino: new FormControl({ value: this.data.dataPrevisaoTermino, disabled: true },[Validators.required]),
-      inicioProcesso: new FormControl({ value: this.data.dataInicioProcesso, disabled: true },[Validators.required]),
-    });
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
-    this.fetchAlunos();
-    console.log(this.data);
-  }
-
-  async updateRed(situacao: String) {
-    try {
-      await this.redService.updateRed({
-        idRED: this.data.idRED,
-        nome: this.data.nome,
-        aluno_prontuario: this.data.aluno_prontuario,
-        dataInicioProcesso: this.data.dataInicioProcesso,
-        dataPrevisaoTermino: this.data.dataPrevisaoTermino,
-        motivoAfastamento: this.data.motivoAfastamento,
-        situacao: situacao,
-        coordenador: this.data.coordenador,
-        aluno_id: this.data.aluno_id,
-        observacao: this.data.observacao,
-        inicioAfastamento: this.data.inicioAfastamento,
-        tempoAfastamento: this.data.tempoAfastamento,
-        semestreOuAnoAluno: this.data.semestreOuAnoAluno,
+    ngOnInit(): void {
+      this._locale = 'pt-BR';
+      this._adapter.setLocale(this._locale);
+      this.visualizarRed = new FormGroup({
+        curso: new FormControl({ value: this.inputCurso, disabled: true }, [Validators.required,]),
+        motivoAfastamento: new FormControl({ value: this.data.motivoAfastamento, disabled: true },[Validators.required]),
+        inicioAfastamento: new FormControl({ value: this.data.inicioAfastamento, disabled: true },[Validators.required]),
+        previsaoTermino: new FormControl({ value: this.data.dataPrevisaoTermino, disabled: true },[Validators.required]),
+        inicioProcesso: new FormControl({ value: this.data.dataInicioProcesso, disabled: true },[Validators.required]),
       });
-      this.snackBarService.open('RED alterado com sucesso!!');
-      this.dialogRefVisualizarRED.close();
-    } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao alterar o RED: ${errorMessage}`);
-      } else {
-        this.snackBarService.open('Falha ao alterar o RED');
-      }
+      this.user = localStorage.getItem('user');
+      this.user = JSON.parse(this.user);
+      this.fetchAlunos();
+      console.log(this.data);
     }
-  }
 
   async fetchAlunos() {
     const response = await this.alunoService.getAluno();
@@ -95,6 +66,36 @@ export class VisualizarREDComponent implements OnInit {
       (aluno) => aluno.prontuario === this.data.aluno_prontuario
     );
     this.fetchCursos();
+  }
+
+  async updateSituacaoRED(situacao: String) {
+    try {
+      await this.redService.updateRed({
+        idRED: this.data.idRED,
+        situacao: situacao,
+      });
+      this.snackBarService.open('RED alterado com sucesso!!');
+      this.dialogRefVisualizarRED.close();
+    } catch (error: any) {
+      console.log(error);
+
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        console.log(errorMessage);
+
+        this.snackBarService.open(`Falha ao alterar o RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao alterar o RED');
+      }
+    }
+  }
+
+  confirmarRed() {
+    this.updateSituacaoRED('Em andamento');
+  }
+
+  recusarRed() {
+    this.updateSituacaoRED('Recusado');
   }
 
   visualizarDisciplina(red: any) {
@@ -123,7 +124,7 @@ export class VisualizarREDComponent implements OnInit {
     this.isDisable = true;
   }
 
-  cancelar() {
+  voltar() {
     this.dialogRefVisualizarRED.close();
   }
 
@@ -136,14 +137,6 @@ export class VisualizarREDComponent implements OnInit {
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {});
-  }
-
-  confirmarRed() {
-    this.updateRed('Em andamento');
-  }
-
-  recusarRed() {
-    this.updateRed('Recusado');
   }
 
   isCOORD(){

@@ -8,11 +8,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatListModule } from '@angular/material/list';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MatMomentDateModule,
@@ -50,6 +51,7 @@ import { VisualizarREDComponent } from 'src/app/modulos/red/visualizar/visualiza
     MatTooltipModule,
     MatInputModule,
     MatSelectModule,
+    MatListModule,
     // MatSelectChange,
     MatAutocompleteModule,
     MatButtonModule,
