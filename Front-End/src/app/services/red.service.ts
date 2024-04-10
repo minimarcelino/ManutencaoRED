@@ -54,6 +54,22 @@ export class RedService {
     }
   }
 
+  async updateSituacaoRED(red: any): Promise<any> {
+    try {
+      console.log(red);
+      const response = await this.http
+        .put(
+          `${environment.API}red/update/situacao/${red.idRED}`,
+          red,
+          this.authenticationService.getHttpOptions()
+        )
+        .toPromise();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteRed(id: number): Promise<any> {
     try {
       const response = await this.http

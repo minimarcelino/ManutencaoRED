@@ -43,6 +43,15 @@ export class redController {
         }
     }
 
+    async UpdateSituacao(req: Request, res: Response){
+        const response = await redservice.updateSituacao(req.body);
+        if(response.ok){
+            return res.status(StatusCodes.OK).send(response);
+        } else{
+            return res.status(StatusCodes.BAD_REQUEST).send(response);
+        }
+    }
+
     async getById(id: number){
         const response = await redservice.findById(id);
         return response;
