@@ -84,30 +84,6 @@
         <input matInput name="comunicacao" formControlName="comunicacao" />
       </mat-form-field>
 
-      <div>
-        <p>Houve avaliação</p>
-        <mat-radio-group formControlName="avaliacao" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <div>
-        <p>Caso tenha, ja foi realizada ?</p>
-        <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Data da nova avalição caso teve</mat-label>
-        <input matInput [matDatepicker]="picker2" formControlName="dataAvaliacao">
-        <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
-
       <mat-form-field class="example-full-width">
         <mat-label>Observações</mat-label>
         <textarea matInput name="observacao" formControlName="observacao" maxlength="4000" rows="3"
