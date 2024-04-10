@@ -54,9 +54,6 @@ export class CadastrarPEEComponent implements OnInit {
       prazo: new FormControl('', [Validators.required]),
       contato: new FormControl(this.data.emailServidor, [Validators.required]),
       comunicacao: new FormControl(null),
-      avaliacao: new FormControl(null),
-      avaliacaoRealizada: new FormControl(null),
-      dataAvaliacao: new FormControl(null),
       observacao: new FormControl('', [Validators.maxLength(4000)]),
     });
     this.user = localStorage.getItem('user');
@@ -116,9 +113,6 @@ export class CadastrarPEEComponent implements OnInit {
           percentualabono: this.data.percentualabono,
           dataEnvioProposta: new Date(),
           canalComunicacao: this.comunicacao,
-          houveAvaliacao: this.avaliacao,
-          avaliacoesRealizadas: this.avaliacaoRealizada,
-          dataAvaliacao: this.dataAvaliacao,
           observacao: this.observacao,
         });
         this.snackBarService.open('PEE cadastrado com sucesso!!');

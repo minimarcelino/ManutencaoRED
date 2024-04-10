@@ -35,6 +35,9 @@ export class AbonarFaltaComponent implements OnInit {
       cumprimento: new FormControl('', [Validators.required]),
       novaAtividade: new FormControl('', [Validators.required]),
       percentualAbono: new FormControl('', [Validators.required]),
+      avaliacao: new FormControl(null),
+      avaliacaoRealizada: new FormControl(null),
+      dataAvaliacao: new FormControl(null),
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
@@ -124,4 +127,17 @@ export class AbonarFaltaComponent implements OnInit {
   get percentualAbono() {
     return this.abonarFaltaPee.get('percentualAbono')!.value;
   }
+
+  get avaliacao() {
+    return this.abonarFaltaPee.get('avaliacao')!.value || null;
+  }
+
+  get dataAvaliacao() {
+    return this.abonarFaltaPee.get('dataAvaliacao')!.value || null;
+  }
+
+  get avaliacaoRealizada() {
+    return this.abonarFaltaPee.get('avaliacaoRealizada')!.value || null;
+  }
 }
+

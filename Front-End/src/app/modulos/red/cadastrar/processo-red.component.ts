@@ -36,6 +36,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
   cadastrarRed!: FormGroup;
   isDisable: boolean = false;
   user: any;
+  filteredAlunos: any[] = [];
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
@@ -72,17 +73,20 @@ export class CadastrarProcessoREDComponent implements OnInit {
     return aluno && pront_aluno;
   }
 
-  /*   InputFile(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      const pdf = event.target.files[0];
-      const formData = new FormData();
-      formData.append('pdf', pdf);
-    }
-  } */
-
   async fetchAlunos() {
     const response = await this.alunoService.getAluno();
     this.alunos = response.data.alunos;
+    // Inicializar a lista de alunos filtrados
+    this.filteredAlunos = this.alunos;
+  }
+
+  filterAlunos(event: any) {
+    const value = event.target.value;
+    const filterValue = value.toLowerCase();
+    this.filteredAlunos = this.alunos.filter(aluno => {
+      const alunoString = `${aluno.prontuario} - ${aluno.nome}`.toLowerCase();
+      return alunoString.includes(filterValue);
+    });
   }
 
   async fetchCursos() {
