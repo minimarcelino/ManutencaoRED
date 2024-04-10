@@ -73,14 +73,6 @@ export class CadastrarProcessoREDComponent implements OnInit {
     return aluno && pront_aluno;
   }
 
-  /*   InputFile(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      const pdf = event.target.files[0];
-      const formData = new FormData();
-      formData.append('pdf', pdf);
-    }
-  } */
-
   async fetchAlunos() {
     const response = await this.alunoService.getAluno();
     this.alunos = response.data.alunos;
@@ -96,7 +88,6 @@ export class CadastrarProcessoREDComponent implements OnInit {
       return alunoString.includes(filterValue);
     });
   }
-  
 
   async fetchCursos() {
     const response = await this.cursoService.getCursos();
