@@ -58,12 +58,14 @@ export class ListarREDComponent implements OnInit {
   dataSource: any;
   selectedCurso = 'todos';
   situacaoSelecionada = 'todos';
+  associacaoSelecionada = 'todos';
   situacao = [
     'Esperando confirmação',
     'Em andamento',
     'Finalizado',
     'Arquivado',
   ];
+  associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
@@ -74,6 +76,7 @@ export class ListarREDComponent implements OnInit {
     'Tempo Afastamento',
     'Término',
     'Situação',
+    'Disciplinas',
     'Ações',
   ];
 
@@ -231,8 +234,17 @@ export class ListarREDComponent implements OnInit {
     this.handleDialogConfirm(visualizar);
   }
 
-  arquivarRED(red: any){
-    
+  arquivarRED(red: any){}
+
+  associarDisciplina(red: red) {
+    // const editar = this.dialog.open(AssociarDisciplinaComponent, {
+    //   data: {
+    //     idRED: red.idRED,
+    //     servidor_idservidor: red.coordenador,
+    //     red: red,
+    //   },
+    // });
+    // this.handleDialogConfirm(editar);
   }
 
   aplicarFiltros() {
@@ -321,6 +333,10 @@ export class ListarREDComponent implements OnInit {
 
   isCOORD() {
     return this.user.tiposervidor === 'coordenador';
+  }
+
+  isCSP(){
+    return this.user.tiposervidor === 'csp';
   }
 
   isADM() {
