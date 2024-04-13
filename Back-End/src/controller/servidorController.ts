@@ -94,7 +94,6 @@ export class servidorController {
         prontuario: prontuario,
         type: tipo,
         lastActivity: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + (30 * 60), // Token expira em 30 minutos
       };
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
       return res.status(StatusCodes.OK).json({
