@@ -68,7 +68,7 @@ model pee {
   prazofinal                DateTime     @db.Date
   RED_idRED                 Int
   disciplinas_iddisciplinas Int
-  servidor_idservidor       Int
+  servidor_idservidor       Int?
   percentualabono           Float
   dataEnvioProposta         DateTime?    @db.Date
   canalComunicacao          String?      @db.VarChar(30)
@@ -79,7 +79,7 @@ model pee {
   atividades                atividades[]
   red                       red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
   disciplinas               disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
-  servidor                  servidor     @relation(fields: [servidor_idservidor], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_servidor1")
+  servidor                  servidor?     @relation(fields: [servidor_idservidor], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_servidor1")
 
   @@index([RED_idRED], map: "fk_pee_RED1_idx")
   @@index([disciplinas_iddisciplinas], map: "fk_pee_disciplinas1_idx")
