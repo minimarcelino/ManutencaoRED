@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { sendEmail } from '../service/email';
 import { redController } from './redController';
 import { alunoService } from '../service/alunoService';
+import { SourceTextModule } from 'vm';
 
 const peeservice = new peeService();
 const alunoservice = new alunoService();
@@ -144,14 +145,17 @@ export class PeeController {
               curso_idcurso: number;
               id: number;
             };
-
+            const crypto = require('crypto');
+            const hash = crypto.createHash('sha256');
+            hash.update(req.params.id.toString());
+            const hashPEE = hash.digest('hex');
             const alunoEmail = alunoData.email;
             console.log(alunoEmail);
             const texto = `
                         As atividades do professor foram enviadas. 👍
 
-                        Por favor, clique aqui: http://red.pep2.ifsp.edu.br/usuario/${req.params.id} para ser redirecionado à página do exercício.
-
+                        Por favor, clique aqui: http://red.pep2.ifsp.edu.br/usuario/${hashPEE} para ser redirecionado à página do exercício.
+          
                         Atenciosamente,
 
                         Equipe de suporte do RED.
@@ -162,6 +166,15 @@ export class PeeController {
           }
         }
       }
+      return res.status(StatusCodes.OK).send(response);
+    } else {
+      return res.status(StatusCodes.BAD_REQUEST).send(response);
+    }
+  }
+
+  async getByHash(req: Request, res: Response) {
+    const response = await peeservice.findByHash(req.params.hash);
+    if (response.ok) {
       return res.status(StatusCodes.OK).send(response);
     } else {
       return res.status(StatusCodes.BAD_REQUEST).send(response);

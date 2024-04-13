@@ -4,6 +4,6 @@ import { PeeController } from "../controller/peeController";
 const router = express.Router();
 const peecontroller = new PeeController();
 
-router.get('/:id', peecontroller.getById);
+router.get('/:hash', peecontroller.getByHash);
 
 export default router;

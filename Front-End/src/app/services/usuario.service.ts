@@ -9,9 +9,9 @@ import { environment } from 'src/app/environments/environment.development';
 export class usuarioNaoAutenticadoService {
     constructor(private http: HttpClient) { }
 
-    async getPee(id: number): Promise<any> {
+    async getPee(hash: string): Promise<any> {
         try {
-            const response = await this.http.get(`${environment.API}usuario/${id}`)
+            const response = await this.http.get(`${environment.API}usuario/${hash}`)
                 .toPromise();
             return response;
         } catch (error) {

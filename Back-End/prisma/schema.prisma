@@ -76,6 +76,7 @@ model pee {
   avaliacoesRealizadas      String?      @db.Char(1)
   dataAvaliacao             DateTime?    @db.Date
   observacoes               String?      @db.Text
+  hash                      String?      @db.VarChar(64)
   atividades                atividades[]
   red                       red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
   disciplinas               disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")

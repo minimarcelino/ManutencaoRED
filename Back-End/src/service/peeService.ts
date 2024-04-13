@@ -105,6 +105,7 @@ export class peeService {
   async create(pee: pee) {
     try {
       const createPEE = await prisma.pee.create({ data: pee });
+      this.updateHashPEE(createPEE.idpee);
       return { ok: true, data: createPEE };
     } catch (error) {
       console.log(error);
@@ -235,4 +236,45 @@ export class peeService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
+
+  async findByHash(hash: string) {
+    try {
+        const peeData = await prisma.pee.findFirst({
+            where: {
+                hash: hash
+            }
+        });
+
+        if (peeData) {
+            return { ok: true, data: peeData };
+        } else {
+            return { ok: false, data: StatusCodes.NOT_FOUND };
+        }
+    } catch (error) {
+        console.log(error);
+        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
+  async updateHashPEE(id: number) {
+    try {
+      const crypto = require('crypto');
+      const hash = crypto.createHash('sha256');
+      hash.update(id.toString());
+      const hashPEE = hash.digest('hex');
+      const updatePEE = await prisma.pee.update({
+        where: {
+          idpee: id,
+        },
+        data: {
+          hash: hashPEE, 
+        },
+      });
+      return { ok: true, data: updatePEE };
+    } catch (error) {
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+  
 }
