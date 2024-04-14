@@ -1,16 +1,28 @@
-#cadastrar{
+#cadastrar {
     margin-top: 8px;
 }
-#tabela{
-    min-width: 100%;
-    max-width: 100%;
+
+#tabela {
+    overflow-x: auto; /* Adiciona uma barra de rolagem horizontal se necessário */
 }
-.listagem{
-    min-width: 100rem;
+
+.mat-table {
+    width: 100%; 
 }
-.mat-column-data{
-    width: 10rem;
+
+.mat-column-prontuario,
+.mat-column-nome,
+.mat-column-telefone,
+.mat-column-email {
+    white-space: nowrap; /* Impede que o conteúdo das células seja quebrado */
 }
-.mat-column-telefone{
-    width: 10rem;
+
+.mat-column-prontuario,
+.mat-column-telefone,
+.mat-column-email {
+    width: 10rem; 
+}
+
+.listagem {
+    width: 100%; 
 }

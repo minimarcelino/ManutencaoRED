@@ -13,4 +13,5 @@ observacao: String;
 inicioAfastamento: Date;
 tempoAfastamento: number;
 semestreOuAnoAluno: number;
+motivoRecusa: String;
 }

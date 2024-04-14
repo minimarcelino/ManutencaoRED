@@ -62,6 +62,7 @@ export class redService {
           semestreOuAnoAluno: red.semestreOuAnoAluno,
           coordenador: red.coordenador,
           aluno_id: red.aluno_id,
+          motivoRecusa: red.motivoRecusa 
         },
       });
       return { ok: true, data: updateRed };

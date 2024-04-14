@@ -28,6 +28,7 @@ export class VisualizarREDComponent implements OnInit {
   inputCurso: any = '';
   filtredCursos: any[] = [];
   isDisable: boolean = false;
+  motivoRecusaInput: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,6 +49,11 @@ export class VisualizarREDComponent implements OnInit {
       this._adapter.setLocale(this._locale);
       this.visualizarRed = new FormGroup({
         curso: new FormControl({ value: this.inputCurso, disabled: true }, [Validators.required,]),
+        motivoRecusa: new FormControl('', [
+          Validators.required,
+          Validators.maxLength(4000),
+        ]),
+        motivoRecusaLabel: new FormControl({ value: this.data.motivoRecusa, disabled: true }),
         motivoAfastamento: new FormControl({ value: this.data.motivoAfastamento, disabled: true },[Validators.required]),
         inicioAfastamento: new FormControl({ value: this.data.inicioAfastamento, disabled: true },[Validators.required]),
         previsaoTermino: new FormControl({ value: this.data.dataPrevisaoTermino, disabled: true },[Validators.required]),
@@ -94,8 +100,37 @@ export class VisualizarREDComponent implements OnInit {
     this.updateSituacaoRED('Em andamento');
   }
 
-  recusarRed() {
-    this.updateSituacaoRED('Recusado');
+  async recusarRed() {
+    if (!this.motivoRecusaInput){
+      this.motivoRecusaInput = true
+    } else {
+      if (this.motivoRecusa.trim() === '') {
+        this.snackBarService.open('Motivo da Recusa deve ser preenchido corretamente.');
+        return;
+      }
+      try {
+        await this.redService.updateRed({
+          idRED: this.data.idRED,
+          situacao: "Recusado",
+          motivoRecusa: this.motivoRecusa,
+          
+        });
+  
+        this.snackBarService.open('RED alterado com sucesso!!');
+        this.dialogRefVisualizarRED.close();
+      } catch (error: any) {
+        console.log(error);
+  
+        if (error && error.error && error.error.data) {
+          const errorMessage = error.error.data;
+          console.log(errorMessage);
+  
+          this.snackBarService.open(`Falha ao alterar o RED: ${errorMessage}`);
+        } else {
+          this.snackBarService.open('Falha ao alterar o RED');
+        }
+      }
+    }
   }
 
   visualizarDisciplina(red: any) {
@@ -143,7 +178,15 @@ export class VisualizarREDComponent implements OnInit {
     return this.user.tiposervidor === 'coordenador';
   }
 
+  isCRA(){
+    return this.user.tiposervidor === 'cra';
+  }
+
   isADM(){
     return this.user.tiposervidor === 'administrador';
+  }
+
+  get motivoRecusa() {
+    return this.visualizarRed.get('motivoRecusa')!.value;
   }
 }
