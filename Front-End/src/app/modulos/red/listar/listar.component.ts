@@ -206,6 +206,7 @@ export class ListarREDComponent implements OnInit {
         aluno_id: red.aluno_id,
         coordenador: red.coordenador,
         aluno: red.aluno,
+        motivoRecusa: red.motivoRecusa
       },
     });
     this.handleDialogConfirm(editar);
@@ -229,6 +230,7 @@ export class ListarREDComponent implements OnInit {
         tempoAfastamento: red.tempoAfastamento,
         semestreOuAnoAluno: red.semestreOuAnoAluno,
         pee: red.pee,
+        motivoRecusa:red.motivoRecusa
       },
     });
     this.handleDialogConfirm(visualizar);

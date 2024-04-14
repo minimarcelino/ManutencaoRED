@@ -44,6 +44,25 @@
         <mat-datepicker #picker3></mat-datepicker>
       </mat-form-field>
 
+      <div *ngIf=" (isCRA() || isADM() || isCOORD()) && this.data.situacao == 'Recusado'">
+        <h2>Motivo da Recusa</h2>
+        <mat-form-field class="motivoRecusaLabel" style="margin-right: 10px; min-width: 50%; max-width: 100%;">
+          <mat-label>Motivo da Recusa</mat-label>
+          <textarea formControlName="motivoRecusaLabel" matInput></textarea>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="motivoRecusaInput && (isCOORD() || isADM())">
+        <h2>Motivo da Recusa</h2>
+        <mat-form-field class="motivoRecusa" style="min-width: 71%; max-width: 100%;">
+          <mat-label>Insira o motivo da recusa da RED </mat-label>
+          <textarea formControlName="motivoRecusa" matInput
+            placeholder="Ex. Aluno errado" maxlength="4000" rows="3"
+            spellcheck="true">
+          </textarea>
+        </mat-form-field>
+      </div>
+
       <div style="margin-bottom: 5px;">
         <button mat-raised-button color="primary" (click)="voltar()" style="margin-left: 4px;">Voltar</button>
         <button *ngIf="isCOORD()" mat-raised-button color="primary" (click)="visualizarDisciplina(this.data)"
@@ -51,7 +70,7 @@
       </div>
 
       <div id="buttons"
-        *ngIf=" (isCOORD() || isADM()) && this.data.situacao !== 'Finalizado' && this.data.situacao !== 'Em andamento'">
+        *ngIf=" (isCOORD() || isADM()) && this.data.situacao == 'Esperando confirmação'">
         
         <button mat-raised-button color="primary" (click)="confirmarRed()" style="margin-left: 4px;">Aceitar o
           Processo</button>

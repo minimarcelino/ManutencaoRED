@@ -95,6 +95,7 @@ model red {
   coordenador         Int
   aluno_id            Int
   observacao          String?  @db.VarChar(4000)
+  motivoRecusa        String?  @db.VarChar(4000)
   inicioAfastamento   DateTime @db.Date
   tempoAfastamento    Int?
   semestreOuAnoAluno  Int?
