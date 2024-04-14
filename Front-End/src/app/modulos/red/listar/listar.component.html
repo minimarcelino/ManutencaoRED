@@ -111,7 +111,7 @@
             <mat-icon>description</mat-icon>
           </button>
 
-          <button *ngIf="a.situacao === 'Finalizado' && isADM()" mat-icon-button matTooltip="Arquivar RED"
+          <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && (isADM() || isCRA())" mat-icon-button matTooltip="Arquivar RED"
             (click)="arquivarRED(a)">
             <mat-icon>inventory_2</mat-icon>
           </button>

@@ -236,7 +236,25 @@ export class ListarREDComponent implements OnInit {
     this.handleDialogConfirm(visualizar);
   }
 
-  arquivarRED(red: any){}
+  async arquivarRED(red: any){
+    try {
+      let response = await this.redService.updateRed({
+        idRED: red.idRED,
+        situacao: 'Arquivado',
+      });
+      if (response) {
+        this.snackBarService.open('RED arquivada com sucesso!');
+        this.findAll();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao aquivar RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao arquivar RED');
+      }
+    }
+  }
 
   associarDisciplina(red: red) {
     // const editar = this.dialog.open(AssociarDisciplinaComponent, {
@@ -335,6 +353,10 @@ export class ListarREDComponent implements OnInit {
 
   isCOORD() {
     return this.user.tiposervidor === 'coordenador';
+  }
+
+  isCRA(){
+    return this.user.tiposervidor === 'cra';
   }
 
   isCSP(){
