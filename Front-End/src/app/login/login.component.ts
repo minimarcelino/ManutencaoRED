@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   user: any;
   isResetPassword: boolean = false;
   isEmailSended: boolean = false;
-  isTokenValid: boolean = true;
 
   constructor(
     private router: Router,
@@ -90,18 +89,6 @@ export class LoginComponent implements OnInit {
     const response = await this.notificationService.sendEmailResetPassword(this.prontuario.toUpperCase());
     if(response){
       this.isEmailSended = true;
-      this.isTokenValid = false;
-    }
-  }
-
-  async updateSenha(): Promise<void> {
-    try {
-      //const servidorservice = new servidorService();
-      //await servidorservice.updateSenha(this.token, this.novaSenha);
-      alert('Senha atualizada com sucesso!');
-    } catch (error) {
-      console.error('Erro ao atualizar senha:', error);
-      alert('Erro ao atualizar senha');
     }
   }
 }
