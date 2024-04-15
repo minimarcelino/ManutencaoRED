@@ -92,12 +92,12 @@ model red {
   idRED               Int      @id @default(autoincrement())
   dataInicioProcesso  DateTime @db.Date
   dataPrevisaoTermino DateTime @db.Date
-  motivoAfastamento   String   @db.VarChar(4000)
+  motivoAfastamento   String   @db.Text
   situacao            String   @db.VarChar(40)
   coordenador         Int
   aluno_id            Int
-  observacao          String?  @db.VarChar(4000)
-  motivoRecusa        String?  @db.VarChar(4000)
+  observacao          String?  @db.Text
+  motivoRecusa        String?  @db.Text
   inicioAfastamento   DateTime @db.Date
   tempoAfastamento    Int?
   semestreOuAnoAluno  Int?
