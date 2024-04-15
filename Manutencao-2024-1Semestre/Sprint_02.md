@@ -2,7 +2,7 @@
 
 # 🏍 Sprint Backlog 02
 
- - **Estado:** 🕘 Em andamento
+ - **Estado:** ✔ Concluído
  - **Data de Início:** 01 de abril de 2024
  - **Data de Encerramento:** 16 de abril de 2024
  - [**Relatório da Sprint 02**](./Relatorios_Sprints/Relatorio_Sprint_02.md)
@@ -19,12 +19,12 @@
 | 22 | Visualizar RED >> E-mail “não enviada ao aluno” | Botão de enviar e-mail de aviso para disciplinas que estejam como “Não enviado ao aluno”. | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Em andamento |
 | 25 | Manter Disciplina: CSP | Como CSP quero manter as disciplinas dos cursos | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 27 | RED >> Visualizar RED >> Notificar professor | **CANCELADA, RETIFICADA E ATUALIZADA PELO PB 69** </br>Como CSP e Coordenador quero enviar um aviso ao professor se o PEE não estiver enviado ao aluno. | - | Corretiva | 3 (Moderada) | 3 (Moderada) | Cancelada |
-| 30 | RED >> Visualizar RED | Como usuário quero visualizar apenas imediatamente as colunas Disciplina, Professor, Envio PEE, Data Limite encaminhamento, Aluno Cumpriu as atividades. Demais itens podem ser visto em outra tela | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Não iniciada |
+| 30 | RED >> Visualizar RED | Como usuário quero visualizar apenas imediatamente as colunas Disciplina, Professor, Envio PEE, Data Limite encaminhamento, Aluno Cumpriu as atividades. Demais itens podem ser visto em outra tela | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Em Andamento |
 | 33 | Modal em branco | Ao deletar qualquer coisa como Coordenador aparece um Modal em branco no canto inferior | Natália Leonel | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
 | 37 | Manter Disciplina: Delete | Todos os modais do site para deletar, alterar ou criar apresentam falhas, não sendo exibidos corretamente ou funcionando adequadamente. | Natália Leonel | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 39 | Manter RED >> Cadastrar > Curso | Ao cadastrar uma RED, o campo de curso fica editável. Esse campo não deveria ser editável, uma vez que o aluno já possui um curso associado. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Concluído |
 | 40 | Manter RED >> Arquivar | Como CRA, quero poder arquivar uma RED finalizada, ou seja após incluir os abonos de falta no SUAP, a RED já não tem muita relevância | Natália Leonel | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
-| 45 | Sistema: Implementar Esqueci minha senha | Como usuário quero poder alterar minha senha atravez de link de “esqueci minha senha” | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluída |
+| 45 | Sistema: Implementar Esqueci minha senha | Como usuário quero poder alterar minha senha atravez de link de “esqueci minha senha” | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Em Andamento |
 | 47 | PEE Professor | Listar PEE por ordem de inclusão da mais recente primeira | Danilo D. Quirino | Corretiva | 3 (Moderada) | 4 (Alta) | Concluído |
 | 48 | PEE Professores >> Associar Professores | **CANCELADA E RETIFICADA PELA PB 70** </br>Como Coordenador posso adicionar apenas um único professor por disciplina (coordenador/associar-professores) | - | Corretiva | 3 (Moderada) | 4 (Alta) | Cancelada |
 | 49 | Sistema & Banco de Dados >> Associar Disciplina | Como CSP ao associar uma ou mais disciplina a um RED, não deve associar nenhum servidor como professor. | Natália Leonel | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
