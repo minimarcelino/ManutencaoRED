@@ -53,3 +53,5 @@
 | 61 | Tela de Login: Snack bar incorreto | Na tela de Login o snackBar apresenta texto incorreto, deve informar que prontuário ou senha incorretos. | Murilo Lopes | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 62 | Manter PEE >> Percentual de abono de falta. | Não deixar lançar percentual negativo de abono ou percentuais maiores que 100%. | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 83 | Listar Alunos >> Visualização | Tabela de Aluno ultrapassa limites da div | Natália Leonel | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Concluído |
+| 84 | Listar RED >> Aceitar / recusar RED | Após recusar RED não pode ser possível aceitar/recusar novamente | Natália Leonel | Preventiva | 4 (Alta) | 3 (Moderada) | Concluído |
+| | **Total: XX** | **XX% Concluído** | | | | | |

@@ -15,7 +15,7 @@
 > *Descrever brevemente o objetivo da sprint e observações necessárias após a revisão da sprint*
 > 
 
-O principal objetivo desta segunda sprint é corrigir e implementar requisitos levantados junto ao orientador durante reunião realizada no dia 02 de abril de  2024 e na revisão ocorrida no dia 10 de abril de 2024.
+O principal objetivo desta segunda sprint é corrigir e implementar requisitos levantados junto ao orientador durante reunião realizada no dia 02 de abril de 2024 e na revisão ocorrida no dia 10 de abril de 2024.
 
 De forma complementar algumas atividades elencadas anteriormente foram executada, principalmente quanto a interface apresentada aos usuários do sistema.
 
@@ -26,7 +26,47 @@ De forma complementar algumas atividades elencadas anteriormente foram executada
 
 | # ID | Estado | Início | Término | Observações |
 | --- | --- | --- | --- | --- |
-
+| 13 | Concluído | 18 de março de 2024 | 26 de março de 2024 | Concluída anteriormente, devido a reflexos de outra atividade |
+| 14 | Concluído | 18 de março de 2024 | 26 de março de 2024 | Concluída anteriormente, devido a reflexos de outra atividade |
+| 15 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 16 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 17 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 21 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 22 | Não iniciada | | | |
+| 25 | Concluído | 06 de abril de 2024 | 06 de abril de 2024 | |
+| 27 | Cancelada | - | - | Cancelada e retificada pelo PB 69 |
+| 30 | Em andamento | 09 de abril de 2024 | | |
+| 33 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 37 | Concluído | 18 de março de 2024 | 26 de março de 2024 | Concluída anteriormente, devido a reflexos de outra atividade |
+| 39 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 40 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 45 | Não iniciada | | | |
+| 47 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
+| 48 | Cancelada | - | - | Cancelada e retificada pelo PB 70 |
+| 49 | Concluído | 12 de abril de 2024 | 13 de abril de 2024 | |
+| 50 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
+| 52 | Concluído | 12 de abril de 2024 | 13 de abril de 2024 | |
+| 53 | Concluído | 18 de março de 2024 | 3 de abril de 2024 | |
+| 63 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
+| 64 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 65 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 66 | Concluído | 08 de abril de 2024 | 08 de abril de 2024 | |
+| 67 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
+| 68 | Concluído | 06 de abril de 2024 | 06 de abril de 2024 | |
+| 69 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 70 | Em andamento | 14 de abril de 2024 | | |
+| 71 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
+| 72 | Concluído | 13 de abril de 2024 | 14 de abril de 2024 | |
+| 73 | Não iniciada | | | |
+| 74 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
+| 75 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 77 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
+| 79 | Concluído | 02 de abril de 2024 | 02 de abril de 2024 | |
+| 80 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
+| 81 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
+| 82 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
+| 83 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 84 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 |
 
 # Conclusão
 

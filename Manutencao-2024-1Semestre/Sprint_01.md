@@ -42,4 +42,4 @@
 | 60 | Inputs desalinhados | Todos os inputs, tanto para cadastro quanto para edição, estão desalinhados | Natália Leonel | Corretiva | 1 (Muito Baixa) | 2 (Baixa) | Concluído |
 | 61 | Tela de Login: Snack bar incorreto | Na tela de Login o snackBar apresenta texto incorreto, deve informar que prontuário ou senha incorretos. | Murilo Lopes | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 62 | Manter PEE >> Percentual de abono de falta. | Não deixar lançar percentual negativo de abono ou percentuais maiores que 100%. | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
-|**Total: 31**| | | | | | | **97% Concluído**|
+| | **Total: 31** | **97% Concluído** | | | | | |
