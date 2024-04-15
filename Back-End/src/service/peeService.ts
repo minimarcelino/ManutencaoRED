@@ -106,6 +106,7 @@ export class peeService {
     try {
       const createPEE = await prisma.pee.create({ data: pee });
       this.updateHashPEE(createPEE.idpee);
+      
       return { ok: true, data: createPEE };
     } catch (error) {
       console.log(error);
@@ -241,8 +242,8 @@ export class peeService {
     try {
         const peeData = await prisma.pee.findFirst({
             where: {
-                hash: hash
-            }
+                hash: hash,
+            } as any,
         });
 
         if (peeData) {
@@ -268,7 +269,7 @@ export class peeService {
         },
         data: {
           hash: hashPEE, 
-        },
+        } as any,
       });
       return { ok: true, data: updatePEE };
     } catch (error) {

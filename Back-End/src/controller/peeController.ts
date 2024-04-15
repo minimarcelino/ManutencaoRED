@@ -4,11 +4,15 @@ import { StatusCodes } from 'http-status-codes';
 import { sendEmail } from '../service/email';
 import { redController } from './redController';
 import { alunoService } from '../service/alunoService';
+import { servidorService } from '../service/servidorService';
 import { SourceTextModule } from 'vm';
+import { coordenadorController } from './coodenadorController';
 
 const peeservice = new peeService();
 const alunoservice = new alunoService();
 const redcontroller = new redController();
+const servidorservice = new servidorService();
+
 
 export class PeeController {
   async getPees(req: Request, res: Response) {
@@ -56,10 +60,40 @@ export class PeeController {
   async Create(req: Request, res: Response) {
     const response = await peeservice.create(req.body);
     if (response.ok) {
-      return res.status(StatusCodes.OK).send(response.data);
-    } else {
-      return res.status(StatusCodes.BAD_REQUEST).send(response);
+      if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
+        const  idRed = response.data.RED_idRED;
+        const redResponse = await redcontroller.getById(idRed);
+        if (redResponse.ok && redResponse.data != null) {
+          if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
+            const coordenadorResponse = await servidorservice.findByIdCoordenador(redResponse.data.coordenador);
+            const alunoResponse = await alunoservice.findById(redResponse.data.aluno_id);
+            if (coordenadorResponse.ok && alunoResponse.ok && alunoResponse.data != null) {
+              const coordenador = coordenadorResponse.data;
+              if (typeof coordenador !== 'string' && coordenador) {
+                const coordenadorEmail = coordenador.email;
+                if(typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data){
+                  const aluno_prontuario = alunoResponse.data.prontuario;
+                  const texto =
+                  `O processo RED do aluno ${aluno_prontuario} possui novas disciplinas adicionadas.
+                      
+                  Por favor, entre no sistema e associe os professores responsaveis.
+                  
+                  Atenciosamente,
+                  
+                  Equipe de suporte do RED.
+                  `;
+                  sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
+                  console.log("Email Enviado");
+                  return res.status(StatusCodes.OK).send(response.data);
+                }
+              }
+            }
+          }
+        }
+      }
     }
+    return res.status(StatusCodes.BAD_REQUEST).send(response);
+    
   }
 
   async CreateAtividade(req: Request, res: Response) {
@@ -180,4 +214,47 @@ export class PeeController {
       return res.status(StatusCodes.BAD_REQUEST).send(response);
     }
   }
+
+  async sendEmailCoordenador(email: string, aluno_prontuario: string) {
+    const texto =
+    `O processo RED do aluno ${aluno_prontuario} possui novas disciplinas adicionadas.
+        
+    Por favor, entre no sistema e associe os professores responsaveis.
+    
+    Atenciosamente,
+    
+    Equipe de suporte do RED.
+    `;
+    console.log(texto);
+    return sendEmail(email, "Inicio do Processo RED", texto);
+}
+
+async sendEmailCoordenador2(email: string, aluno_prontuario: string) {
+  const texto =
+  `A PEE do aluno ${aluno_prontuario} foi finalizada.
+
+  Atenciosamente,
+  
+  Equipe de suporte do RED.
+  `;
+  console.log(texto);
+
+  return sendEmail(email, "Inicio do Processo RED", texto);
+}
+
+  async sendEmailProfessor(email: string, aluno_prontuario: string) {
+    const texto =
+    `Existe uma nova PEE do aluno ${aluno_prontuario} associada a você.
+        
+    Por favor, entre no sistema e preencha a PEE.
+    
+    Atenciosamente,
+    
+    Equipe de suporte do RED.
+    `;
+    console.log(texto);
+
+    return sendEmail(email, "Inicio do Processo RED", texto);
+  }
+  
 }
