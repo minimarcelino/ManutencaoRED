@@ -22,16 +22,9 @@
                     <td mat-cell *matCellDef="let a"> {{a.disciplinas.nomeDisciplina}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="conclusao">
-                    <th mat-header-cell *matHeaderCellDef> Andamento do PEE </th>
-                    <td mat-cell *matCellDef="let a">
-                        <ng-container *ngIf="a.conteudo === ''; else enviadoAoAluno">
-                            Não enviado ao aluno
-                        </ng-container>
-                        <ng-template #enviadoAoAluno>
-                            Enviado ao aluno
-                        </ng-template>
-                    </td>
+                <ng-container matColumnDef="situacao">
+                    <th mat-header-cell *matHeaderCellDef> Situação </th>
+                    <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

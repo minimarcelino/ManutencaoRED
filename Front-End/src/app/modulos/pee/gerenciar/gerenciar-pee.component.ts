@@ -41,7 +41,7 @@ export class GerenciarPEEComponent implements OnInit {
     'aluno',
     'email',
     'disciplina',
-    'concluido',
+    'situacao',
     'Ações',
   ];
 
@@ -96,6 +96,7 @@ export class GerenciarPEEComponent implements OnInit {
         dataEnvioProposta: pee.dataEnvioProposta,
         canalComunicacao: pee.canalComunicacao,
         observacoes: pee.observacoes,
+        situacao: pee.situacao
       },
     });
     this.handleDialogConfirm(visualizar);

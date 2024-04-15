@@ -93,6 +93,7 @@ export class AssociarProfessoresComponent implements OnInit {
           disciplinas_iddisciplinas: item.iddisciplinas,
           servidor_idservidor: this.professoresSelecionados[0].idservidor,
           percentualabono: this.data.percentualabono,
+          situacao: "Aguardando Preenchimento"
         });
       }
       this.snackBarService.open('Professores associados com sucesso!!');

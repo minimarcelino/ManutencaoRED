@@ -21,7 +21,7 @@ export class ListarPEEComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['disciplina', 'nome', 'prontuario', 'email', 'acoes'];
+  displayedColumns = ['disciplina', 'nome', 'prontuario', 'email','situacao' ,'acoes'];
 
   constructor(
     public dialogQuestionService: messageDialog,

@@ -114,6 +114,7 @@ export class CadastrarPEEComponent implements OnInit {
           dataEnvioProposta: new Date(),
           canalComunicacao: this.comunicacao,
           observacao: this.observacao,
+          situacao: "Enviado para o aluno"
         });
         this.snackBarService.open('PEE cadastrado com sucesso!!');
         this.dialog.close();

@@ -123,6 +123,7 @@ export class AssociarDisciplinaComponent implements OnInit {
           disciplinas_iddisciplinas: item.iddisciplinas,
           servidor_idservidor: null,
           percentualabono: -1,
+          situacao: "Aguardando Associação de Professor"
         });
       }
       this.snackBarService.open('Disciplinas associadas com sucesso!!');

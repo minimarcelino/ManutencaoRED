@@ -67,6 +67,7 @@ model pee {
   criterios                 String       @db.Text
   prazofinal                DateTime     @db.Date
   RED_idRED                 Int
+  situacao                  String   @db.VarChar(40)
   disciplinas_iddisciplinas Int
   servidor_idservidor       Int?
   percentualabono           Float
