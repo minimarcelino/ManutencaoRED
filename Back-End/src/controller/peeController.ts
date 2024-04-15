@@ -61,7 +61,7 @@ export class PeeController {
     const response = await peeservice.create(req.body);
     if (response.ok) {
       if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
-        const  idRed = response.data.RED_idRED;
+        const idRed = response.data.RED_idRED;
         const redResponse = await redcontroller.getById(idRed);
         if (redResponse.ok && redResponse.data != null) {
           if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
@@ -71,10 +71,10 @@ export class PeeController {
               const coordenador = coordenadorResponse.data;
               if (typeof coordenador !== 'string' && coordenador) {
                 const coordenadorEmail = coordenador.email;
-                if(typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data){
+                if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
                   const aluno_prontuario = alunoResponse.data.prontuario;
                   const texto =
-                  `O processo RED do aluno ${aluno_prontuario} possui novas disciplinas adicionadas.
+                    `O processo RED do aluno ${aluno_prontuario} possui novas disciplinas adicionadas.
                       
                   Por favor, entre no sistema e associe os professores responsaveis.
                   
@@ -93,7 +93,7 @@ export class PeeController {
       }
     }
     return res.status(StatusCodes.BAD_REQUEST).send(response);
-    
+
   }
 
   async CreateAtividade(req: Request, res: Response) {
@@ -128,8 +128,65 @@ export class PeeController {
 
   async Update(req: Request, res: Response) {
     const response = await peeservice.update(req.body, Number(req.params.id));
+
     if (response.ok) {
-      return res.status(StatusCodes.OK).send(response);
+      if (typeof response.data === 'object' && 'metodologia' in response.data) {
+        if (response.data.metodologia != "") {
+          const idRed = response.data.RED_idRED;
+          const redResponse = await redcontroller.getById(idRed);
+          if (redResponse.ok && redResponse.data != null) {
+            if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
+              const coordenadorResponse = await servidorservice.findByIdCoordenador(redResponse.data.coordenador);
+              const alunoResponse = await alunoservice.findById(redResponse.data.aluno_id);
+              if (coordenadorResponse.ok && alunoResponse.ok && alunoResponse.data != null) {
+                const coordenador = coordenadorResponse.data;
+                if (typeof coordenador !== 'string' && coordenador) {
+                  const coordenadorEmail = coordenador.email;
+                  if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
+                    const aluno_prontuario = alunoResponse.data.prontuario;
+                    const texto =
+                      `O processo RED do aluno ${aluno_prontuario} foi finalizado.
+                                                
+                      Atenciosamente,
+                      
+                      Equipe de suporte do RED.
+                      `;
+                    sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
+                    console.log("Email Enviado");
+                    return res.status(StatusCodes.OK).send(response.data);
+                  }
+                }
+              }
+            }
+          }
+        }
+        if (typeof response.data === 'object' && 'servidor_idservidor' in response.data) {
+          const servidor_idservidor = response.data.servidor_idservidor;
+          if (servidor_idservidor != null) {
+            const servidorResponse = await servidorservice.findByid(servidor_idservidor);
+            if (servidorResponse.ok && servidorResponse.data != null) {
+              if (typeof servidorResponse.data === 'object' && 'email' in servidorResponse.data) {
+                const servidor = servidorResponse.data;
+                if (typeof servidor !== 'string' && servidor) {
+                  const servidorEmail = servidor.email;
+                  const texto =
+                    `Existe uma nova PEE associada a você.
+          
+                Por favor, entre no sistema e preencha a PEE.
+                
+                Atenciosamente,
+                
+                Equipe de suporte do RED.
+                `;
+                  sendEmail(servidorEmail as string, "Inicio do Processo PEE", texto);
+                  console.log("Email Enviado");
+                  return res.status(StatusCodes.OK).send(response);
+                }
+              }
+            }
+          }
+        }
+      }
     } else {
       return res.status(StatusCodes.BAD_REQUEST).send(response);
     }
@@ -214,47 +271,4 @@ export class PeeController {
       return res.status(StatusCodes.BAD_REQUEST).send(response);
     }
   }
-
-  async sendEmailCoordenador(email: string, aluno_prontuario: string) {
-    const texto =
-    `O processo RED do aluno ${aluno_prontuario} possui novas disciplinas adicionadas.
-        
-    Por favor, entre no sistema e associe os professores responsaveis.
-    
-    Atenciosamente,
-    
-    Equipe de suporte do RED.
-    `;
-    console.log(texto);
-    return sendEmail(email, "Inicio do Processo RED", texto);
-}
-
-async sendEmailCoordenador2(email: string, aluno_prontuario: string) {
-  const texto =
-  `A PEE do aluno ${aluno_prontuario} foi finalizada.
-
-  Atenciosamente,
-  
-  Equipe de suporte do RED.
-  `;
-  console.log(texto);
-
-  return sendEmail(email, "Inicio do Processo RED", texto);
-}
-
-  async sendEmailProfessor(email: string, aluno_prontuario: string) {
-    const texto =
-    `Existe uma nova PEE do aluno ${aluno_prontuario} associada a você.
-        
-    Por favor, entre no sistema e preencha a PEE.
-    
-    Atenciosamente,
-    
-    Equipe de suporte do RED.
-    `;
-    console.log(texto);
-
-    return sendEmail(email, "Inicio do Processo RED", texto);
-  }
-  
 }

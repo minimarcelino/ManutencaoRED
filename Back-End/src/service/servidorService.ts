@@ -327,7 +327,7 @@ export class servidorService {
 
   async findByToken(token: string) {
     try {
-        const peeData = await prisma.pee.findFirst({
+        const peeData = await prisma.servidor.findFirst({
             where: {
               token: token,
             } as any,
@@ -343,5 +343,25 @@ export class servidorService {
         return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
+
+  async findByid(idservidor: number) {
+    try {
+        const peeData = await prisma.servidor.findFirst({
+            where: {
+              idservidor: +idservidor,
+            } as any,
+        });
+
+        if (peeData) {
+            return { ok: true, data: peeData };
+        } else {
+            return { ok: false, data: StatusCodes.NOT_FOUND };
+        }
+    } catch (error) {
+        console.log(error);
+        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
 
 }
