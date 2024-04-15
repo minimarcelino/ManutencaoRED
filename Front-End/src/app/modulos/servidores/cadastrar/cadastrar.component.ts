@@ -46,11 +46,19 @@ export class CadastrarServidoresComponent implements OnInit {
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
       this.snackBarService.open('Nome deve ser preenchido corretamente.');
+      const element = document.getElementById('nome');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     if (this.email.trim() === '') {
       this.snackBarService.open('E-mail deve ser preenchido corretamente.');
+      const element = document.getElementById('email');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
@@ -58,6 +66,14 @@ export class CadastrarServidoresComponent implements OnInit {
       this.tiposervidor.charAt(0).toUpperCase() + this.tiposervidor.slice(1);
     if (this.cadastrarServidor.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
+      const fields = Object.keys(this.cadastrarServidor.controls);
+      const firstInvalidField = fields.find(field => this.cadastrarServidor.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     } else {
       this.isSubmitting = true;

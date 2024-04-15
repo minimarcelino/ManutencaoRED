@@ -15,21 +15,21 @@
     <form [formGroup]="cadastrarServidor" #formDir="ngForm">
       <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%; margin-left: 1%;">
         <mat-label>Prontuário</mat-label>
-        <input matInput name="prontuario" formControlName="prontuario" mask="AA00000A" />
+        <input matInput name="prontuario" id="prontuario" formControlName="prontuario" mask="AA00000A" />
         <div *ngIf="cadastrarServidor.get('prontuario')?.invalid && formDir.submitted" class="validation">
           <p>Prontuario obrigatório!</p>
         </div>
       </mat-form-field>
       <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%;">
         <mat-label>Nome</mat-label>
-        <input matInput name="nome" formControlName="nome" />
+        <input matInput name="nome" id="nome" formControlName="nome" />
         <div *ngIf="cadastrarServidor.get('nome')?.invalid && formDir.submitted" class="validation">
           <p>Nome obrigatório!</p>
         </div>
       </mat-form-field>
       <mat-form-field appearance="fill" style="min-width: 84%; max-width: 100%; margin-left: 1%;">
         <mat-label>Email</mat-label>
-        <input matInput name="email" formControlName="email" />
+        <input matInput name="email" id="email" formControlName="email" />
         <div *ngIf="cadastrarServidor.get('email')?.invalid && formDir.submitted" class="validation">
           <p>Email obrigatório!</p>
         </div>
@@ -37,7 +37,7 @@
       <div *ngIf="mostrarCampo()">
         <mat-form-field style="min-width: 84%; max-width: 100%; margin-left: 1%;">
           <mat-label>Categoria de Servidor</mat-label>
-          <input matInput name="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
+          <input matInput name="tiposervidor" id="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let c of tipoServidores" [value]="c">
               {{c}}
