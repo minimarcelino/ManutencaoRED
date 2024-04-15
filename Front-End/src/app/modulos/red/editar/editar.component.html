@@ -7,7 +7,7 @@
   <h2>Aluno</h2>
   <form [formGroup]="editarRed" #formDir="ngForm">
     <mat-form-field style="min-width: 50%; max-width: 100%;">
-      <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno" matInput
+      <input formControlName="aluno" type="text" id="aluno" placeholder="Selecione um aluno" aria-label="Aluno" matInput
         [matAutocomplete]="auto">
       <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
         <mat-option *ngFor="let a of alunos" [value]="a">
@@ -18,13 +18,13 @@
 
     <h2>Curso</h2>
     <mat-form-field style="min-width: 40%; max-width: 100%;">
-      <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" />
+      <input formControlName="curso" aria-label="Curso" id="curso" matInput [value]="inputCurso" />
     </mat-form-field>
 
     <h2>Motivo do afastamento</h2>
     <mat-form-field class="motivoAfastamento" style="min-width: 60%; max-width: 100%;">
       <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
-      <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço" maxlength="4000"
+      <textarea id="motivo" formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço" maxlength="4000"
         rows="3" spellcheck="true">
       </textarea>
       <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
@@ -33,7 +33,7 @@
 
     <h2>Inicio do afastamento</h2>
     <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 400px;">
-      <input matInput [matDatepicker]="picker" formControlName="inicioAfastamento">
+      <input matInput [matDatepicker]="picker" id="inicio" formControlName="inicioAfastamento">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <div *ngIf="editarRed.get('inicioAfastamento')?.invalid && formDir.submitted" class="validation">
@@ -44,7 +44,7 @@
     <h2>Período do afastamento</h2>
     <mat-form-field class="tempoAfastamento">
       <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
-      <input type="number" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
+      <input type="number" id="tempo" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
       <mat-error *ngIf="editarRed.get('tempoAfastamento')?.errors && (editarRed.get('tempoAfastamento')?.dirty || editarRed.get('tempoAfastamento')?.touched)">
         <span *ngIf="editarRed.get('tempoAfastamento')?.errors?.['required']">Campo obrigatório.</span>
         <span *ngIf="editarRed.get('tempoAfastamento')?.errors?.['min']">O tempo mínimo de afastamento é 15 dias.</span>
@@ -55,7 +55,7 @@
     <h2>Semestre do aluno</h2>
     <mat-form-field class="semestreAluno">
       <mat-label>Digite o semestre que o aluno se encontra</mat-label>
-      <input type="number" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
+      <input type="number" id="semestre" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
       <mat-error *ngIf="editarRed.get('semestreAluno')?.errors && (editarRed.get('semestreAluno')?.dirty || editarRed.get('semestreAluno')?.touched)">
         <span *ngIf="editarRed.get('semestreAluno')?.errors?.['required']">Campo obrigatório.</span>
         <span *ngIf="editarRed.get('semestreAluno')?.errors?.['min']">O valor mínimo para o semestre é 1.</span>

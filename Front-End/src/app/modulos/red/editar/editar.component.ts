@@ -109,9 +109,25 @@ export class EditarREDComponent implements OnInit {
   }
 
   async editar() {
+    if (this.editarRed.invalid) {
+      //this.snackBarService.open('Campos obrigatórios!!');
+      const fields = Object.keys(this.editarRed.controls);
+      const firstInvalidField = fields.find(field => this.editarRed.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
+      return;
+    }
     // Verifica se o motivo de afastamento não é apenas espaços em branco
     if (this.motivoAfastamento.trim() === '') {
       this.snackBarService.open('Motivo do affastamento deve ser preenchido corretamente.');
+      const element = document.getElementById('motivo');
+      if (element) {
+        element.focus();
+      }
       return;
     }
     const inicioAfastamentoValido = this.verificarDataInicioAfastamento(

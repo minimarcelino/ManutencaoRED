@@ -8,7 +8,7 @@
 
       <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%;">
         <mat-label>Sigla</mat-label>
-        <input matInput name="sigla" formControlName="sigla" />
+        <input matInput id="sigla" name="sigla" formControlName="sigla" />
         <mat-error
           *ngIf="cadastrarDisciplina.get('sigla')?.errors && (cadastrarDisciplina.get('sigla')?.dirty || cadastrarDisciplina.get('sigla')?.touched)">
           <span *ngIf="cadastrarDisciplina.get('sigla')?.errors?.['required']">Campo obrigatório.</span>
@@ -17,7 +17,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%">
         <mat-label>Nome</mat-label>
-        <input matInput name="nomeDisciplina" formControlName="nomeDisciplina" />
+        <input matInput id="nome" name="nomeDisciplina" formControlName="nomeDisciplina" />
         <mat-error
           *ngIf="cadastrarDisciplina.get('nomeDisciplina')?.errors && (cadastrarDisciplina.get('nomeDisciplina')?.dirty || cadastrarDisciplina.get('nomeDisciplina')?.touched)">
           <span *ngIf="cadastrarDisciplina.get('nomeDisciplina')?.errors?.['required']">Campo obrigatório.</span>
@@ -26,7 +26,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 70%; max-width: 100%">
         <mat-label>Curso</mat-label>
-        <input formControlName="Curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto">
+        <input formControlName="Curso" id="curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto">
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
           <!-- <mat-option *ngFor="let c of cursos" [value]="c">
             {{c.nomeCurso}}

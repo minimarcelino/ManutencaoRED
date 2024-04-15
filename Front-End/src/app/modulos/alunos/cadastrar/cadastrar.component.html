@@ -8,7 +8,7 @@
 
       <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%;">
         <mat-label>Prontuário</mat-label>
-        <input matInput name="prontuario" formControlName="prontuario" mask="AA000000A" />
+        <input matInput id="prontuario" name="prontuario" formControlName="prontuario" mask="AA000000A" />
         <mat-error
           *ngIf="cadastrarAluno.get('prontuario')?.errors && (cadastrarAluno.get('prontuario')?.dirty || cadastrarAluno.get('prontuario')?.touched)">
           <span *ngIf="cadastrarAluno.get('prontuario')?.errors?.['required']">Campo obrigatório</span>
@@ -17,7 +17,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%;">
         <mat-label>Nome</mat-label>
-        <input matInput name="nome" formControlName="nome" />
+        <input matInput id="nome" name="nome" formControlName="nome" />
         <mat-error
           *ngIf="cadastrarAluno.get('nome')?.errors && (cadastrarAluno.get('nome')?.dirty || cadastrarAluno.get('nome')?.touched)">
           <span *ngIf="cadastrarAluno.get('nome')?.errors?.['required']">Campo obrigatório</span>
@@ -26,7 +26,7 @@
 
       <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 1%;">
         <mat-label>Data de Nascimento</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="data">
+        <input matInput [matDatepicker]="picker" id="data" formControlName="data">
         <mat-hint>DD/MM/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -38,7 +38,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 35%; max-width: 100%;">
         <mat-label>Telefone</mat-label>
-        <input matInput name="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']"
+        <input matInput name="telefone" id="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']"
           mask="(00)00000-0000" />
         <mat-error
           *ngIf="cadastrarAluno.get('telefone')?.errors && (cadastrarAluno.get('telefone')?.dirty || cadastrarAluno.get('telefone')?.touched)">
@@ -48,7 +48,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 71%; max-width: 100%; ">
         <mat-label>Email</mat-label>
-        <input matInput name="email" formControlName="email" />
+        <input matInput name="email" id="email" formControlName="email" />
         <mat-error
           *ngIf="cadastrarAluno.get('email')?.errors && (cadastrarAluno.get('email')?.dirty || cadastrarAluno.get('email')?.touched)">
           <span *ngIf="cadastrarAluno.get('email')?.errors?.['required']">Campo obrigatório</span>
@@ -57,7 +57,7 @@
       </mat-form-field>
 
       <mat-form-field style="min-width: 71%; max-width: 100%;">
-        <input formControlName="curso" type="text" placeholder="Selecione um Curso" matInput [matAutocomplete]="auto">
+        <input formControlName="curso" id="curso" type="text" placeholder="Selecione um Curso" matInput [matAutocomplete]="auto">
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
           <mat-option *ngFor="let c of cursos" [value]="c">
             {{c.nomeCurso}}

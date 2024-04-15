@@ -38,22 +38,42 @@ export class CadastrarCursoComponent implements OnInit {
 
   async submit() {
     if (this.cadastrarCurso.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos obrigatórios!!');
-      return;
-    }
-
-    // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.nomeCurso.trim() === '') {
-      this.snackBarService.open(
-        'Nome do curso deve ser preenchido corretamente.'
-      );
+      this.snackBarService.open('Campos Obrigatórios');
+      // Encontra o primeiro campo inválido e coloca o foco nele
+      const fields = Object.keys(this.cadastrarCurso.controls);
+      const firstInvalidField = fields.find(field => this.cadastrarCurso.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     }
 
     if (this.sigla.trim() === '') {
       this.snackBarService.open('Sigla deve ser preenchida corretamente.');
+      const element = document.getElementById('sigla');
+      if (element) {
+        element.focus();
+      }
+      return;
+          
+    }
+    
+    // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.nomeCurso.trim() === '') {
+      this.snackBarService.open(
+        'Nome do curso deve ser preenchido corretamente.'
+      );
+      const element = document.getElementById('nome');
+      if (element) {
+        element.focus();
+      }
       return;
     }
+
+    
 
     // Todos os campos obrigatórios estão preenchidos corretamente
     this.isSubmitting = true;

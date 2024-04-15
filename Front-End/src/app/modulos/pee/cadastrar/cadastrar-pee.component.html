@@ -7,7 +7,7 @@
     <form [formGroup]="cadastrarPee" #formDir="ngForm">
       <mat-form-field class="example-full-width">
         <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
-        <textarea matInput name="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
+        <textarea matInput name="conteudo" id="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
         spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(conteudo, 4000) }} caracteres
           restantes</mat-hint>
@@ -18,7 +18,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>A METODOLOGIA A SER UTILIZADA</mat-label>
-        <textarea matInput name="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
+        <textarea matInput name="metodologia" id="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
           spellcheck="true"></textarea>
           <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(metodologia, 4000) }} caracteres
             restantes</mat-hint>
@@ -29,7 +29,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>TRABALHOS A SEREM CUMPRIDOS</mat-label>
-        <textarea matInput name="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
+        <textarea matInput name="trabalhos" id="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
         spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(trabalhos, 2000) }} caracteres
           restantes</mat-hint>
@@ -40,7 +40,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>INDICAÇÕES BIBLIOGRÁFICAS</mat-label>
-        <textarea matInput name="bibliografia" formControlName="bibliografia" maxlength="2000" rows="5"
+        <textarea matInput name="bibliografia" id="bibliografia" formControlName="bibliografia" maxlength="2000" rows="5"
         spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(bibliografia, 2000) }} caracteres
           restantes</mat-hint>
@@ -51,7 +51,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>CRITÉRIOS DE EXIGÊNCIA</mat-label>
-        <textarea matInput name="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
+        <textarea matInput name="exigencia" id="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
         spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(exigencia, 2000) }} caracteres
           restantes</mat-hint>
@@ -62,7 +62,7 @@
 
       <mat-form-field style="min-width: 100%; max-width: 100%; margin-right: 400px;">
         <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="prazo">
+        <input matInput [matDatepicker]="picker" id="prazo" formControlName="prazo">
         <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -73,7 +73,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>CONTATOS DO PROFESSOR</mat-label>
-        <textarea matInput name="contato" formControlName="contato"></textarea>
+        <textarea matInput name="contato" id="contato" formControlName="contato"></textarea>
         <div *ngIf="cadastrarPee.get('contato')?.invalid && formDir.submitted" class="validation">
           <p>Contato obrigatório!</p>
         </div>

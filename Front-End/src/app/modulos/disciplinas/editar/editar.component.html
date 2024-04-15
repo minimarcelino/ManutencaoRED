@@ -8,7 +8,7 @@
 
       <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 10%; max-width: 100%; margin-left: 1%">
         <mat-label>Sigla</mat-label>
-        <input matInput name="sigla" formControlName="sigla">
+        <input matInput name="sigla" id="sigla" formControlName="sigla">
         <mat-error
           *ngIf="editarDisciplina.get('sigla')?.errors && (editarDisciplina.get('sigla')?.dirty || editarDisciplina.get('sigla')?.touched)">
           <span *ngIf="editarDisciplina.get('sigla')?.errors?.['required']">Campo obrigatório.</span>
@@ -17,7 +17,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 60%; max-width: 100%;">
         <mat-label>Nome</mat-label>
-        <input matInput name="nomeDisciplina" formControlName="nomeDisciplina">
+        <input matInput name="nomeDisciplina" id="nome" formControlName="nomeDisciplina">
         <mat-error
           *ngIf="editarDisciplina.get('nomeDisciplina')?.errors && (editarDisciplina.get('nomeDisciplina')?.dirty || editarDisciplina.get('nomeDisciplina')?.touched)">
           <span *ngIf="editarDisciplina.get('nomeDisciplina')?.errors?.['required']">Campo obrigatório.</span>
@@ -26,7 +26,7 @@
 
       <mat-form-field appearance="fill" style="min-width: 94%; max-width: 100%; margin-left: 1%">
         <mat-label>Curso</mat-label>
-        <input id="curso-input" formControlName="curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto" (focus)="selecionarTodoTexto()">
+        <input id="curso-input" formControlName="curso" id="curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto" (focus)="selecionarTodoTexto()">
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
           <mat-option *ngFor="let c of filteredCursos | async" [value]="c">
             {{c.nomeCurso}}

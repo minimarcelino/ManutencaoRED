@@ -7,7 +7,7 @@
     <form [formGroup]="cadastrarRed" #formDir="ngForm">
 
       <mat-form-field style="min-width: 71%; max-width: 100%;">
-        <input formControlName="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno"
+        <input formControlName="aluno" id="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno"
         matInput [matAutocomplete]="auto" (input)="filterAlunos($event)">
 
 
@@ -28,14 +28,14 @@
 
       <mat-form-field class="motivoAfastamento" style="min-width: 71%; max-width: 100%;">
         <mat-label >Descreva o motivo do afastamento do aluno</mat-label>
-        <textarea formControlName="motivoAfastamento" matInput placeholder="Ex. Fratura do braço" maxlength="4000"
+        <textarea formControlName="motivoAfastamento" id="motivo" matInput placeholder="Ex. Fratura do braço" maxlength="4000"
           rows="2" spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
           restantes</mat-hint>
       </mat-form-field>
 
       <mat-form-field style="min-width: 71%; max-width: 100%;">
-        <input matInput [matDatepicker]="picker" formControlName="inicioAfastamento">
+        <input matInput [matDatepicker]="picker" id="inicioAfastamento" formControlName="inicioAfastamento">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-label>Início do afastamento</mat-label>
         <mat-datepicker #picker></mat-datepicker>
@@ -46,7 +46,7 @@
 
       <mat-form-field class="tempoAfastamento" style="min-width: 71%; max-width: 100%;">
         <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
-        <input type="number" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
+        <input type="number" id="tempo" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
         <mat-error *ngIf="cadastrarRed.get('tempoAfastamento')?.errors && (cadastrarRed.get('tempoAfastamento')?.dirty || cadastrarRed.get('tempoAfastamento')?.touched)">
           <span *ngIf="cadastrarRed.get('tempoAfastamento')?.errors?.['required']">Campo obrigatório.</span>
           <span *ngIf="cadastrarRed.get('tempoAfastamento')?.errors?.['min']">O tempo mínimo de afastamento é 15 dias.</span>
@@ -56,7 +56,7 @@
 
       <mat-form-field class="semestreAluno" style="min-width: 71%; max-width: 100%;">
         <mat-label>Digite o semestre que o aluno se encontra</mat-label>
-        <input type="number" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
+        <input type="number" id="semestre" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
         <mat-error *ngIf="cadastrarRed.get('semestreAluno')?.errors && (cadastrarRed.get('semestreAluno')?.dirty || cadastrarRed.get('semestreAluno')?.touched)">
           <span *ngIf="cadastrarRed.get('semestreAluno')?.errors?.['required']">Campo obrigatório.</span>
           <span *ngIf="cadastrarRed.get('semestreAluno')?.errors?.['min']">O valor mínimo para o semestre é 1.</span>
