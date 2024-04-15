@@ -17,7 +17,7 @@ export class VisualizarDisciplinaComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'conclusao'];
+  displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'situacao'];
 
   constructor(
     public dialogQuestionService: messageDialog,

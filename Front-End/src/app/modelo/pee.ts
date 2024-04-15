@@ -16,4 +16,5 @@ export interface pee{
     avaliacoesRealizadas: string;
     dataAvaliacao: Date;
     observacoes: string;
+    situacao: string;
 }

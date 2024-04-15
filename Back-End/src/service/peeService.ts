@@ -149,6 +149,7 @@ export class peeService {
           avaliacoesRealizadas: pee.avaliacoesRealizadas,
           dataAvaliacao: pee.dataAvaliacao,
           observacoes: pee.observacoes,
+          situacao: pee.situacao
         },
       });
       return { ok: true, data: updatePEE };

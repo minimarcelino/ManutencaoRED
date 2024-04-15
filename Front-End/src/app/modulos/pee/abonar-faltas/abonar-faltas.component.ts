@@ -91,6 +91,7 @@ export class AbonarFaltaComponent implements OnInit {
         avaliacoesRealizadas: this.data.avaliacoesRealizadas,
         dataAvaliacao: this.data.dataAvaliacao,
         observacao: this.data.observacao,
+        situacao: "Avalida"
       });
       this.snackBarService.open('Faltas abonadas com sucesso!!');
       this.dialog.close();

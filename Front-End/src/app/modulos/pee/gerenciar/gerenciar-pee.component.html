@@ -42,16 +42,9 @@
         <td mat-cell *matCellDef="let a"> {{a.disciplinas.nomeDisciplina}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="concluido">
-        <th mat-header-cell *matHeaderCellDef> Conclusão </th>
-        <td mat-cell *matCellDef="let a">
-          <ng-container *ngIf="!a.conteudo || a.conteudo.trim().length === 0">
-            Não Concluído
-          </ng-container>
-          <ng-container *ngIf="a.conteudo && a.conteudo.trim().length > 0">
-            Concluído
-          </ng-container>
-        </td>
+      <ng-container matColumnDef="situacao">
+        <th mat-header-cell *matHeaderCellDef> Situação </th>
+        <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Ações">
