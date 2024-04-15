@@ -8,6 +8,5 @@ const servidorcontroller = new servidorController();
 
 router.get('/:hash', peecontroller.getByHash);
 router.post('/recoveryPassword', servidorcontroller.sendEmailRecoveryPassword);
-router.get('/recovery/:token', servidorcontroller.getByToken);
 
 export default router;
