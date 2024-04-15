@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { servidorService } from '../service/servidorService';
 import { StatusCodes } from 'http-status-codes';
 import { JwtPayload } from 'jsonwebtoken';
@@ -129,44 +129,50 @@ export class servidorController {
     return res.status(401);
   }
 
-  /*    async createRED(req: Request, res: Response) {
-        const { authorization } = req.headers
-        if (!authorization) {
-            return res.status(StatusCodes.FORBIDDEN)
-        }
+  async sendEmailRecoveryPassword(req: Request, res: Response) {
+    const { prontuario } = req.body;
+    const response = await servidorservice.findByProntuario(prontuario);
+    if (response.ok) {
+      if (
+        typeof response.data === 'object' &&
+        'email' in response.data &&
+        'nome' in response.data
+      ) {
+        const email = response.data.email;
+        const nome = response.data.nome;
+        const id = response.data.idservidor;
+        const crypto = require('crypto');
+        const hash = crypto.createHash('sha256');
+        const data = Date.now();
 
-        const token = authorization.split(" ")[1]
+        hash.update(id.toString()+data.toString());
+        const token = hash.digest('hex');
+        servidorservice.updateToken(id, token)
+        
+        const texto = `Olá ${nome}! Recebemos sua solicitação de recuperação de senha.
+                      
+                  Por favor, clique aqui para redefinir sua senha: http://red.pep2.ifsp.edu.br/usuario/${token} para ser redirecionado à página do exercício.
+                  
+                  Atenciosamente,
+                  
+                  Equipe de suporte do RED.
+                  `;
+        sendEmail(email, 'Recuperação de senha', texto);
+        console.log('Email Enviado');
+        return res.status(StatusCodes.OK).send(response.data);
+      }
+    }
+    return res.status(StatusCodes.BAD_REQUEST).send(response);
+  }
 
-        const { userEmail, type, lastActivity } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET ?? "") as JwtPayload
-
-        const response = await servidorservice.createRED(req.body);
-        if (response.ok) {
-            if (typeof response.data === 'object' && 'coordenador' in response.data) {
-                const coordenadorResponse = await servidorservice.findByIdCoordenador(response.data.coordenador);
-
-                if (coordenadorResponse.ok) {
-                  const coordenador = coordenadorResponse.data;
-
-                  if (typeof coordenador !== 'string' && coordenador) {
-                    const coordenadorEmail = coordenador.email;
-
-                    const texto =
-                      `O processo RED do aluno ${req.body.aluno_prontuario} foi criado. 👍
-
-                      Por favor, entre no sistema e confirme a abertura do Processo RED.
-
-                      Atenciosamente,
-
-                      Equipe de suporte do RED.
-                      `
-                    sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
-                  }
-                }
-            return res.status(StatusCodes.OK).send(response.data)
-            } else {
-                return res.status(StatusCodes.BAD_REQUEST).send(response)
-            }
-
-        }
-    } */
+  async getByToken(req: Request, res: Response) {
+    console.log("oi");
+    const response = await servidorservice.findByToken(req.params.token);
+    if (response.ok) {
+      return res.status(StatusCodes.OK).send(response);
+    } else {
+      return res.status(StatusCodes.BAD_REQUEST).send(response);
+    }
+  }
+  
 }

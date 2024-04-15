@@ -116,6 +116,7 @@ model servidor {
   senha        String  @db.VarChar(60)
   nome         String  @db.VarChar(60)
   prontuario   String  @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
+  token        String? @db.VarChar(64)
   curso        curso[]
   pee          pee[]
   red          red[]

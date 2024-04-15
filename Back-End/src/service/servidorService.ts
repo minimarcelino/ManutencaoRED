@@ -1,7 +1,7 @@
 import { servidor, red, disciplinas } from '@prisma/client';
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 export class servidorService {
   async findMany(
     search: string,
@@ -164,6 +164,47 @@ export class servidorService {
     }
   }
 
+  async updateToken(id: number, token: string) {
+    try {
+        const updateServidor = await prisma.servidor.update({
+          where: {
+            idservidor: +id,
+          },
+          data: {
+            token: token, 
+          } as any,
+        });
+        return { ok: true, data: updateServidor };
+    } catch (error) {
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
+  
+  async updateSenha(id: number, senha: string) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const senhaHash = await bcrypt.hash(senha, salt);
+
+        // Substitua a senha em texto simples pela senha hash
+        senha = senhaHash;
+        const updateServidor = await prisma.servidor.update({
+          where: {
+            idservidor: +id,
+          },
+          data: {
+            senha: senha,
+            token: null, 
+          } as any,
+        });
+        return { ok: true, data: updateServidor };
+    } catch (error) {
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
   async findByEmail(email: string) {
     try {
       const usuario = await prisma.servidor.findMany({
@@ -265,4 +306,42 @@ export class servidorService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
+
+  async findByProntuario(prontuario: string) {
+    try {
+      const usuario = await prisma.servidor.findUnique({
+        where: {
+          prontuario: prontuario,
+        },
+      });
+      if (!usuario) {
+        return { ok: false, data: StatusCodes.NOT_FOUND };
+      }
+
+      return { ok: true, data: usuario };
+    } catch (error) {
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
+  async findByToken(token: string) {
+    try {
+        const peeData = await prisma.pee.findFirst({
+            where: {
+              token: token,
+            } as any,
+        });
+
+        if (peeData) {
+            return { ok: true, data: peeData };
+        } else {
+            return { ok: false, data: StatusCodes.NOT_FOUND };
+        }
+    } catch (error) {
+        console.log(error);
+        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
 }
