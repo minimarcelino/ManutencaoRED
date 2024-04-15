@@ -44,7 +44,7 @@
         <mat-datepicker #picker3></mat-datepicker>
       </mat-form-field>
 
-      <div *ngIf=" (isCRA() || isADM() || isCOORD()) && this.data.situacao == 'Recusado'">
+      <div *ngIf=" this.data.situacao == 'Recusado'">
         <h2>Motivo da Recusa</h2>
         <mat-form-field class="motivoRecusaLabel" style="margin-right: 10px; min-width: 50%; max-width: 100%;">
           <mat-label>Motivo da Recusa</mat-label>
@@ -56,10 +56,13 @@
         <h2>Motivo da Recusa</h2>
         <mat-form-field class="motivoRecusa" style="min-width: 71%; max-width: 100%;">
           <mat-label>Insira o motivo da recusa da RED </mat-label>
-          <textarea formControlName="motivoRecusa" matInput
-            placeholder="Ex. Aluno errado" maxlength="4000" rows="3"
-            spellcheck="true">
-          </textarea>
+          <textarea matInput name="motivoRecusa" formControlName="motivoRecusa" maxlength="4000" rows="3"
+            spellcheck="true" placeholder="Ex. Aluno errado"></textarea>
+          <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoRecusa) }} caracteres
+            restantes</mat-hint>
+          <div *ngIf="visualizarRed.get('motivoRecusa')?.invalid && formDir.submitted" class="validation">
+            <p>Conteúdo obrigatório!</p>
+          </div>
         </mat-form-field>
       </div>
 
@@ -69,9 +72,8 @@
           style="margin-left: 4px;">Visualizar disciplinas</button>
       </div>
 
-      <div id="buttons"
-        *ngIf=" (isCOORD() || isADM()) && this.data.situacao == 'Esperando confirmação'">
-        
+      <div id="buttons" *ngIf=" (isCOORD() || isADM()) && this.data.situacao == 'Esperando confirmação'">
+
         <button mat-raised-button color="primary" (click)="confirmarRed()" style="margin-left: 4px;">Aceitar o
           Processo</button>
         <button mat-raised-button color="primary" (click)="recusarRed()" style="margin-left: 4px;">Recusar o

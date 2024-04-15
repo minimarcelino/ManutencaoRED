@@ -113,18 +113,18 @@ export class VisualizarREDComponent implements OnInit {
           idRED: this.data.idRED,
           situacao: "Recusado",
           motivoRecusa: this.motivoRecusa,
-          
+
         });
-  
+
         this.snackBarService.open('RED alterado com sucesso!!');
         this.dialogRefVisualizarRED.close();
       } catch (error: any) {
         console.log(error);
-  
+
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
           console.log(errorMessage);
-  
+
           this.snackBarService.open(`Falha ao alterar o RED: ${errorMessage}`);
         } else {
           this.snackBarService.open('Falha ao alterar o RED');
@@ -174,6 +174,14 @@ export class VisualizarREDComponent implements OnInit {
     dialog.afterClosed().subscribe((result: string) => {});
   }
 
+  updateCharacterCount(campoTexto: string): number {
+    return 4000 - campoTexto.length;
+  }
+
+  get motivoRecusa() {
+    return this.visualizarRed.get('motivoRecusa')!.value;
+  }
+
   isCOORD(){
     return this.user.tiposervidor === 'coordenador';
   }
@@ -184,9 +192,5 @@ export class VisualizarREDComponent implements OnInit {
 
   isADM(){
     return this.user.tiposervidor === 'administrador';
-  }
-
-  get motivoRecusa() {
-    return this.visualizarRed.get('motivoRecusa')!.value;
   }
 }
