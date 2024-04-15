@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { messageDialog } from 'src/app/services/messageDialog.service';
+import { disciplina } from 'src/app/modelo/disciplina';
 
 @Component({
   selector: 'app-visualizar-disciplina',
@@ -52,5 +53,13 @@ export class VisualizarDisciplinaComponent implements OnInit {
 
   cancelar() {
     this.dialog.close();
+  }
+
+  verificarSituacao(): boolean[] {
+    const situacoes: boolean[] = [];
+    for (const item of this.data.pee) {
+      situacoes.push(item.situacao === 'Aguardando Preenchimento');
+    }
+    return situacoes;
   }
 }
