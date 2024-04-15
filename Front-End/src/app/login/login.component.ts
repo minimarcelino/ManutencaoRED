@@ -4,6 +4,7 @@ import { SessionService } from '../services/session.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SnackBarService} from '../services/snackbar.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,16 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   logging: boolean = true;
   user: any;
+  isResetPassword: boolean = false;
+  isEmailSended: boolean = false;
+  isTokenValid: boolean = true;
 
   constructor(
     private router: Router,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +34,8 @@ export class LoginComponent implements OnInit {
       //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
       // senha: new FormControl('', Validators.required),
       senha: new FormControl('',),
+      token: new FormControl('', Validators.required),
+      novaSenha: new FormControl('', Validators.required),
     });
   }
 
@@ -40,8 +47,8 @@ export class LoginComponent implements OnInit {
       this.logging = await this.authenticationService.login({
         prontuario: this.prontuario,
         //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
-        //senha: this.senha,
-        senha: '123',
+        senha: this.senha,
+        //senha: '123',
       });
       console.log(this.logging);
 
@@ -64,5 +71,37 @@ export class LoginComponent implements OnInit {
 
   get senha() {
     return this.loginForm.get('senha')!.value;
+  }
+
+  get token() {
+    return this.loginForm.get('token')!.value;
+  }
+  
+  get novaSenha() {
+    return this.loginForm.get('novaSenha')!.value;
+  }
+
+  backToLogin(){
+    this.isResetPassword=false;
+    this.isEmailSended=false;
+  }
+
+  async resetPassword(){
+    const response = await this.notificationService.sendEmailResetPassword(this.prontuario.toUpperCase());
+    if(response){
+      this.isEmailSended = true;
+      this.isTokenValid = false;
+    }
+  }
+
+  async updateSenha(): Promise<void> {
+    try {
+      //const servidorservice = new servidorService();
+      //await servidorservice.updateSenha(this.token, this.novaSenha);
+      alert('Senha atualizada com sucesso!');
+    } catch (error) {
+      console.error('Erro ao atualizar senha:', error);
+      alert('Erro ao atualizar senha');
+    }
   }
 }
