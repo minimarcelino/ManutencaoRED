@@ -6,7 +6,7 @@
 
 - Software: Gerencia **RED**
 - Data de Início: 01 de abril de 2024
-- Estado: 🕑 Em andamento
+- Estado: ✔ Concluído
 - Autores: Danilo D. Quirino, Natália A. B. A. Leonel e Murilo L. F. de Oliveira
 - [**🏍 Sprint Backlog 02**](./../Sprint_02.md)
 
@@ -32,15 +32,15 @@ De forma complementar algumas atividades elencadas anteriormente foram executada
 | 16 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
 | 17 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
 | 21 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
-| 22 | Não iniciada | | | |
+| 22 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
 | 25 | Concluído | 06 de abril de 2024 | 06 de abril de 2024 | |
 | 27 | Cancelada | - | - | Cancelada e retificada pelo PB 69 |
-| 30 | Em andamento | 09 de abril de 2024 | | |
+| 30 | Em andamento | 09 de abril de 2024 | - | |
 | 33 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
 | 37 | Concluído | 18 de março de 2024 | 26 de março de 2024 | Concluída anteriormente, devido a reflexos de outra atividade |
 | 39 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
 | 40 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
-| 45 | Não iniciada | | | |
+| 45 | Em Andamento | 11 de abril de 2024 | - | |
 | 47 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
 | 48 | Cancelada | - | - | Cancelada e retificada pelo PB 70 |
 | 49 | Concluído | 12 de abril de 2024 | 13 de abril de 2024 | |
@@ -54,10 +54,9 @@ De forma complementar algumas atividades elencadas anteriormente foram executada
 | 67 | Concluído | 09 de abril de 2024 | 09 de abril de 2024 | |
 | 68 | Concluído | 06 de abril de 2024 | 06 de abril de 2024 | |
 | 69 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
-| 70 | Em andamento | 14 de abril de 2024 | | |
 | 71 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
 | 72 | Concluído | 13 de abril de 2024 | 14 de abril de 2024 | |
-| 73 | Não iniciada | | | |
+| 73 | Concluído | 15 de abril de 2024 | 15 de abril de 2024 | |
 | 74 | Concluído | 10 de abril de 2024 | 10 de abril de 2024 | |
 | 75 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
 | 77 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
@@ -66,13 +65,16 @@ De forma complementar algumas atividades elencadas anteriormente foram executada
 | 81 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
 | 82 | Concluído | 13 de abril de 2024 | 13 de abril de 2024 | |
 | 83 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
-| 84 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 |
+| 84 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
+| 85 | Concluído | 14 de abril de 2024 | 15 de abril de 2024 | |
 
 # Conclusão
 
 > *Descrever o que ocorreu durante o andamento de Sprint, como o motivo de as tarefas não terem sido concluídas. Também descrever os próximos passos e quaisquer ações que precisem ser tomadas antes de uma possível próxima sprint*
 > 
 
-No decorrer desta sprint não foram encontradas nenhuma dificuldade quanto a realização das atividades planejadas.
+No decorrer desta sprint não foram encontradas dificuldade para realizar as atividades planejadas, entretanto surgiram contratempos que necessitou adiantamento de duas para a próxima sprint.
 
-Para as próximas sprints se faz necessário organizar a divisão de tarefas o mais cedo possível, bem como o correto funcionamento do servidor para testes remotos na próxima sprint.
+Para as próximas sprints se faz necessário organizar a divisão de tarefas o mais cedo possível, limitar um prazo final para conclusão de marcos de entrega, como por exemplo 50%, 75% e 85% das atividades planejadas, permitindo tempo hábil para testes junto ao orientador/cliente.
+
+Outro ponto necessário é identificar as causas do mal funcionamento do servidor e novamente deixar disponível para os testes remotos na próxima sprint.
