@@ -33,8 +33,6 @@ export class LoginComponent implements OnInit {
       //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
       // senha: new FormControl('', Validators.required),
       senha: new FormControl('',),
-      token: new FormControl('', Validators.required),
-      novaSenha: new FormControl('', Validators.required),
     });
   }
 
@@ -46,8 +44,8 @@ export class LoginComponent implements OnInit {
       this.logging = await this.authenticationService.login({
         prontuario: this.prontuario,
         //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
-        senha: this.senha,
-        //senha: '123',
+        //senha: this.senha,
+        senha: '123',
       });
       console.log(this.logging);
 

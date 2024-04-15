@@ -29,9 +29,9 @@
             <div *ngIf="isResetPassword">
                 <mat-form-field appearance="fill">
                     <mat-label>Prontuário</mat-label>
-                    <input matInput name="prontuario" formControlName="prontuario" maxlength="9" required/>
+                    <input matInput name="prontuario" formControlName="prontuario" maxlength="9"/>
                     <mat-icon matSuffix>email</mat-icon>
-                    <div *ngIf="prontuario.invalid && formDir.submitted" class="validation">
+                    <div>
                         <p>O Prontuário é obrigatório!</p>
                     </div>
                 </mat-form-field>
