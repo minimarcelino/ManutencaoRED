@@ -55,8 +55,6 @@ export class CadastrarAlunoComponent implements OnInit {
   }
 
   async submit() {
-    console.log('Destino: ', this.destino);
-
     if (this.cadastrarAluno.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
       // Encontra o primeiro campo inválido e coloca o foco nele
@@ -91,9 +89,6 @@ export class CadastrarAlunoComponent implements OnInit {
       return;
     }
     
-
-    this.isSubmitting = true;
-
       try {
         await this.alunoService.createAluno({
           prontuario: this.prontuario.toUpperCase(),
@@ -109,8 +104,10 @@ export class CadastrarAlunoComponent implements OnInit {
         if (this.data.dialog) {
           this.dialogRef.close();
         }
+        this.isSubmitting = true;
 
       } catch (error: any) {
+        this.isSubmitting = false;
         const errorData = error.error.data;
         const errorPrisma = error.error.error;
 
