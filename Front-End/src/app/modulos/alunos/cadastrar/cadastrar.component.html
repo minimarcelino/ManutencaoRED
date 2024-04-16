@@ -52,7 +52,7 @@
         <mat-error
           *ngIf="cadastrarAluno.get('email')?.errors && (cadastrarAluno.get('email')?.dirty || cadastrarAluno.get('email')?.touched)">
           <span *ngIf="cadastrarAluno.get('email')?.errors?.['required']">Campo obrigatório</span>
-          <span *ngIf="cadastrarAluno.get('email')?.errors?.['email']">Formato inválido para email</span>
+          <span *ngIf="cadastrarAluno.get('email')?.errors?.['email']">Formato inválido para e-mail</span>
         </mat-error>
       </mat-form-field>
 

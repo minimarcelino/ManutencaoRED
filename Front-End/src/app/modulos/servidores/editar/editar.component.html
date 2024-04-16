@@ -12,28 +12,36 @@
 
 
   <div class="fields">
-    <form [formGroup]="cadastrarServidor" #formDir="ngForm">
+    <form [formGroup]="editarServidor" #formDir="ngForm">
+
       <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%; margin-left: 1%;">
         <mat-label>Prontuário</mat-label>
         <input matInput name="prontuario" id="prontuario" formControlName="prontuario" mask="AA00000A" />
-        <div *ngIf="cadastrarServidor.get('prontuario')?.invalid && formDir.submitted" class="validation">
-          <p>Prontuario obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="editarServidor.get('prontuario')?.errors && (editarServidor.get('prontuario')?.dirty || editarServidor.get('prontuario')?.touched)">
+          <span *ngIf="editarServidor.get('prontuario')?.errors?.['required']">Prontuário obrigatório</span>
+        </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%;">
         <mat-label>Nome</mat-label>
         <input matInput name="nome" id="nome" formControlName="nome" />
-        <div *ngIf="cadastrarServidor.get('nome')?.invalid && formDir.submitted" class="validation">
-          <p>Nome obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="editarServidor.get('nome')?.errors && (editarServidor.get('nome')?.dirty || editarServidor.get('nome')?.touched)">
+          <span *ngIf="editarServidor.get('nome')?.errors?.['required']">Nome obrigatório</span>
+        </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="fill" style="min-width: 84%; max-width: 100%; margin-left: 1%;">
         <mat-label>Email</mat-label>
         <input matInput name="email" id="email" formControlName="email" />
-        <div *ngIf="cadastrarServidor.get('email')?.invalid && formDir.submitted" class="validation">
-          <p>Email obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="editarServidor.get('email')?.errors && (editarServidor.get('email')?.dirty || editarServidor.get('email')?.touched)">
+          <span *ngIf="editarServidor.get('email')?.errors?.['required']">E-mail obrigatório</span>
+          <span *ngIf="editarServidor.get('email')?.errors?.['email']">Formato inválido para e-mail</span>
+        </mat-error>
       </mat-form-field>
+
       <div *ngIf="mostrarCampo()">
         <mat-form-field style="min-width: 84%; max-width: 100%; margin-left: 1%;">
           <mat-label>Categoria de Servidor</mat-label>
@@ -43,11 +51,14 @@
               {{c}}
             </mat-option>
           </mat-autocomplete>
-          <div *ngIf="cadastrarServidor.get('tiposervidor')?.invalid && formDir.submitted" class="validation">
-            <p>Categoria do Servidor obrigatório!</p>
-          </div>
+          <mat-error
+            *ngIf="editarServidor.get('tiposervidor')?.errors && (editarServidor.get('tiposervidor')?.dirty || editarServidor.get('tiposervidor')?.touched)">
+            <span *ngIf="editarServidor.get('tiposervidor')?.errors?.['required']">Tipo do servidor
+              obrigatório</span>
+          </mat-error>
         </mat-form-field>
       </div>
+
       <div id="buttons">
         <button mat-raised-button color="primary" (click)="cancelar()" style="margin-left: 1%;">Cancelar</button>
         <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 1%;">Confirmar</button>

@@ -59,9 +59,9 @@ export class EditarCursoComponent implements OnInit {
         element.focus();
       }
       return;
-          
+
     }
-    
+
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nomeCurso.trim() === '') {
       this.snackBarService.open(
@@ -129,7 +129,7 @@ export class EditarCursoComponent implements OnInit {
   }
 
   displayFn(Coordenador: servidor): string {
-    return Coordenador && Coordenador.email;
+    return Coordenador && Coordenador.nome;
   }
 
   get sigla() {

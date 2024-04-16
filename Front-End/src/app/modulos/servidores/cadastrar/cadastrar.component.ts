@@ -35,7 +35,7 @@ export class CadastrarServidoresComponent implements OnInit {
     this.cadastrarServidor = new FormGroup({
       prontuario: new FormControl('', [Validators.required]),
       nome: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       tiposervidor: new FormControl(''),
     });
     this.user = localStorage.getItem('user');

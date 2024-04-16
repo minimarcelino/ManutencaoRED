@@ -14,6 +14,10 @@
           {{a.prontuario}} - {{a.nome}}
         </mat-option>
       </mat-autocomplete>
+      <mat-error
+      *ngIf="editarRed.get('aluno')?.errors && (editarRed.get('aluno')?.dirty || editarRed.get('aluno')?.touched)">
+      <span *ngIf="editarRed.get('aluno')?.errors?.['required']">Aluno obrigatório</span>
+    </mat-error>
     </mat-form-field>
 
     <h2>Curso</h2>
@@ -29,6 +33,11 @@
       </textarea>
       <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
         restantes</mat-hint>
+        <mat-error
+        *ngIf="editarRed.get('motivoAfastamento')?.errors && (editarRed.get('motivoAfastamento')?.dirty || editarRed.get('motivoAfastamento')?.touched)">
+        <span *ngIf="editarRed.get('motivoAfastamento')?.errors?.['required']">Motivo do afastamento obrigatória</span>
+        <span *ngIf="editarRed.get('motivoAfastamento')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite do campo</span>
+      </mat-error>
     </mat-form-field>
 
     <h2>Inicio do afastamento</h2>
@@ -36,9 +45,11 @@
       <input matInput [matDatepicker]="picker" id="inicio" formControlName="inicioAfastamento">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-      <div *ngIf="editarRed.get('inicioAfastamento')?.invalid && formDir.submitted" class="validation">
-        <p>Inicio do afastamento obrigatório!</p>
-      </div>
+      <mat-error
+      *ngIf="editarRed.get('inicioAfastamento')?.errors && (editarRed.get('inicioAfastamento')?.dirty || editarRed.get('inicioAfastamento')?.touched)">
+      <span *ngIf="editarRed.get('inicioAfastamento')?.errors?.['required']">Data do início do afastamento
+        obrigatório</span>
+    </mat-error>
     </mat-form-field>
 
     <h2>Período do afastamento</h2>
