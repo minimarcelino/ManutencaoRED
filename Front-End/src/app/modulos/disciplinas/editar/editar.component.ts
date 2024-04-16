@@ -41,15 +41,35 @@ export class EditarDisciplinaComponent implements OnInit {
 
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.nomeDisciplina.trim() === '' || this.sigla.trim() === '') {
+    if (this.sigla.trim() === '') {
       this.snackBarService.open('Campos devem ser preenchidos corretamente.');
+      const element = document.getElementById('sigla');
+      if (element) {
+        element.focus();
+      }
+      return;
+    }
+    
+    if (this.nomeDisciplina.trim() === '') {
+      this.snackBarService.open('Campos devem ser preenchidos corretamente.');
+      const element = document.getElementById('nome');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     if (this.editarDisciplina.invalid || this.isSubmitting) {
-      console.log(this.idcurso);
-
-      this.snackBarService.open('Campos obrigatórios!!');
+      this.snackBarService.open('Campos Obrigatórios');
+      // Encontra o primeiro campo inválido e coloca o foco nele
+      const fields = Object.keys(this.editarDisciplina.controls);
+      const firstInvalidField = fields.find(field => this.editarDisciplina.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     } else {
       this.isSubmitting = true;

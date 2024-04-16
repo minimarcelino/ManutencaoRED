@@ -59,30 +59,38 @@ export class CadastrarAlunoComponent implements OnInit {
 
     if (this.cadastrarAluno.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
-      return;
-    }
-
-
-    if (this.data_nascimento && !this.verificarIdadeMinima(this.data_nascimento)) {
-      this.snackBarService.open('O aluno deve ter pelo menos 13 anos de idade.');
+      // Encontra o primeiro campo inválido e coloca o foco nele
+      const fields = Object.keys(this.cadastrarAluno.controls);
+      const firstInvalidField = fields.find(field => this.cadastrarAluno.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     }
 
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
       this.snackBarService.open('Nome deve ser preenchido corretamente.');
+      const element = document.getElementById('nome');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
-    if (this.telefone.trim() === '') {
-      this.snackBarService.open('Telefone deve ser preenchido corretamente.');
-      return;
-    }
 
     if (this.email.trim() === '') {
       this.snackBarService.open('E-mail deve ser preenchido corretamente.');
+      const element = document.getElementById('email');
+      if (element) {
+        element.focus();
+      }
       return;
     }
+    
 
     this.isSubmitting = true;
 

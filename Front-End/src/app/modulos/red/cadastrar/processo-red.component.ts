@@ -112,9 +112,25 @@ export class CadastrarProcessoREDComponent implements OnInit {
   }
 
   async cadastrar() {
+    if (this.cadastrarRed.invalid) {
+      this.snackBarService.open('Campos obrigatórios!!');
+      const fields = Object.keys(this.cadastrarRed.controls);
+      const firstInvalidField = fields.find(field => this.cadastrarRed.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
+      return;
+    }
     // Verifica se o motivo de afastamento não é apenas espaços em branco
     if (this.motivoAfastamento.trim() === '') {
       this.snackBarService.open('Motivo do affastamento deve ser preenchido corretamente.');
+      const element = document.getElementById('motivo');
+      if (element) {
+        element.focus();
+      }
       return;
     }
     // Verificação se o RED já existe no mesmo período

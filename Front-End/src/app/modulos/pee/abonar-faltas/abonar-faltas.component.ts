@@ -45,15 +45,29 @@ export class AbonarFaltaComponent implements OnInit {
 
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.abonarFaltaPee.invalid || this.isSubmitting) {
+      this.snackBarService.open('Campos obrigatórios!!');
+      const fields = Object.keys(this.abonarFaltaPee.controls);
+      const firstInvalidField = fields.find(field => this.abonarFaltaPee.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
+      return;
+    }
+    
     if (this.descricao.trim() === '') {
       this.snackBarService.open('Descrição deve ser preenchido corretamente.');
+      const element = document.getElementById('descricao');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
-    if (this.abonarFaltaPee.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      return;
-    }
+    
 
     if (this.percentualAbono < 0 || this.percentualAbono > 100) {
       this.snackBarService.open('O percentual de faltas abonadas deve ser entre 0 e 100.');

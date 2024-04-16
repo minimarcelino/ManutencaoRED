@@ -10,18 +10,22 @@ h1 {
     color: white;
 }
 
-/* Estilize os campos de entrada de acordo com suas necessidades */
 mat-form-field {
     width: 100%;
 }
 
-/* Adicione estilos específicos para os rótulos dos campos do formulário se necessário */
-mat-label {
-    font-weight: bold;
-}
-
-/* Estilize os campos de entrada de acordo com suas necessidades */
 input.mat-input {
     width: 100%;
-    /* Adicione outros estilos de campo de entrada aqui, se necessário */
+}
+
+/* Apresentação de erro */
+mat-error {
+  position: absolute;
+  right: 2%;
+  bottom: 1%;
+  font-weight: bold;
+}
+
+mat-label {
+  font-weight: 100;
 }

@@ -1,24 +1,30 @@
 <div class="container">
+
   <div>
     <h1>Cadastar Curso</h1>
     <hr>
   </div>
+
   <div class="fields">
     <form [formGroup]="cadastrarCurso" #formDir="ngForm">
       <mat-form-field appearance="fill" style="width: 20%; margin-right: 10px;">
         <mat-label>Sigla</mat-label>
-        <input matInput name="sigla" formControlName="sigla" />
-        <div *ngIf="cadastrarCurso.get('sigla')?.invalid && formDir.submitted" class="validation">
-          <p>Sigla obrigatória</p>
-        </div>
+        <input matInput id="sigla" name="sigla" formControlName="sigla" />
+        <mat-error
+          *ngIf="cadastrarCurso.get('sigla')?.errors && (cadastrarCurso.get('sigla')?.dirty || cadastrarCurso.get('sigla')?.touched)">
+          <span *ngIf="cadastrarCurso.get('sigla')?.errors?.['required']">Sigla obrigatório</span>
+        </mat-error>
       </mat-form-field>
+
       <mat-form-field appearance="fill" style="width: 78.5%;">
         <mat-label>Nome do Curso</mat-label>
-        <input matInput name="nomeCurso" formControlName="nomeCurso" />
-        <div *ngIf="cadastrarCurso.get('nomeCurso')?.invalid && formDir.submitted" class="validation">
-          <p>Curso obrigatório!</p>
-        </div>
+        <input matInput id="nome" name="nomeCurso" formControlName="nomeCurso" />
+        <mat-error
+          *ngIf="cadastrarCurso.get('nomeCurso')?.errors && (cadastrarCurso.get('nomeCurso')?.dirty || cadastrarCurso.get('nomeCurso')?.touched)">
+          <span *ngIf="cadastrarCurso.get('nomeCurso')?.errors?.['required']">Curso obrigatório</span>
+        </mat-error>
       </mat-form-field>
+
       <mat-form-field>
         <input formControlName="Coordenador" type="text" placeholder="Selecione um coordenador"
           aria-label="Professor Coordenador" matInput [matAutocomplete]="auto">
@@ -27,10 +33,13 @@
             {{c.nome}}
           </mat-option>
         </mat-autocomplete>
-        <div *ngIf="cadastrarCurso.get('idcordenador')?.invalid && formDir.submitted" class="validation">
-          <p>Coordenador obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="cadastrarCurso.get('idcordenador')?.errors && (cadastrarCurso.get('idcordenador')?.dirty || cadastrarCurso.get('idcordenador')?.touched)">
+          <span *ngIf="cadastrarCurso.get('idcordenador')?.errors?.['required']">Cordenador obrigatório</span>
+        </mat-error>
       </mat-form-field>
+
+
       <button mat-raised-button color="primary" (click)="voltar()">Voltar</button>
       <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Cadastrar</button>
     </form>
