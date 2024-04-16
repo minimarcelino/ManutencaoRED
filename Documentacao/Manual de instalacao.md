@@ -1,4 +1,6 @@
-# Manual de instalação 
+[**🏠Retornar ao Início**](./../README.md)
+
+# 📲 Manual de instalação 
 
 Neste manual, é primordial que possua acesso as permissões de gerenciamento do repositório Git devido a forma de deploy que será utilizado. Pois será gerado uma chave privada/publica no servidor a qual será utilizada para fornecer permissão de acesso, isso ocorre devido a recentes restrições relacionadas ao acesso de repositórios no Github serem realizados apenas via SSH.
 
