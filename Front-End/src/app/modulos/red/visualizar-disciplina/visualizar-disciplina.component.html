@@ -33,8 +33,7 @@
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef> Ações </th>
                     <td mat-cell *matCellDef="let i = index"> 
-                      <button mat-raised-button color="primary" *ngIf="verificarSituacao()[i]" onclick="sendEmail()" id="cadastrar">Enviar Email</button>
-                    </td>
+                        <button mat-raised-button color="primary" *ngIf="verificarSituacao()[i]" (click)="sendEmailProfessor(data.pee[i])" id="cadastrar">Enviar Email</button>                    </td>
                   </ng-container>
                   
 

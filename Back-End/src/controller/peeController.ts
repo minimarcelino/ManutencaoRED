@@ -271,4 +271,23 @@ export class PeeController {
       return res.status(StatusCodes.BAD_REQUEST).send(response);
     }
   }
+
+  async sendEmailProfessor(req: Request, res: Response) {
+    const idProfessor = req.body.idProfessor;
+    const idPee = req.body.idPee;
+
+    const professorResponse = await servidorservice.findByid(idProfessor);
+    if(typeof professorResponse.data === 'object' && 'email' in professorResponse.data){
+      const emailProfessor = professorResponse.data.email;
+      const texto = `
+                        Porfavor, entre no sistema e preencha ou avalie a PEE com ID = ${idPee}.
+          
+                        Atenciosamente,
+
+                        Equipe de suporte do RED.
+                        `;
+            sendEmail(emailProfessor, 'Pendências PEE', texto);
+            console.log("Email enviado");
+    }
+  }
 }

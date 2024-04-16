@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { disciplina } from 'src/app/modelo/disciplina';
+import { NotificationService } from 'src/app/services/notification.service';
+import { servidor } from 'src/app/modelo/servidor';
 
 @Component({
   selector: 'app-visualizar-disciplina',
@@ -23,6 +25,7 @@ export class VisualizarDisciplinaComponent implements OnInit {
   constructor(
     public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<VisualizarDisciplinaComponent>,
+    private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -63,7 +66,7 @@ export class VisualizarDisciplinaComponent implements OnInit {
     return situacoes;
   }
 
-  sendEmailProfessor(){
-
+  sendEmailProfessor(pee: any){
+    this.notificationService.sendEmailProfessor(pee.servidor_idservidor, pee.idpee);
   }
 }
