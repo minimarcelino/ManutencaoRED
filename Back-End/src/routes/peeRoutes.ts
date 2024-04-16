@@ -9,7 +9,7 @@ const peecontroller = new PeeController();
 
 router.get('/all', authentication.validate, peecontroller.getAll);
 router.post('/create', authentication.validate, peecontroller.Create);
-router.post('/createAtivuthentication.validate,idade', authentication.validate, peecontroller.CreateAtividade);
+router.post('/createAtividade', authentication.validate, peecontroller.CreateAtividade);
 router.put('/update/:id', authentication.validate, peecontroller.Update);
 router.put('/updateAtividade/:id', authentication.validate, peecontroller.UpdateAtividade);
 router.put('/updateWithEmail/:id', authentication.validate, peecontroller.UpdateWithEmail);
