@@ -41,12 +41,35 @@ export class CadastrarDisciplinaComponent implements OnInit {
 
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.nomeDisciplina.trim() === '' || this.sigla.trim() === '') {
+    if (this.sigla.trim() === '') {
       this.snackBarService.open('Campos devem ser preenchidos corretamente.');
+      const element = document.getElementById('sigla');
+      if (element) {
+        element.focus();
+      }
       return;
     }
+    
+    if (this.nomeDisciplina.trim() === '') {
+      this.snackBarService.open('Campos devem ser preenchidos corretamente.');
+      const element = document.getElementById('nome');
+      if (element) {
+        element.focus();
+      }
+      return;
+    }
+
     if (this.cadastrarDisciplina.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
+      // Encontra o primeiro campo inválido e coloca o foco nele
+      const fields = Object.keys(this.cadastrarDisciplina.controls);
+      const firstInvalidField = fields.find(field => this.cadastrarDisciplina.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     } else {
       this.isSubmitting = true;

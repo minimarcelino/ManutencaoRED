@@ -12,7 +12,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./editar.component.css'],
 })
 export class EditarServidoresComponent implements OnInit {
-  cadastrarServidor!: FormGroup;
+  editarServidor!: FormGroup;
   cursos: any[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
@@ -34,7 +34,7 @@ export class EditarServidoresComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cadastrarServidor = new FormGroup({
+    this.editarServidor = new FormGroup({
       prontuario: new FormControl(this.data.prontuario, [Validators.required]),
       nome: new FormControl(this.data.nome, [Validators.required]),
       email: new FormControl(this.data.email, [Validators.required]),
@@ -50,16 +50,34 @@ export class EditarServidoresComponent implements OnInit {
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.nome.trim() === '') {
       this.snackBarService.open('Nome deve ser preenchido corretamente.');
+      const element = document.getElementById('nome');
+      if (element) {
+        element.focus();
+      }
+
       return;
     }
 
     if (this.email.trim() === '') {
       this.snackBarService.open('E-mail deve ser preenchido corretamente.');
+      const element = document.getElementById('email');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
-    if (this.cadastrarServidor.invalid || this.isSubmitting) {
+    if (this.editarServidor.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
+      const fields = Object.keys(this.editarServidor.controls);
+      const firstInvalidField = fields.find(field => this.editarServidor.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
+      return;
       return;
     } else {
       this.isSubmitting = true;
@@ -91,19 +109,19 @@ export class EditarServidoresComponent implements OnInit {
   }
 
   get prontuario() {
-    return this.cadastrarServidor.get('prontuario')!.value;
+    return this.editarServidor.get('prontuario')!.value;
   }
 
   get nome() {
-    return this.cadastrarServidor.get('nome')!.value;
+    return this.editarServidor.get('nome')!.value;
   }
 
   get email() {
-    return this.cadastrarServidor.get('email')!.value;
+    return this.editarServidor.get('email')!.value;
   }
 
   get tiposervidor() {
-    return this.cadastrarServidor.get('tiposervidor')!.value;
+    return this.editarServidor.get('tiposervidor')!.value;
   }
 
   mostrarCampo() {
