@@ -18,7 +18,7 @@ export class VisualizarDisciplinaComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'situacao'];
+  displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'situacao', 'acoes'];
 
   constructor(
     public dialogQuestionService: messageDialog,
@@ -58,8 +58,12 @@ export class VisualizarDisciplinaComponent implements OnInit {
   verificarSituacao(): boolean[] {
     const situacoes: boolean[] = [];
     for (const item of this.data.pee) {
-      situacoes.push(item.situacao === 'Aguardando Preenchimento');
+      situacoes.push(item.situacao === 'Aguardando Preenchimento' || item.situacao === 'Enviado para o aluno');
     }
     return situacoes;
+  }
+
+  sendEmailProfessor(){
+
   }
 }

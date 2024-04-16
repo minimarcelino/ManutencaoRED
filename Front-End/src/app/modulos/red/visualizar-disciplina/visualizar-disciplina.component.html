@@ -26,7 +26,14 @@
                     <th mat-header-cell *matHeaderCellDef> Situação </th>
                     <td mat-cell *matCellDef="let a; let i = index"> 
                       {{a.situacao}} 
-                      <button mat-raised-button color="primary" *ngIf="verificarSituacao()[i]"  id="cadastrar">Enviar Email</button>
+                    </td>
+                  </ng-container>
+
+
+                <ng-container matColumnDef="acoes">
+                    <th mat-header-cell *matHeaderCellDef> Ações </th>
+                    <td mat-cell *matCellDef="let i = index"> 
+                      <button mat-raised-button color="primary" *ngIf="verificarSituacao()[i]" onclick="sendEmail()" id="cadastrar">Enviar Email</button>
                     </td>
                   </ng-container>
                   
