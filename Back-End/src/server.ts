@@ -24,15 +24,15 @@ const corsOptions = {
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.use('/aluno', alunoRoutes);
-app.use('/servidor', servidorRoutes);
-app.use('/curso', cursoRoutes);
-app.use('/red', redRoutes);
-app.use('/disciplina',disciplinaRoutes);
-app.use('/pee', peeRoutes);
-app.use('/usuario', usuarioNaoAutenticado); // Verificar, da acesso a atividades do pee
-app.use('/login', loginRoutes);
-app.use('/coordenador', coordenadorRoutes);
+app.use('/api/aluno', alunoRoutes);
+app.use('/api/servidor', servidorRoutes);
+app.use('/api/curso', cursoRoutes);
+app.use('/api/red', redRoutes);
+app.use('/api/disciplina',disciplinaRoutes);
+app.use('/api/pee', peeRoutes);
+app.use('/api/usuario', usuarioNaoAutenticado); // Verificar, da acesso a atividades do pee
+app.use('/api/login', loginRoutes);
+app.use('/api/coordenador', coordenadorRoutes);
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
 
