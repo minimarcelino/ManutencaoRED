@@ -10,6 +10,9 @@ import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.comp
 //
 import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
 import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
+//
+import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
+import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 
 const routes: Routes = [
   {
@@ -28,6 +31,14 @@ const routes: Routes = [
       {
         path: 'cadastrarCursos',
         component: CadastrarCursoComponent,
+      },
+      {
+        path: 'cadastrarDisciplinas',
+        component: CadastrarDisciplinaComponent,
+      },
+      {
+        path:'listarDisciplinas',
+        component:ListarDisciplinasComponent,
       },
       {
         path: 'listarServidores',

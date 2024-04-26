@@ -5,7 +5,7 @@
                 <h1> Sistema RED </h1>
                 <hr class="linha" />
             </div>
-            <div class="fields">
+            <div class="fields" *ngIf="!isResetPassword">
                 <mat-form-field appearance="fill">
                     <mat-label>Prontuário</mat-label>
                     <input matInput name="prontuario" formControlName="prontuario" maxlength="9" required/>
@@ -25,8 +25,28 @@
                     </div>
                 </mat-form-field>
             </div>
-             <button mat-flat-button color="warn">Entrar</button>
+
+            <div *ngIf="isResetPassword">
+                <mat-form-field appearance="fill">
+                    <mat-label>Prontuário</mat-label>
+                    <input matInput name="prontuario" formControlName="prontuario" maxlength="9"/>
+                    <mat-icon matSuffix>email</mat-icon>
+                    <div>
+                        <p>O Prontuário é obrigatório!</p>
+                    </div>
+                </mat-form-field>
+            </div>
+
+             <button mat-flat-button color="warn" *ngIf="!isResetPassword">Entrar</button>
+             <button type="button" *ngIf="isResetPassword && !isEmailSended" (click)="resetPassword()" mat-flat-button color="warn" >
+                <b>Enviar Email</b>
+            </button>
+
+            <p *ngIf="isEmailSended">Foi enviado um e-mail para recuperação de senha para sua caixa de entrada!</p>
+            <p *ngIf="!isResetPassword" style="color: #4a8d69; text-align: end; cursor: pointer; margin-top: 5px" (click)="isResetPassword = !isResetPassword">Esqueci minha senha</p>
+            <p *ngIf="isResetPassword" style="color: rgb(66, 66, 66); text-align: center; cursor: pointer; margin-top: 5px" (click)="backToLogin()">Voltar para Login</p>
         </form>
     </div>
+
 </div>
 

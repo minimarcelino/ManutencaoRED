@@ -5,78 +5,97 @@
   </div>
   <div class="fields">
     <form [formGroup]="cadastrarPee" #formDir="ngForm">
+
       <mat-form-field class="example-full-width">
         <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
-        <textarea matInput name="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
-        spellcheck="true"></textarea>
+        <textarea matInput name="conteudo" id="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
+          spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(conteudo, 4000) }} caracteres
           restantes</mat-hint>
-        <div *ngIf="cadastrarPee.get('conteudo')?.invalid && formDir.submitted" class="validation">
-          <p>Conteúdo obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="cadastrarPee.get('conteudo')?.errors && (cadastrarPee.get('conteudo')?.dirty || cadastrarPee.get('conteudo')?.touched)">
+          <span *ngIf="cadastrarPee.get('conteudo')?.errors?.['required']">Sigla obrigatório</span>
+          <span *ngIf="cadastrarPee.get('conteudo')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+            do campo</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>A METODOLOGIA A SER UTILIZADA</mat-label>
-        <textarea matInput name="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
+        <textarea matInput name="metodologia" id="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
           spellcheck="true"></textarea>
-          <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(metodologia, 4000) }} caracteres
-            restantes</mat-hint>
-        <div *ngIf="cadastrarPee.get('metodologia')?.invalid && formDir.submitted" class="validation">
-          <p>Metodologia obrigatória!</p>
-        </div>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(metodologia, 4000) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="cadastrarPee.get('metodologia')?.errors && (cadastrarPee.get('metodologia')?.dirty || cadastrarPee.get('metodologia')?.touched)">
+          <span *ngIf="cadastrarPee.get('metodologia')?.errors?.['required']">Metodologia obrigatória</span>
+          <span *ngIf="cadastrarPee.get('metodologia')?.errors?.['maxlength']">Quantidade de caracteres superior ao
+            limite do campo</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>TRABALHOS A SEREM CUMPRIDOS</mat-label>
-        <textarea matInput name="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
-        spellcheck="true"></textarea>
+        <textarea matInput name="trabalhos" id="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
+          spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(trabalhos, 2000) }} caracteres
           restantes</mat-hint>
-        <div *ngIf="cadastrarPee.get('trabalhos')?.invalid && formDir.submitted" class="validation">
-          <p>Trabalho obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="cadastrarPee.get('trabalhos')?.errors && (cadastrarPee.get('trabalhos')?.dirty || cadastrarPee.get('trabalhos')?.touched)">
+          <span *ngIf="cadastrarPee.get('trabalhos')?.errors?.['required']">Trabalhos obrigatório</span>
+          <span *ngIf="cadastrarPee.get('trabalhos')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+            do campo</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>INDICAÇÕES BIBLIOGRÁFICAS</mat-label>
-        <textarea matInput name="bibliografia" formControlName="bibliografia" maxlength="2000" rows="5"
-        spellcheck="true"></textarea>
+        <textarea matInput name="bibliografia" id="bibliografia" formControlName="bibliografia" maxlength="2000"
+          rows="5" spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(bibliografia, 2000) }} caracteres
           restantes</mat-hint>
-        <div *ngIf="cadastrarPee.get('bibliografia')?.invalid && formDir.submitted" class="validation">
-          <p>Bibliografia obrigatória!</p>
-        </div>
+        <mat-error
+          *ngIf="cadastrarPee.get('bibliografia')?.errors && (cadastrarPee.get('bibliografia')?.dirty || cadastrarPee.get('bibliografia')?.touched)">
+          <span *ngIf="cadastrarPee.get('bibliografia')?.errors?.['required']">Indicações bibliográficas
+            obrigatória</span>
+          <span *ngIf="cadastrarPee.get('bibliografia')?.errors?.['maxlength']">Quantidade de caracteres superior ao
+            limite do campo</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>CRITÉRIOS DE EXIGÊNCIA</mat-label>
-        <textarea matInput name="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
-        spellcheck="true"></textarea>
+        <textarea matInput name="exigencia" id="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
+          spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(exigencia, 2000) }} caracteres
           restantes</mat-hint>
-        <div *ngIf="cadastrarPee.get('exigencia')?.invalid && formDir.submitted" class="validation">
-          <p>Exigência obrigatória!</p>
-        </div>
+        <mat-error
+          *ngIf="cadastrarPee.get('exigencia')?.errors && (cadastrarPee.get('exigencia')?.dirty || cadastrarPee.get('exigencia')?.touched)">
+          <span *ngIf="cadastrarPee.get('exigencia')?.errors?.['required']">Critérios de exigência obrigatório</span>
+          <span *ngIf="cadastrarPee.get('exigencia')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+            do campo</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field style="min-width: 100%; max-width: 100%; margin-right: 400px;">
         <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="prazo">
+        <input matInput [matDatepicker]="picker" id="prazo" formControlName="prazo">
         <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <div *ngIf="cadastrarPee.get('prazo')?.invalid && formDir.submitted" class="validation">
-          <p>Prazo obrigatório!</p>
-        </div>
+        <mat-error
+          *ngIf="cadastrarPee.get('prazo')?.errors && (cadastrarPee.get('prazo')?.dirty || cadastrarPee.get('prazo')?.touched)">
+          <span *ngIf="cadastrarPee.get('prazo')?.errors?.['required']">Prazo de execução obrigatório</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>CONTATOS DO PROFESSOR</mat-label>
-        <textarea matInput name="contato" formControlName="contato"></textarea>
-        <div *ngIf="cadastrarPee.get('contato')?.invalid && formDir.submitted" class="validation">
-          <p>Contato obrigatório!</p>
-        </div>
+        <textarea matInput name="contato" id="contato" formControlName="contato"></textarea>
+        <mat-error
+          *ngIf="cadastrarPee.get('contato')?.errors && (cadastrarPee.get('contato')?.dirty || cadastrarPee.get('contato')?.touched)">
+          <span *ngIf="cadastrarPee.get('contato')?.errors?.['required']">Prazo de execução obrigatório</span>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
@@ -84,34 +103,10 @@
         <input matInput name="comunicacao" formControlName="comunicacao" />
       </mat-form-field>
 
-      <div>
-        <p>Houve avaliação</p>
-        <mat-radio-group formControlName="avaliacao" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <div>
-        <p>Caso tenha, ja foi realizada ?</p>
-        <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Data da nova avalição caso teve</mat-label>
-        <input matInput [matDatepicker]="picker2" formControlName="dataAvaliacao">
-        <mat-hint style="color: white;">DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
-
       <mat-form-field class="example-full-width">
         <mat-label>Observações</mat-label>
         <textarea matInput name="observacao" formControlName="observacao" maxlength="4000" rows="3"
-        spellcheck="true"></textarea>
+          spellcheck="true"></textarea>
         <!-- <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }} caracteres
           restantes</mat-hint> -->
       </mat-form-field>

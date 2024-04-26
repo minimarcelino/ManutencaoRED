@@ -11,16 +11,16 @@ import { formatDate } from '@angular/common';
 export class UsuarioNaoAutenticadoComponent implements OnInit {
 
   dadosPee: any; // Variável para armazenar os dados retornados
-  userId!: number;
+  hash!: string;
 
   constructor(private route: ActivatedRoute, private usuarioservice: usuarioNaoAutenticadoService) { }
 
   async ngOnInit(): Promise<void> {
     this.route.params.subscribe(async params => {
-      this.userId = +params['id'];
+      this.hash = params['hash'];
       try {
-        const response = await this.usuarioservice.getPee(this.userId);
-        this.dadosPee = response.data.pees;
+        const response = await this.usuarioservice.getPee(this.hash);
+        this.dadosPee = response.data;
       } catch (error) {
         console.error('Erro ao obter dados:', error);
       }

@@ -35,6 +35,9 @@ export class AbonarFaltaComponent implements OnInit {
       cumprimento: new FormControl('', [Validators.required]),
       novaAtividade: new FormControl('', [Validators.required]),
       percentualAbono: new FormControl('', [Validators.required]),
+      avaliacao: new FormControl(null),
+      avaliacaoRealizada: new FormControl(null),
+      dataAvaliacao: new FormControl(null),
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
@@ -42,15 +45,29 @@ export class AbonarFaltaComponent implements OnInit {
 
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
+    if (this.abonarFaltaPee.invalid || this.isSubmitting) {
+      this.snackBarService.open('Campos obrigatórios!!');
+      const fields = Object.keys(this.abonarFaltaPee.controls);
+      const firstInvalidField = fields.find(field => this.abonarFaltaPee.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
+      return;
+    }
+    
     if (this.descricao.trim() === '') {
       this.snackBarService.open('Descrição deve ser preenchido corretamente.');
+      const element = document.getElementById('descricao');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
-    if (this.abonarFaltaPee.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      return;
-    }
+    
 
     if (this.percentualAbono < 0 || this.percentualAbono > 100) {
       this.snackBarService.open('O percentual de faltas abonadas deve ser entre 0 e 100.');
@@ -88,6 +105,7 @@ export class AbonarFaltaComponent implements OnInit {
         avaliacoesRealizadas: this.data.avaliacoesRealizadas,
         dataAvaliacao: this.data.dataAvaliacao,
         observacao: this.data.observacao,
+        situacao: "Avalida"
       });
       this.snackBarService.open('Faltas abonadas com sucesso!!');
       this.dialog.close();
@@ -124,4 +142,17 @@ export class AbonarFaltaComponent implements OnInit {
   get percentualAbono() {
     return this.abonarFaltaPee.get('percentualAbono')!.value;
   }
+
+  get avaliacao() {
+    return this.abonarFaltaPee.get('avaliacao')!.value || null;
+  }
+
+  get dataAvaliacao() {
+    return this.abonarFaltaPee.get('dataAvaliacao')!.value || null;
+  }
+
+  get avaliacaoRealizada() {
+    return this.abonarFaltaPee.get('avaliacaoRealizada')!.value || null;
+  }
 }
+

@@ -4,7 +4,7 @@ import { UsuarioNaoAutenticadoComponent } from './usuario-nao-autenticado.compon
 
 const routes: Routes = [
     {
-      path: ':id', 
+      path: ':hash', 
       component: UsuarioNaoAutenticadoComponent
     },
   ];

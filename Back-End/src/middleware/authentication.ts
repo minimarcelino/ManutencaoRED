@@ -19,7 +19,7 @@ export class AuthenticationService {
         .json({ auth: false, message: "No token provided." });
     try {
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as { userProntuario: string, lastActivity: number };
-      const inactivityLimit = 30 * 60;
+      const inactivityLimit = 50 * 60;
       if (Math.floor(Date.now() / 1000) - decoded.lastActivity > inactivityLimit) {
         return response
           .status(StatusCodes.UNAUTHORIZED)

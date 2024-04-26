@@ -4,6 +4,7 @@ import { SessionService } from '../services/session.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SnackBarService} from '../services/snackbar.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,15 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   logging: boolean = true;
   user: any;
+  isResetPassword: boolean = false;
+  isEmailSended: boolean = false;
 
   constructor(
     private router: Router,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -64,5 +68,25 @@ export class LoginComponent implements OnInit {
 
   get senha() {
     return this.loginForm.get('senha')!.value;
+  }
+
+  get token() {
+    return this.loginForm.get('token')!.value;
+  }
+  
+  get novaSenha() {
+    return this.loginForm.get('novaSenha')!.value;
+  }
+
+  backToLogin(){
+    this.isResetPassword=false;
+    this.isEmailSended=false;
+  }
+
+  async resetPassword(){
+    const response = await this.notificationService.sendEmailResetPassword(this.prontuario.toUpperCase());
+    if(response){
+      this.isEmailSended = true;
+    }
   }
 }

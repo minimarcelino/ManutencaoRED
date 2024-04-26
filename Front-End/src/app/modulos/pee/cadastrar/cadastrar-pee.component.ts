@@ -54,9 +54,6 @@ export class CadastrarPEEComponent implements OnInit {
       prazo: new FormControl('', [Validators.required]),
       contato: new FormControl(this.data.emailServidor, [Validators.required]),
       comunicacao: new FormControl(null),
-      avaliacao: new FormControl(null),
-      avaliacaoRealizada: new FormControl(null),
-      dataAvaliacao: new FormControl(null),
       observacao: new FormControl('', [Validators.maxLength(4000)]),
     });
     this.user = localStorage.getItem('user');
@@ -64,38 +61,77 @@ export class CadastrarPEEComponent implements OnInit {
   }
 
   async submit() {
+    if (this.cadastrarPee.invalid || this.isSubmitting) {
+      this.snackBarService.open('Campos obrigatórios!!');
+      const fields = Object.keys(this.cadastrarPee.controls);
+      const firstInvalidField = fields.find(field => this.cadastrarPee.get(field)!.invalid);
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField);
+        if (element) {
+          element.focus();
+        }
+      }
+      return;
+    }
+
     // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.conteudo.trim() === '') {
       this.snackBarService.open('Conteúdos deve ser preenchido corretamente.');
+      const element = document.getElementById('conteudo');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     if (this.metodologia.trim() === '') {
       this.snackBarService.open('Metodologia deve ser preenchido corretamente.');
+      const element = document.getElementById('metododlogia');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     if (this.trabalhos.trim() === '') {
       this.snackBarService.open('Trabalhos deve ser preenchido corretamente.');
+      const element = document.getElementById('trabalhos');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     if (this.bibliografia.trim() === '') {
       this.snackBarService.open('Indicações bibliográficas deve ser preenchido corretamente.');
+      const element = document.getElementById('bibliografia');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     if (this.exigencia.trim() === '') {
       this.snackBarService.open('Critérios de exigência deve ser preenchido corretamente.');
+      const element = document.getElementById('exigencia');
+      if (element) {
+        element.focus();
+      }
+      return;
+    }
+
+    if (this.contato.trim() === '') {
+      this.snackBarService.open('Contato deve ser preenchido corretamente.');
+      const element = document.getElementById('contato');
+      if (element) {
+        element.focus();
+      }
       return;
     }
 
     const dataAtual = new Date();
     const prazoSelecionado = new Date(this.prazo);
-    if (this.cadastrarPee.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      return;
-    }
+
     if (prazoSelecionado < dataAtual) {
       this.snackBarService.open('A data deve ser posterior à data atual');
       return;
@@ -116,10 +152,8 @@ export class CadastrarPEEComponent implements OnInit {
           percentualabono: this.data.percentualabono,
           dataEnvioProposta: new Date(),
           canalComunicacao: this.comunicacao,
-          houveAvaliacao: this.avaliacao,
-          avaliacoesRealizadas: this.avaliacaoRealizada,
-          dataAvaliacao: this.dataAvaliacao,
           observacao: this.observacao,
+          situacao: "Enviado para o aluno"
         });
         this.snackBarService.open('PEE cadastrado com sucesso!!');
         this.dialog.close();

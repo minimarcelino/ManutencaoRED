@@ -9,6 +9,7 @@ import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { EditarServidoresComponent } from '../editar/editar.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-listar',
@@ -16,8 +17,11 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./listar.component.css'],
 })
 export class ListarServidoresComponent implements OnInit {
-  docentes: any[] = [];
+  servidores: any[] = [];
   dataSource: any;
+  servidoresFiltrados: any[] = [];
+  tiposServidores = ['administrador', 'professor', 'coordenador', 'cra', 'csp'];
+  tipoSelecionado = 'todos';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   user: any;
 
@@ -51,34 +55,34 @@ export class ListarServidoresComponent implements OnInit {
     const servidor = response.data.servidores;
 
     // Niveis de acesso diferente de Administrador não devem enxergar alem de docentes
-    if (this.user.tiposervidor != 'administrador') {
-      this.docentes = servidor.filter(
+    if (!this.isADM()) {
+      this.servidores = servidor.filter(
         (docente: any) =>
           docente.tiposervidor === 'professor' ||
           docente.tiposervidor === 'coordenador'
       );
     } else {
-      this.docentes = servidor;
+      this.servidores = servidor;
     }
 
-    this.dataSource = new MatTableDataSource<docente>(this.docentes);
+    this.dataSource = new MatTableDataSource<docente>(this.servidores);
     this.dataSource.paginator = this.paginator;
   }
 
-  editarDocente(docente: any) {
+  editarServidor(servidor: any) {
     const editar = this.dialog.open(EditarServidoresComponent, {
       data: {
-        idservidor: docente.idservidor,
-        prontuario: docente.prontuario,
-        nome: docente.nome,
-        email: docente.email,
-        tiposervidor: docente.tiposervidor,
+        idservidor: servidor.idservidor,
+        prontuario: servidor.prontuario,
+        nome: servidor.nome,
+        email: servidor.email,
+        tiposervidor: servidor.tiposervidor,
       },
     });
     this.handleDialogConfirm(editar);
   }
 
-  async deleteDocentePermanent(idservidor: number) {
+  async deleteServidorPermanent(idservidor: number) {
     try {
       let response = await this.servidorService.deleteServidor(idservidor);
       if (response) {
@@ -95,17 +99,40 @@ export class ListarServidoresComponent implements OnInit {
     }
   }
 
-  async deleteDocente(docente: any) {
+  async deleteServidor(servidor: any) {
     let res = false;
     res = await this.dialogQuestionService.openDialogConfirmDelete('docente');
     if (res) {
-      await this.deleteDocentePermanent(docente.idservidor);
+      await this.deleteServidorPermanent(servidor.idservidor);
     }
+  }
+
+  aplicarFiltros() {
+    // Aplica os filtros de curso e situação simultaneamente
+    this.servidoresFiltrados = this.servidores.filter(
+      (servidor) =>
+        (this.tipoSelecionado === 'todos' ||
+          servidor.tiposervidor === this.tipoSelecionado)
+    );
+
+    // Atualiza o dataSource com os REDs filtrados
+    this.dataSource = new MatTableDataSource<any>(this.servidoresFiltrados);
+    this.dataSource.paginator = this.paginator;
+  }
+
+  filroPorTipo(event: MatSelectChange) {
+    // Atualiza o filtro de curso e aplica todos os filtros novamente
+    this.tipoSelecionado = event.value;
+    this.aplicarFiltros();
   }
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
       this.findAll();
     });
+  }
+
+  isADM(){
+    return this.user.tiposervidor === 'administrador';
   }
 }

@@ -10,10 +10,20 @@
 
 <div class="listagem">
   <div id="tabela">
-    <mat-form-field  style="width: 30%;">
+
+    <mat-form-field style="width: 30%;">
       <mat-label>Pesquisar Servidor</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. André | PE000000 | servidor@ifsp.edu.br">
     </mat-form-field>
+
+    <mat-form-field *ngIf="isADM()">
+      <mat-label>Tipo de Servidor</mat-label>
+      <mat-select [(value)]="tipoSelecionado" (selectionChange)="filroPorTipo($event)">
+        <mat-option value="todos">Todos servidores</mat-option>
+        <mat-option *ngFor="let a of tiposServidores" [value]="a">{{a}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
       <!-- ProntuarioColumn -->
@@ -38,10 +48,10 @@
       <ng-container matColumnDef="acoes">
         <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
         <td class="actionsColumns" mat-cell *matCellDef="let a">
-          <button mat-icon-button matTooltip="Editar docente" (click)="editarDocente(a)">
+          <button mat-icon-button matTooltip="Editar docente" (click)="editarServidor(a)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Remover docente" (click)="deleteDocente(a)">
+          <button mat-icon-button matTooltip="Remover docente" (click)="deleteServidor(a)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -52,6 +62,8 @@
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
   </div>
-  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" style="margin-top: 10px;">Cadastrar
-    Docente</button>
+  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" style="margin-top: 10px;">
+    <mat-icon>add</mat-icon>
+    Cadastrar Docente
+  </button>
 </div>

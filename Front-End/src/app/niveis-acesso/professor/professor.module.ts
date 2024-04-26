@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 //
 import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
@@ -25,6 +26,7 @@ import { GerenciarVisualizarPeeComponent } from 'src/app/modulos/pee/gerenciar/g
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
 import { VisualizarPEEComponent } from 'src/app/modulos/pee/visualizar/visualizar.component';
 import { AssociarProfessoresComponent } from '../coordenador/associar-professores/associar-professores.component';
+
 
 @NgModule({
     declarations: [
@@ -49,6 +51,7 @@ import { AssociarProfessoresComponent } from '../coordenador/associar-professore
       MatButtonModule,
       MatSnackBarModule,
       MatTableModule,
+      MatSelectModule,
       MatMomentDateModule,
       MatPaginatorModule,
       NgxMaskPipe,

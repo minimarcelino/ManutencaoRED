@@ -1,61 +1,61 @@
 <div class="container">
-    <mat-toolbar class="mat-elevation-z8">
-        <button mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
-            <mat-icon *ngIf="sidenav.opened">close</mat-icon>
-        </button>
-        Menu
-         <span class="spacer"></span>
- Olá, {{authenticationService.userLogged?.nome}} !
-    </mat-toolbar>
+  <mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+      <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+    </button>
+    Menu
+    <span class="spacer"></span>
+    Olá, {{authenticationService.userLogged?.nome}} !
+  </mat-toolbar>
 
-    <mat-sidenav-container>
-        <mat-sidenav #sidenav="matSidenav" mode="side">
-            <button mat-button class="menu-button" routerLink="/coordenador">
-                <mat-icon>home</mat-icon>
-                <span>Home</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/perfil">
-                <mat-icon>account_circle</mat-icon>
-                <span>Perfil</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/listarServidores">
-                <mat-icon>face</mat-icon>
-                <span>Docentes</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/listarCursos">
-                <mat-icon>school</mat-icon>
-                <span>Cursos</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/listarDisciplinas">
-                <mat-icon>class</mat-icon>
-                <span>Disciplinas</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/listarREDs">
-                <mat-icon>settings</mat-icon>
-                <span>REDs</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/gerenciarPEEs">
-                <mat-icon>create</mat-icon>
-                <span>Gerenciar PEEs</span>
-            </button>
-            <button mat-button class="menu-button" routerLink="/coordenador/listarPEEs">
-              <mat-icon>book</mat-icon>
-              <span>Meus PEEs</span>
-          </button>
-          <button mat-button class="menu-button" routerLink="/coordenador/PEEsAbonados">
-              <mat-icon>book</mat-icon>
-              <span>PEEs finalizados</span>
-          </button>
-            <button mat-button class="menu-button" (click)="logout()">
-                <mat-icon>logout</mat-icon>
-                <span>Sair</span>
-            </button>
-        </mat-sidenav>
-        <mat-sidenav-content>
-            <div class="content mat-elevation-z8">
-                <router-outlet></router-outlet>
-            </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" mode="side" opened="true">
+      <button mat-button class="menu-button" routerLink="/coordenador">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/perfil">
+        <mat-icon>account_circle</mat-icon>
+        <span>Perfil</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/listarREDs">
+        <mat-icon>settings</mat-icon>
+        <span>Processos REDs</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/gerenciarPEEs">
+        <mat-icon>create</mat-icon>
+        <span>Gerenciar PEEs</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/listarPEEs">
+        <mat-icon>book</mat-icon>
+        <span>Meus PEEs</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/PEEsAbonados">
+        <mat-icon>book</mat-icon>
+        <span>PEEs finalizados</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/listarCursos">
+        <mat-icon>school</mat-icon>
+        <span>Cursos</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/listarDisciplinas">
+        <mat-icon>class</mat-icon>
+        <span>Disciplinas</span>
+      </button>
+      <button mat-button class="menu-button" routerLink="/coordenador/listarServidores">
+        <mat-icon>face</mat-icon>
+        <span>Docentes</span>
+      </button>
+      <button mat-button class="menu-button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

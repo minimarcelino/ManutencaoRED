@@ -121,8 +121,9 @@ export class AssociarDisciplinaComponent implements OnInit {
           prazofinal: new Date(),
           RED_idRED: this.data.idRED,
           disciplinas_iddisciplinas: item.iddisciplinas,
-          servidor_idservidor: this.data.servidor_idservidor,
+          servidor_idservidor: null,
           percentualabono: -1,
+          situacao: "Aguardando Associação de Professor"
         });
       }
       this.snackBarService.open('Disciplinas associadas com sucesso!!');

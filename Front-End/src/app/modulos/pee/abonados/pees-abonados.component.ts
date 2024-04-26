@@ -17,7 +17,7 @@ export class PEEAbonadosComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['disciplina', 'nome', 'prontuario', 'email', 'abono'];
+  displayedColumns = ['disciplina', 'nome', 'prontuario', 'email', 'abono', 'situacao'];
 
   constructor(
     public dialogQuestionService: messageDialog,

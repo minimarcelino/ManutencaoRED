@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="title">
+    <h1>Cadastro RED</h1>
+    <hr class="linha" />
+  </div>
+  <div class="form">
+    <form [formGroup]="cadastrarRed" #formDir="ngForm">
+
+      <mat-form-field style="min-width: 71%; max-width: 100%;">
+        <input formControlName="aluno" id="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno"
+          matInput [matAutocomplete]="auto" (input)="filterAlunos($event)">
+        <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
+          <mat-option *ngFor="let a of filteredAlunos" [value]="a">
+            {{a.prontuario}} - {{a.nome}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="cadastrarRed.get('aluno')?.errors && (cadastrarRed.get('aluno')?.dirty || cadastrarRed.get('aluno')?.touched)">
+          <span *ngIf="cadastrarRed.get('aluno')?.errors?.['required']">Aluno obrigatório</span>
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-icon-button matTooltip="Cadastrar aluno" (click)="CadastrarAluno()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+
+      <mat-form-field style="min-width: 71%; max-width: 100%;">
+        <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" />
+      </mat-form-field>
+
+      <mat-form-field class="motivoAfastamento" style="min-width: 71%; max-width: 100%;">
+        <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
+        <textarea formControlName="motivoAfastamento" id="motivo" matInput placeholder="Ex. Fratura do braço"
+          maxlength="4000" rows="2" spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="cadastrarRed.get('motivoAfastamento')?.errors && (cadastrarRed.get('motivoAfastamento')?.dirty || cadastrarRed.get('motivoAfastamento')?.touched)">
+          <span *ngIf="cadastrarRed.get('motivoAfastamento')?.errors?.['required']">Motivo do afastamento obrigatória</span>
+          <span *ngIf="cadastrarRed.get('motivoAfastamento')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="min-width: 71%; max-width: 100%;">
+        <input matInput [matDatepicker]="picker" id="inicioAfastamento" formControlName="inicioAfastamento">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-label>Início do afastamento</mat-label>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="cadastrarRed.get('inicioAfastamento')?.errors && (cadastrarRed.get('inicioAfastamento')?.dirty || cadastrarRed.get('inicioAfastamento')?.touched)">
+          <span *ngIf="cadastrarRed.get('inicioAfastamento')?.errors?.['required']">Data do início do afastamento
+            obrigatório</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="tempoAfastamento" style="min-width: 71%; max-width: 100%;">
+        <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
+        <input type="number" id="tempo" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
+        <mat-error
+          *ngIf="cadastrarRed.get('tempoAfastamento')?.errors && (cadastrarRed.get('tempoAfastamento')?.dirty || cadastrarRed.get('tempoAfastamento')?.touched)">
+          <span *ngIf="cadastrarRed.get('tempoAfastamento')?.errors?.['required']">Tempo de afastamento obrigatório.</span>
+          <span *ngIf="cadastrarRed.get('tempoAfastamento')?.errors?.['min']">O tempo mínimo de afastamento é 15 dias.</span>
+          <span *ngIf="cadastrarRed.get('tempoAfastamento')?.errors?.['max']">O tempo máximo de afastamento é 360 dias.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="semestreAluno" style="min-width: 71%; max-width: 100%;">
+        <mat-label>Digite o semestre que o aluno se encontra</mat-label>
+        <input type="number" id="semestre" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
+        <mat-error
+          *ngIf="cadastrarRed.get('semestreAluno')?.errors && (cadastrarRed.get('semestreAluno')?.dirty || cadastrarRed.get('semestreAluno')?.touched)">
+          <span *ngIf="cadastrarRed.get('semestreAluno')?.errors?.['required']">Semestre obrigatório.</span>
+          <span *ngIf="cadastrarRed.get('semestreAluno')?.errors?.['min']">O valor mínimo para o semestre é 1.</span>
+          <span *ngIf="cadastrarRed.get('semestreAluno')?.errors?.['max']">O valor máximo para o semestre é 24.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="observacao" style="min-width: 71%; max-width: 100%;">
+        <mat-label>Faça uma observação</mat-label>
+        <textarea formControlName="observacao" matInput
+          placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias matInput" maxlength="4000" rows="3"
+          spellcheck="true">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button color="primary" (click)="cadastrar()" style="margin-right: 1%;">Cadastrar</button>
+        <button mat-raised-button color="primary" (click)="retornarParaLista()"
+          style="margin-right: 1%;">Cancelar</button>
+      </div>
+      <!-- <input type="file" (change)="InputFile($event)" style="margin-right: 50px;" /> -->
+    </form>
+  </div>
+</div>
