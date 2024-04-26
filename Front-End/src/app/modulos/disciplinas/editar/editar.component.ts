@@ -152,6 +152,6 @@ export class EditarDisciplinaComponent implements OnInit {
   }
 
   get idcurso() {
-    return this.editarDisciplina.get('Curso')!.value.idcurso;
+    return this.editarDisciplina.get('curso')!.value.idcurso;
   }
 }
