@@ -1,6 +1,6 @@
 [**🏠 Início da Documentação de Manutenção**](README.md)
 
-# 🏎 Sprint Backlog 03
+# 🚘 Sprint Backlog 03
 
  - **Estado:** 🕘 Em andamento
  - **Data de Início:** 17 de abril de 2024

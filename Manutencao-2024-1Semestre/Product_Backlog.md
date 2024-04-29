@@ -89,4 +89,8 @@
 | 83 | Listar Alunos >> Visualização | Tabela de Aluno ultrapassa limites da div | Natália Leonel | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Concluído |
 | 84 | Listar RED >> Aceitar / recusar RED | Após recusar RED não pode ser possível aceitar/recusar novamente | Natália Leonel | Preventiva | 4 (Alta) | 3 (Moderada) | Concluído |
 | 85 | Foco em campos de entrada com erros | Ao apresentar um campo com algum erro, o foco deve ir automaticamente para o campo de entrada | Natália Leonel | Corretiva | 3 (Moderada) | 4 (Alta) | Concluído |
-| | **Total: 85** | **82% Concluído** | | | | | |
+| 86 | Relatório RED CSP >> Rota externa | O relatório deve abrir em outra guia, preenchido, e com possibildade de impressão/salvar | - | Adaptativa | 4 (Alta) | 5 (Muito Alta) | Em andamento |
+| 87 | Cadastrar RED >> Anexar documentos | Ao cadastrar uma RED, tem que ser possível incluir documentos para serem analisados pelo coordenador. | - | Adaptativa | 5 (Muito Alta) | 5 (Muito Alta) | Em andamento |
+| 88 | Listar Gerenciar PEE >> Associar professor | Da lista de REDs, verificar se não foi associado, e da lista de disciplinas associar professor. | - | Adaptativa | 4 (Alta) | 4 (Alta) | Em andamento |
+| 89 | Visualização PEE externo | A visualização do PEE de usuário externo tem que apresentar informações da disciplina e do aluno. | - | Adaptativa | 4 (Alta) | 4 (Alta) | Em andamento |
+| | **Total: 89** | **80% Concluído** | | | | | |

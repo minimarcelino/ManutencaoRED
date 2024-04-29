@@ -2,7 +2,7 @@
 
 [**📕 Relatórios de Sprints**](./../Relatorio_Sprints.md)
 
-# 🏎 Relatório da Sprint 03
+# 🚘 Relatório da Sprint 03
 
 - Software: Gerencia **RED**
 - Data de Início: 17 de abril de 2024
