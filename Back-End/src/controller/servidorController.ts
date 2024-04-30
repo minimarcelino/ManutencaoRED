@@ -149,14 +149,18 @@ export class servidorController {
         const token = hash.digest('hex');
         servidorservice.updateToken(id, token)
         
-        const texto = `Olá ${nome}! Recebemos sua solicitação de recuperação de senha.
-                      
-                  Por favor, clique aqui para redefinir sua senha: http://red.pep2.ifsp.edu.br/usuario/${token} para ser redirecionado à página do exercício.
-                  
-                  Atenciosamente,
-                  
-                  Equipe de suporte do RED.
-                  `;
+        const texto = `
+        <html>
+        <head>
+        <title>Recuperação de Senha - RED</title>
+        </head>
+        <body>
+        <p>Olá ${nome}! Recebemos sua solicitação de recuperação de senha.</p>
+        <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/${token}">clique aqui</a> para redefinir sua senha e acessar a página do exercício.</p>
+        <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+        </body>
+        </html>
+        `;
         sendEmail(email, 'Recuperação de senha', texto);
         console.log('Email Enviado');
         return res.status(StatusCodes.OK).send(response.data);

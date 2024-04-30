@@ -41,16 +41,18 @@ export class redController {
               'prontuario' in aluno.data
             ) {
               const aluno_prontuario = aluno.data.prontuario;
-              const texto = 
-              ` O processo RED do aluno ${aluno_prontuario} foi criado.
-                        
-                Por favor, entre no sistema e confirme a abertura do Processo RED.
-                        
-                Atenciosamente,
-                        
-                Equipe de suporte do RED.`
-                ;
-              sendEmail(coordenadorEmail, 'Inicio do Processo RED', texto);
+              const html = `
+                <html>
+                <head>
+                  <title>Inicio do Processo RED</title>
+                </head>
+                <body>
+                  <p>O processo RED do aluno ${aluno_prontuario} foi criado.</p>
+                  <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/">clique aqui</a> para acessar ao site e confirme a abertura do Processo RED.</p>
+                  <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                </body>
+                </html>`;
+              sendEmail(coordenadorEmail, 'Inicio do Processo RED', html);
               console.log('Email Enviado');
             }
           }

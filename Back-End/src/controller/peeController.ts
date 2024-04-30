@@ -5,8 +5,7 @@ import { sendEmail } from '../service/email';
 import { redController } from './redController';
 import { alunoService } from '../service/alunoService';
 import { servidorService } from '../service/servidorService';
-import { SourceTextModule } from 'vm';
-import { coordenadorController } from './coodenadorController';
+
 
 const peeservice = new peeService();
 const alunoservice = new alunoService();
@@ -73,16 +72,21 @@ export class PeeController {
                 const coordenadorEmail = coordenador.email;
                 if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
                   const aluno_prontuario = alunoResponse.data.prontuario;
-                  const texto =
-                    `O processo RED do aluno ${aluno_prontuario} possui novas disciplinas adicionadas.
-                      
-                  Por favor, entre no sistema e associe os professores responsaveis.
-                  
-                  Atenciosamente,
-                  
-                  Equipe de suporte do RED.
+                  const html = `
+                  <html>
+                    <head>
+                      <title>Inicio do Processo RED</title>
+                    </head>
+                    <body>
+                      <p>O processo RED do aluno <b>${aluno_prontuario}</b> possui novas disciplinas adicionadas.</p>
+                      <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/login">clique aqui</a> para entrar no sistema e associe os professores responsaveis.</p>
+                      <p>Atenciosamente,<br/>Equipe de suporte do RED.</p>
+                    </body>
+                  </html>
                   `;
-                  sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
+                  sendEmail(coordenadorEmail, "Inicio do Processo RED", html);
+                  console.log(html)
+
                   console.log("Email Enviado");
                   return res.status(StatusCodes.OK).send(response.data);
                 }
@@ -144,15 +148,19 @@ export class PeeController {
                   const coordenadorEmail = coordenador.email;
                   if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
                     const aluno_prontuario = alunoResponse.data.prontuario;
-                    const texto =
-                      `O processo RED do aluno ${aluno_prontuario} foi finalizado.
-                                                
-                      Atenciosamente,
-                      
-                      Equipe de suporte do RED.
-                      `;
-                    sendEmail(coordenadorEmail, "Inicio do Processo RED", texto);
+                    const html = `
+                      <html>
+                      <head>
+                        <title>Finalização do Processo RED</title>
+                      </head>
+                      <body>
+                        <p>O processo RED do aluno ${aluno_prontuario} foi finalizado.</p>
+                        <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                      </body>
+                      </html>`;
+                    sendEmail(coordenadorEmail, "Finalização do Processo RED", html);
                     console.log("Email Enviado");
+                    console.log(html)
                     return res.status(StatusCodes.OK).send(response.data);
                   }
                 }
@@ -169,17 +177,20 @@ export class PeeController {
                 const servidor = servidorResponse.data;
                 if (typeof servidor !== 'string' && servidor) {
                   const servidorEmail = servidor.email;
-                  const texto =
-                    `Existe uma nova PEE associada a você.
-          
-                Por favor, entre no sistema e preencha a PEE.
-                
-                Atenciosamente,
-                
-                Equipe de suporte do RED.
-                `;
-                  sendEmail(servidorEmail as string, "Inicio do Processo PEE", texto);
+                  const html = `
+                    <html>
+                    <head>
+                      <title>Inicio do Processo PEE</title>
+                    </head>
+                    <body>
+                      <p>Existe uma nova PEE associada a você.</p>
+                      <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/">clique aqui</a> para entrar no sistema e preencha a PEE.</p>
+                      <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                    </body>
+                    </html>`;
+                  sendEmail(servidorEmail as string, "Inicio do Processo PEE", html);
                   console.log("Email Enviado");
+                  console.log(html)
                   return res.status(StatusCodes.OK).send(response);
                 }
               }
@@ -243,14 +254,19 @@ export class PeeController {
             const alunoEmail = alunoData.email;
             console.log(alunoEmail);
             const texto = `
-                        As atividades do professor foram enviadas. 👍
+                        <html>
+                          <body>
+                            <p>As atividades do professor foram enviadas. 👍</p>
 
-                        Por favor, clique aqui: http://red.pep2.ifsp.edu.br/usuario/${hashPEE} para ser redirecionado à página do exercício.
-          
-                        Atenciosamente,
+                            <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/${hashPEE}">clique aqui</a> para ser redirecionado à página do exercício.</p>
 
-                        Equipe de suporte do RED.
-                        `;
+                            <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                          </body>
+                        </html>
+              
+            `;
+            console.log("Email Enviado");
+            console.log(texto)
             sendEmail(alunoEmail, 'Inicio das atividades', texto);
           } else {
             console.log('Detalhes do aluno não encontrados ou erro na busca.');
@@ -280,12 +296,15 @@ export class PeeController {
     if(typeof professorResponse.data === 'object' && 'email' in professorResponse.data){
       const emailProfessor = professorResponse.data.email;
       const texto = `
-                        Porfavor, entre no sistema e preencha ou avalie a PEE com ID = ${idPee}.
-          
-                        Atenciosamente,
+                        <html>
+                          <body>
+                            <p>Porfavor, <a href="http://red.pep2.ifsp.edu.br/login">clique aqui</a> para acessar o sistema e preencher ou avaliar a PEE com ID = ${idPee}.</p>
 
-                        Equipe de suporte do RED.
-                        `;
+                            <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                          </body>
+                        </html>
+      `;
+      console.log(texto)
             sendEmail(emailProfessor, 'Pendências PEE', texto);
             console.log("Email enviado");
     }

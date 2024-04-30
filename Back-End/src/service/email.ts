@@ -16,7 +16,7 @@ transporter.sendMail({
   from: "eventos.pep@nao-responda.ifsp.edu.br",
   to: para,
   subject: assunto,
-  text: texto,
+  html: texto,
 
 })
   .then(() => console.log('Email enviado! '))
