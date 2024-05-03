@@ -24,7 +24,7 @@ export class AuthenticationService {
       // Verifica se há uma hora de última atividade registrada para o usuário
       const lastActivity = lastActivityMap.get(token);
 
-      const inactivityLimit = 1 * 60; // Tempo limite de inatividade em segundos (30 minutos)
+      const inactivityLimit = 30 * 60; // Tempo limite de inatividade em segundos (30 minutos)
       const currentTime = Math.floor(Date.now() / 1000);
 
       if (lastActivity && currentTime - lastActivity > inactivityLimit) {
