@@ -8,10 +8,10 @@ const authentication = new AuthenticationService();
 const disciplinacontroller =  new disciplinaController();
 const servidorcontroller = new servidorController();
 
-router.get('/',authentication.validate,disciplinacontroller.getDisciplinas);
-router.get('/all', disciplinacontroller.getAll);
-router.post('/create',authentication.validate, disciplinacontroller.Create);
-router.put('/update/:id',authentication.validate, disciplinacontroller.Update);
-router.delete('/delete/:id',authentication.validate, disciplinacontroller.Delete);
+router.get('/', authentication.validate, disciplinacontroller.getDisciplinas);
+router.get('/all', authentication.validate, disciplinacontroller.getAll);
+router.post('/create', authentication.validate, disciplinacontroller.Create);
+router.put('/update/:id', authentication.validate, disciplinacontroller.Update);
+router.delete('/delete/:id', authentication.validate, disciplinacontroller.Delete);
 
 export default router;
