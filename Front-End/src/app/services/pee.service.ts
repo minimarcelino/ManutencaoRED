@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,8 @@ import { AuthenticationService } from './authentication.service';
 export class PeeService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router
   ) {}
 
   async getPee(): Promise<any> {
@@ -19,7 +21,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -34,7 +36,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -49,7 +51,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -64,7 +66,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -79,7 +81,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -94,7 +96,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -108,7 +110,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -122,7 +124,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
@@ -136,15 +138,21 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.tratarErro(error);
     }
   }
 
-
-
-
-
-
-
+  async tratarErro(error: any) {
+    if (!(error.status === 401) && !(error.status === 500)) {
+      throw error;
+    }
+    if (error.status === 401) {
+      alert('Desconectado por inatividade.');
+    } else if (error.status === 500) {
+      alert('Erro interno do servidor. Por favor, tente novamente.');
+    }
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
 
 }
