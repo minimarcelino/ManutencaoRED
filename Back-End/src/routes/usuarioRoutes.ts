@@ -1,12 +1,12 @@
 import express from "express";
 import { PeeController } from "../controller/peeController";
-import { servidorController } from "../controller/servidorController";
+import { emailController } from './../controller/emailController';
 
 const router = express.Router();
 const peecontroller = new PeeController();
-const servidorcontroller = new servidorController();
+const emailcontroller = new emailController();
 
 router.get('/:hash', peecontroller.getByHash);
-router.post('/recoveryPassword', servidorcontroller.sendEmailRecoveryPassword);
+router.post('/recoveryPassword', emailcontroller.sendEmailTrocarSenha);
 
 export default router;
