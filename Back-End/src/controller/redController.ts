@@ -57,6 +57,11 @@ export class redController {
   async UpdateSituacao(req: Request, res: Response) {
     const response = await redservice.updateSituacao(req.body);
     if (response.ok) {
+      if (typeof response.data === 'object' && 'situacao' in response.data){
+        if(response.data.situacao == 'Em andamento'){
+          emailcontroller.sendEmailCSP(response);
+        }
+      }
       return res.status(StatusCodes.OK).send(response);
     } else {
       return res.status(StatusCodes.BAD_REQUEST).send(response);

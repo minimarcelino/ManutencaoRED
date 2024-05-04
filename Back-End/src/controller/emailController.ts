@@ -39,7 +39,7 @@ export class emailController {
                    <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                  </body>
                  </html>`;
-                  sendEmail(coordenadorEmail, 'Inicio do Processo RED', html);
+                  sendEmail(coordenadorEmail, 'Sistema RED - Inicio do Processo RED', html);
                   console.log('Email Enviado');
                }
             }
@@ -73,7 +73,7 @@ export class emailController {
                   </body>
                 </html>
                 `;
-                        sendEmail(coordenadorEmail, "Processo RED", html);
+                        sendEmail(coordenadorEmail, "Sistema RED - Processo RED", html);
                         console.log("Email Enviado Associe Professor");
                         return 'Email Enviado';
                      }
@@ -108,7 +108,7 @@ export class emailController {
                  <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                </body>
                </html>`;
-                     sendEmail(coordenadorEmail, "Finalização do Processo RED", html);
+                     sendEmail(coordenadorEmail, "Sistema RED - Finalização do Processo RED", html);
                      console.log("Email Enviado Finalizando RED");
                   }
                }
@@ -140,7 +140,7 @@ export class emailController {
                   <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                 </body>
                 </html>`;
-                     sendEmail(servidorEmail as string, "Inicio do Processo PEE", html);
+                     sendEmail(servidorEmail as string, "Sistema RED - Inicio do Processo PEE", html);
                      console.log("Email Enviado Iniciando PEE");
                      console.log(html)
                   }
@@ -167,7 +167,7 @@ export class emailController {
                           </html>
         `;
          console.log(texto)
-         sendEmail(emailProfessor, 'Pendências PEE', texto);
+         sendEmail(emailProfessor, 'Sistema RED - Pendências PEE', texto);
          console.log("Email enviado Preencher PEE");
       }
    }
@@ -213,7 +213,7 @@ export class emailController {
              `;
                console.log("Email Enviado");
                console.log(texto)
-               sendEmail(alunoEmail, 'Inicio das atividades', texto);
+               sendEmail(alunoEmail, 'Sistema RED - Inicio das atividades', texto);
             } else {
                console.log('Detalhes do aluno não encontrados ou erro na busca.');
             }
@@ -251,11 +251,36 @@ export class emailController {
           </body>
           </html>
           `;
-            sendEmail(email, 'Trocar senha - Sistema RED', texto);
-            console.log('Email Enviado');
+            sendEmail(email, 'Sistema RED - Trocar senha', texto);
+            console.log('Email Enviado Trocar Senha/Primeiro Acesso');
             return res.status(StatusCodes.OK).send(response.data);
          }
       }
       return res.status(StatusCodes.BAD_REQUEST).send(response);
    }
+
+   //EMAILS CSP
+   async sendEmailCSP(response: any) {
+      if('aluno_id' in response){
+         const aluno = await alunoservice.findById(response.aluno_id);
+         if(aluno.data != null && typeof aluno.data == 'object' && 'nome' in aluno.data){
+            const nome = aluno.data.nome;
+            const texto = `<html>
+            <head>
+            <title>Sistema RED - Associe Disciplinas</title>
+            </head>
+            <body>
+            <p>A RED do aluno ${nome} foi aceita.
+            <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/">clique aqui</a> para associar as disciplinas</p>
+            <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+            </body>
+            </html>
+            `;
+            sendEmail('gerenciared.ifsp@gmail.com', 'Sistema RED - Associe Disciplinas', texto);
+            console.log('Email Enviado CSP');
+      }
+         
+   }
+}
+
 }
