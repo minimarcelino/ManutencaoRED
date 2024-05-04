@@ -2,8 +2,10 @@ import { Request, Response } from 'express';
 import { peeService } from '../service/peeService';
 import { StatusCodes } from 'http-status-codes';
 import { emailController } from './emailController';
+import { redController } from './redController';
 
 const peeservice = new peeService();
+const redcontroller = new redController();
 
 const emailcontroller = new emailController();
 export class PeeController {
@@ -52,7 +54,11 @@ export class PeeController {
   async Create(req: Request, res: Response) {
     const response = await peeservice.create(req.body);
     if (response.ok) {
-      emailcontroller.SendEmailCoordenadorAssocieProfessor(response);
+      if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
+        const idRed = response.data.RED_idRED;
+        const redResponse = await redcontroller.getById(idRed);
+        emailcontroller.SendEmailCoordenadorAssocieProfessor(redResponse);
+      }
       return res.status(StatusCodes.OK).send(response.data);
     }
     return res.status(StatusCodes.BAD_REQUEST).send(response);
@@ -94,9 +100,12 @@ export class PeeController {
     if (response.ok) {
       if (typeof response.data === 'object' && 'metodologia' in response.data) {
         if (response.data.metodologia != "") {
-          emailcontroller.SendEmailCoordenadorFinalizandoRed(response);
+          const idRed = response.data.RED_idRED;
+          const redResponse = await redcontroller.getById(idRed);
+          emailcontroller.SendEmailCoordenadorFinalizandoRed(redResponse);
+        }else{
+            emailcontroller.SendEmailProfesorIniciandoPEE(response);
         }
-        emailcontroller.SendEmailProfesorIniciandoPEE(response);
       }
       return res.status(StatusCodes.OK).send(response.data);
     } else {
@@ -116,7 +125,11 @@ export class PeeController {
   async UpdateWithEmail(req: Request, res: Response) {
     const response = await peeservice.update(req.body, Number(req.params.id));
     if (response.ok) {
-      emailcontroller.sendEmailAluno(response, req);
+      if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
+        const RED_idRED = response.data.RED_idRED;
+        const redAluno = (await redcontroller.getById(RED_idRED)).data;
+        emailcontroller.sendEmailAluno(redAluno, req);
+      }
       return res.status(StatusCodes.OK).send(response);
     } else {
       return res.status(StatusCodes.BAD_REQUEST).send(response);

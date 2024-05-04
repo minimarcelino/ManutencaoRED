@@ -1,14 +1,10 @@
 import { sendEmail } from "../service/email";
-import { redController } from './redController';
 import { alunoService } from '../service/alunoService';
 import { servidorService } from '../service/servidorService';
-import { peeService } from '../service/peeService';
 import { Request, Response } from "express";
 import { StatusCodes } from 'http-status-codes';
 
-const peeservice = new peeService();
 const alunoservice = new alunoService();
-const redcontroller = new redController();
 const servidorservice = new servidorService();
 
 export class emailController {
@@ -47,10 +43,7 @@ export class emailController {
       }
    }
 
-   async SendEmailCoordenadorAssocieProfessor(response: any) {
-      if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
-         const idRed = response.data.RED_idRED;
-         const redResponse = await redcontroller.getById(idRed);
+   async SendEmailCoordenadorAssocieProfessor(redResponse: any) {
          if (redResponse.ok && redResponse.data != null) {
             if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
                const coordenadorResponse = await servidorservice.findByIdCoordenador(redResponse.data.coordenador);
@@ -81,13 +74,10 @@ export class emailController {
                }
             }
          }
-      }
       return 'Error';
    }
 
-   async SendEmailCoordenadorFinalizandoRed(response: any) {
-      const idRed = response.data.RED_idRED;
-      const redResponse = await redcontroller.getById(idRed);
+   async SendEmailCoordenadorFinalizandoRed(redResponse: any) {
       if (redResponse.ok && redResponse.data != null) {
          if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
             const coordenadorResponse = await servidorservice.findByIdCoordenador(redResponse.data.coordenador);
@@ -173,11 +163,7 @@ export class emailController {
    }
 
    // EMAILS ALUNO
-   async sendEmailAluno(response: any, req: Request) {
-      if (typeof response.data === 'object' && 'RED_idRED' in response.data) {
-         const RED_idRED = response.data.RED_idRED;
-         const redAluno = (await redcontroller.getById(RED_idRED)).data;
-
+   async sendEmailAluno(redAluno: any, req: Request) {
          if (redAluno && typeof redAluno === 'object' && 'aluno_id' in redAluno) {
             const alunoId = redAluno.aluno_id;
             const alunoDetails = await alunoservice.findById(alunoId);
@@ -218,7 +204,7 @@ export class emailController {
                console.log('Detalhes do aluno não encontrados ou erro na busca.');
             }
          }
-      }
+      
    }
 
    //EMAIL ESQUECI A SENHA/PRIMEIRO ACESSO
@@ -261,8 +247,9 @@ export class emailController {
 
    //EMAILS CSP
    async sendEmailCSP(response: any) {
-      if('aluno_id' in response){
-         const aluno = await alunoservice.findById(response.aluno_id);
+      console.log(response)
+      if('aluno_id' in response.data){
+         const aluno = await alunoservice.findById(response.data.aluno_id);
          if(aluno.data != null && typeof aluno.data == 'object' && 'nome' in aluno.data){
             const nome = aluno.data.nome;
             const texto = `<html>
