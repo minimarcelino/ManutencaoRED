@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
@@ -24,8 +25,10 @@ export class ListarServidoresComponent implements OnInit {
   tipoSelecionado = 'todos';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   user: any;
+  dadosImportados: any[] = [];
 
   displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
+  fileInput: any;
 
   constructor(
     private router: Router,
@@ -105,6 +108,54 @@ export class ListarServidoresComponent implements OnInit {
     if (res) {
       await this.deleteServidorPermanent(servidor.idservidor);
     }
+  }
+
+  // Cadastro de servidores a partir de arquivo XLSX
+  cadastroServidorLote(event: any) {
+    const target: DataTransfer = <DataTransfer>(event.target);
+    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(target.files[0]);
+    reader.onload = (e: any) => {
+      const binarystr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_json(ws);
+      this.dadosImportados = data;
+      console.log(this.dadosImportados);
+
+      const importPromises = this.dadosImportados.map(item => {
+        return this.servidorService.createServidor({
+          email: item["E-mail"],
+          tiposervidor: "professor",
+          senha: 'ifsp',
+          nome: item.Nome,
+          prontuario: item["Prontuário"]
+        });
+      });
+
+      Promise.all(importPromises)
+        .then((responses) => {
+          const hasError = responses.some(response => response.ok === false);
+          if (hasError) {
+            this.snackBarService.open(`Erro na importação. Verifique os detalhes.`);
+          } else {
+            this.snackBarService.open(`Importação dos docentes foi realizada!`);
+          }
+        })
+        .catch (error => {
+          if (error && error.error && error.error.data) {
+            const errorMessage = error.error.data;
+            this.snackBarService.open(`Erro na importação de servidores: ${errorMessage}`);
+          } else {
+            this.snackBarService.open(`Erro na importação de servidores`);
+          }
+        })
+        .finally(() => {
+          this.findAll();
+        });
+    };
   }
 
   aplicarFiltros() {
