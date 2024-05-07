@@ -1,139 +1,148 @@
 <div class="corpo">
-<div class="title listagem">
-  <h1>REDs dos Alunos</h1>
-  <hr class="linha" />
-</div>
-
-<div class="listagem">
-  <div id="tabela">
-
-    <mat-form-field class="campo-pesquisa">
-      <mat-label>Pesquisar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000">
-    </mat-form-field>
-
-    <mat-form-field class="campo-curso">
-      <mat-label>Curso</mat-label>
-      <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
-        <mat-option value="todos">Todos os cursos</mat-option>
-        <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="campo-situacao">
-      <mat-label>Situação</mat-label>
-      <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
-        <mat-option value="todos">Apresentar todas</mat-option>
-        <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
-
-      <!-- Coluna NOME -->
-      <ng-container matColumnDef="Nome">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-      </ng-container>
-
-      <!-- Coluna PRONTUÁRIO -->
-      <ng-container matColumnDef="Prontuário">
-        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-      </ng-container>
-
-      <!-- Coluna CURSO -->
-      <ng-container matColumnDef="Curso">
-        <th mat-header-cell *matHeaderCellDef> Curso </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-      </ng-container>
-
-      <!-- Coluna INÍCIO RED -->
-      <ng-container matColumnDef="Início RED">
-        <th mat-header-cell *matHeaderCellDef> Início RED </th>
-        <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-      </ng-container>
-
-      <!-- Coluna TEMPO AFASTAMENTO -->
-      <ng-container matColumnDef="Tempo Afastamento">
-        <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
-        <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-      </ng-container>
-
-      <!-- Coluna TÉRMINO -->
-      <ng-container matColumnDef="Término">
-        <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
-        </th>
-        <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-      </ng-container>
-
-      <!-- Coluna SITUAÇÃO -->
-      <ng-container matColumnDef="Situação">
-        <th mat-header-cell *matHeaderCellDef> Situação </th>
-        <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-      </ng-container>
-
-      <!-- Coluna ASSOCIAÇÃO DE DISCIPLINAS -->
-      <ng-container matColumnDef="Disciplinas" >
-        <th mat-header-cell *matHeaderCellDef> Associação de disciplinas </th>
-        <td mat-cell *matCellDef="let a">
-          <ng-container *ngIf="!a.pee || a.pee.length === 0">
-            Não Concluído
-          </ng-container>
-          <ng-container *ngIf="a.pee && a.pee.length > 0">
-            Concluído
-          </ng-container>
-        </td>
-      </ng-container>
-
-      <!-- Outras colunas aqui, se necessário -->
-
-      <!-- Coluna de AÇÕES do usuário -->
-      <ng-container matColumnDef="Ações">
-        <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-        <td class="actionsColumns" mat-cell *matCellDef="let a">
-
-          <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
-            (click)="visualizarDisciplina(a)">
-            <mat-icon>library_books</mat-icon>
-          </button>
-
-          <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isADM()" mat-icon-button matTooltip="Editar RED"
-            (click)="editarRED(a)">
-            <mat-icon>edit</mat-icon>
-          </button>
-
-          <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRED(a)">
-            <mat-icon>visibility</mat-icon>
-          </button>
-
-          <button *ngIf="a.situacao === 'Finalizado' && isADM()" mat-icon-button matTooltip="Gerar relatório de faltas"
-            (click)="gerarRelatorioFaltasAbonadas(a)">
-            <mat-icon>description</mat-icon>
-          </button>
-
-          <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && isADM()" mat-icon-button matTooltip="Arquivar RED"
-            (click)="arquivarRED(a)">
-            <mat-icon>inventory_2</mat-icon>
-          </button>
-
-          <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee) && isCOORD()" mat-icon-button
-            matTooltip="Finalizar RED" (click)="finalizarRED(a)">
-            <mat-icon>task_alt</mat-icon>
-          </button>
-
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
+  <div class="title listagem">
+    <h1>REDs dos Alunos</h1>
+    <hr class="linha" />
   </div>
-  <button *ngIf="isADM()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED" class="button">
-    <mat-icon>add</mat-icon>
-    Cadastrar RED
-  </button>
-</div>
+
+  <div class="listagem">
+    <div id="tabela">
+
+      <mat-form-field class="campo-pesquisa">
+        <mat-label>Pesquisar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000">
+      </mat-form-field>
+
+      <mat-form-field class="campo-curso">
+        <mat-label>Curso</mat-label>
+        <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
+          <mat-option value="todos">Todos os cursos</mat-option>
+          <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="campo-situacao">
+        <mat-label>Situação</mat-label>
+        <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
+          <mat-option value="todos">Apresentar todas</mat-option>
+          <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+
+        <!-- Coluna NOME -->
+        <ng-container matColumnDef="Nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
+        </ng-container>
+
+        <!-- Coluna PRONTUÁRIO -->
+        <ng-container matColumnDef="Prontuário">
+          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+          <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
+        </ng-container>
+
+        <!-- Coluna CURSO -->
+        <ng-container matColumnDef="Curso">
+          <th mat-header-cell *matHeaderCellDef> Curso </th>
+          <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
+        </ng-container>
+
+        <!-- Coluna INÍCIO RED -->
+        <ng-container matColumnDef="Início RED">
+          <th mat-header-cell *matHeaderCellDef> Início RED </th>
+          <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
+        </ng-container>
+
+        <!-- Coluna TEMPO AFASTAMENTO -->
+        <ng-container matColumnDef="Tempo Afastamento">
+          <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
+          <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
+        </ng-container>
+
+        <!-- Coluna TÉRMINO -->
+        <ng-container matColumnDef="Término">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
+          </th>
+          <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
+        </ng-container>
+
+        <!-- Coluna SITUAÇÃO -->
+        <ng-container matColumnDef="Situação">
+          <th mat-header-cell *matHeaderCellDef> Situação </th>
+          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+        </ng-container>
+
+        <!-- Coluna ASSOCIAÇÃO DE DISCIPLINAS -->
+        <ng-container matColumnDef="Disciplinas">
+          <th mat-header-cell *matHeaderCellDef> Associação de disciplinas </th>
+          <td mat-cell *matCellDef="let a">
+            <ng-container *ngIf="!a.pee || a.pee.length === 0">
+              Não Concluído
+            </ng-container>
+            <ng-container *ngIf="a.pee && a.pee.length > 0">
+              Concluído
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Outras colunas aqui, se necessário -->
+
+        <!-- Coluna de AÇÕES do usuário -->
+        <ng-container matColumnDef="Ações">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let a">
+
+            <button *ngIf="(a.situacao === 'Em andamento') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
+              (click)="associarDisciplina(a)">
+              <mat-icon>book</mat-icon>
+            </button>
+
+            <button *ngIf="(a.pee && a.pee.length > 0 && isCSP())" mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRed(a)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
+              (click)="visualizarDisciplina(a)">
+              <mat-icon>library_books</mat-icon>
+            </button>
+
+            <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isCRA()" mat-icon-button
+              matTooltip="Editar RED" (click)="editarRED(a)">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRED(a)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP())" mat-icon-button
+              matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
+              <mat-icon>description</mat-icon>
+            </button>
+
+            <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && isCRA()" mat-icon-button
+              matTooltip="Arquivar RED" (click)="arquivarRED(a)">
+              <mat-icon>inventory_2</mat-icon>
+            </button>
+
+            <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee) && isCOORD()" mat-icon-button
+              matTooltip="Finalizar RED" (click)="finalizarRED(a)">
+              <mat-icon>task_alt</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
+    </div>
+    <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED" class="button">
+      <mat-icon>add</mat-icon>
+      Cadastrar RED
+    </button>
+  </div>
 </div>

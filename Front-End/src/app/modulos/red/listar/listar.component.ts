@@ -14,6 +14,7 @@ import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualiz
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
+import { VisualizarRedComponent } from 'src/app/niveis-acesso/csp/processo-red/visualizar/visualizar.component';
 
 export interface aluno {
   id: number;
@@ -166,7 +167,7 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  async visualizarDisciplina(red: any){
+  async visualizarDisciplina(red: any) {
     const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
       data: {
         idRED: red.idRED,
@@ -187,7 +188,9 @@ export class ListarREDComponent implements OnInit {
   editarRED(red: any) {
     if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
       // Exibir uma mensagem ao usuário informando que a edição não é permitida
-      this.snackBarService.open('Não é possível editar uma RED que está Finalizada ou Recusada.');
+      this.snackBarService.open(
+        'Não é possível editar uma RED que está Finalizada ou Recusada.'
+      );
       return;
     }
     console.log(red);
@@ -206,7 +209,7 @@ export class ListarREDComponent implements OnInit {
         aluno_id: red.aluno_id,
         coordenador: red.coordenador,
         aluno: red.aluno,
-        motivoRecusa: red.motivoRecusa
+        motivoRecusa: red.motivoRecusa,
       },
     });
     this.handleDialogConfirm(editar);
@@ -230,13 +233,13 @@ export class ListarREDComponent implements OnInit {
         tempoAfastamento: red.tempoAfastamento,
         semestreOuAnoAluno: red.semestreOuAnoAluno,
         pee: red.pee,
-        motivoRecusa:red.motivoRecusa
+        motivoRecusa: red.motivoRecusa,
       },
     });
     this.handleDialogConfirm(visualizar);
   }
 
-  async arquivarRED(red: any){
+  async arquivarRED(red: any) {
     try {
       let response = await this.redService.updateRed({
         idRED: red.idRED,
@@ -254,6 +257,13 @@ export class ListarREDComponent implements OnInit {
         this.snackBarService.open('Falha ao arquivar RED');
       }
     }
+  }
+
+  visualizarRed(red: any) {
+    const editar = this.dialog.open(VisualizarRedComponent, {
+      data: { idRED: red.idRED, servidor_idservidor: red.coordenador },
+    });
+    this.handleDialogConfirm(editar);
   }
 
   associarDisciplina(red: red) {
@@ -352,21 +362,23 @@ export class ListarREDComponent implements OnInit {
   }
 
   isCOORD() {
-    return this.user.tiposervidor === 'coordenador';
-  }
-
-  isCRA(){
-    return this.user.tiposervidor === 'cra';
-  }
-
-  isCSP(){
-    return this.user.tiposervidor === 'csp';
-  }
-
-  isADM() {
     return (
-      this.user.tiposervidor === 'administrador' ||
-      this.user.tiposervidor === 'cra'
+      this.user.tiposervidor === 'coordenador' ||
+      this.user.tiposervidor === 'administrador'
+    );
+  }
+
+  isCRA() {
+    return (
+      this.user.tiposervidor === 'cra' ||
+      this.user.tiposervidor === 'administrador'
+    );
+  }
+
+  isCSP() {
+    return (
+      this.user.tiposervidor === 'csp' ||
+      this.user.tiposervidor === 'administrador'
     );
   }
 }

@@ -18,7 +18,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ListarRedComponent } from './processo-red/listar/listar.component';
 import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
 import { VisualizarRedComponent } from './processo-red/visualizar/visualizar.component';
 //
@@ -40,7 +39,6 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
     ListarCursosComponent,
     EditarCursoComponent,
     //
-    ListarRedComponent,
     VisualizarRedComponent,
     AssociarDisciplinaComponent,
   ],

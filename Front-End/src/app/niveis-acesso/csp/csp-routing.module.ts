@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CSPComponent } from './csp.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
-import { ListarRedComponent } from './processo-red/listar/listar.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 //
 import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
@@ -13,6 +13,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
 //
 import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
+
 
 const routes: Routes = [
   {
@@ -50,7 +51,7 @@ const routes: Routes = [
       },
       {
         path: 'listarREDs',
-        component: ListarRedComponent,
+        component: ListarREDComponent,
       },
     ],
   },
