@@ -1,4 +1,5 @@
-<div class="title">
+<div class="corpo">
+<div class="title listagem">
   <h1>REDs dos Alunos</h1>
   <hr class="linha" />
 </div>
@@ -6,12 +7,12 @@
 <div class="listagem">
   <div id="tabela">
 
-    <mat-form-field>
+    <mat-form-field class="campo-pesquisa">
       <mat-label>Pesquisar</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="campo-curso">
       <mat-label>Curso</mat-label>
       <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
         <mat-option value="todos">Todos os cursos</mat-option>
@@ -19,7 +20,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="campo-situacao">
       <mat-label>Situação</mat-label>
       <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
         <mat-option value="todos">Apresentar todas</mat-option>
@@ -27,7 +28,7 @@
       </mat-select>
     </mat-form-field>
 
-    <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
       <!-- Coluna NOME -->
       <ng-container matColumnDef="Nome">
@@ -130,8 +131,9 @@
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
   </div>
-  <button *ngIf="isADM()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED">
+  <button *ngIf="isADM()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED" class="button">
     <mat-icon>add</mat-icon>
     Cadastrar RED
   </button>
+</div>
 </div>
