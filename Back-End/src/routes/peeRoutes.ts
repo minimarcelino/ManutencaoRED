@@ -1,11 +1,12 @@
 import express from "express";
 import { AuthenticationService } from "../middleware/authentication";
 import { PeeController } from "../controller/peeController";
-import { sendEmail } from '../service/email';
+import { emailController } from './../controller/emailController';
 
 const router = express.Router();
 const authentication = new AuthenticationService();
 const peecontroller = new PeeController();
+const emailcontroller = new emailController();
 
 router.get('/all', authentication.validate, peecontroller.getAll);
 router.post('/create', authentication.validate, peecontroller.Create);
@@ -16,6 +17,6 @@ router.put('/updateWithEmail/:id', authentication.validate, peecontroller.Update
 router.delete('/delete/:id', authentication.validate, peecontroller.Delete);
 router.delete('/deleteAtividade/:id/:idpee', authentication.validate, peecontroller.DeleteAtividade);
 router.get('/red/:id', authentication.validate, peecontroller.getByIdRED);
-router.post('/sendEmailProfessor', peecontroller.sendEmailProfessor);
+router.post('/sendEmailProfessor', emailcontroller.sendEmailProfessorPreencherPEE);
 
 export default router;
