@@ -244,6 +244,13 @@ export class peeService {
         const peeData = await prisma.pee.findFirst({
             where: {
                 hash: hash,
+            }, include: {
+              disciplinas: true,
+              red: {
+                include: {
+                  aluno: true,
+                },
+              },
             } as any,
         });
 
