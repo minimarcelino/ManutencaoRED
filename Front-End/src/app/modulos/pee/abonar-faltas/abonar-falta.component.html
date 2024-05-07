@@ -29,8 +29,8 @@
       <div>
         <p>Aluno cumpriu com as atividades</p>
         <mat-radio-group formControlName="cumprimento" id="cumprimento" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
+          <mat-radio-button value="Sim">Sim</mat-radio-button>
+          <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
         <mat-error
           *ngIf="abonarFaltaPee.get('cumprimento')?.errors && (abonarFaltaPee.get('cumprimento')?.dirty || abonarFaltaPee.get('cumprimento')?.touched)">
@@ -41,8 +41,8 @@
       <div>
         <p>Houve alguma nova atividade</p>
         <mat-radio-group formControlName="novaAtividade" id="novaAtividade" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
+          <mat-radio-button value="Sim">Sim</mat-radio-button>
+          <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
         <mat-error
           *ngIf="abonarFaltaPee.get('novaAtividade')?.errors && (abonarFaltaPee.get('novaAtividade')?.dirty || abonarFaltaPee.get('novaAtividade')?.touched)">
@@ -63,16 +63,16 @@
       <div>
         <p>Houve avaliação</p>
         <mat-radio-group formControlName="avaliacao" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
+          <mat-radio-button value="Sim">Sim</mat-radio-button>
+          <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
       </div>
 
       <div>
         <p>Caso tenha, ja foi realizada ?</p>
         <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
-          <mat-radio-button value="S">Sim</mat-radio-button>
-          <mat-radio-button value="N">Não</mat-radio-button>
+          <mat-radio-button value="Sim">Sim</mat-radio-button>
+          <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
       </div>
 

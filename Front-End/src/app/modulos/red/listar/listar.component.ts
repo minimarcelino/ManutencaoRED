@@ -15,6 +15,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
 import { VisualizarRedComponent } from 'src/app/niveis-acesso/csp/processo-red/visualizar/visualizar.component';
+import { AssociarDisciplinaComponent } from 'src/app/niveis-acesso/csp/associar-disciplina/associar-disciplina.component';
 
 export interface aluno {
   id: number;
@@ -104,7 +105,11 @@ export class ListarREDComponent implements OnInit {
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
-    return pee.every((item) => item.conteudo !== '');
+    return pee.every((item) => item.situacao === "Aguardando Associação de Professor");
+  }
+
+  situacaoPEEs(pee: any[]){
+    
   }
 
   async findAll() {
@@ -133,6 +138,8 @@ export class ListarREDComponent implements OnInit {
 
     // Log para depuração
     console.log('Cursos:', this.cursos);
+  console.log("REDS: ");
+
   }
 
   formatData(data: Date): string {
@@ -267,14 +274,36 @@ export class ListarREDComponent implements OnInit {
   }
 
   associarDisciplina(red: red) {
-    // const editar = this.dialog.open(AssociarDisciplinaComponent, {
-    //   data: {
-    //     idRED: red.idRED,
-    //     servidor_idservidor: red.coordenador,
-    //     red: red,
-    //   },
-    // });
-    // this.handleDialogConfirm(editar);
+    const editar = this.dialog.open(AssociarDisciplinaComponent, {
+      data: {
+        idRED: red.idRED,
+        servidor_idservidor: red.coordenador,
+        red: red,
+      },
+    });
+    this.handleDialogConfirm(editar);
+    // Atualizar red para "Aguardando professor"
+
+  }
+
+  async afterAssociarDisciplina(red: any){
+    try {
+      let response = await this.redService.updateRed({
+        idRED: red.idRED,
+        situacao: 'Aguardando professores',
+      });
+      if (response) {
+        this.snackBarService.open('Associação de professores concluida');
+        this.findAll();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao aquivar RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao arquivar RED');
+      }
+    }
   }
 
   aplicarFiltros() {

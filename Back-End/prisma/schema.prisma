@@ -27,8 +27,8 @@ model atividades {
   prazoatividade   DateTime  @db.Date
   pee_idpee        Int
   dateEntregaAluno DateTime? @db.Date
-  cumpriuAtividade String?   @db.Char(1)
-  novaAtividade    String?   @db.Char(1)
+  cumpriuAtividade String?   @db.VarChar(3)
+  novaAtividade    String?   @db.VarChar(3)
   pee              pee       @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
 
   @@id([idatividades, pee_idpee])
@@ -73,8 +73,8 @@ model pee {
   percentualabono           Float
   dataEnvioProposta         DateTime?    @db.Date
   canalComunicacao          String?      @db.VarChar(30)
-  houveAvaliacao            String?      @db.Char(1)
-  avaliacoesRealizadas      String?      @db.Char(1)
+  houveAvaliacao            String?      @db.VarChar(3)
+  avaliacoesRealizadas      String?      @db.VarChar(3)
   dataAvaliacao             DateTime?    @db.Date
   observacoes               String?      @db.Text
   hash                      String?      @db.VarChar(64)
