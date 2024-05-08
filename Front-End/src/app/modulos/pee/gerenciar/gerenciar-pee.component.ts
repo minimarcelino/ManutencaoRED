@@ -12,6 +12,7 @@ import { red } from 'src/app/modelo/red';
 import { pee } from 'src/app/modelo/pee';
 import { AssociarProfessoresComponent } from 'src/app/niveis-acesso/coordenador/associar-professores/associar-professores.component';
 import { GerenciarVisualizarPeeComponent } from './gerenciar-visualizar/gerenciar-visualizar.component';
+import { servidor } from 'src/app/modelo/servidor';
 
 
 
@@ -28,6 +29,8 @@ export class GerenciarPEEComponent implements OnInit {
   alunos: any[] = [];
   filteredPEEs: any[] = [];
   situacaoSelecionada = 'todos';
+  professorSelecionado = 'todos';
+  professores: servidor[] = [];
   situacao = [
     "Aguardando Associação de Professor",
       "Aguardando Preenchimento",
@@ -39,12 +42,12 @@ export class GerenciarPEEComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
-    'professor',
-    'aluno',
-    'email',
-    'disciplina',
-    'situacao',
-    'Ações',
+    'Aluno',
+    'Prontuario',
+    'Professor',
+    'Disciplina',
+    'Situacao',
+    'Acoes',
   ];
 
   constructor(
@@ -62,6 +65,28 @@ export class GerenciarPEEComponent implements OnInit {
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
+
+// Cria um conjunto para armazenar cursos únicos
+const uniqueProfessores = new Set<number>();
+
+this.pees.forEach((pee) => {
+  uniqueProfessores.add(pee.servidor.idservidor);
+});
+
+// Converte o conjunto de IDs de curso de volta para um array de cursos
+this.professores = Array.from(uniqueProfessores).map(
+  (professorId) =>
+    this.pees.find((pee) => pee.servidor.idservidor === professorId)?.servidor
+);
+
+// Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
+this.professores = this.professores.filter((professor) => professor !== undefined);
+
+
+
+
+
+
   }
 
   formatData(data: Date): string {
@@ -120,6 +145,12 @@ export class GerenciarPEEComponent implements OnInit {
   filtroPorSituacao(event: MatSelectChange) {
     // Atualiza o filtro de situação e aplica todos os filtros novamente
     this.situacaoSelecionada = event.value;
+    this.aplicarFiltros();
+  }
+
+  filroPorProfessor(event: MatSelectChange) {
+    // Atualiza o filtro de curso e aplica todos os filtros novamente
+    this.professorSelecionado = event.value;
     this.aplicarFiltros();
   }
 
