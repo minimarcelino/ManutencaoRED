@@ -45,6 +45,8 @@ export class AssociarDisciplinaComponent implements OnInit {
       nomedisciplina: new FormControl('', [Validators.required]),
       checkbox: new FormControl('', [Validators.required]),
     });
+    //console.log("RED da associação\n",this.data.red);
+
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
@@ -140,5 +142,9 @@ export class AssociarDisciplinaComponent implements OnInit {
 
   cancelar() {
     this.dialog.close();
+  }
+
+  apresentarAluno(){
+    return `Aluno: ${this.data.red.aluno.nome} - ${this.data.red.aluno.prontuario}`
   }
 }
