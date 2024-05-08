@@ -2,14 +2,13 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
+import { CursoService } from 'src/app/services/cursos.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -34,6 +33,7 @@ export class AssociarProfessoresComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private docenteService: ServidorService,
     private peeService: PeeService,
+    private cursoService: CursoService,
     private snackBarService: SnackBarService
   ) {}
 
@@ -43,6 +43,8 @@ export class AssociarProfessoresComponent implements OnInit {
       email: new FormControl('', [Validators.required]),
       checkbox: new FormControl('', [Validators.required]),
     });
+    console.log('PEE da associação\n', this.data.pee); //Não tem a red
+
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
@@ -51,6 +53,11 @@ export class AssociarProfessoresComponent implements OnInit {
   async findAll() {
     const response = await this.docenteService.getServidores();
     this.professores = response.data.servidores;
+    this.professores = this.professores.filter(
+      (servidor) =>
+        servidor.tiposervidor === 'professor' ||
+        servidor.tiposervidor === 'coordenador'
+    );
     this.dataSource = new MatTableDataSource<docente>(this.professores);
     this.dataSource.paginator = this.paginator;
   }
@@ -94,7 +101,7 @@ export class AssociarProfessoresComponent implements OnInit {
           disciplinas_iddisciplinas: item.iddisciplinas,
           servidor_idservidor: this.professoresSelecionados[0].idservidor,
           percentualabono: this.data.percentualabono,
-          situacao: "Aguardando Preenchimento"
+          situacao: 'Aguardando Preenchimento',
         });
       }
       this.snackBarService.open('Professores associados com sucesso!!');
@@ -102,10 +109,26 @@ export class AssociarProfessoresComponent implements OnInit {
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao associar Professor: ${errorMessage}`);
+        this.snackBarService.open(
+          `Falha ao associar Professor: ${errorMessage}`
+        );
       } else {
         this.snackBarService.open('Falha ao associar Professor');
       }
     }
+  }
+
+  cancelar() {
+    this.dialog.close();
+  }
+
+  async apresentarDisciplina(){
+    const idcurso = this.data.pee.disciplinas.curso_idcurso;
+    console.log(idcurso);
+
+    //const curso = await this.cursoService.getCursoById(idcurso);
+    //console.log("Curso da disciplina atual\n", curso);
+
+    return `Disciplina ${this.data.pee.disciplinas.nomeDisciplina} (${this.data.pee.disciplinas.sigla}) do curso `
   }
 }

@@ -99,6 +99,8 @@ export class GerenciarPEEComponent implements OnInit {
         idRED: pee.RED_idRED,
         idPEE: pee.idpee,
         servidor_idservidor: pee.servidor_idservidor,
+        //disciplina: pee.pee.disciplinas,
+        pee: pee,
       },
     });
     this.handleDialogConfirm(editar);

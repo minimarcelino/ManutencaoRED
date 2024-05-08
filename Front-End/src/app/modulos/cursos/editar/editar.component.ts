@@ -6,7 +6,6 @@ import { servidor } from 'src/app/modelo/servidor';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
-import { SnackBarComponent } from 'src/app/utils/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-editar',
