@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -29,6 +29,7 @@ export class AssociarProfessoresComponent implements OnInit {
   displayedColumns = ['nome', 'email', 'acoes'];
 
   constructor(
+    private dialog: MatDialogRef<AssociarProfessoresComponent>,
     public dialogQuestionService: messageDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private docenteService: ServidorService,
@@ -97,6 +98,7 @@ export class AssociarProfessoresComponent implements OnInit {
         });
       }
       this.snackBarService.open('Professores associados com sucesso!!');
+      this.dialog.close();
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
