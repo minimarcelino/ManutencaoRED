@@ -14,8 +14,8 @@ import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualiz
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
-import { VisualizarRedComponent } from 'src/app/niveis-acesso/csp/processo-red/visualizar/visualizar.component';
-import { AssociarDisciplinaComponent } from 'src/app/niveis-acesso/csp/associar-disciplina/associar-disciplina.component';
+import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
+import { CSPVisualizarREDComponent } from '../visualizar-csp/visualizar.component';
 
 export interface aluno {
   id: number;
@@ -265,7 +265,7 @@ export class ListarREDComponent implements OnInit {
   }
 
   visualizarRed(red: any) {
-    const editar = this.dialog.open(VisualizarRedComponent, {
+    const editar = this.dialog.open(CSPVisualizarREDComponent, {
       data: { idRED: red.idRED, servidor_idservidor: red.coordenador },
     });
     this.handleDialogConfirm(editar);

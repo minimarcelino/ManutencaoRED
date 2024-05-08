@@ -12,7 +12,7 @@ import { PeeService } from 'src/app/services/pee.service';
   templateUrl: './visualizar.component.html',
   styleUrls: ['./visualizar.component.css'],
 })
-export class VisualizarRedComponent implements OnInit {
+export class CSPVisualizarREDComponent implements OnInit {
   pee: any[] = [];
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -33,7 +33,7 @@ export class VisualizarRedComponent implements OnInit {
 
   constructor(
     public dialogQuestionService: messageDialog,
-    private dialog: MatDialogRef<VisualizarRedComponent>,
+    private dialog: MatDialogRef<CSPVisualizarREDComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private peeService: PeeService  ) {}
 

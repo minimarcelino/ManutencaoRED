@@ -25,8 +25,7 @@ import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-p
 import { GerenciarVisualizarPeeComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-visualizar/gerenciar-visualizar.component';
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
 import { VisualizarPEEComponent } from 'src/app/modulos/pee/visualizar/visualizar.component';
-import { AssociarProfessoresComponent } from '../coordenador/associar-professores/associar-professores.component';
-
+import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associar-professores/associar-professores.component';
 
 @NgModule({
     declarations: [

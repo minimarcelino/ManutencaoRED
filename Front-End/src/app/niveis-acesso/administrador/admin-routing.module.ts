@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdministradorComponent } from './administrador.component';
 
-import { AssociarDisciplinaComponent } from '../csp/associar-disciplina/associar-disciplina.component';
+import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
 import { PerfilComponent } from '../../perfil/perfil.component';
 //
 import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/disciplinas.component';
