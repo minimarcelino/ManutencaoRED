@@ -77,8 +77,8 @@ export class ListarREDComponent implements OnInit {
     'Início RED',
     'Tempo Afastamento',
     'Término',
-    'Situação',
-    'Disciplinas',
+    'Situação-RED',
+    'Situação-PEE',
     'Ações',
   ];
 
@@ -105,11 +105,11 @@ export class ListarREDComponent implements OnInit {
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
-    return pee.every((item) => item.situacao === "Aguardando Associação de Professor");
+    return this.peeService.todosPeesPreenchidos(pee);
   }
 
-  situacaoPEEs(pee: any[]){
-    
+  situacaoPEEs(pee: any[]): string {
+    return this.peeService.situacaoPEEs(pee);
   }
 
   async findAll() {
@@ -117,7 +117,7 @@ export class ListarREDComponent implements OnInit {
     this.reds = response.data.reds;
     this.dataSource = new MatTableDataSource<any>(this.reds);
     this.dataSource.paginator = this.paginator;
-    console.log(this.reds);
+    console.log("REDs atuais\n", this.reds);
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
@@ -137,9 +137,7 @@ export class ListarREDComponent implements OnInit {
     this.cursos = this.cursos.filter((curso) => curso !== undefined);
 
     // Log para depuração
-    console.log('Cursos:', this.cursos);
-  console.log("REDS: ");
-
+    //console.log('Cursos:', this.cursos);
   }
 
   formatData(data: Date): string {

@@ -21,9 +21,9 @@
       </mat-form-field>
 
       <mat-form-field class="campo-situacao">
-        <mat-label>Situação</mat-label>
+        <mat-label>Situação RED</mat-label>
         <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
-          <mat-option value="todos">Apresentar todas</mat-option>
+          <mat-option value="todos">Apresentar todos</mat-option>
           <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -68,21 +68,16 @@
         </ng-container>
 
         <!-- Coluna SITUAÇÃO -->
-        <ng-container matColumnDef="Situação">
-          <th mat-header-cell *matHeaderCellDef> Situação </th>
+        <ng-container matColumnDef="Situação-RED">
+          <th mat-header-cell *matHeaderCellDef> Situação do RED </th>
           <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
         </ng-container>
 
         <!-- Coluna ASSOCIAÇÃO DE DISCIPLINAS -->
-        <ng-container matColumnDef="Disciplinas">
-          <th mat-header-cell *matHeaderCellDef> Associação de disciplinas </th>
+        <ng-container matColumnDef="Situação-PEE">
+          <th mat-header-cell *matHeaderCellDef> Situação dos PEEs </th>
           <td mat-cell *matCellDef="let a">
-            <ng-container *ngIf="!a.pee || a.pee.length === 0">
-              Não Concluído
-            </ng-container>
-            <ng-container *ngIf="a.pee && a.pee.length > 0">
-              Concluído  {{ a.pee[0].situacao }}
-            </ng-container>
+            {{ this.situacaoPEEs(a.pee) }}
           </td>
         </ng-container>
 

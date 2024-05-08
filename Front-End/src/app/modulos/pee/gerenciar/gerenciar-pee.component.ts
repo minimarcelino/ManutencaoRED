@@ -29,8 +29,10 @@ export class GerenciarPEEComponent implements OnInit {
   filteredPEEs: any[] = [];
   situacaoSelecionada = 'todos';
   situacao = [
-    'Sem Associação',
-    'Associado',
+    "Aguardando Associação de Professor",
+      "Aguardando Preenchimento",
+      "Enviada ao Aluno",
+      "Avaliado"
   ];
 
   dataSource: any;
@@ -133,5 +135,9 @@ export class GerenciarPEEComponent implements OnInit {
     dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
+  }
+
+  peeAguardandoProfessor(pee: any): boolean{
+    return pee.situacao === "Aguardando Associação de Professor";
   }
 }

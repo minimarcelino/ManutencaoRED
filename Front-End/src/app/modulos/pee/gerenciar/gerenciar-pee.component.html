@@ -54,7 +54,7 @@
             <mat-icon>visibility</mat-icon>
           </button>
           <button mat-icon-button matTooltip="Associar professor" (click)="associarProfessor(a)"
-            *ngIf="!a.conteudo || a.conteudo.trim().length === 0">
+            *ngIf="this.peeAguardandoProfessor(a)">
             <mat-icon>person_add_alt</mat-icon>
           </button>
         </td>

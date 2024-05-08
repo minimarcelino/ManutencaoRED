@@ -155,4 +155,23 @@ export class PeeService {
     this.router.navigate(['/login']);
   }
 
+  situacaoPEEs(pee: any[]): string {
+    const situacoes = [
+      "Aguardando Associação de Professor",
+      "Aguardando Preenchimento",
+      "Enviada ao Aluno",
+      "Avaliado"
+    ];
+
+    for (const situacao of situacoes) {
+      if (pee.some(item => item.situacao === situacao)) {
+        return situacao;
+      }
+    }
+    return "Em Associação de Disciplina";
+  }
+
+  todosPeesPreenchidos(pee: any[]): boolean {
+    return pee.every((item) => item.situacao === "Enviada ao Aluno");
+  }
 }
