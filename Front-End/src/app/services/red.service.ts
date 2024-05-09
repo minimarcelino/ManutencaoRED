@@ -11,7 +11,6 @@ export class RedService {
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService,
-    private router: Router
   ) { }
 
   async getRed(): Promise<any> {
@@ -21,7 +20,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -36,7 +35,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -52,7 +51,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -68,7 +67,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -82,22 +81,8 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
-
-  async tratarErro(error: any) {
-    if (!(error.status === 401) && !(error.status === 500)) {
-      throw error;
-    }
-    if (error.status === 401) {
-      alert('Desconectado por inatividade.');
-    } else if (error.status === 500) {
-      alert('Erro interno do servidor. Por favor, tente novamente.');
-    }
-    this.authenticationService.logout();
-    this.router.navigate(['/login']);
-  }
-
 }
 

@@ -11,7 +11,6 @@ export class ServidorService {
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService,
-    private router: Router
   ) { }
 
   async getServidores(): Promise<any> {
@@ -24,37 +23,37 @@ export class ServidorService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
-  async createServidor(docente: any): Promise<any> {
+  async createServidor(servidor: any): Promise<any> {
     try {
       const response = await this.http
         .post(
           `${environment.API}servidor/create`,
-          docente,
+          servidor,
           this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
-  async updateServidor(docente: any): Promise<any> {
+  async updateServidor(servidor: any): Promise<any> {
     try {
       const response = await this.http
         .put(
-          `${environment.API}servidor/update/${docente.idservidor}`,
-          docente,
+          `${environment.API}servidor/update/${servidor.idservidor}`,
+          servidor,
           this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -68,7 +67,7 @@ export class ServidorService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -83,22 +82,8 @@ export class ServidorService {
         .toPromise();
       return response;
     } catch (error) {
-      this.tratarErro(error);
+      this.authenticationService.tratarErro(error);
     }
   }
-
-  async tratarErro(error: any) {
-    if (!(error.status === 401) && !(error.status === 500)) {
-      throw error;
-    }
-    if (error.status === 401) {
-      alert('Desconectado por inatividade.');
-    } else if (error.status === 500) {
-      alert('Erro interno do servidor. Por favor, tente novamente.');
-    }
-    this.authenticationService.logout();
-    this.router.navigate(['/login']);
-  }
-
 }
 

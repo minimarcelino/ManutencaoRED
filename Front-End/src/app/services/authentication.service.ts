@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment.development';
 import { BehaviorSubject } from 'rxjs';
-import { SessionService } from './session.service'; // Renomeei para seguir a convenção de nomenclatura
+import { Router } from '@angular/router';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
-    private session: SessionService
+    private session: SessionService,
+    private router: Router
   ) {
     this.init();
   }
@@ -91,5 +93,18 @@ export class AuthenticationService {
     this.saveTokenToStorage(null);
     this.session.clearSession();
     this.loggedIn.next(false);
+  }
+
+  async tratarErro(error: any) {
+    if (!(error.status === 401) && !(error.status === 500)) {
+      throw error;
+    }
+    if (error.status === 401) {
+      alert('Desconectado por inatividade.');
+    } else if (error.status === 500) {
+      alert('Erro interno do servidor. Por favor, tente novamente.');
+    }
+    this.logout();
+    this.router.navigate(['/login']);
   }
 }
