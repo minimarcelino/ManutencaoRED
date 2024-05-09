@@ -1,6 +1,6 @@
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
-import { atividades, pee } from '@prisma/client';
+import { pee } from '@prisma/client';
 
 export class peeService {
   async findMany(
@@ -57,7 +57,6 @@ export class peeService {
             },
             servidor: true,
             disciplinas: true,
-            atividades: true,
           },
           orderBy: {
             red: {
@@ -106,7 +105,7 @@ export class peeService {
     try {
       const createPEE = await prisma.pee.create({ data: pee });
       this.updateHashPEE(createPEE.idpee);
-      
+
       return { ok: true, data: createPEE };
     } catch (error) {
       console.log(error);
@@ -114,17 +113,17 @@ export class peeService {
     }
   }
 
-  async createAtividade(atividade: atividades) {
-    try {
-      const createAtividade = await prisma.atividades.create({
-        data: atividade,
-      });
-      return { ok: true, data: createAtividade };
-    } catch (error) {
-      console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-    }
-  }
+  // async createAtividade(atividade: atividades) {
+  //   try {
+  //     const createAtividade = await prisma.atividades.create({
+  //       data: atividade,
+  //     });
+  //     return { ok: true, data: createAtividade };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+  //   }
+  // }
 
   async update(pee: pee, id: number) {
     try {
@@ -149,7 +148,10 @@ export class peeService {
           avaliacoesRealizadas: pee.avaliacoesRealizadas,
           dataAvaliacao: pee.dataAvaliacao,
           observacoes: pee.observacoes,
-          situacao: pee.situacao
+          situacao: pee.situacao,
+          cumpriuAtividade: pee.cumpriuAtividade,
+          dataEntregaAtividade: pee.dataEntregaAtividade,
+          prazoEntregaAtividade: pee.prazoEntregaAtividade
         },
       });
       return { ok: true, data: updatePEE };
@@ -159,30 +161,30 @@ export class peeService {
     }
   }
 
-  async updateAtividade(atividade: atividades, id: number) {
-    try {
-      const updateAtividade = await prisma.atividades.update({
-        where: {
-          idatividades_pee_idpee: {
-            idatividades: +id,
-            pee_idpee: atividade.pee_idpee,
-          },
-        },
-        data: {
-          descricao: atividade.descricao,
-          prazoatividade: atividade.prazoatividade,
-          pee_idpee: atividade.pee_idpee,
-          dateEntregaAluno: atividade.dateEntregaAluno,
-          cumpriuAtividade: atividade.cumpriuAtividade,
-          novaAtividade: atividade.novaAtividade,
-        },
-      });
-      return { ok: true, data: updateAtividade };
-    } catch (error) {
-      console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-    }
-  }
+  // async updateAtividade(atividade: atividades, id: number) {
+  //   try {
+  //     const updateAtividade = await prisma.atividades.update({
+  //       where: {
+  //         idatividades_pee_idpee: {
+  //           idatividades: +id,
+  //           pee_idpee: atividade.pee_idpee,
+  //         },
+  //       },
+  //       data: {
+  //         descricao: atividade.descricao,
+  //         prazoatividade: atividade.prazoatividade,
+  //         pee_idpee: atividade.pee_idpee,
+  //         dateEntregaAluno: atividade.dateEntregaAluno,
+  //         cumpriuAtividade: atividade.cumpriuAtividade,
+  //         novaAtividade: atividade.novaAtividade,
+  //       },
+  //     });
+  //     return { ok: true, data: updateAtividade };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+  //   }
+  // }
 
   async delete(id: number) {
     try {
@@ -198,22 +200,22 @@ export class peeService {
     }
   }
 
-  async deleteAtividade(id: number, peeId: number) {
-    try {
-      const deleteAtividade = await prisma.atividades.delete({
-        where: {
-          idatividades_pee_idpee: {
-            idatividades: id,
-            pee_idpee: peeId,
-          },
-        },
-      });
-      return { ok: true, data: deleteAtividade };
-    } catch (error) {
-      console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-    }
-  }
+  // async deleteAtividade(id: number, peeId: number) {
+  //   try {
+  //     const deleteAtividade = await prisma.atividades.delete({
+  //       where: {
+  //         idatividades_pee_idpee: {
+  //           idatividades: id,
+  //           pee_idpee: peeId,
+  //         },
+  //       },
+  //     });
+  //     return { ok: true, data: deleteAtividade };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+  //   }
+  // }
 
   async findByIdRED(id: number) {
     try {
@@ -224,7 +226,6 @@ export class peeService {
           },
           include: {
             disciplinas: true,
-            atividades: true,
           },
         }),
       ]);
@@ -276,7 +277,7 @@ export class peeService {
           idpee: id,
         },
         data: {
-          hash: hashPEE, 
+          hash: hashPEE,
         } as any,
       });
       return { ok: true, data: updatePEE };
@@ -285,5 +286,5 @@ export class peeService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
-  
+
 }

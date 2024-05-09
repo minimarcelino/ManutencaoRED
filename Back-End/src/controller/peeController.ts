@@ -64,14 +64,14 @@ export class PeeController {
     return res.status(StatusCodes.BAD_REQUEST).send(response);
   }
 
-  async CreateAtividade(req: Request, res: Response) {
-    const response = await peeservice.createAtividade(req.body);
-    if (response.ok) {
-      return res.status(StatusCodes.OK).send(response.data);
-    } else {
-      return res.status(StatusCodes.BAD_REQUEST).send(response);
-    }
-  }
+  // async CreateAtividade(req: Request, res: Response) {
+  //   const response = await peeservice.createAtividade(req.body);
+  //   if (response.ok) {
+  //     return res.status(StatusCodes.OK).send(response.data);
+  //   } else {
+  //     return res.status(StatusCodes.BAD_REQUEST).send(response);
+  //   }
+  // }
 
   async Delete(req: Request, res: Response) {
     const response = await peeservice.delete(Number(req.params.id));
@@ -82,17 +82,17 @@ export class PeeController {
     }
   }
 
-  async DeleteAtividade(req: Request, res: Response) {
-    const response = await peeservice.deleteAtividade(
-      Number(req.params.id),
-      Number(req.params.idpee)
-    );
-    if (response.ok) {
-      return res.status(StatusCodes.OK).send(response);
-    } else {
-      return res.status(StatusCodes.BAD_REQUEST).send(response);
-    }
-  }
+  // async DeleteAtividade(req: Request, res: Response) {
+  //   const response = await peeservice.deleteAtividade(
+  //     Number(req.params.id),
+  //     Number(req.params.idpee)
+  //   );
+  //   if (response.ok) {
+  //     return res.status(StatusCodes.OK).send(response);
+  //   } else {
+  //     return res.status(StatusCodes.BAD_REQUEST).send(response);
+  //   }
+  // }
 
   async Update(req: Request, res: Response) {
     const response = await peeservice.update(req.body, Number(req.params.id));
@@ -113,14 +113,14 @@ export class PeeController {
     }
   }
 
-  async UpdateAtividade(req: Request, res: Response) {
-    const response = await peeservice.updateAtividade(req.body, Number(req.params.id));
-    if (response.ok) {
-      return res.status(StatusCodes.OK).send(response);
-    } else {
-      return res.status(StatusCodes.BAD_REQUEST).send(response);
-    }
-  }
+  // async UpdateAtividade(req: Request, res: Response) {
+  //   const response = await peeservice.updateAtividade(req.body, Number(req.params.id));
+  //   if (response.ok) {
+  //     return res.status(StatusCodes.OK).send(response);
+  //   } else {
+  //     return res.status(StatusCodes.BAD_REQUEST).send(response);
+  //   }
+  // }
 
   async UpdateWithEmail(req: Request, res: Response) {
     const response = await peeservice.update(req.body, Number(req.params.id));
