@@ -62,18 +62,17 @@
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
   </div>
+
   <div>
-
-    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" style="margin: 10px;">
+    <button mat-raised-button color="primary" (click)="cadastrar()" matTooltip="Cadastro de um servidor" id="cadastrar" class="button">
       <mat-icon>add</mat-icon>
-      Cadastrar Docente
+      Cadastrar Servidores
     </button>
 
-    <button mat-raised-button color="primary" matTooltip="Importar Servidores" id="importacao"
-      style="margin: 10px;" (click)="fileInput.click()">
+    <button mat-raised-button color="primary" matTooltip="Cadastro em lote de docentes" id="importacao" class="button"
+    (click)="importacaoRapidaDocentes($event)">
       <mat-icon>attach_file</mat-icon>
-      Importar Servidores
+      Importar Rápida de Docentes
     </button>
-    <input type="file" #fileInput style="display: none" (change)="cadastroServidorLote($event)" />
   </div>
 </div>

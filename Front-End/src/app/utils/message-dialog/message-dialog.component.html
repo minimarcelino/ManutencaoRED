@@ -1,8 +1,6 @@
-<h1 mat-dialog-title [style.font-weight]="'bold'">{{data.title}}</h1>
-<div mat-dialog-content>
-  {{data.message}}
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close [mat-dialog-close]="'Cancelar'">{{data.buttonClose}}</button>
-  <button mat-button mat-dialog-close cdkFocusInitial [mat-dialog-close]="'Confirmar'">{{data.buttonConfirm}}</button>
-</div>
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<mat-dialog-content [innerHTML]="data.message"></mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.buttonClose">{{ data.buttonClose }}</button>
+  <button mat-button [mat-dialog-close]="data.buttonConfirm" cdkFocusInitial>{{ data.buttonConfirm }}</button>
+</mat-dialog-actions>

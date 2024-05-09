@@ -95,7 +95,9 @@ export class ListarServidoresComponent implements OnInit {
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao deletar professor: ${errorMessage}`);
+        this.snackBarService.open(
+          `Falha ao deletar professor: ${errorMessage}`
+        );
       } else {
         this.snackBarService.open('Falha ao deletar professor');
       }
@@ -110,9 +112,25 @@ export class ListarServidoresComponent implements OnInit {
     }
   }
 
+  async importacaoRapidaDocentes(event: any) {
+    let resposta = false;
+    resposta = await this.dialogQuestionService.openDialogConfirmDocente();
+    if (resposta) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.xlsx,.xls';
+      input.style.display = 'none';
+      input.addEventListener('change', (event: any) => {
+        this.cadastroServidorLote(event);
+      });
+      document.body.appendChild(input);
+      input.click();
+    }
+  }
+
   // Cadastro de servidores a partir de arquivo XLSX
-  cadastroServidorLote(event: any) {
-    const target: DataTransfer = <DataTransfer>(event.target);
+  private cadastroServidorLote(event: any) {
+    const target: DataTransfer = <DataTransfer>event.target;
     if (target.files.length !== 1) throw new Error('Cannot use multiple files');
     const reader: FileReader = new FileReader();
     reader.readAsBinaryString(target.files[0]);
@@ -123,31 +141,36 @@ export class ListarServidoresComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
       this.dadosImportados = data;
-      console.log(this.dadosImportados);
 
-      const importPromises = this.dadosImportados.map(item => {
-        return this.servidorService.createServidor({
-          email: item["E-mail"],
-          tiposervidor: "professor",
-          senha: 'ifsp',
+      const importPromises = this.dadosImportados.map(async (item) => {
+        return await this.servidorService.createServidor({
+          prontuario: `PE${item.Matrícula}`,
           nome: item.Nome,
-          prontuario: item["Prontuário"]
+          email: `${item['E-mail']}`,
+          tiposervidor: 'professor',
+          senha: '123',
         });
       });
 
       Promise.all(importPromises)
         .then((responses) => {
-          const hasError = responses.some(response => response.ok === false);
+          const hasError = responses.some((response) => response.ok === false);
           if (hasError) {
-            this.snackBarService.open(`Erro na importação. Verifique os detalhes.`);
+            this.snackBarService.open(
+              `Erro na importação. Verifique os detalhes.`
+            );
           } else {
             this.snackBarService.open(`Importação dos docentes foi realizada!`);
           }
         })
-        .catch (error => {
+        .catch((error) => {
+          console.log(error);
+
           if (error && error.error && error.error.data) {
             const errorMessage = error.error.data;
-            this.snackBarService.open(`Erro na importação de servidores: ${errorMessage}`);
+            this.snackBarService.open(
+              `Erro na importação de servidores: ${errorMessage}`
+            );
           } else {
             this.snackBarService.open(`Erro na importação de servidores`);
           }
@@ -162,8 +185,8 @@ export class ListarServidoresComponent implements OnInit {
     // Aplica os filtros de curso e situação simultaneamente
     this.servidoresFiltrados = this.servidores.filter(
       (servidor) =>
-        (this.tipoSelecionado === 'todos' ||
-          servidor.tiposervidor === this.tipoSelecionado)
+        this.tipoSelecionado === 'todos' ||
+        servidor.tiposervidor === this.tipoSelecionado
     );
 
     // Atualiza o dataSource com os REDs filtrados
@@ -183,7 +206,7 @@ export class ListarServidoresComponent implements OnInit {
     });
   }
 
-  isADM(){
+  isADM() {
     return this.user.tiposervidor === 'administrador';
   }
 }
