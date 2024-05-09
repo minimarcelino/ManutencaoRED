@@ -28,7 +28,9 @@ mat-sidenav {
   padding: 16px;
   padding-right: 1%;
   padding-left: 0.5%;
-  width: 20%;
+  width: 15%;
+  /* min-height: max-content; */
+  padding-bottom: 50px;
   margin: 16px;
   text-align: left;
 }

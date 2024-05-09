@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -264,11 +264,17 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  visualizarRed(red: any) {
-    const editar = this.dialog.open(CSPVisualizarREDComponent, {
-      data: { idRED: red.idRED, servidor_idservidor: red.coordenador },
-    });
-    this.handleDialogConfirm(editar);
+  VisualizarRED_CSP(red: any) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        idRED: red.idRED,
+        aluno: {
+          nome: red.aluno.nome,
+          prontuario: red.aluno.prontuario
+        }
+      }
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/visualizarREDCSP`], navigationExtras);
   }
 
   associarDisciplina(red: red) {
@@ -333,7 +339,7 @@ export class ListarREDComponent implements OnInit {
 
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
-      const redAluno = await this.peeService.getPeeRED(red.idRED);
+      const redAluno = await this.peeService.getPeeByIdRED(red.idRED);
 
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({

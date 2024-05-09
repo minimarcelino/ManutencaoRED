@@ -127,7 +127,7 @@ export class PeeService {
     }
   }
 
-  async getPeeRED(id: number): Promise<any> {
+  async getPeeByIdRED(id: number): Promise<any> {
     try {
       const response = await this.http
         .get(

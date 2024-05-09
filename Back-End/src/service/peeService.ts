@@ -226,6 +226,7 @@ export class peeService {
           },
           include: {
             disciplinas: true,
+            servidor: true,
           },
         }),
       ]);
