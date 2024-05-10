@@ -5,6 +5,9 @@ import { servidorService } from '../service/servidorService';
 import { alunoService } from '../service/alunoService';
 import { JwtPayload } from 'jsonwebtoken';
 import { sendEmail } from '../service/email';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const alunoservice = new alunoService();
 const servidorservice = new servidorService();
@@ -57,6 +60,23 @@ export class redController {
             }
           }
         }
+        // Save images if present
+        const requestArquivos = req.files as Express.Multer.File[];
+        const arquivos = requestArquivos.map((arquivo) => {
+            return {
+                path: arquivo.filename,
+            };
+        });
+
+        // Assuming 'response.data' contains the newly created 'red' object
+        const redId = response.data.idRED;
+        await prisma.arquivo.createMany({
+            data: arquivos.map((arquivo) => ({
+                path: arquivo.path,
+                red_idRED: redId,
+            })),
+        });
+        
         return res.status(StatusCodes.OK).send(response.data);
       } else {
         return res.status(StatusCodes.BAD_REQUEST).send(response);

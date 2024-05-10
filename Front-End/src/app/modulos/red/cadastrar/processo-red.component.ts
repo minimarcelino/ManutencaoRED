@@ -37,6 +37,8 @@ export class CadastrarProcessoREDComponent implements OnInit {
   isDisable: boolean = false;
   user: any;
   filteredAlunos: any[] = [];
+  selectedFiles: File[] = [];
+  selectedFileName: string | null = null;
 
   ngOnInit(): void {
     this._locale = 'pt-BR';
@@ -169,23 +171,41 @@ export class CadastrarProcessoREDComponent implements OnInit {
 
     // Criação do RED
     try {
-      console.log(this.filtredCursos);
-      await this.redService.createRed({
-        motivoAfastamento: this.motivoAfastamento,
-        inicioAfastamento: this.inicioAfastamento,
-        dataPrevisaoTermino: this.previsaoTerminoRed(),
-        dataInicioProcesso: new Date(),
-        semestreOuAnoAluno: this.semestreAluno,
-        tempoAfastamento: this.tempoAfastamento,
-        situacao: this.situacao,
-        observacao: this.observacao,
-        aluno_id: this.aluno.id,
-        coordenador: this.filtredCursos[0].coordenador,
-      });
+      const formData = new FormData();
+      formData.append('motivoAfastamento', this.motivoAfastamento);
+      formData.append('inicioAfastamento', this.inicioAfastamento);
+      formData.append('dataPrevisaoTermino', this.previsaoTerminoRed().toISOString());
+      formData.append('dataInicioProcesso', new Date().toISOString());
+      formData.append('semestreOuAnoAluno', this.semestreAluno);
+      formData.append('tempoAfastamento', this.tempoAfastamento);
+      formData.append('situacao', this.situacao);
+      formData.append('observacao', this.observacao);
+      formData.append('aluno_id', this.aluno.id);
+      formData.append('coordenador', this.filtredCursos[0].coordenador);
 
+      // Adicione os arquivos selecionados ao FormData
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+          formData.append('arquivos', this.selectedFiles[i]);
+      }
+      
+      await this.redService.createRed(formData);
       this.retornarParaLista();
     } catch (error) {
       console.error('Erro ao cadastrar RED:', error);
+    }
+  }
+
+  onFileSelected(event: any) {
+    const files: FileList = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      this.selectedFiles.push(files[i]);
+    }
+  }
+  
+  removeFile(file: File) {
+    const index = this.selectedFiles.indexOf(file);
+    if (index !== -1) {
+      this.selectedFiles.splice(index, 1);
     }
   }
 

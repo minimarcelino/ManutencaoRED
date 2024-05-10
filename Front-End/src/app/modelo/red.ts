@@ -14,4 +14,5 @@ inicioAfastamento: Date;
 tempoAfastamento: number;
 semestreOuAnoAluno: number;
 motivoRecusa: String;
+arquivos?: FileList;
 }

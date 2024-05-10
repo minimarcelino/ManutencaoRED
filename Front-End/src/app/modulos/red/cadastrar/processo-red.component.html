@@ -84,6 +84,21 @@
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
       </mat-form-field>
 
+      <br>
+      <button type="button" style="min-width: 20%; max-width: 100%;margin-bottom: 20px; " mat-raised-button (click)="fileInput.click()">
+        Escolher Arquivos
+      </button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" multiple>
+      <div *ngFor="let file of selectedFiles" style="margin-top: 10px; margin-bottom: 20px;">
+        <span style="font-size: 20px;">
+          <mat-icon style="font-size: 20px;">description</mat-icon>
+          {{ file.name }}
+          <button mat-icon-button (click)="removeFile(file)" style="margin-left: 5px;">
+            <mat-icon style="font-size: 24px;">delete</mat-icon>
+          </button>
+        </span>
+      </div>
+      
       <div>
         <button mat-raised-button color="primary" (click)="cadastrar()" style="margin-right: 1%;">Cadastrar</button>
         <button mat-raised-button color="primary" (click)="retornarParaLista()"

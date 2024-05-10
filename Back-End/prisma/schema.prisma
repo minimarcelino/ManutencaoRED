@@ -87,6 +87,14 @@ model pee {
   @@index([disciplinas_iddisciplinas], map: "fk_pee_disciplinas1_idx")
   @@index([servidor_idservidor], map: "fk_pee_servidor1_idx")
 }
+model arquivo {
+  idArquivo   Int     @id @default(autoincrement())
+  path        String
+  red         red     @relation(fields: [red_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_arquivo_red")
+  red_idRED   Int
+  
+  @@index([red_idRED], map: "idx_red_idRED") // Índice na coluna red_idRED
+}
 
 model red {
   idRED               Int      @id @default(autoincrement())
@@ -104,7 +112,7 @@ model red {
   pee                 pee[]
   aluno               aluno    @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
   servidor            servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
-
+  arquivos            arquivo[]
   @@index([aluno_id], map: "fk_RED_aluno1_idx")
   @@index([coordenador], map: "fk_RED_servidor1_idx")
 }

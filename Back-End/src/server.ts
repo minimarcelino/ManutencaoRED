@@ -11,6 +11,7 @@ import peeRoutes from './routes/peeRoutes';
 import usuarioNaoAutenticado from './routes/usuarioRoutes';
 import coordenadorRoutes from './routes/coordenadorRoutes';
 import loginRoutes from './routes/loginRoutes';
+import path from "path";
 
 
 const PORT = process.env.BACKEND_PORT || 3333;
@@ -33,6 +34,7 @@ app.use('/servidor/pee', peeRoutes);
 app.use('/servidor/usuario', usuarioNaoAutenticado); // Verificar, da acesso a atividades do pee
 app.use('/servidor/login', loginRoutes);
 app.use('/servidor/coordenador', coordenadorRoutes);
+app.use("/arquivos", express.static(path.join(__dirname, "..", "uploads")));
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
 
