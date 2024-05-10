@@ -15,7 +15,6 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
 import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
-import { CSPVisualizarREDComponent } from '../visualizar-csp/visualizar.component';
 
 export interface aluno {
   id: number;
@@ -71,15 +70,15 @@ export class ListarREDComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
-    'Prontuário',
+    'Prontuario',
     'Nome',
     'Curso',
-    'Início RED',
-    'Tempo Afastamento',
-    'Término',
-    'Situação-RED',
-    'Situação-PEE',
-    'Ações',
+    'Inicio-RED',
+    'Tempo-Afastamento',
+    'Termino',
+    'Situacao-RED',
+    'Situacao-PEE',
+    'Acoes',
   ];
 
   constructor(

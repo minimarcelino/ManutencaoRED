@@ -32,7 +32,7 @@ export class ListarDisciplinasComponent implements OnInit {
   cursoSelecionado = 'todos';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['sigla', 'nomedisciplina', 'curso_idcurso', 'acoes'];
+  displayedColumns = ['Sigla', 'Nome-Disciplina', 'Curso', 'Acoes'];
 
   constructor(
     private router: Router,

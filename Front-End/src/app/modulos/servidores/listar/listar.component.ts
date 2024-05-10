@@ -27,7 +27,7 @@ export class ListarServidoresComponent implements OnInit {
   user: any;
   dadosImportados: any[] = [];
 
-  displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
+  displayedColumns = ['Prontuario', 'Nome', 'Email', 'Acoes'];
   fileInput: any;
 
   constructor(

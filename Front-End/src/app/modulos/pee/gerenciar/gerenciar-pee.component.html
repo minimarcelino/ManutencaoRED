@@ -9,7 +9,7 @@
 
       <mat-form-field class="campo-pesquisa">
         <mat-label>Pesquisar</mat-label>
-        <input matInput (keyup)="pesquisar($event)" placeholder="Carlos | PE0000">
+        <input matInput (keyup)="pesquisar($event)" placeholder="Maria Eduarda | PE0000000 | maria@aluno.ifsp.edu.br">
       </mat-form-field>
 
       <mat-form-field class="campo-situacao">
@@ -64,7 +64,7 @@
               <mat-icon>visibility</mat-icon>
             </button>
 
-            <button mat-icon-button matTooltip="Associar professor" (click)="associarProfessor(a)"
+            <button mat-icon-button matTooltip="Associar Professor" (click)="associarProfessor(a)"
               *ngIf="this.peeAguardandoProfessor(a)">
               <mat-icon>person_add_alt</mat-icon>
             </button>

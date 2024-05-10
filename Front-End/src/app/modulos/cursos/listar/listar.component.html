@@ -1,55 +1,63 @@
-<div class="title">
-  <h1>Cursos</h1>
-  <hr class="linha" />
-</div>
+<div class="corpo">
 
-<div class="listagem">
-  <div id="tabela">
-    <mat-form-field>
-      <mat-label>Pesquisar Curso</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Bacharelado">
-    </mat-form-field>
-    <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-      <!-- NomeColumn -->
-      <ng-container matColumnDef="nomeCurso">
-        <th mat-header-cell *matHeaderCellDef> Curso </th>
-        <td mat-cell *matCellDef="let c"> {{c.nomeCurso}} </td>
-      </ng-container>
-
-      <!-- SiglaColumn -->
-      <ng-container matColumnDef="sigla">
-        <th mat-header-cell *matHeaderCellDef> Sigla </th>
-        <td mat-cell *matCellDef="let c"> {{c.sigla}} </td>
-      </ng-container>
-
-      <!-- Outras colunas aqui, se necessário -->
-      <ng-container matColumnDef="acoes">
-        <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-        <td class="actionsColumns" mat-cell *matCellDef="let c">
-          <div style="display: flex; align-items: center;">
-            <button mat-icon-button matTooltip="Editar curso" (click)="editarCurso(c)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button matTooltip="Deletar curso" (click)="deleteCurso(c)">
-              <mat-icon>delete</mat-icon>
-            </button>
-            <div class="file-input-container">
-              <button mat-icon-button matTooltip="Importar disciplinas" (click)="fileInput.click()">
-                <mat-icon>attach_file</mat-icon>
-              </button>
-              <input type="file" #fileInput style="display: none" (change)="onFileChange($event, c)" />
-            </div>
-          </div>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  <div class="title listagem">
+    <h1>Cursos</h1>
+    <hr class="linha" />
   </div>
-  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar">
-    <mat-icon>add</mat-icon>
-    Cadastrar Curso
-  </button>
+
+  <div class="listagem">
+    <div id="tabela">
+
+      <mat-form-field class="campo-pesquisa">
+        <mat-label>Pesquisar Curso</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Bacharelado">
+      </mat-form-field>
+
+      <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="NomeCurso">
+          <th mat-header-cell *matHeaderCellDef> Curso </th>
+          <td mat-cell *matCellDef="let c"> {{c.nomeCurso}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Sigla">
+          <th mat-header-cell *matHeaderCellDef> Sigla </th>
+          <td mat-cell *matCellDef="let c"> {{c.sigla}} </td>
+        </ng-container>
+
+        <!-- Outras colunas aqui, se necessário -->
+        <ng-container matColumnDef="Acoes">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let c">
+
+            <div style="display: flex; align-items: center;">
+              <button mat-icon-button matTooltip="Editar curso" (click)="editarCurso(c)">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button mat-icon-button matTooltip="Deletar curso" (click)="deleteCurso(c)">
+                <mat-icon>delete</mat-icon>
+              </button>
+
+              <div class="file-input-container">
+                <button mat-icon-button matTooltip="Importar disciplinas" (click)="fileInput.click()">
+                  <mat-icon>attach_file</mat-icon>
+                </button>
+
+                <input type="file" #fileInput style="display: none" (change)="onFileChange($event, c)" />
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+      <mat-icon>add</mat-icon>
+      Cadastrar Curso
+    </button>
+  </div>
 </div>

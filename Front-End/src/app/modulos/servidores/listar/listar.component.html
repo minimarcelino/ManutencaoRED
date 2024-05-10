@@ -1,78 +1,88 @@
-<div class="title" *ngIf="this.user.tiposervidor=='administrador'; else notADM">
-  <h1>Servidores</h1>
-</div>
+<div class="corpo">
 
-<ng-template #notADM>
-  <div class="title">
-    <h1>Docentes</h1>
-  </div>
-</ng-template>
-
-<div class="listagem">
-  <div id="tabela">
-
-    <mat-form-field style="width: 30%;">
-      <mat-label>Pesquisar Servidor</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. André | PE000000 | servidor@ifsp.edu.br">
-    </mat-form-field>
-
-    <mat-form-field *ngIf="isADM()">
-      <mat-label>Tipo de Servidor</mat-label>
-      <mat-select [(value)]="tipoSelecionado" (selectionChange)="filroPorTipo($event)">
-        <mat-option value="todos">Todos servidores</mat-option>
-        <mat-option *ngFor="let a of tiposServidores" [value]="a">{{a}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
-      <!-- ProntuarioColumn -->
-      <ng-container matColumnDef="prontuario">
-        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-        <td mat-cell *matCellDef="let a"> {{a.prontuario}} </td>
-      </ng-container>
-
-      <!-- NomeColumn -->
-      <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.nome}} </td>
-      </ng-container>
-
-      <!-- EmailColumn -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let a"> {{a.email}} </td>
-      </ng-container>
-
-      <!-- Outras colunas aqui, se necessário -->
-      <ng-container matColumnDef="acoes">
-        <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-        <td class="actionsColumns" mat-cell *matCellDef="let a">
-          <button mat-icon-button matTooltip="Editar docente" (click)="editarServidor(a)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Remover docente" (click)="deleteServidor(a)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+  <div class="title listagem" *ngIf="isADM(); else notADM">
+    <h1>Servidores</h1>
+    <hr class="linha" />
   </div>
 
-  <div>
-    <button mat-raised-button color="primary" (click)="cadastrar()" matTooltip="Cadastro de um servidor" id="cadastrar" class="button">
-      <mat-icon>add</mat-icon>
-      Cadastrar Servidores
-    </button>
+  <ng-template #notADM>
+    <div class="title listagem">
+      <h1>Docentes</h1>
+      <hr class="linha" />
+    </div>
+  </ng-template>
 
-    <button mat-raised-button color="primary" matTooltip="Cadastro em lote de docentes" id="importacao" class="button"
-    (click)="importacaoRapidaDocentes($event)">
-      <mat-icon>attach_file</mat-icon>
-      Importar Rápida de Docentes
-    </button>
+
+  <div class="listagem">
+    <div id="tabela">
+
+      <mat-form-field class="campo-pesquisa">
+        <mat-label>Pesquisar Servidor</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. André | PE000000 | servidor@ifsp.edu.br">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="isADM()" class="campo-tiposervidor">
+        <mat-label>Tipo de Servidor</mat-label>
+        <mat-select [(value)]="tipoSelecionado" (selectionChange)="filroPorTipo($event)">
+          <mat-option value="todos">Todos servidores</mat-option>
+          <mat-option *ngFor="let a of tiposServidores" [value]="a">{{a}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator> -->
+
+      <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table" matSort>
+
+        <!-- ProntuarioColumn -->
+        <ng-container matColumnDef="Prontuario">
+          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+          <td mat-cell *matCellDef="let a"> {{a.prontuario}} </td>
+        </ng-container>
+
+        <!-- NomeColumn -->
+        <ng-container matColumnDef="Nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let a"> {{a.nome}} </td>
+        </ng-container>
+
+        <!-- EmailColumn -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let a"> {{a.email}} </td>
+        </ng-container>
+
+        <!-- Outras colunas aqui, se necessário -->
+        <ng-container matColumnDef="Acoes">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let a">
+            <button mat-icon-button matTooltip="Editar docente" (click)="editarServidor(a)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Remover docente" (click)="deleteServidor(a)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+    </div>
+
+    <div>
+      <button mat-raised-button color="primary" (click)="cadastrar()" matTooltip="Cadastro de um servidor"
+        id="cadastrar" class="button">
+        <mat-icon>add</mat-icon>
+        Cadastrar Servidores
+      </button>
+
+      <button mat-raised-button color="primary" matTooltip="Cadastro em lote de docentes" id="importacao" class="button"
+        (click)="importacaoRapidaDocentes($event)">
+        <mat-icon>attach_file</mat-icon>
+        Importar Rápida de Docentes
+      </button>
+    </div>
   </div>
 </div>

@@ -1,12 +1,14 @@
-<div class="container">
-  <div class="title">
+<div class="corpo">
+
+  <div class="title listagem">
     <h1>Cadastro RED</h1>
     <hr class="linha" />
   </div>
-  <div class="form">
+
+  <div class="formulario">
     <form [formGroup]="cadastrarRed" #formDir="ngForm">
 
-      <mat-form-field style="min-width: 71%; max-width: 100%;">
+      <mat-form-field>
         <input formControlName="aluno" id="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno"
           matInput [matAutocomplete]="auto" (input)="filterAlunos($event)">
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
@@ -24,14 +26,14 @@
         <mat-icon>add_circle</mat-icon>
       </button>
 
-      <mat-form-field style="min-width: 71%; max-width: 100%;">
+      <mat-form-field>
         <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" />
       </mat-form-field>
 
-      <mat-form-field class="motivoAfastamento" style="min-width: 71%; max-width: 100%;">
+      <mat-form-field class="motivoAfastamento">
         <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
         <textarea formControlName="motivoAfastamento" id="motivo" matInput placeholder="Ex. Fratura do braço"
-          maxlength="4000" rows="2" spellcheck="true"></textarea>
+          maxlength="4000" rows="5" spellcheck="true"></textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
           restantes</mat-hint>
         <mat-error
@@ -41,8 +43,9 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field style="min-width: 71%; max-width: 100%;">
+      <mat-form-field>
         <input matInput [matDatepicker]="picker" id="inicioAfastamento" formControlName="inicioAfastamento">
+        <mat-hint>DD/MM/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-label>Início do afastamento</mat-label>
         <mat-datepicker #picker></mat-datepicker>
@@ -53,7 +56,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="tempoAfastamento" style="min-width: 71%; max-width: 100%;">
+      <mat-form-field class="tempoAfastamento">
         <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
         <input type="number" id="tempo" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
         <mat-error
@@ -64,7 +67,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="semestreAluno" style="min-width: 71%; max-width: 100%;">
+      <mat-form-field class="semestreAluno">
         <mat-label>Digite o semestre que o aluno se encontra</mat-label>
         <input type="number" id="semestre" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
         <mat-error
@@ -75,19 +78,18 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="observacao" style="min-width: 71%; max-width: 100%;">
+      <mat-form-field class="observacao">
         <mat-label>Faça uma observação</mat-label>
         <textarea formControlName="observacao" matInput
-          placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias matInput" maxlength="4000" rows="3"
+          placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias matInput" maxlength="4000" rows="5"
           spellcheck="true">
         </textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
       </mat-form-field>
 
       <div>
-        <button mat-raised-button color="primary" (click)="cadastrar()" style="margin-right: 1%;">Cadastrar</button>
-        <button mat-raised-button color="primary" (click)="retornarParaLista()"
-          style="margin-right: 1%;">Cancelar</button>
+        <button mat-raised-button color="primary" class="button" (click)="cadastrar()">Cadastrar</button>
+        <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Cancelar</button>
       </div>
       <!-- <input type="file" (change)="InputFile($event)" style="margin-right: 50px;" /> -->
     </form>

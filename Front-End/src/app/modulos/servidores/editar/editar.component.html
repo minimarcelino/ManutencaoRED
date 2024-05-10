@@ -1,20 +1,22 @@
-<div class="container">
+<div class="corpo">
 
-  <div class="editarDocente" *ngIf="this.user.tiposervidor=='administrador'; else notADM">
+  <div class="title listagem" *ngIf="isADM(); else notADM">
     <h1>Editar Servidores</h1>
+    <hr class="linha" />
   </div>
 
   <ng-template #notADM>
-    <div class="editarDocente">
+    <div class="title listagem">
       <h1>Editar Docentes</h1>
+      <hr class="linha" />
     </div>
   </ng-template>
 
 
-  <div class="fields">
+  <div class="formulario">
     <form [formGroup]="editarServidor" #formDir="ngForm">
 
-      <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%; margin-left: 1%;">
+      <mat-form-field appearance="fill" sclass="prontuario">
         <mat-label>Prontuário</mat-label>
         <input matInput name="prontuario" id="prontuario" formControlName="prontuario" mask="AA00000A" />
         <mat-error
@@ -23,16 +25,16 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%;">
+      <mat-form-field appearance="fill" class="nome-servidor">
         <mat-label>Nome</mat-label>
-        <input matInput name="nome" id="nome" formControlName="nome" />
+        <input matInput name="nome" id="nome" formControlName="nome"/>
         <mat-error
           *ngIf="editarServidor.get('nome')?.errors && (editarServidor.get('nome')?.dirty || editarServidor.get('nome')?.touched)">
           <span *ngIf="editarServidor.get('nome')?.errors?.['required']">Nome obrigatório</span>
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" style="min-width: 84%; max-width: 100%; margin-left: 1%;">
+      <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput name="email" id="email" formControlName="email" />
         <mat-error
@@ -42,8 +44,8 @@
         </mat-error>
       </mat-form-field>
 
-      <div *ngIf="mostrarCampo()">
-        <mat-form-field style="min-width: 84%; max-width: 100%; margin-left: 1%;">
+      <div *ngIf="isADM()">
+        <mat-form-field>
           <mat-label>Categoria de Servidor</mat-label>
           <input matInput name="tiposervidor" id="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
