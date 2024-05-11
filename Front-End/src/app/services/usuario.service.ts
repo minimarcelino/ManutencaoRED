@@ -18,4 +18,25 @@ export class usuarioNaoAutenticadoService {
             throw error;
         }
     }
+
+    async getTrocarSenha(token: string): Promise<any> {
+        try {
+            const response = await this.http.get(`${environment.API}usuario/trocar-senha/${token}`)
+                .toPromise();
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updatePassword(prontuario: string, password: string): Promise<any> {
+        try {
+          const response = await this.http
+            .post(`${environment.API}usuario/trocar-senha`, {prontuario: prontuario, password: password})
+            .toPromise();
+          return response;
+        } catch (error) {
+          return error;
+        }
+      }
 }

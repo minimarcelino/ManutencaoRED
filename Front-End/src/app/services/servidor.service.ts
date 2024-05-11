@@ -85,5 +85,18 @@ export class ServidorService {
       this.authenticationService.tratarErro(error);
     }
   }
+
+  async alterarSenha(id: number, token: string, senha: string): Promise<any> {
+    try {
+      const response = await this.http
+        .post(
+          `${environment.API}usuario/trocar-senha`,
+          { id: id, senha: senha, token: token},
+        ).toPromise();
+      return response;
+    } catch (error) {
+      this.authenticationService.tratarErro(error);
+    }
+  }
 }
 

@@ -1,4 +1,4 @@
-import { servidor, red, disciplinas } from '@prisma/client';
+import { servidor, red, disciplinas, pee } from '@prisma/client';
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import * as bcrypt from 'bcrypt';
@@ -182,7 +182,7 @@ export class servidorService {
   }
 
   
-  async updateSenha(id: number, senha: string) {
+  async updateSenha(id: number, senha: string, token: string) {
     try {
         const salt = await bcrypt.genSalt(10);
         const senhaHash = await bcrypt.hash(senha, salt);
@@ -332,7 +332,7 @@ export class servidorService {
               token: token,
             } as any,
         });
-
+        console.log(peeData)
         if (peeData) {
             return { ok: true, data: peeData };
         } else {

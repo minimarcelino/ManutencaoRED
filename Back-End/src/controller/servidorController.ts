@@ -64,6 +64,18 @@ export class servidorController {
     }
   }
 
+  async UpdateSenha(req: Request, res: Response) {
+    const { id, senha, token } = req.body;
+    const response = await servidorservice.updateSenha(
+      id,senha,token
+    );
+    if (response.ok) {
+      return res.status(StatusCodes.OK).send(response);
+    } else {
+      return res.status(StatusCodes.BAD_REQUEST).send(response);
+    }
+  }
+
   async getAll(req: Request, res: Response) {
     const response = await servidorservice.findAll();
     if (response.ok) {
@@ -126,7 +138,6 @@ export class servidorController {
   }
 
   async getByToken(req: Request, res: Response) {
-    console.log("oi");
     const response = await servidorservice.findByToken(req.params.token);
     if (response.ok) {
       return res.status(StatusCodes.OK).send(response);
