@@ -29,7 +29,7 @@ export class AssociarDisciplinaComponent implements OnInit {
   user: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['sigla', 'nomedisciplina', 'acoes'];
+  displayedColumns = ['Sigla', 'NomeDisciplina', 'Acoes'];
 
   constructor(
     private disciplinaservice: DisciplinaService,

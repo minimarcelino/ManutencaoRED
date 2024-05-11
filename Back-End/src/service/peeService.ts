@@ -56,7 +56,11 @@ export class peeService {
               },
             },
             servidor: true,
-            disciplinas: true,
+            disciplinas: {
+              include: {
+                curso: true,
+              },
+            },
           },
           orderBy: {
             red: {
@@ -151,7 +155,7 @@ export class peeService {
           situacao: pee.situacao,
           cumpriuAtividade: pee.cumpriuAtividade,
           dataEntregaAtividade: pee.dataEntregaAtividade,
-          prazoEntregaAtividade: pee.prazoEntregaAtividade
+          prazoEntregaAtividade: pee.prazoEntregaAtividade,
         },
       });
       return { ok: true, data: updatePEE };
@@ -243,27 +247,28 @@ export class peeService {
 
   async findByHash(hash: string) {
     try {
-        const peeData = await prisma.pee.findFirst({
-            where: {
-                hash: hash,
-            }, include: {
-              disciplinas: true,
-              red: {
-                include: {
-                  aluno: true,
-                },
-              },
-            } as any,
-        });
+      const peeData = await prisma.pee.findFirst({
+        where: {
+          hash: hash,
+        },
+        include: {
+          disciplinas: true,
+          red: {
+            include: {
+              aluno: true,
+            },
+          },
+        } as any,
+      });
 
-        if (peeData) {
-            return { ok: true, data: peeData };
-        } else {
-            return { ok: false, data: StatusCodes.NOT_FOUND };
-        }
+      if (peeData) {
+        return { ok: true, data: peeData };
+      } else {
+        return { ok: false, data: StatusCodes.NOT_FOUND };
+      }
     } catch (error) {
-        console.log(error);
-        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
 
@@ -287,5 +292,4 @@ export class peeService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
-
 }

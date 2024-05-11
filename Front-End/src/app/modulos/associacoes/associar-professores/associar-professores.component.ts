@@ -25,7 +25,7 @@ export class AssociarProfessoresComponent implements OnInit {
   user: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['nome', 'email', 'acoes'];
+  displayedColumns = ['Nome', 'Email', 'Acoes'];
 
   constructor(
     private dialog: MatDialogRef<AssociarProfessoresComponent>,
@@ -45,12 +45,12 @@ export class AssociarProfessoresComponent implements OnInit {
     });
     console.log('PEE da associação\n', this.data.pee); //Não tem a red
 
-    this.findAll();
+    this.findAllServidores();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
-  async findAll() {
+  async findAllServidores() {
     const response = await this.docenteService.getServidores();
     this.professores = response.data.servidores;
     this.professores = this.professores.filter(
@@ -122,13 +122,10 @@ export class AssociarProfessoresComponent implements OnInit {
     this.dialog.close();
   }
 
-  async apresentarDisciplina(){
-    const idcurso = this.data.pee.disciplinas.curso_idcurso;
-    console.log(idcurso);
-
-    //const curso = await this.cursoService.getCursoById(idcurso);
-    //console.log("Curso da disciplina atual\n", curso);
-
-    return `Disciplina ${this.data.pee.disciplinas.nomeDisciplina} (${this.data.pee.disciplinas.sigla}) do curso `
+  apresentarDisciplina(){
+    const nomeDisciplina = this.data.pee.disciplinas.nomeDisciplina;
+    const siglaDisciplina = this.data.pee.disciplinas.sigla;
+    const nomeCurso = this.data.pee.disciplinas.curso.nomeCurso;
+    return `Disciplina ${nomeDisciplina} (${siglaDisciplina}) do curso ${nomeCurso}`;
   }
 }
