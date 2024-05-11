@@ -36,5 +36,5 @@ app.use('/servidor/login', loginRoutes);
 app.use('/servidor/coordenador', coordenadorRoutes);
 app.use('/servidor/arquivos', express.static(path.join(__dirname, "..", "uploads")));
 
-app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
+app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}\n\n\n\n\n\n\n-------------\n\n\n\n\n\n\n`));
 

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +9,16 @@ import { Router } from '@angular/router';
 export class RedService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService,
-  ) { }
+    private authenticationService: AuthenticationService
+  ) {}
 
   async getRed(): Promise<any> {
     try {
       const response = await this.http
-        .get(`${environment.API}red/all`, this.authenticationService.getHttpOptions())
+        .get(
+          `${environment.API}red/all`,
+          this.authenticationService.getHttpOptions()
+        )
         .toPromise();
       return response;
     } catch (error) {
@@ -24,13 +26,18 @@ export class RedService {
     }
   }
 
-  async createRed(red: any): Promise<any> {
+  async createRed(red: any, arquivos: File[]): Promise<any> {
     try {
+      const formData = new FormData();
+      formData.append('red', JSON.stringify(red));
+      for (let i = 0; i < arquivos.length; i++) {
+        formData.append('arquivos', arquivos[i]);
+      }
 
       const response = await this.http
         .post(
           `${environment.API}red/create`,
-          red,
+          formData,
           this.authenticationService.getHttpOptions()
         )
         .toPromise();
@@ -86,4 +93,3 @@ export class RedService {
     }
   }
 }
-

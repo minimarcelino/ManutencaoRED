@@ -45,7 +45,9 @@ export class CadastrarProcessoREDComponent implements OnInit {
     this._adapter.setLocale(this._locale);
     this.cadastrarRed = new FormGroup({
       aluno: new FormControl('', [Validators.required]),
-      curso: new FormControl({value: '', disabled: true}, [Validators.required]),
+      curso: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
+      ]),
       observacao: new FormControl('', [Validators.maxLength(4000)]),
       motivoAfastamento: new FormControl('', [
         Validators.required,
@@ -85,7 +87,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
   filterAlunos(event: any) {
     const value = event.target.value;
     const filterValue = value.toLowerCase();
-    this.filteredAlunos = this.alunos.filter(aluno => {
+    this.filteredAlunos = this.alunos.filter((aluno) => {
       const alunoString = `${aluno.prontuario} - ${aluno.nome}`.toLowerCase();
       return alunoString.includes(filterValue);
     });
@@ -153,42 +155,49 @@ export class CadastrarProcessoREDComponent implements OnInit {
       }
     );
     if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
-      this.snackBarService.open('O período de afastamento deve ser entre 15 a 360 dias.');
+      this.snackBarService.open(
+        'O período de afastamento deve ser entre 15 a 360 dias.'
+      );
       return;
     }
     if (this.semestreAluno <= 0 || this.semestreAluno > 20) {
-      this.snackBarService.open('O semestre informado deve estar entre 1 e 24.');
+      this.snackBarService.open(
+        'O semestre informado deve estar entre 1 e 24.'
+      );
       return;
     }
     if (redExistenteNoMesmoPeriodo) {
-      this.snackBarService.open('Já existe um RED para este prontuário no mesmo período! ');
+      this.snackBarService.open(
+        'Já existe um RED para este prontuário no mesmo período! '
+      );
       return;
     }
     if (!this.verificarDataInicioAfastamento(this.inicioAfastamento)) {
-      this.snackBarService.open('O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!');
+      this.snackBarService.open(
+        'O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!'
+      );
       return;
     }
 
     // Criação do RED
     try {
-      const formData = new FormData();
-      formData.append('motivoAfastamento', this.motivoAfastamento);
-      formData.append('inicioAfastamento', this.inicioAfastamento);
-      formData.append('dataPrevisaoTermino', this.previsaoTerminoRed().toISOString());
-      formData.append('dataInicioProcesso', new Date().toISOString());
-      formData.append('semestreOuAnoAluno', this.semestreAluno);
-      formData.append('tempoAfastamento', this.tempoAfastamento);
-      formData.append('situacao', this.situacao);
-      formData.append('observacao', this.observacao);
-      formData.append('aluno_id', this.aluno.id);
-      formData.append('coordenador', this.filtredCursos[0].coordenador);
+      console.log('arquibos\n', this.selectedFiles);
 
-      // Adicione os arquivos selecionados ao FormData
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-          formData.append('arquivos', this.selectedFiles[i]);
-      }
-      
-      await this.redService.createRed(formData);
+      await this.redService.createRed(
+        {
+          motivoAfastamento: this.motivoAfastamento,
+          inicioAfastamento: this.inicioAfastamento,
+          dataPrevisaoTermino: this.previsaoTerminoRed(),
+          dataInicioProcesso: new Date(),
+          semestreOuAnoAluno: this.semestreAluno,
+          tempoAfastamento: this.tempoAfastamento,
+          situacao: this.situacao,
+          observacao: this.observacao,
+          aluno_id: this.aluno.id,
+          coordenador: this.filtredCursos[0].coordenador,
+        },
+        this.selectedFiles
+      );
       this.retornarParaLista();
     } catch (error) {
       console.error('Erro ao cadastrar RED:', error);
@@ -201,7 +210,7 @@ export class CadastrarProcessoREDComponent implements OnInit {
       this.selectedFiles.push(files[i]);
     }
   }
-  
+
   removeFile(file: File) {
     const index = this.selectedFiles.indexOf(file);
     if (index !== -1) {

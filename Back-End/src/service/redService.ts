@@ -34,14 +34,14 @@ export class redService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
-
-  async create(red: red) {
+  async create(red: any) {
     try {
       const createRed = await prisma.red.create({ data: red });
-      return { ok: true, data: createRed };
+      return { ok: true, data: createRed, idRED: createRed.idRED };
     } catch (error) {
       console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+      // precisa retornar algum idRED para caso não consiga cadastrar
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR, idRED: -1 };
     }
   }
 
@@ -62,7 +62,7 @@ export class redService {
           semestreOuAnoAluno: red.semestreOuAnoAluno,
           coordenador: red.coordenador,
           aluno_id: red.aluno_id,
-          motivoRecusa: red.motivoRecusa 
+          motivoRecusa: red.motivoRecusa,
         },
       });
       return { ok: true, data: updateRed };
