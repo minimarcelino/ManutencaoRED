@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { AuthenticationService } from './authentication.service';
 export class PeeService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
   ) {}
 
   async getPee(): Promise<any> {
@@ -19,7 +20,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -34,7 +35,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -49,7 +50,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -64,7 +65,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -79,7 +80,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -94,7 +95,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -108,7 +109,7 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -122,11 +123,11 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
-  async getPeeRED(id: number): Promise<any> {
+  async getPeeByIdRED(id: number): Promise<any> {
     try {
       const response = await this.http
         .get(
@@ -136,15 +137,27 @@ export class PeeService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
+  situacaoPEEs(pee: any[]): string {
+    const situacoes = [
+      "Aguardando Associação de Professor",
+      "Aguardando Preenchimento",
+      "Enviada ao Aluno",
+      "Avaliado"
+    ];
 
+    for (const situacao of situacoes) {
+      if (pee.some(item => item.situacao === situacao)) {
+        return situacao;
+      }
+    }
+    return "Em Associação de Disciplina";
+  }
 
-
-
-
-
-
+  todosPeesPreenchidos(pee: any[]): boolean {
+    return pee.every((item) => item.situacao === "Enviada ao Aluno");
+  }
 }

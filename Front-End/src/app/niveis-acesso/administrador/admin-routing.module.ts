@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdministradorComponent } from './administrador.component';
 
-import { AssociarDisciplinaComponent } from '../csp/associar-disciplina/associar-disciplina.component';
+import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
 import { PerfilComponent } from '../../perfil/perfil.component';
 //
 import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/disciplinas.component';
@@ -23,6 +23,7 @@ import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastra
 
 import { GerenciarPEEComponent } from '../../modulos/pee/gerenciar/gerenciar-pee.component';
 import { PEEAbonadosComponent } from '../../modulos/pee/abonados/pees-abonados.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
 
 
 const routes: Routes = [
@@ -96,6 +97,10 @@ const routes: Routes = [
       {
         path: 'PEEsAbonados',
         component: PEEAbonadosComponent,
+      },
+      {
+        path: 'visualizarREDCSP',
+        component: CSPVisualizarREDComponent,
       },
     ],
   },

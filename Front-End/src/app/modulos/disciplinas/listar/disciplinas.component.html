@@ -1,64 +1,68 @@
-<div class="title">
-  <h1>Disciplinas</h1>
-  <hr class="linha" />
-</div>
+<div class="corpo">
 
-<div class="listagem">
-  <div id="tabela">
-
-    <mat-form-field style="width: 30%;">
-      <mat-label>Pesquisar Disciplina</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. PEPBDD | Banco de Dados">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Curso</mat-label>
-      <mat-select [(value)]="cursoSelecionado" (selectionChange)="filroPorCurso($event)">
-        <mat-option value="todos">Todos os cursos</mat-option>
-        <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
-      <ng-container matColumnDef="sigla">
-        <th mat-header-cell *matHeaderCellDef> Sigla </th>
-        <td mat-cell *matCellDef="let a"> {{a.sigla}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="nomedisciplina">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.nomeDisciplina}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="curso_idcurso">
-        <th mat-header-cell *matHeaderCellDef> Curso </th>
-        <td mat-cell *matCellDef="let a"> {{a.curso.sigla}} </td>
-      </ng-container>
-
-      <!-- Outras colunas aqui, se necessário -->
-      <ng-container matColumnDef="acoes">
-        <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-        <td class="actionsColumns" mat-cell *matCellDef="let a">
-
-          <button mat-icon-button matTooltip="Editar disciplina" (click)="editarDisciplina(a)">
-            <mat-icon>edit</mat-icon>
-          </button>
-
-          <button mat-icon-button matTooltip="Deletar disciplina" (click)="deleteDisciplina(a)">
-            <mat-icon>delete</mat-icon>
-          </button>
-
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+  <div class="title listagem">
+    <h1>Disciplinas</h1>
+    <hr class="linha" />
   </div>
-  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" style="margin-top: 10px;">
-    <mat-icon>add</mat-icon>
-    Cadastrar Disciplina
-  </button>
+
+  <div class="listagem">
+    <div id="tabela">
+
+      <mat-form-field class="campo-pesquisa">
+        <mat-label>Pesquisar Disciplina</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. PEPBDD | Banco de Dados">
+      </mat-form-field>
+
+      <mat-form-field class="campo-curso">
+        <mat-label>Curso</mat-label>
+        <mat-select [(value)]="cursoSelecionado" (selectionChange)="filroPorCurso($event)">
+          <mat-option value="todos">Todos os cursos</mat-option>
+          <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+        <ng-container matColumnDef="Sigla">
+          <th mat-header-cell *matHeaderCellDef> Sigla </th>
+          <td mat-cell *matCellDef="let a"> {{a.sigla}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Nome-Disciplina">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let a"> {{a.nomeDisciplina}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Curso">
+          <th mat-header-cell *matHeaderCellDef> Curso </th>
+          <td mat-cell *matCellDef="let a"> {{a.curso.sigla}} </td>
+        </ng-container>
+
+        <!-- Outras colunas aqui, se necessário -->
+        <ng-container matColumnDef="Acoes">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let a">
+
+            <button mat-icon-button matTooltip="Editar disciplina" (click)="editarDisciplina(a)">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button matTooltip="Deletar disciplina" (click)="deleteDisciplina(a)">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+      <mat-icon>add</mat-icon>
+      Cadastrar Disciplina
+    </button>
+  </div>
 </div>

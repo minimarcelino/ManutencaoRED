@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
@@ -24,8 +25,10 @@ export class ListarServidoresComponent implements OnInit {
   tipoSelecionado = 'todos';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   user: any;
+  dadosImportados: any[] = [];
 
-  displayedColumns = ['prontuario', 'nome', 'email', 'acoes'];
+  displayedColumns = ['Prontuario', 'Nome', 'Email', 'Acoes'];
+  fileInput: any;
 
   constructor(
     private router: Router,
@@ -92,7 +95,9 @@ export class ListarServidoresComponent implements OnInit {
     } catch (error: any) {
       if (error && error.error && error.error.data) {
         const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao deletar professor: ${errorMessage}`);
+        this.snackBarService.open(
+          `Falha ao deletar professor: ${errorMessage}`
+        );
       } else {
         this.snackBarService.open('Falha ao deletar professor');
       }
@@ -107,12 +112,81 @@ export class ListarServidoresComponent implements OnInit {
     }
   }
 
+  async importacaoRapidaDocentes(event: any) {
+    let resposta = false;
+    resposta = await this.dialogQuestionService.openDialogConfirmDocente();
+    if (resposta) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.xlsx,.xls';
+      input.style.display = 'none';
+      input.addEventListener('change', (event: any) => {
+        this.cadastroServidorLote(event);
+      });
+      document.body.appendChild(input);
+      input.click();
+    }
+  }
+
+  // Cadastro de servidores a partir de arquivo XLSX
+  private cadastroServidorLote(event: any) {
+    const target: DataTransfer = <DataTransfer>event.target;
+    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(target.files[0]);
+    reader.onload = (e: any) => {
+      const binarystr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_json(ws);
+      this.dadosImportados = data;
+
+      const importPromises = this.dadosImportados.map(async (item) => {
+        return await this.servidorService.createServidor({
+          prontuario: `PE${item.Matrícula}`,
+          nome: item.Nome,
+          email: `${item['E-mail']}`,
+          tiposervidor: 'professor',
+          senha: '123',
+        });
+      });
+
+      Promise.all(importPromises)
+        .then((responses) => {
+          const hasError = responses.some((response) => response.ok === false);
+          if (hasError) {
+            this.snackBarService.open(
+              `Erro na importação. Verifique os detalhes.`
+            );
+          } else {
+            this.snackBarService.open(`Importação dos docentes foi realizada!`);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+
+          if (error && error.error && error.error.data) {
+            const errorMessage = error.error.data;
+            this.snackBarService.open(
+              `Erro na importação de servidores: ${errorMessage}`
+            );
+          } else {
+            this.snackBarService.open(`Erro na importação de servidores`);
+          }
+        })
+        .finally(() => {
+          this.findAll();
+        });
+    };
+  }
+
   aplicarFiltros() {
     // Aplica os filtros de curso e situação simultaneamente
     this.servidoresFiltrados = this.servidores.filter(
       (servidor) =>
-        (this.tipoSelecionado === 'todos' ||
-          servidor.tiposervidor === this.tipoSelecionado)
+        this.tipoSelecionado === 'todos' ||
+        servidor.tiposervidor === this.tipoSelecionado
     );
 
     // Atualiza o dataSource com os REDs filtrados
@@ -132,7 +206,7 @@ export class ListarServidoresComponent implements OnInit {
     });
   }
 
-  isADM(){
+  isADM() {
     return this.user.tiposervidor === 'administrador';
   }
 }

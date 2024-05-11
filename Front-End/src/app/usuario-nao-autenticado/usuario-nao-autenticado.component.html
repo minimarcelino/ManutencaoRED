@@ -1,4 +1,6 @@
 <div class="custom-tela" *ngIf="dadosPee">
+    <h1>Plano Especial de Estudo da Disciplina {{ dadosPee.disciplinas.nomeDisciplina }}</h1>
+    <h2> {{ dadosPee.red.aluno.nome }} - {{ dadosPee.red.aluno.prontuario }}</h2>
     <div class="custom-item">
         <h2>CONTEÚDOS A SEREM ESTUDADOS</h2>
         <p>{{ dadosPee.conteudo }}</p>
@@ -25,6 +27,6 @@
     </div>
     <div class="custom-item">
         <h2>CONTATO DO PROFESSOR</h2>
-        <p>{{ dadosPee.servidor.email }}</p>
+        <p>{{ dadosPee.canalComunicacao }}</p>
     </div>
 </div>

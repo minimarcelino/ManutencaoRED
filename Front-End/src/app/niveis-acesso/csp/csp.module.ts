@@ -18,9 +18,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ListarRedComponent } from './processo-red/listar/listar.component';
-import { AssociarDisciplinaComponent } from './associar-disciplina/associar-disciplina.component';
-import { VisualizarRedComponent } from './processo-red/visualizar/visualizar.component';
+import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
 //
 import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
 import { EditarCursoComponent } from 'src/app/modulos/cursos/editar/editar.component';
@@ -40,8 +39,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
     ListarCursosComponent,
     EditarCursoComponent,
     //
-    ListarRedComponent,
-    VisualizarRedComponent,
+    CSPVisualizarREDComponent,
     AssociarDisciplinaComponent,
   ],
   imports: [

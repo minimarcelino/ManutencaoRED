@@ -1,19 +1,18 @@
 import { createTransport } from 'nodemailer';
 
-
 const transporter = createTransport({
-  host: 'nao-responda.ifsp.edu.br',
+  host: process.env.EMAIL_HOTS,
   port: 587,
   secure: false,
   auth: {
-    user: "eventos.pep@nao-responda.ifsp.edu.br",
-    pass: "#9zoXO"
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_SENHA
   }
 });
 
 export const sendEmail = (para:string, assunto:string, texto:string)=> {
 transporter.sendMail({
-  from: "eventos.pep@nao-responda.ifsp.edu.br",
+  from: process.env.EMAIL_USER,
   to: para,
   subject: assunto,
   html: texto,

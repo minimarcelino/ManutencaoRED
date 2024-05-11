@@ -22,7 +22,7 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
         const result = await dialogRef.afterClosed().toPromise();
         if (result === 'Confirmar') {
             return true;
-        } 
+        }
         } catch (err) {
         console.error(err);
         }
@@ -43,11 +43,36 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
         const result = await dialogRef.afterClosed().toPromise();
         if (result === 'Confirmar') {
             return true;
-        } 
+        }
         } catch (err) {
         console.error(err);
         }
         return false;
     }
-    
+
+    async openDialogConfirmDocente() {
+      let dialogRef = this.dialog.open(MessageDialogComponent, {
+      width: '400px',
+      data: {
+          title: 'Importarção de Docentes',
+          message: `
+          <p>Os servidores cadastrados serão atribuídos com o cargo de <strong>PROFESSORES</strong>.</p>
+          <p>Deseja continuar a importação?</p>
+          <p>Formatos aceitos: .XLSX e . XLS</p>
+        `,
+          buttonClose: 'Cancelar',
+          buttonConfirm: 'Continuar',
+      }
+      });
+      try {
+      const result = await dialogRef.afterClosed().toPromise();
+      if (result === 'Continuar') {
+          return true;
+      }
+      } catch (err) {
+      console.error(err);
+      }
+      return false;
+  }
+
   }

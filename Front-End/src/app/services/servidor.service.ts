@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,8 @@ import { AuthenticationService } from './authentication.service';
 export class ServidorService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
-  ) {}
+    private authenticationService: AuthenticationService,
+  ) { }
 
   async getServidores(): Promise<any> {
     try {
@@ -22,37 +23,37 @@ export class ServidorService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
-  async createServidor(docente: any): Promise<any> {
+  async createServidor(servidor: any): Promise<any> {
     try {
       const response = await this.http
         .post(
           `${environment.API}servidor/create`,
-          docente,
+          servidor,
           this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
-  async updateServidor(docente: any): Promise<any> {
+  async updateServidor(servidor: any): Promise<any> {
     try {
       const response = await this.http
         .put(
-          `${environment.API}servidor/update/${docente.idservidor}`,
-          docente,
+          `${environment.API}servidor/update/${servidor.idservidor}`,
+          servidor,
           this.authenticationService.getHttpOptions()
         )
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -66,7 +67,7 @@ export class ServidorService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -81,7 +82,8 @@ export class ServidorService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 }
+

@@ -25,7 +25,7 @@ export class ListarCursosComponent implements OnInit {
   dataSource: any;
   user: any;
 
-  displayedColumns = ['nomeCurso', 'sigla', 'acoes'];
+  displayedColumns = ['NomeCurso', 'Sigla', 'Acoes'];
 
   constructor(
     private router: Router,

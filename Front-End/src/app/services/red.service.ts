@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,8 @@ import { AuthenticationService } from './authentication.service';
 export class RedService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
-  ) {}
+    private authenticationService: AuthenticationService,
+  ) { }
 
   async getRed(): Promise<any> {
     try {
@@ -19,7 +20,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -35,7 +36,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -51,7 +52,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -67,7 +68,7 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -81,7 +82,8 @@ export class RedService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 }
+

@@ -2,10 +2,6 @@ import e, { Request, Response } from 'express';
 import { servidorService } from '../service/servidorService';
 import { StatusCodes } from 'http-status-codes';
 import { JwtPayload } from 'jsonwebtoken';
-import { prisma } from '../../prisma/client';
-import { sendEmail } from '../service/email';
-import { alunoService } from '../service/alunoService';
-import exp from 'constants';
 
 const servidorservice = new servidorService();
 const jwt = require('jsonwebtoken');
@@ -127,46 +123,6 @@ export class servidorController {
       });
     }
     return res.status(401);
-  }
-
-  async sendEmailRecoveryPassword(req: Request, res: Response) {
-    const { prontuario } = req.body;
-    const response = await servidorservice.findByProntuario(prontuario);
-    if (response.ok) {
-      if (
-        typeof response.data === 'object' &&
-        'email' in response.data &&
-        'nome' in response.data
-      ) {
-        const email = response.data.email;
-        const nome = response.data.nome;
-        const id = response.data.idservidor;
-        const crypto = require('crypto');
-        const hash = crypto.createHash('sha256');
-        const data = Date.now();
-
-        hash.update(id.toString()+data.toString());
-        const token = hash.digest('hex');
-        servidorservice.updateToken(id, token)
-        
-        const texto = `
-        <html>
-        <head>
-        <title>Recuperação de Senha - RED</title>
-        </head>
-        <body>
-        <p>Olá ${nome}! Recebemos sua solicitação de recuperação de senha.</p>
-        <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/${token}">clique aqui</a> para redefinir sua senha e acessar a página do exercício.</p>
-        <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
-        </body>
-        </html>
-        `;
-        sendEmail(email, 'Recuperação de senha', texto);
-        console.log('Email Enviado');
-        return res.status(StatusCodes.OK).send(response.data);
-      }
-    }
-    return res.status(StatusCodes.BAD_REQUEST).send(response);
   }
 
   async getByToken(req: Request, res: Response) {

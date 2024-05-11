@@ -21,19 +21,19 @@ model aluno {
   @@index([curso_idcurso], map: "fk_aluno_curso_idx")
 }
 
-model atividades {
-  idatividades     Int       @default(autoincrement())
-  descricao        String    @db.VarChar(1000)
-  prazoatividade   DateTime  @db.Date
-  pee_idpee        Int
-  dateEntregaAluno DateTime? @db.Date
-  cumpriuAtividade String?   @db.Char(1)
-  novaAtividade    String?   @db.Char(1)
-  pee              pee       @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
+// model atividades {
+//   idatividades     Int       @default(autoincrement())
+//   descricao        String    @db.VarChar(1000)
+//   prazoatividade   DateTime  @db.Date
+//   pee_idpee        Int
+//   dateEntregaAluno DateTime? @db.Date
+//   cumpriuAtividade String?   @db.VarChar(3)
+//   novaAtividade    String?   @db.VarChar(3)
+//   pee              pee       @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
 
-  @@id([idatividades, pee_idpee])
-  @@index([pee_idpee], map: "fk_atividades_pee1_idx")
-}
+//   @@id([idatividades, pee_idpee])
+//   @@index([pee_idpee], map: "fk_atividades_pee1_idx")
+// }
 
 model curso {
   idcurso     Int           @id @default(autoincrement())
@@ -59,29 +59,39 @@ model disciplinas {
 }
 
 model pee {
-  idpee                     Int          @id @default(autoincrement())
-  conteudo                  String       @db.Text
-  metodologia               String       @db.Text
-  trabalhos                 String       @db.Text
-  bibliografia              String       @db.Text
-  criterios                 String       @db.Text
-  prazofinal                DateTime     @db.Date
+  // CAMPOS INICIAIS DO PEE
+  // Campos obrigatórios da para criação
+  idpee                     Int       @id @default(autoincrement())
+  situacao                  String    @db.VarChar(40)
+  conteudo                  String    @db.Text
+  metodologia               String    @db.Text
+  trabalhos                 String    @db.Text
+  bibliografia              String    @db.Text
+  criterios                 String    @db.Text
+  prazofinal                DateTime  @db.Date
   RED_idRED                 Int
-  situacao                  String   @db.VarChar(40)
   disciplinas_iddisciplinas Int
+  // Opcionais da criação
+  canalComunicacao          String?   @db.VarChar(30)
+  observacoes               String?   @db.Text
   servidor_idservidor       Int?
-  percentualabono           Float
-  dataEnvioProposta         DateTime?    @db.Date
-  canalComunicacao          String?      @db.VarChar(30)
-  houveAvaliacao            String?      @db.Char(1)
-  avaliacoesRealizadas      String?      @db.Char(1)
-  dataAvaliacao             DateTime?    @db.Date
-  observacoes               String?      @db.Text
-  hash                      String?      @db.VarChar(64)
-  atividades                atividades[]
-  red                       red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
-  disciplinas               disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
-  servidor                  servidor?     @relation(fields: [servidor_idservidor], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_servidor1")
+  dataEnvioProposta         DateTime? @db.Date
+  hash                      String?   @db.VarChar(64)
+
+  // Campos da avalição
+  avaliacaoAtividade    String?   @db.Text
+  prazoEntregaAtividade DateTime? @db.Date
+  dataEntregaAtividade  DateTime? @db.Date
+  cumpriuAtividade      String?   @db.VarChar(3)
+  houveAvaliacao        String?   @db.VarChar(3)
+  avaliacoesRealizadas  String?   @db.VarChar(3)
+  dataAvaliacao         DateTime? @db.Date
+  percentualabono       Float
+
+  // Associações
+  red         red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
+  disciplinas disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
+  servidor    servidor?    @relation(fields: [servidor_idservidor], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_servidor1")
 
   @@index([RED_idRED], map: "fk_pee_RED1_idx")
   @@index([disciplinas_iddisciplinas], map: "fk_pee_disciplinas1_idx")

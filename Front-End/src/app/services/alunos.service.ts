@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,8 @@ import { AuthenticationService } from './authentication.service';
 export class AlunoService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
-  ) {}
+    private authenticationService: AuthenticationService,
+  ) { }
 
   async getAluno(): Promise<any> {
     try {
@@ -22,7 +23,7 @@ export class AlunoService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -37,7 +38,7 @@ export class AlunoService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -52,7 +53,7 @@ export class AlunoService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -66,7 +67,7 @@ export class AlunoService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 }

@@ -1,20 +1,22 @@
-<div class="container">
+<div class="corpo">
 
-  <div class="title" *ngIf="mostrarCampo; else notADM">
-    <h1>Servidores</h1>
+  <div class="title listagem" *ngIf="mostrarCampo; else notADM">
+    <h1>Cadastro de Servidores</h1>
+    <hr class="linha" />
   </div>
 
   <ng-template #notADM>
-    <div class="title">
-      <h1>Docentes</h1>
+    <div class="title listagem">
+      <h1>Cadastro de Docentes</h1>
+      <hr class="linha" />
     </div>
   </ng-template>
 
-  <div class="fields">
+  <div class="formulario">
     <form [formGroup]="cadastrarServidor" #formDir="ngForm">
 
       <!-- PRONTUÁRIO -->
-      <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%;">
+      <mat-form-field appearance="fill" class="lado-esquerdo">
         <mat-label>Prontuário</mat-label>
         <input matInput name="prontuario" id="prontuario" formControlName="prontuario" mask="AA00000A" />
         <mat-error
@@ -24,7 +26,7 @@
       </mat-form-field>
 
       <!-- NOME -->
-      <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%;">
+      <mat-form-field appearance="fill" class="lado-direito">
         <mat-label>Nome</mat-label>
         <input matInput name="nome" id="nome" formControlName="nome" />
         <mat-error
@@ -34,7 +36,7 @@
       </mat-form-field>
 
       <!-- EMAIL -->
-      <mat-form-field appearance="fill" style="min-width: 71%; max-width: 100%;">
+      <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput name="email" id="email" formControlName="email" />
         <mat-error
@@ -46,7 +48,7 @@
 
       <!-- TIPO DE SERVIDOR -->
       <div *ngIf="mostrarCampo()">
-        <mat-form-field style="min-width: 71%; max-width: 100%;">
+        <mat-form-field>
           <mat-label>Categoria de Servidor</mat-label>
           <input matInput name="tiposervidor" id="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
@@ -61,10 +63,10 @@
           </mat-error>
         </mat-form-field>
       </div>
-      
+
       <div id="buttons">
-        <button mat-raised-button color="primary" (click)="voltar()">Voltar</button>
-        <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Cadastrar</button>
+        <button mat-raised-button color="primary" class="button" (click)="voltar()">Voltar</button>
+        <button mat-raised-button color="primary" class="button" (click)="submit()">Cadastrar</button>
       </div>
     </form>
   </div>

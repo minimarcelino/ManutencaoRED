@@ -23,7 +23,7 @@ export class ListarAlunoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   user: any;
 
-  displayedColumns = ['prontuario', 'nome', 'telefone', 'email', 'acoes'];
+  displayedColumns = ['Prontuario', 'Nome', 'Telefone', 'Email', 'Acoes'];
 
   constructor(
     private router: Router,

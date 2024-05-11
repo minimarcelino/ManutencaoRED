@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment.development';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,8 @@ import { AuthenticationService } from './authentication.service';
 export class CoordenadorService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
-  ) {}
+    private authenticationService: AuthenticationService,
+  ) { }
 
   async getCoordenador(): Promise<any> {
     try {
@@ -22,7 +23,7 @@ export class CoordenadorService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
 
@@ -36,9 +37,8 @@ export class CoordenadorService {
         .toPromise();
       return response;
     } catch (error) {
-      throw error;
+      this.authenticationService.tratarErro(error);
     }
   }
-
 
 }

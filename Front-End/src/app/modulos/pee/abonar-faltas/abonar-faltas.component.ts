@@ -57,7 +57,7 @@ export class AbonarFaltaComponent implements OnInit {
       }
       return;
     }
-    
+
     if (this.descricao.trim() === '') {
       this.snackBarService.open('Descrição deve ser preenchido corretamente.');
       const element = document.getElementById('descricao');
@@ -67,7 +67,7 @@ export class AbonarFaltaComponent implements OnInit {
       return;
     }
 
-    
+
 
     if (this.percentualAbono < 0 || this.percentualAbono > 100) {
       this.snackBarService.open('O percentual de faltas abonadas deve ser entre 0 e 100.');
@@ -101,11 +101,11 @@ export class AbonarFaltaComponent implements OnInit {
         percentualabono: this.percentualAbono,
         dataEnvioProposta: this.data.dataEnvioProposta,
         canalComunicacao: this.data.canalComunicacao,
-        houveAvaliacao: this.data.houveAvaliacao,
-        avaliacoesRealizadas: this.data.avaliacoesRealizadas,
-        dataAvaliacao: this.data.dataAvaliacao,
+        houveAvaliacao: this.avaliacao,
+        avaliacoesRealizadas: this.avaliacaoRealizada,
+        dataAvaliacao: this.dataAvaliacao,
         observacao: this.data.observacao,
-        situacao: "Avalida"
+        situacao: "Avaliado"
       });
       this.snackBarService.open('Faltas abonadas com sucesso!!');
       this.dialog.close();

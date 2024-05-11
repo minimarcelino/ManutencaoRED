@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,6 +14,7 @@ import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualiz
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EditarREDComponent } from '../editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
+import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
 
 export interface aluno {
   id: number;
@@ -69,15 +70,15 @@ export class ListarREDComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
-    'Prontuário',
+    'Prontuario',
     'Nome',
     'Curso',
-    'Início RED',
-    'Tempo Afastamento',
-    'Término',
-    'Situação',
-    'Disciplinas',
-    'Ações',
+    'Inicio-RED',
+    'Tempo-Afastamento',
+    'Termino',
+    'Situacao-RED',
+    'Situacao-PEE',
+    'Acoes',
   ];
 
   constructor(
@@ -103,7 +104,11 @@ export class ListarREDComponent implements OnInit {
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
-    return pee.every((item) => item.conteudo !== '');
+    return this.peeService.todosPeesPreenchidos(pee);
+  }
+
+  situacaoPEEs(pee: any[]): string {
+    return this.peeService.situacaoPEEs(pee);
   }
 
   async findAll() {
@@ -111,7 +116,7 @@ export class ListarREDComponent implements OnInit {
     this.reds = response.data.reds;
     this.dataSource = new MatTableDataSource<any>(this.reds);
     this.dataSource.paginator = this.paginator;
-    console.log(this.reds);
+    console.log("REDs atuais\n", this.reds);
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
@@ -131,7 +136,7 @@ export class ListarREDComponent implements OnInit {
     this.cursos = this.cursos.filter((curso) => curso !== undefined);
 
     // Log para depuração
-    console.log('Cursos:', this.cursos);
+    //console.log('Cursos:', this.cursos);
   }
 
   formatData(data: Date): string {
@@ -166,7 +171,7 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  async visualizarDisciplina(red: any){
+  async visualizarDisciplina(red: any) {
     const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
       data: {
         idRED: red.idRED,
@@ -187,7 +192,9 @@ export class ListarREDComponent implements OnInit {
   editarRED(red: any) {
     if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
       // Exibir uma mensagem ao usuário informando que a edição não é permitida
-      this.snackBarService.open('Não é possível editar uma RED que está Finalizada ou Recusada.');
+      this.snackBarService.open(
+        'Não é possível editar uma RED que está Finalizada ou Recusada.'
+      );
       return;
     }
     console.log(red);
@@ -206,7 +213,7 @@ export class ListarREDComponent implements OnInit {
         aluno_id: red.aluno_id,
         coordenador: red.coordenador,
         aluno: red.aluno,
-        motivoRecusa: red.motivoRecusa
+        motivoRecusa: red.motivoRecusa,
       },
     });
     this.handleDialogConfirm(editar);
@@ -230,13 +237,13 @@ export class ListarREDComponent implements OnInit {
         tempoAfastamento: red.tempoAfastamento,
         semestreOuAnoAluno: red.semestreOuAnoAluno,
         pee: red.pee,
-        motivoRecusa:red.motivoRecusa
+        motivoRecusa: red.motivoRecusa,
       },
     });
     this.handleDialogConfirm(visualizar);
   }
 
-  async arquivarRED(red: any){
+  async arquivarRED(red: any) {
     try {
       let response = await this.redService.updateRed({
         idRED: red.idRED,
@@ -256,15 +263,50 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
+  VisualizarRED_CSP(red: any) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        idRED: red.idRED,
+        aluno: {
+          nome: red.aluno.nome,
+          prontuario: red.aluno.prontuario
+        }
+      }
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/visualizarREDCSP`], navigationExtras);
+  }
+
   associarDisciplina(red: red) {
-    // const editar = this.dialog.open(AssociarDisciplinaComponent, {
-    //   data: {
-    //     idRED: red.idRED,
-    //     servidor_idservidor: red.coordenador,
-    //     red: red,
-    //   },
-    // });
-    // this.handleDialogConfirm(editar);
+    const editar = this.dialog.open(AssociarDisciplinaComponent, {
+      data: {
+        idRED: red.idRED,
+        servidor_idservidor: red.coordenador,
+        red: red,
+      },
+    });
+    this.handleDialogConfirm(editar);
+    // Atualizar red para "Aguardando professor"
+
+  }
+
+  async afterAssociarDisciplina(red: any){
+    try {
+      let response = await this.redService.updateRed({
+        idRED: red.idRED,
+        situacao: 'Aguardando professores',
+      });
+      if (response) {
+        this.snackBarService.open('Associação de professores concluida');
+        this.findAll();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao aquivar RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao arquivar RED');
+      }
+    }
   }
 
   aplicarFiltros() {
@@ -296,7 +338,7 @@ export class ListarREDComponent implements OnInit {
 
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
-      const redAluno = await this.peeService.getPeeRED(red.idRED);
+      const redAluno = await this.peeService.getPeeByIdRED(red.idRED);
 
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({
@@ -352,21 +394,23 @@ export class ListarREDComponent implements OnInit {
   }
 
   isCOORD() {
-    return this.user.tiposervidor === 'coordenador';
-  }
-
-  isCRA(){
-    return this.user.tiposervidor === 'cra';
-  }
-
-  isCSP(){
-    return this.user.tiposervidor === 'csp';
-  }
-
-  isADM() {
     return (
-      this.user.tiposervidor === 'administrador' ||
-      this.user.tiposervidor === 'cra'
+      this.user.tiposervidor === 'coordenador' ||
+      this.user.tiposervidor === 'administrador'
+    );
+  }
+
+  isCRA() {
+    return (
+      this.user.tiposervidor === 'cra' ||
+      this.user.tiposervidor === 'administrador'
+    );
+  }
+
+  isCSP() {
+    return (
+      this.user.tiposervidor === 'csp' ||
+      this.user.tiposervidor === 'administrador'
     );
   }
 }

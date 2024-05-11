@@ -127,4 +127,8 @@ export class EditarServidoresComponent implements OnInit {
   mostrarCampo() {
     return this.user.tiposervidor == 'administrador';
   }
+
+  isADM() {
+    return this.user.tiposervidor === 'administrador';
+  }
 }

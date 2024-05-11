@@ -1,0 +1,45 @@
+.container {
+    height: 50rem;
+    width: 70rem;
+    padding-bottom: 5px;
+    margin: 5px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-label {
+    font-weight: bold;
+}
+
+input.mat-input {
+    width: 100%;
+}
+
+h1, h2, h3, hr, thead {
+    color: white;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+form{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.button
+{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+}
+
+.header-container {
+  text-align: center;
+}
+
+.centralized-header {
+  margin-bottom: 10px;
+}

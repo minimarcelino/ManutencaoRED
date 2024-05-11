@@ -21,6 +21,7 @@ export class UsuarioNaoAutenticadoComponent implements OnInit {
       try {
         const response = await this.usuarioservice.getPee(this.hash);
         this.dadosPee = response.data;
+        console.log(this.dadosPee);
       } catch (error) {
         console.error('Erro ao obter dados:', error);
       }

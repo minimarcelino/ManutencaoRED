@@ -10,10 +10,9 @@ import { formatDate } from '@angular/common';
 import { PeeService } from 'src/app/services/pee.service';
 import { red } from 'src/app/modelo/red';
 import { pee } from 'src/app/modelo/pee';
-import { AssociarProfessoresComponent } from 'src/app/niveis-acesso/coordenador/associar-professores/associar-professores.component';
+import { servidor } from 'src/app/modelo/servidor';
 import { GerenciarVisualizarPeeComponent } from './gerenciar-visualizar/gerenciar-visualizar.component';
-
-
+import { AssociarProfessoresComponent } from '../../associacoes/associar-professores/associar-professores.component';
 
 @Component({
   selector: 'app-pee',
@@ -28,27 +27,32 @@ export class GerenciarPEEComponent implements OnInit {
   alunos: any[] = [];
   filteredPEEs: any[] = [];
   situacaoSelecionada = 'todos';
+  professorSelecionado = 'todos';
+  professores: servidor[] = [];
   situacao = [
-    'Sem Associação',
-    'Associado',
+    'Aguardando Associação de Professor',
+    'Aguardando Preenchimento',
+    'Enviada ao Aluno',
+    'Avaliado',
   ];
 
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
-    'professor',
-    'aluno',
-    'email',
-    'disciplina',
-    'situacao',
-    'Ações',
+    'Aluno',
+    'Prontuario',
+    'Professor',
+    'Disciplina',
+    'Situacao',
+    'Acoes',
   ];
 
   constructor(
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
-    private dialog: MatDialog  ) {}
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.findAll();
@@ -60,6 +64,25 @@ export class GerenciarPEEComponent implements OnInit {
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
+
+    // Cria um conjunto para armazenar cursos únicos
+    const uniqueProfessores = new Set<number>();
+
+    this.pees.forEach((pee) => {
+      uniqueProfessores.add(pee.servidor.idservidor);
+    });
+
+    // Converte o conjunto de IDs de curso de volta para um array de cursos
+    this.professores = Array.from(uniqueProfessores).map(
+      (professorId) =>
+        this.pees.find((pee) => pee.servidor.idservidor === professorId)
+          ?.servidor
+    );
+
+    // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
+    this.professores = this.professores.filter(
+      (professor) => professor !== undefined
+    );
   }
 
   formatData(data: Date): string {
@@ -76,6 +99,8 @@ export class GerenciarPEEComponent implements OnInit {
         idRED: pee.RED_idRED,
         idPEE: pee.idpee,
         servidor_idservidor: pee.servidor_idservidor,
+        //disciplina: pee.pee.disciplinas,
+        pee: pee,
       },
     });
     this.handleDialogConfirm(editar);
@@ -96,7 +121,7 @@ export class GerenciarPEEComponent implements OnInit {
         dataEnvioProposta: pee.dataEnvioProposta,
         canalComunicacao: pee.canalComunicacao,
         observacoes: pee.observacoes,
-        situacao: pee.situacao
+        situacao: pee.situacao,
       },
     });
     this.handleDialogConfirm(visualizar);
@@ -106,8 +131,8 @@ export class GerenciarPEEComponent implements OnInit {
     // Aplica os filtros de curso e situação simultaneamente
     this.filteredPEEs = this.pees.filter(
       (pee) =>
-        (this.situacaoSelecionada === 'todos' ||
-          pee.situacao === this.situacaoSelecionada)
+        this.situacaoSelecionada === 'todos' ||
+        pee.situacao === this.situacaoSelecionada
     );
 
     // Atualiza o dataSource com os REDs filtrados
@@ -121,6 +146,12 @@ export class GerenciarPEEComponent implements OnInit {
     this.aplicarFiltros();
   }
 
+  filroPorProfessor(event: MatSelectChange) {
+    // Atualiza o filtro de curso e aplica todos os filtros novamente
+    this.professorSelecionado = event.value;
+    this.aplicarFiltros();
+  }
+
   pesquisar(data: Event) {
     console.log(this.dataSource);
 
@@ -128,10 +159,13 @@ export class GerenciarPEEComponent implements OnInit {
     this.dataSource.filter = value;
   }
 
-
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
+  }
+
+  peeAguardandoProfessor(pee: any): boolean {
+    return pee.situacao === 'Aguardando Associação de Professor';
   }
 }

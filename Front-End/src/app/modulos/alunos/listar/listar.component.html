@@ -1,63 +1,68 @@
-<div class="title">
-  <h1>Alunos</h1>
-  <hr class="linha" />
-</div>
-
-<div class="listagem">
-  <div id="tabela">
-    <mat-form-field>
-      <mat-label>Pesquisar Aluno</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
-    </mat-form-field>
-    <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
-      <!-- ProntuarioColumn -->
-      <ng-container matColumnDef="prontuario">
-        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-        <td mat-cell *matCellDef="let a"> {{a.prontuario}} </td>
-      </ng-container>
-
-      <!-- NomeColumn -->
-      <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.nome}} </td>
-      </ng-container>
-
-      <!-- TelefoneColumn -->
-      <ng-container matColumnDef="telefone">
-        <th mat-header-cell *matHeaderCellDef> Telefone </th>
-        <td mat-cell *matCellDef="let a"> {{a.telefone}} </td>
-      </ng-container>
-
-      <!-- EmailColumn -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let a"> {{a.email}} </td>
-      </ng-container>
-
-      <!-- Outras colunas aqui, se necessário -->
-      <ng-container matColumnDef="acoes">
-        <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-        <td class="actionsColumns" mat-cell *matCellDef="let a">
-          <button mat-icon-button matTooltip="Editar aluno" (click)="editarAluno(a)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Remover aluno" (click)="deleteAluno(a)">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Visualizar aluno" (click)="visualizarAluno(a)">
-            <mat-icon>visibility</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+<div class="corpo">
+  <div class="title listagem">
+    <h1>Alunos</h1>
+    <hr class="linha" />
   </div>
-  <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar">
-    <mat-icon>add</mat-icon>
-    Cadastrar Aluno
-  </button>
+
+  <div class="listagem">
+    <div id="tabela">
+
+      <mat-form-field class="campo-pesquisa">
+        <mat-label>Pesquisar Aluno</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Maria Eduarda | PE0000000 | maria@aluno.ifsp.edu.br">
+      </mat-form-field>
+      <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+        <!-- ProntuarioColumn -->
+        <ng-container matColumnDef="Prontuario">
+          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+          <td mat-cell *matCellDef="let a"> {{a.prontuario}} </td>
+        </ng-container>
+
+        <!-- NomeColumn -->
+        <ng-container matColumnDef="Nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let a"> {{a.nome}} </td>
+        </ng-container>
+
+        <!-- TelefoneColumn -->
+        <ng-container matColumnDef="Telefone">
+          <th mat-header-cell *matHeaderCellDef> Telefone </th>
+          <td mat-cell *matCellDef="let a"> {{a.telefone | mask: '(00) 00000-0000' }} </td>
+        </ng-container>
+
+        <!-- EmailColumn -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let a"> {{a.email}} </td>
+        </ng-container>
+
+        <!-- Outras colunas aqui, se necessário -->
+        <ng-container matColumnDef="Acoes">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let a">
+            <button mat-icon-button matTooltip="Editar aluno" (click)="editarAluno(a)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Remover aluno" (click)="deleteAluno(a)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Visualizar aluno" (click)="visualizarAluno(a)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+      <mat-icon>add</mat-icon>
+      Cadastrar Aluno
+    </button>
+  </div>
 </div>
