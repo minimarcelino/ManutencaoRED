@@ -6,6 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const alunoservice = new alunoService();
 const servidorservice = new servidorService();
+const EMAIL_URL = process.env.EMAIL_URL;
 
 export class emailController {
 
@@ -31,7 +32,7 @@ export class emailController {
                  </head>
                  <body>
                    <p>O processo RED do aluno ${aluno_prontuario} foi criado.</p>
-                   <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/">clique aqui</a> para acessar ao site e confirme a abertura do Processo RED.</p>
+                   <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para acessar ao site e confirme a abertura do Processo RED.</p>
                    <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                  </body>
                  </html>`;
@@ -61,7 +62,7 @@ export class emailController {
                   </head>
                   <body>
                     <p>O processo RED do aluno <b>${aluno_prontuario}</b> possui novas disciplinas adicionadas.</p>
-                    <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/login">clique aqui</a> para entrar no sistema e associe os professores responsaveis.</p>
+                    <p>Por favor, <a href="${EMAIL_URL}login">clique aqui</a> para entrar no sistema e associe os professores responsaveis.</p>
                     <p>Atenciosamente,<br/>Equipe de suporte do RED.</p>
                   </body>
                 </html>
@@ -126,7 +127,7 @@ export class emailController {
                 </head>
                 <body>
                   <p>Existe uma nova PEE associada a você.</p>
-                  <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/">clique aqui</a> para entrar no sistema e preencha a PEE.</p>
+                  <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para entrar no sistema e preencha a PEE.</p>
                   <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                 </body>
                 </html>`;
@@ -150,8 +151,8 @@ export class emailController {
          const texto = `
                           <html>
                             <body>
-                              <p>Porfavor, <a href="http://red.pep2.ifsp.edu.br/login">clique aqui</a> para acessar o sistema e preencher ou avaliar a PEE com ID = ${idPee}.</p>
-  
+                              <p>Porfavor, <a href="${EMAIL_URL}login">clique aqui</a> para acessar o sistema e preencher ou avaliar a PEE com ID = ${idPee}.</p>
+
                               <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                             </body>
                           </html>
@@ -189,13 +190,13 @@ export class emailController {
                          <html>
                            <body>
                              <p>As atividades do professor foram enviadas. 👍</p>
- 
-                             <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/${hashPEE}">clique aqui</a> para ser redirecionado à página do exercício.</p>
- 
+
+                             <p>Por favor, <a href="${EMAIL_URL}usuario/${hashPEE}">clique aqui</a> para ser redirecionado à página do exercício.</p>
+
                              <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                            </body>
                          </html>
-               
+
              `;
                console.log("Email Enviado");
                console.log(texto)
@@ -204,7 +205,7 @@ export class emailController {
                console.log('Detalhes do aluno não encontrados ou erro na busca.');
             }
          }
-      
+
    }
 
    //EMAIL ESQUECI A SENHA/PRIMEIRO ACESSO
@@ -232,7 +233,7 @@ export class emailController {
           </head>
           <body>
           <p>Olá ${nome}! Recebemos sua solicitação para realizar a troca de senha.</p>
-          <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/${token}">clique aqui</a> para definir sua senha</p>
+          <p>Por favor, <a href="${EMAIL_URL}usuario/${token}">clique aqui</a> para definir sua senha</p>
           <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
           </body>
           </html>
@@ -258,7 +259,7 @@ export class emailController {
             </head>
             <body>
             <p>A RED do aluno ${nome} foi aceita.
-            <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/">clique aqui</a> para associar as disciplinas</p>
+            <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para associar as disciplinas</p>
             <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
             </body>
             </html>
@@ -266,7 +267,7 @@ export class emailController {
             sendEmail('gerenciared.ifsp@gmail.com', 'Sistema RED - Associe Disciplinas', texto);
             console.log('Email Enviado CSP');
       }
-         
+
    }
 }
 
