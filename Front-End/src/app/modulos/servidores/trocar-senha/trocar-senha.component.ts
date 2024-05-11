@@ -23,7 +23,7 @@ export class TrocarSenhaComponent implements OnInit{
   hide2 = true;
 
   constructor(private route: ActivatedRoute, private usuarioservice: usuarioNaoAutenticadoService,
-     private snackBarService: SnackBarService, private servidorservice: ServidorService
+     private snackBarService: SnackBarService, private servidorservice: ServidorService, private router: Router,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -68,6 +68,7 @@ export class TrocarSenhaComponent implements OnInit{
     const response = await this.servidorservice.alterarSenha(this.id, this.token, this.senha);
     if(response){
       this.snackBarService.open('Senha Alterada com Sucesso!');
+      this.router.navigate([`/`]);
     }else{
       this.snackBarService.open('Erro ao Alterar a Senha!');
     }

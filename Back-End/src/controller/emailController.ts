@@ -231,8 +231,8 @@ export class emailController {
           <title>Trocar Senha - Sistema RED</title>
           </head>
           <body>
-          <p>Olá ${nome}! Recebemos sua solicitação para realizar a troca de senha.</p>
-          <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/${token}">clique aqui</a> para definir sua senha</p>
+          <p>Olá ${nome}! Para trocar sua senha ou realizar o primeiro acesso.</p>
+          <p>Por favor, <a href="http://red.pep2.ifsp.edu.br/usuario/trocar-senha/${token}">clique aqui</a> para definir sua senha</p>
           <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
           </body>
           </html>

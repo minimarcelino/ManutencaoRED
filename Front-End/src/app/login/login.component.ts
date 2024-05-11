@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
       this.snackBarService.open('Por favor, preencha o prontuário!');
       return;
     }
-    const response = await this.notificationService.sendEmailResetPassword(this.prontuario.toUpperCase());
+    const response = await this.notificationService.sendEmailResetPassword(this.prontuarioSenha.toUpperCase());
     if(response){
       this.isEmailSended = true;
     }
