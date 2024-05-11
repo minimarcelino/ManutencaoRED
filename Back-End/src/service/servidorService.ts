@@ -332,7 +332,6 @@ export class servidorService {
               token: token,
             } as any,
         });
-        console.log(peeData)
         if (peeData) {
             return { ok: true, data: peeData };
         } else {
