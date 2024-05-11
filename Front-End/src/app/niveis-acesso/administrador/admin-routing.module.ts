@@ -21,10 +21,10 @@ import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component'
 import { ListarCursosComponent } from '../../modulos/cursos/listar/listar.component';
 import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastrar.component';
 
-import { GerenciarPEEComponent } from '../../modulos/pee/gerenciar/gerenciar-pee.component';
-import { PEEAbonadosComponent } from '../../modulos/pee/abonados/pees-abonados.component';
+import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
-
+import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
+import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
 
 const routes: Routes = [
   {
@@ -90,6 +90,10 @@ const routes: Routes = [
         component: CadastrarAlunoComponent,
       },
       // Rotas dos PEE
+      {
+        path:'formularioPEE',
+        component:FormularioPEEComponent,
+      },
       {
         path: 'gerenciarPEEs',
         component: GerenciarPEEComponent,

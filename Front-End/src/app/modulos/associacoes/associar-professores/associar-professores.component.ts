@@ -96,7 +96,7 @@ export class AssociarProfessoresComponent implements OnInit {
           trabalhos: '',
           bibliografia: '',
           criterios: '',
-          prazofinal: new Date(),
+          prazofinal: this.data.red.dataPrevisaoTermino,
           RED_idRED: this.data.idRED,
           disciplinas_iddisciplinas: item.iddisciplinas,
           servidor_idservidor: this.professoresSelecionados[0].idservidor,

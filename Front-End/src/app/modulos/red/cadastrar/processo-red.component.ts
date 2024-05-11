@@ -181,8 +181,6 @@ export class CadastrarProcessoREDComponent implements OnInit {
 
     // Criação do RED
     try {
-      console.log('arquibos\n', this.selectedFiles);
-
       await this.redService.createRed(
         {
           motivoAfastamento: this.motivoAfastamento,

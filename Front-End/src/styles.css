@@ -150,19 +150,19 @@ mat-label {
 }
 
 .formulario mat-form-field {
-  min-width: 91%;
+  min-width: 100%;
   max-width: 100%;
   align-items: center;
 }
 
 .formulario .lado-esquerdo {
-  min-width: 30%;
+  min-width: 34%;
   max-width: 100%;
 }
 
 .formulario .lado-direito {
   margin-left: 1%;
-  min-width: 60%;
+  min-width: 65%;
   max-width: 100%;
 }
 

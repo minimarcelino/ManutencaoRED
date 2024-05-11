@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CadastrarPEEComponent } from './cadastrar-pee.component';
+import { FormularioPEEComponent } from './formulario-pee.component';
 
 describe('CadastrarPeeComponent', () => {
-  let component: CadastrarPEEComponent;
-  let fixture: ComponentFixture<CadastrarPEEComponent>;
+  let component: FormularioPEEComponent;
+  let fixture: ComponentFixture<FormularioPEEComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CadastrarPEEComponent]
+      declarations: [FormularioPEEComponent]
     });
-    fixture = TestBed.createComponent(CadastrarPEEComponent);
+    fixture = TestBed.createComponent(FormularioPEEComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

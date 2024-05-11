@@ -1,0 +1,136 @@
+<div class="corpo">
+
+  <div class="title listagem">
+    <h1>{{ this.titulo() }} Programa Especial de Estudos</h1>
+    <h2>{{ this.disciplinaAluno().disciplina }}</h2>
+    <h2>{{ this.disciplinaAluno().aluno }}</h2>
+    <hr class="linha">
+  </div>
+
+  <div class="formulario">
+    <form [formGroup]="formularioPEE" #formDir="ngForm">
+
+      <mat-form-field>
+        <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
+        <textarea matInput name="conteudo" id="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
+          spellcheck="true"
+          [placeholder]="'O docente deve identificar os conteúdos que serão desenvolvidos em aula durante o período de afastamento do aluno amparado pelo Regime de Exercícios Domiciliares - RED.'">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(conteudo, 4000) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="formularioPEE.get('conteudo')?.errors && (formularioPEE.get('conteudo')?.dirty || formularioPEE.get('conteudo')?.touched)">
+          <span *ngIf="formularioPEE.get('conteudo')?.errors?.['required']">Sigla obrigatório</span>
+          <span *ngIf="formularioPEE.get('conteudo')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+            do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>A METODOLOGIA A SER UTILIZADA</mat-label>
+        <textarea matInput name="metodologia" id="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
+          spellcheck="true"
+          [placeholder]="'* Informar a metodologia a ser utilizada para realização do Regime de Exercícios Domiciliares.\n* A metodologia deve ser condizente com o conteúdo e objetivos do aprendizado.'">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(metodologia, 4000) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="formularioPEE.get('metodologia')?.errors && (formularioPEE.get('metodologia')?.dirty || formularioPEE.get('metodologia')?.touched)">
+          <span *ngIf="formularioPEE.get('metodologia')?.errors?.['required']">Metodologia obrigatória</span>
+          <span *ngIf="formularioPEE.get('metodologia')?.errors?.['maxlength']">Quantidade de caracteres superior ao
+            limite do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>TRABALHOS A SEREM CUMPRIDOS</mat-label>
+        <textarea matInput name="trabalhos" id="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
+          spellcheck="true"
+          [placeholder]="'* Especificar a atividade que o aluno deverá realizar como comprovação de seus estudos.\n* A atividade é de livre escolha do docente, porém deve ser condizente com o conteúdo a ser estudado, o objetivo proposto na disciplina e a metodologia proposta, bem como as condições do aluno para sua realização (acesso aos conteúdos, programas informáticos etc.)\n* Importante destacar orientações claras e objetivas para a realização da atividade.\n* Deixar destacado que o aluno poderá entrar em contato com o docente para esclarecer dúvidas neste período.\n* A atividade desenvolvida pelo aluno, em retorno ao seu estudo domiciliar, não terá caráter avaliativo. Seu cumprimento propiciará o abono das faltas deste período.\n* Caso alguma atividade avaliativa seja realizada durante o período de afastamento do aluno amparado pelo Regime de Exercícios Domiciliares, esta será realizada com o aluno dentro dos 30 dias subsequentes ao fim do período de afastamento, quando deverá ter regularizada todas as pendências ocorridas no período de afastamento.'">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(trabalhos, 2000) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="formularioPEE.get('trabalhos')?.errors && (formularioPEE.get('trabalhos')?.dirty || formularioPEE.get('trabalhos')?.touched)">
+          <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['required']">Trabalhos obrigatório</span>
+          <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+            do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>INDICAÇÕES BIBLIOGRÁFICAS</mat-label>
+        <textarea matInput name="bibliografia" id="bibliografia" formControlName="bibliografia" maxlength="2000"
+          rows="5" spellcheck="true"
+          [placeholder]="'* Informar a bibliografia de consulta pelo aluno para realização do RED, que deve ser concernente ao conteúdo a ser estudado.\n* Informar onde encontrar o referido material, devendo ser de fácil acesso ao aluno.'">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(bibliografia, 2000) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="formularioPEE.get('bibliografia')?.errors && (formularioPEE.get('bibliografia')?.dirty || formularioPEE.get('bibliografia')?.touched)">
+          <span *ngIf="formularioPEE.get('bibliografia')?.errors?.['required']">Indicações bibliográficas
+            obrigatória</span>
+          <span *ngIf="formularioPEE.get('bibliografia')?.errors?.['maxlength']">Quantidade de caracteres superior ao
+            limite do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>CRITÉRIOS DE EXIGÊNCIA</mat-label>
+        <textarea matInput name="exigencia" id="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
+          spellcheck="true"
+          [placeholder]="'* Informar como o aluno deverá realizar a entrega de sua atividade. Instruímos que as entregas sejam comunicadas ao Coordenador do Curso e por ele acompanhadas.\nO abono das faltas está condicionado à entrega das atividades pelo aluno e sua análise e aprovação pelo professor, quando atendidos os critérios da atividade apresentada ao aluno.\n Atividades avaliativas ocorridas durante o período de afastamento deverão ser reagendadas com o professor, para realização posterior ao retorno do afastamento e dentro do prazo de 30 dias.'">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(exigencia, 2000) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="formularioPEE.get('exigencia')?.errors && (formularioPEE.get('exigencia')?.dirty || formularioPEE.get('exigencia')?.touched)">
+          <span *ngIf="formularioPEE.get('exigencia')?.errors?.['required']">Critérios de exigência obrigatório</span>
+          <span *ngIf="formularioPEE.get('exigencia')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+            do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
+        <input matInput [matDatepicker]="picker" id="prazo" formControlName="prazo">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="formularioPEE.get('prazo')?.errors && (formularioPEE.get('prazo')?.dirty || formularioPEE.get('prazo')?.touched)">
+          <span *ngIf="formularioPEE.get('prazo')?.errors?.['required']">Prazo de execução obrigatório</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="lado-esquerdo">
+        <mat-label>CONTATOS DO PROFESSOR</mat-label>
+        <input matInput name="contato" id="contato" formControlName="contato">
+        <mat-error
+          *ngIf="formularioPEE.get('contato')?.errors && (formularioPEE.get('contato')?.dirty || formularioPEE.get('contato')?.touched)">
+          <span *ngIf="formularioPEE.get('contato')?.errors?.['required']">Prazo de execução obrigatório</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="lado-direito">
+        <mat-label>Canal de comunicação</mat-label>
+        <input matInput name="comunicacao" formControlName="comunicacao" />
+      </mat-form-field>
+
+      <mat-form-field >
+        <mat-label>Observações</mat-label>
+        <textarea matInput name="observacao" formControlName="observacao" maxlength="4000" rows="3"
+          spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }} caracteres
+          restantes</mat-hint>
+      </mat-form-field>
+
+      <div id="buttons" *ngIf="!this.desabilitar">
+        <button mat-raised-button color="primary" (click)="submit()" class="button">Cadastrar</button>
+        <button mat-raised-button color="warn" (click)="voltar()" class="button">Cancelar</button>
+      </div>
+      <div id="buttons" *ngIf="this.desabilitar">
+        <button mat-raised-button color="primary" (click)="voltar()" class="button">Voltar</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -46,13 +46,20 @@
             <ng-container matColumnDef="Acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                 <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button matTooltip="Preencher Pee" (click)="adicionarPee(a)">
-                        <mat-icon>edit</mat-icon>
+
+                    <button *ngIf="isPreencher(a)" mat-icon-button matTooltip="Preencher PEE" (click)="formularioPEE(a, false)">
+                        <mat-icon>edit_note</mat-icon>
                     </button>
-                    <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
+
+                    <button *ngIf="isEnviada(a)" mat-icon-button matTooltip="Editar PEE" (click)="formularioPEE(a, false)">
+                      <mat-icon>edit_square</mat-icon>
+                  </button>
+
+                    <button *ngIf="isEnviada(a)" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
                         <mat-icon>star</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="visualizarPee(a)">
+
+                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
                         <mat-icon>visibility</mat-icon>
                     </button>
                 </td>
@@ -60,7 +67,7 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            
+
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
     </div>

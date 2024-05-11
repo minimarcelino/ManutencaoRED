@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,8 +8,7 @@ import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
-import { VisualizarPEEComponent } from '../visualizar/visualizar.component';
-import { CadastrarPEEComponent } from '../cadastrar/cadastrar-pee.component';
+
 
 @Component({
   selector: 'app-listar',
@@ -21,9 +21,17 @@ export class ListarPEEComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['Disciplina', 'Nome', 'Prontuario', 'Email','Situacao' ,'Acoes'];
+  displayedColumns = [
+    'Disciplina',
+    'Nome',
+    'Prontuario',
+    'Email',
+    'Situacao',
+    'Acoes',
+  ];
 
   constructor(
+    private router: Router,
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
     private dialog: MatDialog
@@ -74,58 +82,32 @@ export class ListarPEEComponent implements OnInit {
     this.handleDialogConfirm(editar);
   }
 
-  visualizarPee(pee: any) {
-    console.log(pee);
-    const editar = this.dialog.open(VisualizarPEEComponent, {
-      data: {
-        idpee: pee.idpee,
-        RED_idRED: pee.RED_idRED,
-        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-        servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
-        aluno_prontuario: pee.red.aluno.prontuario,
-        nome_aluno: pee.red.aluno.nome,
-        prazofinal: pee.prazofinal,
-        conteudo: pee.conteudo,
-        metodologia: pee.metodologia,
-        trabalhos: pee.trabalhos,
-        bibliografia: pee.bibliografia,
-        criterios: pee.criterios,
-        dataEnvioProposta: pee.dataEnvioProposta,
-        canalComunicacao: pee.canalComunicacao,
-        houveAvaliacao: pee.houveAvaliacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
-        dataAvaliacao: pee.dataAvaliacao,
-        observacao: pee.observacao,
-        servidor: pee.servidor,
-      },
-    });
-    this.handleDialogConfirm(editar);
-  }
-
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
     this.dataSource.filter = value;
   }
 
-  adicionarPee(pee: any) {
-    console.log(pee);
-    const editar = this.dialog.open(CadastrarPEEComponent, {
-      data: {
-        idpee: pee.idpee,
-        RED_idRED: pee.RED_idRED,
-        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-        servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
-        emailServidor: pee.servidor.email,
+  formularioPEE(pee: any, visualizar: boolean) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        pee: pee,
+        visualizar: visualizar
       },
-    });
-    this.handleDialogConfirm(editar);
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);
   }
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
       this.findAll();
     });
+  }
+
+  isEnviada(pee: any) {
+    return pee.situacao === 'Enviado para o aluno';
+  }
+
+  isPreencher(pee: any){
+    return pee.situacao === 'Aguardando Preenchimento';
   }
 }
