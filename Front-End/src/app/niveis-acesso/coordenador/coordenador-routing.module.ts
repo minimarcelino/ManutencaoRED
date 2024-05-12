@@ -20,6 +20,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
 //
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
+import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
       },
 
       // Rotas dos RED
+      {
+        path: 'formularioRED',
+        component: FormularioREDComponent,
+      },
       {
         path: 'listarREDs',
         component: ListarREDComponent,

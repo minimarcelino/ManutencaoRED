@@ -6,7 +6,7 @@ import { PerfilComponent } from 'src/app/perfil/perfil.component';
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
 //
-import { CadastrarProcessoREDComponent } from 'src/app/modulos/red/cadastrar/processo-red.component';
+import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 
 const routes: Routes = [
@@ -21,8 +21,8 @@ const routes: Routes = [
 
       // RED
       {
-        path: 'cadastrarREDs',
-        component: CadastrarProcessoREDComponent
+        path: 'formularioRED',
+        component: FormularioREDComponent
       },
       {
         path: 'listarREDs',

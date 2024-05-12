@@ -15,7 +15,7 @@ import { CadastrarServidoresComponent } from '../../modulos/servidores/cadastrar
 import { ListarAlunoComponent } from '../../modulos/alunos/listar/listar.component';
 import { CadastrarAlunoComponent } from '../../modulos/alunos/cadastrar/cadastrar.component';
 //
-import { CadastrarProcessoREDComponent } from '../../modulos/red/cadastrar/processo-red.component';
+import { FormularioREDComponent } from '../../modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 //
 import { ListarCursosComponent } from '../../modulos/cursos/listar/listar.component';
@@ -66,8 +66,8 @@ const routes: Routes = [
         component: ListarREDComponent,
       },
       {
-        path: 'cadastrarREDs',
-        component: CadastrarProcessoREDComponent,
+        path: 'formularioRED',
+        component: FormularioREDComponent,
       },
 
       //Rotas dos Cursos

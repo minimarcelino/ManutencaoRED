@@ -103,11 +103,11 @@
             </button>
 
             <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isCRA()" mat-icon-button
-              matTooltip="Editar RED" (click)="editarRED(a)">
+              matTooltip="Editar RED" (click)="formularioRED(false, a)">
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRED(a)">
+            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
 
@@ -134,9 +134,9 @@
 
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
-      
+
     </div>
-    <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED" class="button">
+    <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="formularioRED(false)" id="cadastrarRED" class="button">
       <mat-icon>add</mat-icon>
       Cadastrar RED
     </button>

@@ -25,10 +25,8 @@ import { EditarAlunosComponent } from 'src/app/modulos/alunos/editar/editar.comp
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
 import { VisualizarAlunoComponent } from 'src/app/modulos/alunos/visualizar/visualizar.component';
 //
-import { CadastrarProcessoREDComponent } from 'src/app/modulos/red/cadastrar/processo-red.component';
-import { EditarREDComponent } from 'src/app/modulos/red/editar/editar.component';
+import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
-import { VisualizarREDComponent } from 'src/app/modulos/red/visualizar/visualizar.component';
 
 @NgModule({
   declarations: [
@@ -38,9 +36,7 @@ import { VisualizarREDComponent } from 'src/app/modulos/red/visualizar/visualiza
     VisualizarAlunoComponent,
     //
     ListarREDComponent,
-    EditarREDComponent,
-    VisualizarREDComponent,
-    CadastrarProcessoREDComponent
+    FormularioREDComponent
   ],
   imports: [
     CommonModule,

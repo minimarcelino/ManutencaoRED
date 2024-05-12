@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CSPComponent } from './csp.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 //
 import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
@@ -14,7 +15,6 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
 import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
-
 
 const routes: Routes = [
   {
@@ -49,6 +49,10 @@ const routes: Routes = [
       {
         path: 'cadastrarServidores',
         component: CadastrarServidoresComponent,
+      },
+      {
+        path: 'formularioRED',
+        component: FormularioREDComponent,
       },
       {
         path: 'listarREDs',

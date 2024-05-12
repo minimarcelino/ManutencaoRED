@@ -1,3 +1,8 @@
 input[disabled] {
   cursor: not-allowed; /* Cursor do mouse */
 }
+
+.formulario .direito-3-button {
+  margin-left: 1%;
+}
+

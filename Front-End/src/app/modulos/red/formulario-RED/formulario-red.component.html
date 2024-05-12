@@ -1,0 +1,125 @@
+<div class="corpo">
+
+  <div class="title listagem">
+    <h1>{{ this.titulo() }}</h1>
+    <hr class="linha" />
+  </div>
+
+  <div class="formulario">
+    <form [formGroup]="formularioRED" #formDir="ngForm">
+
+      <mat-form-field class="esquerdo-3">
+        <input formControlName="aluno" id="aluno" type="text" placeholder="Selecione um aluno" aria-label="Aluno"
+          matInput [matAutocomplete]="auto" (input)="filterAlunos($event)">
+        <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="changeCurso()">
+          <mat-option *ngFor="let a of filteredAlunos" [value]="a">
+            {{a.prontuario}} - {{a.nome}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="formularioRED.get('aluno')?.errors && (formularioRED.get('aluno')?.dirty || formularioRED.get('aluno')?.touched)">
+          <span *ngIf="formularioRED.get('aluno')?.errors?.['required']">Aluno obrigatório</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="centro-3">
+        <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" placeholder="Curso do aluno"/>
+      </mat-form-field>
+
+      <button class="direito-3-button" type="button" color="accent"
+      *ngIf="!this.desabilitado && !this.editando" mat-raised-button matTooltip="Cadastrar aluno"
+        (click)="CadastrarAluno()">
+        <mat-icon>add_circle</mat-icon>
+        Cadastrar Aluno
+      </button>
+
+      <mat-form-field class="motivoAfastamento">
+        <mat-label>Descreva o motivo do afastamento do aluno</mat-label>
+        <textarea formControlName="motivoAfastamento" id="motivo" matInput placeholder="Ex. Fratura do braço"
+          maxlength="4000" rows="5" spellcheck="true"></textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoAfastamento) }} caracteres
+          restantes</mat-hint>
+        <mat-error
+          *ngIf="formularioRED.get('motivoAfastamento')?.errors && (formularioRED.get('motivoAfastamento')?.dirty || formularioRED.get('motivoAfastamento')?.touched)">
+          <span *ngIf="formularioRED.get('motivoAfastamento')?.errors?.['required']">Motivo do afastamento
+            obrigatória</span>
+          <span *ngIf="formularioRED.get('motivoAfastamento')?.errors?.['maxlength']">Quantidade de caracteres superior
+            ao limite do campo</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="esquerdo-3">
+        <input matInput [matDatepicker]="picker" id="inicioAfastamento" formControlName="inicioAfastamento">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-label>Início do afastamento</mat-label>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="formularioRED.get('inicioAfastamento')?.errors && (formularioRED.get('inicioAfastamento')?.dirty || formularioRED.get('inicioAfastamento')?.touched)">
+          <span *ngIf="formularioRED.get('inicioAfastamento')?.errors?.['required']">Data do início do afastamento
+            obrigatório</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="centro-3">
+        <mat-label>Digite a quantidade de dias que o aluno ficará afastado</mat-label>
+        <input type="number" id="tempo" formControlName="tempoAfastamento" matInput placeholder="Ex. 15" />
+        <mat-error
+          *ngIf="formularioRED.get('tempoAfastamento')?.errors && (formularioRED.get('tempoAfastamento')?.dirty || formularioRED.get('tempoAfastamento')?.touched)">
+          <span *ngIf="formularioRED.get('tempoAfastamento')?.errors?.['required']">Tempo de afastamento
+            obrigatório.</span>
+          <span *ngIf="formularioRED.get('tempoAfastamento')?.errors?.['min']">O tempo mínimo de afastamento é 15
+            dias.</span>
+          <span *ngIf="formularioRED.get('tempoAfastamento')?.errors?.['max']">O tempo máximo de afastamento é 360
+            dias.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="direito-3">
+        <mat-label>Digite o semestre que o aluno se encontra</mat-label>
+        <input type="number" id="semestre" formControlName="semestreAluno" matInput placeholder="Ex. 4" />
+        <mat-error
+          *ngIf="formularioRED.get('semestreAluno')?.errors && (formularioRED.get('semestreAluno')?.dirty || formularioRED.get('semestreAluno')?.touched)">
+          <span *ngIf="formularioRED.get('semestreAluno')?.errors?.['required']">Semestre obrigatório.</span>
+          <span *ngIf="formularioRED.get('semestreAluno')?.errors?.['min']">O valor mínimo para o semestre é 1.</span>
+          <span *ngIf="formularioRED.get('semestreAluno')?.errors?.['max']">O valor máximo para o semestre é 24.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="observacao">
+        <mat-label>Faça uma observação</mat-label>
+        <textarea formControlName="observacao" matInput
+          placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias matInput" maxlength="4000" rows="5"
+          spellcheck="true">
+        </textarea>
+        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
+      </mat-form-field>
+
+      <br>
+      <button type="button" color="accent" class="button" mat-raised-button (click)="fileInput.click()">
+        Escolher Arquivos
+      </button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" multiple>
+      <div *ngFor="let file of selectedFiles" style="margin-top: 10px; margin-bottom: 20px;">
+        <span style="font-size: 20px;">
+          <mat-icon style="font-size: 20px;">description</mat-icon>
+          {{ file.name }}
+          <button mat-icon-button (click)="removeFile(file)" style="margin-left: 5px;">
+            <mat-icon style="font-size: 24px;">delete</mat-icon>
+          </button>
+        </span>
+      </div>
+
+      <div *ngIf="!this.desabilitado">
+        <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
+        <button mat-raised-button color="primary" class="button" (click)="cadastrar()">
+          {{ this.editando ? 'Editar' : 'Cadastrar'}}
+        </button>
+      </div>
+
+      <div *ngIf="this.desabilitado">
+        <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
+      </div>
+    </form>
+  </div>
+</div>
