@@ -339,22 +339,19 @@ export class ListarREDComponent implements OnInit {
   async gerarRelatorioFaltasAbonadas(red: any) {
     try {
       const redAluno = await this.peeService.getPeeByIdRED(red.idRED);
-
       // Extrair os dados necessários do redAluno
       const dados = redAluno.data.pees.map((item: any) => ({
-        Disciplina: item.disciplinas.nomeDisciplina,
-        'As atividades do aluno foram entregues ao professor?':
-          item.atividades.dateEntregaAluno,
+        Disciplina: item.disciplinas ? item.disciplinas.nomeDisciplina : '',
         'O aluno cumpriu com as atividades propostas no PEE?':
-          item.atividades.cumpriuAtividade,
+            item.atividades ? item.atividades.cumpriuAtividade : '',
         'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?':
-          item.atividades.novaAtividade,
-        'Houveram atividades avaliativas no periodo de afastamento do aluno?':
-          item.houveAvaliacao,
+            item.atividades ? item.atividades.novaAtividade : '',
+        'Houveram atividades avaliativas no período de afastamento do aluno?':
+            item.houveAvaliacao ? 'Sim' : 'Não',
         'As atividades avaliativas necessárias já foram realizadas?':
-          item.avaliacoesRealizadas,
+            item.avaliacoesRealizadas ? 'Sim' : 'Não',
         'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.':
-          item.dataAvaliacao,
+            item.dataAvaliacao ? item.dataAvaliacao : '',
       }));
 
       // Criar uma nova planilha
