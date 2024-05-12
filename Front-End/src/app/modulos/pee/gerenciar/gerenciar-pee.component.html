@@ -60,7 +60,8 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button mat-icon-button matTooltip="Visualizar PEE" (click)="visualizarPEE(a)">
+            <button mat-icon-button matTooltip="Visualizar PEE" (click)="formularioPEE(a)"
+            *ngIf="!this.peeAguardandoProfessor(a)">
               <mat-icon>visibility</mat-icon>
             </button>
 

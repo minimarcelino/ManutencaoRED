@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
@@ -20,7 +21,7 @@ export class FormularioPEEComponent implements OnInit {
   desabilitar: boolean = false;
 
   constructor(
-    private router: Router,
+    private location: Location,
     private activatedRoute: ActivatedRoute,
     private snackBarService: SnackBarService,
     private peeService: PeeService
@@ -29,7 +30,7 @@ export class FormularioPEEComponent implements OnInit {
   ngOnInit(): void {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
-    this.activatedRoute.paramMap.subscribe((params) => {
+    this.activatedRoute.paramMap.subscribe(() => {
       if (window.history.state) {
         this.data = window.history.state.pee;
         this.desabilitar = window.history.state.visualizar;
@@ -197,7 +198,7 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   voltar() {
-    this.router.navigate([`/${this.user.tiposervidor}/listarPEEs`]);
+    this.location.back();
   }
 
   updateCharacterCount(campoTexto: string, limite: number): number {
@@ -266,6 +267,10 @@ export class FormularioPEEComponent implements OnInit {
     }
 
     return titulo;
+  }
+
+  editando(){
+    return this.data.situacao === 'Enviado para o aluno';
   }
 
   disciplinaAluno() {

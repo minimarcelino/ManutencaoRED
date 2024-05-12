@@ -125,7 +125,9 @@
       </mat-form-field>
 
       <div id="buttons" *ngIf="!this.desabilitar">
-        <button mat-raised-button color="primary" (click)="submit()" class="button">Cadastrar</button>
+        <button mat-raised-button color="primary" (click)="submit()" class="button">
+          {{ this.editando() ? 'Editar' : 'Cadastrar' }}
+        </button>
         <button mat-raised-button color="warn" (click)="voltar()" class="button">Cancelar</button>
       </div>
       <div id="buttons" *ngIf="this.desabilitar">

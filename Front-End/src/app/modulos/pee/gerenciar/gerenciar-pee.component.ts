@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { formatDate } from '@angular/common';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 //
 import { PeeService } from 'src/app/services/pee.service';
@@ -49,12 +50,16 @@ export class GerenciarPEEComponent implements OnInit {
   ];
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit() {
+    this.user = localStorage.getItem('user');
+    this.user = JSON.parse(this.user);
     this.findAll();
   }
 
@@ -104,6 +109,16 @@ export class GerenciarPEEComponent implements OnInit {
       },
     });
     this.handleDialogConfirm(editar);
+  }
+
+  formularioPEE(pee: any) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        pee: pee,
+        visualizar: true,
+      },
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`], navigationExtras);
   }
 
   visualizarPEE(pee: any) {
