@@ -18,7 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 //
-import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
 import { AbonarFaltaComponent } from 'src/app/modulos/pee/abonar-faltas/abonar-faltas.component';
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
@@ -31,7 +30,6 @@ import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associ
       ListarPEEComponent,
       FormularioPEEComponent,
       AbonarFaltaComponent,
-      PEEAbonadosComponent,
       FormularioPEEComponent,
       GerenciarPEEComponent,
       GerenciarVisualizarPeeComponent,

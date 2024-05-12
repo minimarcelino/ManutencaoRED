@@ -11,7 +11,6 @@ import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadast
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 //
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
-import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
 //
@@ -88,10 +87,6 @@ const routes: Routes = [
       {
         path: 'listarPEEs',
         component: ListarPEEComponent,
-      },
-      {
-        path: 'PEEsAbonados',
-        component: PEEAbonadosComponent,
       },
     ],
   },

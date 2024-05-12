@@ -8,6 +8,8 @@ import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
+import { MatSelectChange } from '@angular/material/select';
+
 
 
 @Component({
@@ -18,6 +20,15 @@ import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
 export class ListarPEEComponent implements OnInit {
   pees: pee[] = [];
   user: any = '';
+  filteredPEEs: any[] = [];
+  situacaoSelecionada = 'todos';
+  situacao = [
+    'Aguardando Preenchimento',
+    'Enviada ao Aluno',
+    'Avaliado',
+  ];
+
+
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -27,6 +38,7 @@ export class ListarPEEComponent implements OnInit {
     'Prontuario',
     'Email',
     'Situacao',
+    'Abono',
     'Acoes',
   ];
 
@@ -49,7 +61,7 @@ export class ListarPEEComponent implements OnInit {
     this.pees = this.pees.filter(
       (pee) => pee.servidor_idservidor == this.user.idservidor
     );
-    this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
+    //this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
@@ -97,6 +109,25 @@ export class ListarPEEComponent implements OnInit {
     this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);
   }
 
+  aplicarFiltros() {
+    // Aplica os filtros de curso e situação simultaneamente
+    this.filteredPEEs = this.pees.filter(
+      (pee) =>
+        this.situacaoSelecionada === 'todos' ||
+        pee.situacao === this.situacaoSelecionada
+    );
+
+    // Atualiza o dataSource com os REDs filtrados
+    this.dataSource = new MatTableDataSource<any>(this.filteredPEEs);
+    this.dataSource.paginator = this.paginator;
+  }
+
+  filtroPorSituacao(event: MatSelectChange) {
+    // Atualiza o filtro de situação e aplica todos os filtros novamente
+    this.situacaoSelecionada = event.value;
+    this.aplicarFiltros();
+  }
+
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
       this.findAll();
@@ -109,5 +140,9 @@ export class ListarPEEComponent implements OnInit {
 
   isPreencher(pee: any){
     return pee.situacao === 'Aguardando Preenchimento';
+  }
+
+  apresentarAbono(abono: number){
+    return abono < 0 ? "Não avaliado" : `${abono} %`;
   }
 }

@@ -24,7 +24,6 @@ import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastra
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
-import { PEEAbonadosComponent } from 'src/app/modulos/pee/abonados/pees-abonados.component';
 
 const routes: Routes = [
   {
@@ -97,10 +96,6 @@ const routes: Routes = [
       {
         path: 'gerenciarPEEs',
         component: GerenciarPEEComponent,
-      },
-      {
-        path: 'PEEsAbonados',
-        component: PEEAbonadosComponent,
       },
       {
         path: 'visualizarREDCSP',
