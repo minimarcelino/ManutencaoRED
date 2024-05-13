@@ -111,10 +111,11 @@
               <mat-icon>visibility</mat-icon>
             </button>
 
-            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP())" mat-icon-button
+<!--            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP())" mat-icon-button
               matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
               <mat-icon>description</mat-icon>
             </button>
+-->
 
             <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && isCRA()" mat-icon-button
               matTooltip="Arquivar RED" (click)="arquivarRED(a)">
