@@ -158,6 +158,6 @@ export class PeeService {
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
-    return pee.every((item) => item.situacao === "Enviada ao Aluno");
+    return pee.every((item) => item.situacao === "Avaliado");
   }
 }

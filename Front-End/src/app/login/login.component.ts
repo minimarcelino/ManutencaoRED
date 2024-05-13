@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
       // senha: new FormControl('', Validators.required),
       senha: new FormControl('',),
+      prontuarioSenha: new FormControl(''),
     });
   }
 
@@ -70,6 +71,10 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('senha')!.value;
   }
 
+  get prontuarioSenha(){
+    return this.loginForm.get('prontuarioSenha')!.value;
+  }
+
   get token() {
     return this.loginForm.get('token')!.value;
   }
@@ -84,9 +89,23 @@ export class LoginComponent implements OnInit {
   }
 
   async resetPassword(){
-    const response = await this.notificationService.sendEmailResetPassword(this.prontuario.toUpperCase());
+    if(this.prontuarioSenha.trim() === "")
+    {
+      this.snackBarService.open('Por favor, preencha o prontuário!');
+      return;
+    }
+    const response = await this.notificationService.sendEmailResetPassword(this.prontuarioSenha.toUpperCase());
     if(response){
       this.isEmailSended = true;
     }
   }
+
+  handleSubmit(): void {
+    if (this.isResetPassword) {
+      this.resetPassword();
+    } else {
+      this.fazerLogin();
+    }
+  }
+
 }

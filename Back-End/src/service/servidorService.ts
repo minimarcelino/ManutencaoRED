@@ -1,4 +1,4 @@
-import { servidor, red, disciplinas } from '@prisma/client';
+import { servidor, red, disciplinas, pee } from '@prisma/client';
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import * as bcrypt from 'bcrypt';
@@ -166,24 +166,30 @@ export class servidorService {
 
   async updateToken(id: number, token: string) {
     try {
-        const updateServidor = await prisma.servidor.update({
-          where: {
-            idservidor: +id,
-          },
-          data: {
-            token: token, 
-          } as any,
-        });
-        return { ok: true, data: updateServidor };
+      const updateServidor = await prisma.servidor.update({
+        where: {
+          idservidor: +id,
+        },
+        data: {
+          token: token,
+        } as any,
+      });
+      return { ok: true, data: updateServidor };
     } catch (error) {
       console.log(error);
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
 
-  
-  async updateSenha(id: number, senha: string) {
+
+  async updateSenha(id: number, senha: string, token: string) {
     try {
+      const servidor = await this.findByid(id);
+      if (typeof servidor.data === 'object' && 'token' in servidor.data) {
+        const tokenBanco = servidor.data.token;
+        if (token != tokenBanco) {
+          return { ok: true, data: StatusCodes.UNAUTHORIZED };
+        }
         const salt = await bcrypt.genSalt(10);
         const senhaHash = await bcrypt.hash(senha, salt);
 
@@ -195,11 +201,14 @@ export class servidorService {
           },
           data: {
             senha: senha,
-            token: null, 
+            token: null,
           } as any,
         });
         return { ok: true, data: updateServidor };
+      }
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     } catch (error) {
+      token != token
       console.log(error);
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
@@ -327,39 +336,38 @@ export class servidorService {
 
   async findByToken(token: string) {
     try {
-        const peeData = await prisma.servidor.findFirst({
-            where: {
-              token: token,
-            } as any,
-        });
-
-        if (peeData) {
-            return { ok: true, data: peeData };
-        } else {
-            return { ok: false, data: StatusCodes.NOT_FOUND };
-        }
+      const peeData = await prisma.servidor.findFirst({
+        where: {
+          token: token,
+        } as any,
+      });
+      if (peeData) {
+        return { ok: true, data: peeData };
+      } else {
+        return { ok: false, data: StatusCodes.NOT_FOUND };
+      }
     } catch (error) {
-        console.log(error);
-        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
 
   async findByid(idservidor: number) {
     try {
-        const peeData = await prisma.servidor.findFirst({
-            where: {
-              idservidor: +idservidor,
-            } as any,
-        });
+      const peeData = await prisma.servidor.findFirst({
+        where: {
+          idservidor: +idservidor,
+        } as any,
+      });
 
-        if (peeData) {
-            return { ok: true, data: peeData };
-        } else {
-            return { ok: false, data: StatusCodes.NOT_FOUND };
-        }
+      if (peeData) {
+        return { ok: true, data: peeData };
+      } else {
+        return { ok: false, data: StatusCodes.NOT_FOUND };
+      }
     } catch (error) {
-        console.log(error);
-        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
 

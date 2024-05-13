@@ -1,6 +1,6 @@
 <div class="body" translate="no">
     <div class="container">
-        <form (ngSubmit)="fazerLogin()" [formGroup]="loginForm" #formDir="ngForm">
+        <form (ngSubmit)="handleSubmit()" [formGroup]="loginForm" #formDir="ngForm">
             <div style="padding: 15px 0px 15px 0px;text-align: center;">
                 <h1> Sistema RED </h1>
                 <hr class="linha" />
@@ -29,9 +29,9 @@
             <div *ngIf="isResetPassword">
                 <mat-form-field appearance="fill">
                     <mat-label>Prontuário</mat-label>
-                    <input matInput name="prontuario" formControlName="prontuario" maxlength="9"/>
+                    <input matInput name="prontuarioSenha" formControlName="prontuarioSenha" maxlength="9" required/>
                     <mat-icon matSuffix>email</mat-icon>
-                    <div>
+                    <div *ngIf="prontuarioSenha.invalid && formDir.submitted" class="validation">
                         <p>O Prontuário é obrigatório!</p>
                     </div>
                 </mat-form-field>

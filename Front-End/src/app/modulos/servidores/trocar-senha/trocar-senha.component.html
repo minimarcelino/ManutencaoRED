@@ -1,0 +1,36 @@
+<div class="body" translate="no">
+    <div class="container">
+        <form (ngSubmit)="confirmarSenha()" [formGroup]="senhaForm" #formDir="ngForm">
+            <div style="padding: 15px 0px 15px 0px;text-align: center;">
+                <h1> Sistema RED </h1>
+                <hr class="linha" />
+            </div>
+            <div class="fields">
+                <mat-form-field appearance="fill">
+                    <mat-label>Senha</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" name="senha" formControlName="senha"/>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <div *ngIf="senha.invalid && formDir.submitted" class="validation">
+                        <p *ngIf="senha.errors?.['required']">A senha é obrigatória!</p>
+                    </div>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Confirme a Senha</mat-label>
+                    <input matInput [type]="hide2 ? 'password' : 'text'" name="confirmeSenha" formControlName="confirmeSenha"/>
+                    <button mat-icon-button matSuffix (click)="hide2 = !hide2" type="button">
+                        <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <div *ngIf="confirmeSenha.invalid && formDir.submitted" class="validation">
+                        <p *ngIf="confirmeSenha.errors?.['required']">A senha é obrigatória!</p>
+                    </div>
+                </mat-form-field>
+                <button mat-flat-button color="warn">Trocar Senha</button>
+            </div>
+
+           </form>
+    </div>
+
+</div>
+

@@ -30,6 +30,8 @@ import { CraModule } from './niveis-acesso/cra/cra.module';
 import { CspModule } from './niveis-acesso/csp/csp.module';
 import { ProfessorModule } from './niveis-acesso/professor/professor.module';
 import { CoordenadorModule } from './niveis-acesso/coordenador/coordenador.module';
+import { TrocarSenhaComponent } from './modulos/servidores/trocar-senha/trocar-senha.component';
+import { RelatorioRedComponent } from './relatorio-red/relatorio-red.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { CoordenadorModule } from './niveis-acesso/coordenador/coordenador.modul
     AdministradorComponent,
     ProfessorComponent,
     PerfilComponent,
+    TrocarSenhaComponent,
+    RelatorioRedComponent,
   ],
   imports: [
     BrowserModule,

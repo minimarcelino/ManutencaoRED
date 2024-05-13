@@ -83,7 +83,7 @@ export class CadastrarServidoresComponent implements OnInit {
           nome: this.nome.trim(),
           email: this.email.trim(),
           tiposervidor: this.tiposervidor || 'professor',
-          senha: '123',
+          senha: this.gerarPalavraAleatoria(8),
         });
         this.snackBarService.open(`${catServidor} cadastrado com sucesso!!`);
         this.voltar();
@@ -121,4 +121,16 @@ export class CadastrarServidoresComponent implements OnInit {
   mostrarCampo() {
     return this.user.tiposervidor === 'administrador';
   }
+
+  gerarPalavraAleatoria(tamanho: number) {
+    var letras = 'abcdefghijklmnopqrstuvwxyz@#1234567890';
+    var palavra = '';
+    for (var i = 0; i < tamanho; i++) {
+      var indice = Math.floor(Math.random() * letras.length);
+      palavra += letras.charAt(indice);
+    }
+    console.log(palavra);
+    return palavra;
+  }
+
 }
