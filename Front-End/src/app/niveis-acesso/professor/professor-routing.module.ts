@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { PerfilComponent } from 'src/app/perfil/perfil.component';
+import { HomeComponent } from './home/home.component';
+//
 import { ProfessorComponent } from './professor.component';
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
-import { PerfilComponent } from 'src/app/perfil/perfil.component';
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
+
+
 
 const routes: Routes = [
   {
@@ -16,6 +20,10 @@ const routes: Routes = [
         component: PerfilComponent,
       },
       //
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
       {
         path:'formularioPEE',
         component: FormularioPEEComponent,

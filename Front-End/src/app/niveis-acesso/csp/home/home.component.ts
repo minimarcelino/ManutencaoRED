@@ -5,13 +5,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
+import * as XLSX from 'xlsx';
 
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
+import { VisualizarREDComponent } from '../../../modulos/red/visualizar/visualizar.component';
+import { VisualizarDisciplinaComponent } from '../../../modulos/red/visualizar-disciplina/visualizar-disciplina.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { EditarREDComponent } from '../../../modulos/red/editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
-import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
+import { AssociarDisciplinaComponent } from '../../../modulos/associacoes/associar-disciplina/associar-disciplina.component';
 
 export interface aluno {
   id: number;
@@ -43,11 +46,11 @@ export interface red {
 }
 
 @Component({
-  selector: 'app-listar',
-  templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
 })
-export class ListarREDComponent implements OnInit {
+export class HomeComponent implements OnInit {
   user: any;
   alunos: any[] = [];
   reds: any[] = [];
@@ -59,10 +62,10 @@ export class ListarREDComponent implements OnInit {
   associacaoSelecionada = 'todos';
   situacao = [
     'Esperando confirmação',
+    'Esperando associação',
     'Em andamento',
     'Finalizado',
     'Arquivado',
-    'Esperando associação'
   ];
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -109,16 +112,14 @@ export class ListarREDComponent implements OnInit {
     return this.peeService.situacaoPEEs(pee);
   }
 
-  existePEEs(red: any): boolean{
-    return red.pee.length > 0 ? true : false;
-  }
-
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    this.dataSource = new MatTableDataSource<any>(this.reds);
+    const esperaAssociacao = this.reds.filter((red) => red.situacao === 'Esperando associação');
+    this.dataSource = new MatTableDataSource<any>(esperaAssociacao);
     this.dataSource.paginator = this.paginator;
     console.log("REDs atuais\n", this.reds);
+
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
@@ -147,6 +148,10 @@ export class ListarREDComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  async cadastrarRED() {
+    this.router.navigate([`/${this.user.tiposervidor}/cadastrarREDs`]);
   }
 
   async finalizarProcessoPermanent(red: any) {
@@ -187,14 +192,59 @@ export class ListarREDComponent implements OnInit {
     }
   }
 
-  formularioRED(visualizar: boolean, red: any = null) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        red: red,
-        visualizar: visualizar
+  editarRED(red: any) {
+    if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
+      // Exibir uma mensagem ao usuário informando que a edição não é permitida
+      this.snackBarService.open(
+        'Não é possível editar uma RED que está Finalizada ou Recusada.'
+      );
+      return;
+    }
+    console.log(red);
+    console.log(red.idRED);
+    const editar = this.dialog.open(EditarREDComponent, {
+      data: {
+        id: red.idRED,
+        motivoAfastamento: red.motivoAfastamento,
+        inicioAfastamento: red.inicioAfastamento,
+        dataPrevisaoTermino: red.dataPrevisaoTermino,
+        situacao: red.situacao,
+        observacao: red.observacao,
+        dataInicioProcesso: red.dataInicioProcesso,
+        semestreAluno: red.semestreOuAnoAluno,
+        tempoAfastamento: red.tempoAfastamento,
+        aluno_id: red.aluno_id,
+        coordenador: red.coordenador,
+        aluno: red.aluno,
+        motivoRecusa: red.motivoRecusa,
       },
-    };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
+    });
+    this.handleDialogConfirm(editar);
+  }
+
+  visualizarRED(red: any) {
+    console.log(red);
+    const visualizar = this.dialog.open(VisualizarREDComponent, {
+      data: {
+        idRED: red.idRED,
+        aluno_prontuario: red.aluno.prontuario,
+        nome: red.aluno.nome,
+        dataInicioProcesso: red.dataInicioProcesso,
+        dataPrevisaoTermino: red.dataPrevisaoTermino,
+        motivoAfastamento: red.motivoAfastamento,
+        situacao: red.situacao,
+        coordenador: red.coordenador,
+        aluno_id: red.aluno_id,
+        inicioAfastamento: red.inicioAfastamento,
+        observacao: red.observacao,
+        tempoAfastamento: red.tempoAfastamento,
+        semestreOuAnoAluno: red.semestreOuAnoAluno,
+        pee: red.pee,
+        motivoRecusa: red.motivoRecusa,
+        //arquivos: red.arquivos
+      },
+    });
+    this.handleDialogConfirm(visualizar);
   }
 
   async arquivarRED(red: any) {
@@ -234,7 +284,6 @@ export class ListarREDComponent implements OnInit {
     const editar = this.dialog.open(AssociarDisciplinaComponent, {
       data: {
         idRED: red.idRED,
-        situacao: red.situacao,
         servidor_idservidor: red.coordenador,
         red: red,
       },
@@ -291,6 +340,56 @@ export class ListarREDComponent implements OnInit {
     this.aplicarFiltros();
   }
 
+  async gerarRelatorioFaltasAbonadas(red: any) {
+    try {
+      const redAluno = await this.peeService.getPeeByIdRED(red.idRED);
+
+      // Extrair os dados necessários do redAluno
+      const dados = redAluno.data.pees.map((item: any) => ({
+        Disciplina: item.disciplinas.nomeDisciplina,
+        'As atividades do aluno foram entregues ao professor?':
+          item.atividades.dateEntregaAluno,
+        'O aluno cumpriu com as atividades propostas no PEE?':
+          item.atividades.cumpriuAtividade,
+        'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?':
+          item.atividades.novaAtividade,
+        'Houveram atividades avaliativas no periodo de afastamento do aluno?':
+          item.houveAvaliacao,
+        'As atividades avaliativas necessárias já foram realizadas?':
+          item.avaliacoesRealizadas,
+        'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.':
+          item.dataAvaliacao,
+      }));
+
+      // Criar uma nova planilha
+      const ws = XLSX.utils.json_to_sheet(dados);
+
+      // Definir largura de colunas (Exemplo: coluna A com largura 20, coluna B com largura 30)
+      const colWidths = [
+        { wch: 30 }, // Largura da coluna A
+        { wch: 50 },
+        { wch: 70 },
+        { wch: 90 },
+        { wch: 65 },
+        { wch: 50 },
+        { wch: 90 },
+        // Adicione mais larguras de coluna conforme necessário para suas colunas
+      ];
+      ws['!cols'] = colWidths;
+
+      // Criar um novo livro de trabalho e adicionar a planilha
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Relatorio_Faltas_Abonadas');
+
+      // Salvar o arquivo XLSX
+      const nomeArquivo = 'relatorio_faltas_abonadas.xlsx';
+      XLSX.writeFile(wb, nomeArquivo);
+
+      console.log(`Arquivo ${nomeArquivo} gerado com sucesso.`);
+    } catch (error) {
+      console.error('Erro ao gerar o arquivo XLSX:', error);
+    }
+  }
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
@@ -312,7 +411,7 @@ export class ListarREDComponent implements OnInit {
     );
   }
 
- isCSP () {
+  isCSP() {
     return (
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'

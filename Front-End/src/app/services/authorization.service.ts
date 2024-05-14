@@ -38,6 +38,7 @@ export class authorizationService {
         if (
           userAccessLevel === 'coordenador' &&
           (currentRoute === '/coordenador' ||
+          currentRoute === '/coordenador/home' ||
             currentRoute === '/coordenador/perfil' ||
             // Disciplinas
             currentRoute === '/coordenador/listarDisciplinas' ||
@@ -62,6 +63,7 @@ export class authorizationService {
         } else if (
           userAccessLevel === 'cra' &&
           (currentRoute === '/cra' ||
+          currentRoute === '/cra/home' ||
             currentRoute === '/cra/perfil' ||
             // RED
             currentRoute === '/cra/listarREDs' ||
@@ -74,6 +76,7 @@ export class authorizationService {
         } else if (
           userAccessLevel === 'csp' &&
           (currentRoute === '/csp' ||
+            currentRoute === '/csp/home' ||
             currentRoute === '/csp/perfil' ||
             // Servidores (Docentes)
             currentRoute === '/csp/cadastrarServidores' ||
@@ -99,6 +102,7 @@ export class authorizationService {
         } else if (
           userAccessLevel === 'administrador' &&
           (currentRoute === '/administrador' ||
+            currentRoute === '/administrador/home' ||
             currentRoute === '/administrador/perfil' ||
             // Disciplinas
             currentRoute === '/administrador/listarDisciplinas' ||
@@ -124,10 +128,11 @@ export class authorizationService {
         } else if (
           userAccessLevel === 'professor' &&
           (currentRoute === '/professor' ||
+            currentRoute === '/professor/home' ||
             currentRoute === '/professor/perfil' ||
             //PEE
             currentRoute === '/professor/listarPEEs' ||
-            currentRoute === '/professor/PEEAbonados')
+            currentRoute === '/professor/PEEAbonados' )
         ) {
           return true;
         }

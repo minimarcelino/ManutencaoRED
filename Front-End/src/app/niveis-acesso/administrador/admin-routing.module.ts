@@ -5,6 +5,7 @@ import { AdministradorComponent } from './administrador.component';
 
 import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
 import { PerfilComponent } from '../../perfil/perfil.component';
+import { HomeComponent } from './home/home.component';
 //
 import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/disciplinas.component';
 import { CadastrarDisciplinaComponent } from '../../modulos/disciplinas/cadastrar/cadastrar.component';
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
       },
 
       //Rotas das disciplinas

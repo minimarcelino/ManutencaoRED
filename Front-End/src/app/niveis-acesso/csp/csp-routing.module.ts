@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CSPComponent } from './csp.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
+import { HomeComponent } from './home/home.component';
+//
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 //
@@ -24,6 +26,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
       },
       {
         path: 'listarCursos',

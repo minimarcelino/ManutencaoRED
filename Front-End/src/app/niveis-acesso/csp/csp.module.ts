@@ -28,6 +28,7 @@ import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.comp
 import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
 import { EditarServidoresComponent } from 'src/app/modulos/servidores/editar/editar.component';
 import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
     //
     CSPVisualizarREDComponent,
     AssociarDisciplinaComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

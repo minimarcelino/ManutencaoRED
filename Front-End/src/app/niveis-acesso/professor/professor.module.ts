@@ -24,6 +24,7 @@ import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-p
 import { GerenciarVisualizarPeeComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-visualizar/gerenciar-visualizar.component';
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
 import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associar-professores/associar-professores.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associ
       FormularioPEEComponent,
       GerenciarPEEComponent,
       GerenciarVisualizarPeeComponent,
-      AssociarProfessoresComponent
+      AssociarProfessoresComponent,
+      HomeComponent
   ],
     imports: [
       CommonModule,

@@ -8,11 +8,12 @@
     <span class="spacer"></span>
     Olá, {{authenticationService.userLogged?.nome}} !
   </mat-toolbar>
+  
 
   <mat-sidenav-container>
     <mat-sidenav #sidenav="matSidenav" mode="side" opened="true">
 
-      <button mat-button class="menu-button" routerLink="/professor">
+      <button mat-button class="menu-button" routerLink="/professor/home">
         <mat-icon>home</mat-icon>
         <span>Home</span>
       </button>

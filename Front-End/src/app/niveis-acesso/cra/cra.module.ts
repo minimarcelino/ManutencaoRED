@@ -27,9 +27,11 @@ import { VisualizarAlunoComponent } from 'src/app/modulos/alunos/visualizar/visu
 //
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
+    HomeComponent,
     CadastrarAlunoComponent,
     ListarAlunoComponent,
     EditarAlunosComponent,

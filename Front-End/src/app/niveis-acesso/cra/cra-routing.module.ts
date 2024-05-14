@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CRAComponent } from './cra.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
+import { HomeComponent } from './home/home.component';
 //
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
@@ -17,6 +18,11 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+
+      {
+        path: 'home',
+        component: HomeComponent,
       },
 
       // RED

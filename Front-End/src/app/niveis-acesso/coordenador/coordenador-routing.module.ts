@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CoordenadorComponent } from './coordenador.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
+import { HomeComponent } from './home/home.component';
 //
 import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
       },
 
       // Rotas das Disciplinas
