@@ -70,8 +70,8 @@
               <mat-icon>book</mat-icon>
             </button>
 
-            <button  mat-icon-button matTooltip="Visualizar RED" (click)="VisualizarRED_CSP(a)">
-              <mat-icon>visibility</mat-icon>
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
+              <mat-icon>description</mat-icon>
             </button>
 
             <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
@@ -79,28 +79,8 @@
               <mat-icon>library_books</mat-icon>
             </button>
 
-            <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isCRA()" mat-icon-button
-              matTooltip="Editar RED" (click)="formularioRED(false, a)">
-              <mat-icon>edit</mat-icon>
-            </button>
-
             <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
-            </button>
-
-            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP())" mat-icon-button
-              matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
-              <mat-icon>description</mat-icon>
-            </button>
-
-            <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && isCRA()" mat-icon-button
-              matTooltip="Arquivar RED" (click)="arquivarRED(a)">
-              <mat-icon>inventory_2</mat-icon>
-            </button>
-
-            <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee) && isCOORD()" mat-icon-button
-              matTooltip="Finalizar RED" (click)="finalizarRED(a)">
-              <mat-icon>task_alt</mat-icon>
             </button>
 
           </td>
@@ -111,7 +91,7 @@
 
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
-      
+
     </div>
     <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="cadastrarRED()" id="cadastrarRED" class="button">
       <mat-icon>add</mat-icon>

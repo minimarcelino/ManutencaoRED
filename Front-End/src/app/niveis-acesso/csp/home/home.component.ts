@@ -114,7 +114,7 @@ export class HomeComponent implements OnInit {
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    const esperaAssociacao = this.reds.filter((red) => red.situacao === 'Esperando associação');
+    const esperaAssociacao = this.reds.filter((red) => this.peeService.todosPEEsAguardandoProfessor(red.pee));
     this.dataSource = new MatTableDataSource<any>(esperaAssociacao);
     this.dataSource.paginator = this.paginator;
     console.log("REDs atuais\n", this.reds);
@@ -370,5 +370,9 @@ export class HomeComponent implements OnInit {
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'
     );
+  }
+
+  existePEEs(red: any): boolean{
+    return red.pee.length > 0 ? true : false;
   }
 }
