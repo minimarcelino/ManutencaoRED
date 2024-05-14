@@ -112,7 +112,7 @@ export class FormularioREDComponent implements OnInit {
         [Validators.required, Validators.min(1), Validators.max(24)]
       ),
       motivoRecusa: new FormControl('', [
-        Validators.required,
+        //Validators.required,
         Validators.maxLength(4000),
       ]),
       motivoRecusaLabel: new FormControl({

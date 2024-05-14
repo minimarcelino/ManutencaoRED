@@ -68,18 +68,17 @@ export class GerenciarPEEComponent implements OnInit {
     this.pees = response.data.pees;
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
-    console.log(this.pees);
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueProfessores = new Set<number>();
-
     this.pees.forEach((pee) => {
-      uniqueProfessores.add(pee.servidor.idservidor);
+      if (pee.servidor && pee.servidor.idservidor) {
+        uniqueProfessores.add(pee.servidor.idservidor);
+      }
     });
-
     // Converte o conjunto de IDs de curso de volta para um array de cursos
     this.professores = Array.from(uniqueProfessores).map(
-      (professorId) =>
+      (professorId) => 
         this.pees.find((pee) => pee.servidor.idservidor === professorId)
           ?.servidor
     );
