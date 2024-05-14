@@ -19,6 +19,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
 //
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
       },
 
       // Rotas das Disciplinas

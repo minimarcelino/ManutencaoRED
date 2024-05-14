@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         if (this.user != null) {
           this.user = JSON.parse(this.user);
           this.sessionService.setSession(this.user); // Armazena o usuário na sessão
-          this.router.navigate([`/${this.user.tiposervidor}`]);
+          this.router.navigate([`/${this.user.tiposervidor}/home`]);
         }
         this.snackBarService.open('Login bem sucedido');
       } else {

@@ -9,12 +9,12 @@ import * as XLSX from 'xlsx';
 
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { VisualizarREDComponent } from '../visualizar/visualizar.component';
-import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
+import { VisualizarREDComponent } from '../../../modulos/red/visualizar/visualizar.component';
+import { VisualizarDisciplinaComponent } from '../../../modulos/red/visualizar-disciplina/visualizar-disciplina.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
-import { EditarREDComponent } from '../editar/editar.component';
+import { EditarREDComponent } from '../../../modulos/red/editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
-import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
+import { AssociarDisciplinaComponent } from '../../../modulos/associacoes/associar-disciplina/associar-disciplina.component';
 
 export interface aluno {
   id: number;
@@ -46,11 +46,11 @@ export interface red {
 }
 
 @Component({
-  selector: 'app-listar',
-  templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
 })
-export class ListarREDComponent implements OnInit {
+export class HomeComponent implements OnInit {
   user: any;
   alunos: any[] = [];
   reds: any[] = [];
@@ -62,10 +62,10 @@ export class ListarREDComponent implements OnInit {
   associacaoSelecionada = 'todos';
   situacao = [
     'Esperando confirmação',
+    'Esperando associação',
     'Em andamento',
     'Finalizado',
     'Arquivado',
-    'Esperando associação'
   ];
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -115,9 +115,11 @@ export class ListarREDComponent implements OnInit {
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    this.dataSource = new MatTableDataSource<any>(this.reds);
+    const esperaAssociacao = this.reds.filter((red) => red.situacao === 'Esperando associação');
+    this.dataSource = new MatTableDataSource<any>(esperaAssociacao);
     this.dataSource.paginator = this.paginator;
     console.log("REDs atuais\n", this.reds);
+
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
@@ -282,7 +284,6 @@ export class ListarREDComponent implements OnInit {
     const editar = this.dialog.open(AssociarDisciplinaComponent, {
       data: {
         idRED: red.idRED,
-        situacao: red.situacao,
         servidor_idservidor: red.coordenador,
         red: red,
       },
@@ -410,7 +411,7 @@ export class ListarREDComponent implements OnInit {
     );
   }
 
- isCSP () {
+  isCSP() {
     return (
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'

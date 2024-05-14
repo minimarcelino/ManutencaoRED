@@ -97,7 +97,7 @@ export class VisualizarREDComponent implements OnInit {
   }
 
   confirmarRed() {
-    this.updateSituacaoRED('Em andamento');
+    this.updateSituacaoRED('Esperando associação');
   }
 
   async recusarRed() {

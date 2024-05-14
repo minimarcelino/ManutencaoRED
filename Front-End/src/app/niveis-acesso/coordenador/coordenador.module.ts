@@ -22,9 +22,11 @@ import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadast
 import { EditarDisciplinaComponent } from 'src/app/modulos/disciplinas/editar/editar.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
+    HomeComponent,
     VisualizarDisciplinaComponent,
     //
     ListarDisciplinasComponent,

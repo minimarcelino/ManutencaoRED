@@ -14,6 +14,7 @@ import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/lis
 import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
       },
       {
         path: 'listarCursos',

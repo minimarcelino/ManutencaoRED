@@ -29,9 +29,11 @@ import { CadastrarProcessoREDComponent } from 'src/app/modulos/red/cadastrar/pro
 import { EditarREDComponent } from 'src/app/modulos/red/editar/editar.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 import { VisualizarREDComponent } from 'src/app/modulos/red/visualizar/visualizar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
+    HomeComponent,
     CadastrarAlunoComponent,
     ListarAlunoComponent,
     EditarAlunosComponent,

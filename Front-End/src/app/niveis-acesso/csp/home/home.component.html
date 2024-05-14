@@ -1,33 +1,11 @@
 <div class="corpo">
   <div class="title listagem">
-    <h1>Processos REDs</h1>
+    <h1>REDs aguaradando associação</h1>
     <hr class="linha" />
   </div>
 
   <div class="listagem">
     <div id="tabela">
-
-      <mat-form-field class="campo-pesquisa">
-        <mat-label>Pesquisar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000000">
-      </mat-form-field>
-
-      <mat-form-field class="campo-curso">
-        <mat-label>Curso</mat-label>
-        <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
-          <mat-option value="todos">Todos os cursos</mat-option>
-          <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="campo-situacao">
-        <mat-label>Situação RED</mat-label>
-        <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
-          <mat-option value="todos">Apresentar todos</mat-option>
-          <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
       <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
         <!-- Coluna NOME -->
@@ -81,19 +59,18 @@
           </td>
         </ng-container>
 
-        <!-- Outras colunas aqui, se necessário -->
 
         <!-- Coluna de AÇÕES do usuário -->
         <ng-container matColumnDef="Acoes">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
+            <button *ngIf="(a.situacao === 'Em andamento'|| a.situacao === 'Esperando associação') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
               (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
             </button>
 
-            <button *ngIf="(a.pee && a.pee.length > 0 && (isCSP()|| isCOORD()))" mat-icon-button matTooltip="Visualizar RED" (click)="VisualizarRED_CSP(a)">
+            <button  mat-icon-button matTooltip="Visualizar RED" (click)="VisualizarRED_CSP(a)">
               <mat-icon>visibility</mat-icon>
             </button>
 
@@ -111,7 +88,7 @@
               <mat-icon>visibility</mat-icon>
             </button>
 
-            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP()|| isCOORD())" mat-icon-button
+            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP())" mat-icon-button
               matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
               <mat-icon>description</mat-icon>
             </button>

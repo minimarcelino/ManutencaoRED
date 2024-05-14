@@ -24,6 +24,7 @@ import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastra
 import { GerenciarPEEComponent } from '../../modulos/pee/gerenciar/gerenciar-pee.component';
 import { PEEAbonadosComponent } from '../../modulos/pee/abonados/pees-abonados.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
       },
 
       //Rotas das disciplinas

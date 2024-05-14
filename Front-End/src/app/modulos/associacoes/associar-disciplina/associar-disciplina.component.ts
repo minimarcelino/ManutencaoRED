@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
+import { RedService } from 'src/app/services/red.service';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
@@ -37,6 +38,7 @@ export class AssociarDisciplinaComponent implements OnInit {
     private dialog: MatDialogRef<AssociarDisciplinaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBarService: SnackBarService,
+    private redService: RedService,
     private peeService: PeeService  ) {}
 
   ngOnInit() {
@@ -127,6 +129,20 @@ export class AssociarDisciplinaComponent implements OnInit {
           percentualabono: -1,
           situacao: "Aguardando Associação de Professor"
         });
+        // altera situação red
+        try {
+          let response = await this.redService.updateRed({
+            idRED: this.data.idRED,
+            situacao: 'Em andamento',
+          });
+        } catch (error: any) {
+          if (error && error.error && error.error.data) {
+            const errorMessage = error.error.data;
+            this.snackBarService.open(`Falha ao alterar situação da RED: ${errorMessage}`);
+          } else {
+            this.snackBarService.open('Falha ao alterar situação da RED');
+          }
+        }
       }
       this.snackBarService.open('Disciplinas associadas com sucesso!!');
       this.dialog.close();

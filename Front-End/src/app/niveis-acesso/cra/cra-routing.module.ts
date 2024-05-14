@@ -8,6 +8,7 @@ import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.compo
 //
 import { CadastrarProcessoREDComponent } from 'src/app/modulos/red/cadastrar/processo-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,11 @@ const routes: Routes = [
       {
         path: 'perfil',
         component: PerfilComponent,
+      },
+
+      {
+        path: 'home',
+        component: HomeComponent,
       },
 
       // RED
