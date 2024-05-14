@@ -10,13 +10,16 @@ import { Router } from '@angular/router';
 export class PeeService {
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService
   ) {}
 
   async getPee(): Promise<any> {
     try {
       const response = await this.http
-        .get(`${environment.API}pee/all`, this.authenticationService.getHttpOptions())
+        .get(
+          `${environment.API}pee/all`,
+          this.authenticationService.getHttpOptions()
+        )
         .toPromise();
       return response;
     } catch (error) {
@@ -143,21 +146,21 @@ export class PeeService {
 
   situacaoPEEs(pee: any[]): string {
     const situacoes = [
-      "Aguardando Associação de Professor",
-      "Aguardando Preenchimento",
-      "Enviada ao Aluno",
-      "Avaliado"
+      'Aguardando Associação de Professor',
+      'Aguardando Preenchimento',
+      'Enviada ao Aluno',
+      'Avaliado',
     ];
 
     for (const situacao of situacoes) {
-      if (pee.some(item => item.situacao === situacao)) {
+      if (pee.some((item) => item.situacao === situacao)) {
         return situacao;
       }
     }
-    return "Em Associação de Disciplina";
+    return 'Em Associação de Disciplina';
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
-    return pee.every((item) => item.situacao === "Avaliado");
+    return pee.length > 0 && pee.every((item) => item.situacao === 'Avaliado');
   }
 }

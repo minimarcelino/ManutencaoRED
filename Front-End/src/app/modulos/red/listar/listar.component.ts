@@ -108,6 +108,10 @@ export class ListarREDComponent implements OnInit {
     return this.peeService.situacaoPEEs(pee);
   }
 
+  existePEEs(red: any): boolean{
+    return red.pee.length > 0 ? true : false;
+  }
+
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;

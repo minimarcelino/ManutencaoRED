@@ -93,8 +93,9 @@
               <mat-icon>book</mat-icon>
             </button>
 
-            <button *ngIf="(a.pee && a.pee.length > 0 && isCSP())" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
-              <mat-icon>visibility</mat-icon>
+            <!-- Falta mostrar o abono das faltas -->
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
+              <mat-icon>description</mat-icon>
             </button>
 
             <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
@@ -110,12 +111,6 @@
             <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
-
-<!--            <button *ngIf="a.situacao === 'Finalizado' && (isCRA() || isCSP())" mat-icon-button
-              matTooltip="Gerar relatório de faltas" (click)="gerarRelatorioFaltasAbonadas(a)">
-              <mat-icon>description</mat-icon>
-            </button>
--->
 
             <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && isCRA()" mat-icon-button
               matTooltip="Arquivar RED" (click)="arquivarRED(a)">
