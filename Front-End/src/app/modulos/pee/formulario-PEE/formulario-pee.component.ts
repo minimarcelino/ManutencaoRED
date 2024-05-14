@@ -202,7 +202,9 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   updateCharacterCount(campoTexto: string, limite: number): number {
-    return limite - campoTexto.length;
+    // Por algum motivo não está pegando o tamanho do texto do campo
+    //return limite - campoTexto.length;
+    return limite - 0;
   }
 
   get conteudo() {
