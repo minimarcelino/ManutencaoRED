@@ -42,13 +42,13 @@
             <ng-container matColumnDef="Acoes">
                 <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
                 <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button matTooltip="Preencher Pee" (click)="adicionarPee(a)">
+                    <button mat-icon-button matTooltip="Preencher Pee" (click)="formularioPEE(a, false)">
                         <mat-icon>edit</mat-icon>
                     </button>
                     <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
                         <mat-icon>star</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="visualizarPee(a)">
+                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
                         <mat-icon>visibility</mat-icon>
                     </button>
                 </td>
@@ -104,7 +104,7 @@
                     <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
                         <mat-icon>star</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="visualizarPee(a)">
+                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
                         <mat-icon>visibility</mat-icon>
                     </button>
                 </td>

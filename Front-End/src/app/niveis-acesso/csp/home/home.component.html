@@ -80,11 +80,11 @@
             </button>
 
             <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isCRA()" mat-icon-button
-              matTooltip="Editar RED" (click)="editarRED(a)">
+              matTooltip="Editar RED" (click)="formularioRED(false, a)">
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button matTooltip="Visualizar RED" (click)="visualizarRED(a)">
+            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
 

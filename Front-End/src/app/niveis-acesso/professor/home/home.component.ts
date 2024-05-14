@@ -7,8 +7,7 @@ import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AbonarFaltaComponent } from '../../../modulos/pee/abonar-faltas/abonar-faltas.component';
-import { VisualizarPEEComponent } from '../../../modulos/pee/visualizar/visualizar.component';
-import { CadastrarPEEComponent } from '../../../modulos/pee/cadastrar/cadastrar-pee.component';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +27,8 @@ export class HomeComponent implements OnInit {
   constructor(
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -81,49 +81,14 @@ export class HomeComponent implements OnInit {
     this.handleDialogConfirm(editar);
   }
 
-  visualizarPee(pee: any) {
-    console.log(pee);
-    const editar = this.dialog.open(VisualizarPEEComponent, {
-      data: {
-        idpee: pee.idpee,
-        RED_idRED: pee.RED_idRED,
-        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-        servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
-        aluno_prontuario: pee.red.aluno.prontuario,
-        nome_aluno: pee.red.aluno.nome,
-        prazofinal: pee.prazofinal,
-        conteudo: pee.conteudo,
-        metodologia: pee.metodologia,
-        trabalhos: pee.trabalhos,
-        bibliografia: pee.bibliografia,
-        criterios: pee.criterios,
-        dataEnvioProposta: pee.dataEnvioProposta,
-        canalComunicacao: pee.canalComunicacao,
-        houveAvaliacao: pee.houveAvaliacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
-        dataAvaliacao: pee.dataAvaliacao,
-        observacao: pee.observacao,
-        servidor: pee.servidor,
+  formularioPEE(pee: any, visualizar: boolean) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        pee: pee,
+        visualizar: visualizar
       },
-    });
-    this.handleDialogConfirm(editar);
-  }
-
-
-  adicionarPee(pee: any) {
-    console.log(pee);
-    const editar = this.dialog.open(CadastrarPEEComponent, {
-      data: {
-        idpee: pee.idpee,
-        RED_idRED: pee.RED_idRED,
-        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-        servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
-        emailServidor: pee.servidor.email,
-      },
-    });
-    this.handleDialogConfirm(editar);
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);
   }
 
   handleDialogConfirm(dialog: any) {

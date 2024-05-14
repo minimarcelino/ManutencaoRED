@@ -9,10 +9,9 @@ import * as XLSX from 'xlsx';
 
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { VisualizarREDComponent } from '../../../modulos/red/visualizar/visualizar.component';
+import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 import { VisualizarDisciplinaComponent } from '../../../modulos/red/visualizar-disciplina/visualizar-disciplina.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
-import { EditarREDComponent } from '../../../modulos/red/editar/editar.component';
 import { PeeService } from 'src/app/services/pee.service';
 import { AssociarDisciplinaComponent } from '../../../modulos/associacoes/associar-disciplina/associar-disciplina.component';
 
@@ -192,59 +191,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  editarRED(red: any) {
-    if (red.situacao === 'Finalizado' || red.situacao === 'Recusado') {
-      // Exibir uma mensagem ao usuário informando que a edição não é permitida
-      this.snackBarService.open(
-        'Não é possível editar uma RED que está Finalizada ou Recusada.'
-      );
-      return;
-    }
-    console.log(red);
-    console.log(red.idRED);
-    const editar = this.dialog.open(EditarREDComponent, {
-      data: {
-        id: red.idRED,
-        motivoAfastamento: red.motivoAfastamento,
-        inicioAfastamento: red.inicioAfastamento,
-        dataPrevisaoTermino: red.dataPrevisaoTermino,
-        situacao: red.situacao,
-        observacao: red.observacao,
-        dataInicioProcesso: red.dataInicioProcesso,
-        semestreAluno: red.semestreOuAnoAluno,
-        tempoAfastamento: red.tempoAfastamento,
-        aluno_id: red.aluno_id,
-        coordenador: red.coordenador,
-        aluno: red.aluno,
-        motivoRecusa: red.motivoRecusa,
+  formularioRED(visualizar: boolean, red: any = null) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        red: red,
+        visualizar: visualizar
       },
-    });
-    this.handleDialogConfirm(editar);
-  }
-
-  visualizarRED(red: any) {
-    console.log(red);
-    const visualizar = this.dialog.open(VisualizarREDComponent, {
-      data: {
-        idRED: red.idRED,
-        aluno_prontuario: red.aluno.prontuario,
-        nome: red.aluno.nome,
-        dataInicioProcesso: red.dataInicioProcesso,
-        dataPrevisaoTermino: red.dataPrevisaoTermino,
-        motivoAfastamento: red.motivoAfastamento,
-        situacao: red.situacao,
-        coordenador: red.coordenador,
-        aluno_id: red.aluno_id,
-        inicioAfastamento: red.inicioAfastamento,
-        observacao: red.observacao,
-        tempoAfastamento: red.tempoAfastamento,
-        semestreOuAnoAluno: red.semestreOuAnoAluno,
-        pee: red.pee,
-        motivoRecusa: red.motivoRecusa,
-        //arquivos: red.arquivos
-      },
-    });
-    this.handleDialogConfirm(visualizar);
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
   }
 
   async arquivarRED(red: any) {
