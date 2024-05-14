@@ -32,6 +32,7 @@ import { ProfessorModule } from './niveis-acesso/professor/professor.module';
 import { CoordenadorModule } from './niveis-acesso/coordenador/coordenador.module';
 import { TrocarSenhaComponent } from './modulos/servidores/trocar-senha/trocar-senha.component';
 import { RelatorioRedComponent } from './relatorio-red/relatorio-red.component';
+import { SenhaComponent } from './perfil/alterar-senha/senha.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { RelatorioRedComponent } from './relatorio-red/relatorio-red.component';
     AdministradorComponent,
     ProfessorComponent,
     PerfilComponent,
+    SenhaComponent,
     TrocarSenhaComponent,
     RelatorioRedComponent,
   ],

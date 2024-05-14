@@ -1,0 +1,20 @@
+<div class="container">
+    <div>
+        <h1>Alterar senha</h1>
+        <hr>
+    </div>
+    <div class="fields">
+        <form [formGroup]="alterarPerfil" #formDir="ngForm">
+            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
+                <mat-label>Senha</mat-label>
+                <input type="password" matInput name="senha" formControlName="senha"/>
+                <div *ngIf="alterarPerfil.get('senha')?.invalid && formDir.submitted" class="validation">
+                    <p>Senha obrigatório!</p>
+                </div>
+            </mat-form-field>
+            <div id="buttons">
+                <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Alterar</button>
+            </div>
+        </form>
+    </div>
+</div>
