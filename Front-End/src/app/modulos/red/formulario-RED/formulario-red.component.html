@@ -23,12 +23,11 @@
       </mat-form-field>
 
       <mat-form-field class="centro-3">
-        <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" placeholder="Curso do aluno"/>
+        <input formControlName="curso" aria-label="Curso" matInput [value]="inputCurso" placeholder="Curso do aluno" />
       </mat-form-field>
 
-      <button class="direito-3-button" type="button" color="accent"
-      *ngIf="!this.desabilitado && !this.editando" mat-raised-button matTooltip="Cadastrar aluno"
-        (click)="CadastrarAluno()">
+      <button class="direito-3-button" type="button" color="accent" *ngIf="!this.desabilitado && !this.editando"
+        mat-raised-button matTooltip="Cadastrar aluno" (click)="CadastrarAluno()">
         <mat-icon>add_circle</mat-icon>
         Cadastrar Aluno
       </button>
@@ -95,6 +94,28 @@
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
       </mat-form-field>
 
+      <div *ngIf="recusado">
+        <h2>Motivo da Recusa</h2>
+        <mat-form-field class="motivoRecusaLabel">
+          <mat-label>Motivo da Recusa</mat-label>
+          <textarea formControlName="motivoRecusaLabel" matInput></textarea>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="motivoRecusaInput && isCOORD()">
+        <h2>Motivo da Recusa</h2>
+        <mat-form-field class="motivoRecusa">
+          <mat-label>Insira o motivo da recusa da RED </mat-label>
+          <textarea matInput name="motivoRecusa" formControlName="motivoRecusa" maxlength="4000" rows="3"
+            spellcheck="true" placeholder="Ex. Aluno errado"></textarea>
+          <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(motivoRecusa) }} caracteres
+            restantes</mat-hint>
+          <div *ngIf="formularioRED.get('motivoRecusa')?.invalid && formDir.submitted" class="validation">
+            <p>Conteúdo obrigatório!</p>
+          </div>
+        </mat-form-field>
+      </div>
+
       <br>
       <button type="button" color="accent" class="button" mat-raised-button (click)="fileInput.click()">
         Escolher Arquivos
@@ -112,13 +133,28 @@
 
       <div *ngIf="!this.desabilitado">
         <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
+
         <button mat-raised-button color="primary" class="button" (click)="cadastrar()">
           {{ this.editando ? 'Editar' : 'Cadastrar'}}
         </button>
       </div>
 
       <div *ngIf="this.desabilitado">
+
         <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
+
+        <button *ngIf="isCOORD()" mat-raised-button color="accent" class="button"
+          (click)="visualizarDisciplina()">Visualizar disciplinas
+        </button>
+
+        <div class="topo-direita button" id="buttons" *ngIf="isCOORD() && esperandoConfirmacao">
+          <button mat-raised-button color="primary" class="button" (click)="confirmarRED()">
+            Aceitar o Processo
+          </button>
+          <button mat-raised-button color="warn" class="button" (click)="recusarRED()">
+            Recusar o Processo
+          </button>
+        </div>
       </div>
     </form>
   </div>

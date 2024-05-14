@@ -10,6 +10,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
 import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 
 @Component({
   selector: 'app-formulario-red',
@@ -35,6 +36,7 @@ export class FormularioREDComponent implements OnInit {
   inputCurso: any = '';
   filtredCursos: any[] = [];
   formularioRED!: FormGroup;
+  motivoRecusaInput: boolean = false;
   isDisable: boolean = false;
   user: any;
   filteredAlunos: any[] = [];
@@ -109,6 +111,14 @@ export class FormularioREDComponent implements OnInit {
         },
         [Validators.required, Validators.min(1), Validators.max(24)]
       ),
+      motivoRecusa: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(4000),
+      ]),
+      motivoRecusaLabel: new FormControl({
+        value: this.data ? this.data.motivoRecusa : '',
+        disabled: this.recusado,
+      }),
     });
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
@@ -261,6 +271,43 @@ export class FormularioREDComponent implements OnInit {
     this.retornarParaLista();
   }
 
+  confirmarRED() {
+    this.updateSituacaoRED('Em andamento');
+  }
+
+  async recusarRED() {
+    if (!this.motivoRecusaInput) {
+      this.motivoRecusaInput = true;
+    } else {
+      if (this.motivoRecusa.trim() === '') {
+        this.snackBarService.open(
+          'Motivo da Recusa deve ser preenchido corretamente.'
+        );
+        return;
+      }
+      this.updateSituacaoRED('Recusado');
+      this.retornarParaLista();
+    }
+  }
+
+  private async updateSituacaoRED(situacao: String) {
+    try {
+      await this.redService.updateRed({
+        idRED: this.data.idRED,
+        situacao: situacao,
+        motivoRecusa: this.motivoRecusa,
+      });
+      this.snackBarService.open('RED alterado com sucesso!!');
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao alterar o RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao alterar o RED');
+      }
+    }
+  }
+
   private async verificarConflitoPeriodoRED() {
     // Verificação se o RED já existe no mesmo período
     const conjuntoREDs = await this.redService.getRed();
@@ -276,6 +323,16 @@ export class FormularioREDComponent implements OnInit {
       );
     });
     return existe;
+  }
+
+  async visualizarDisciplina() {
+    const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
+      data: {
+        idRED: this.data.idRED,
+        pee: this.data.pee,
+      },
+    });
+    this.handleDialogConfirm(visualizar);
   }
 
   onFileSelected(event: any) {
@@ -339,12 +396,24 @@ export class FormularioREDComponent implements OnInit {
     return this.formularioRED.get('observacao')!.value;
   }
 
+  get motivoRecusa() {
+    return this.formularioRED.get('motivoRecusa')!.value;
+  }
+
   get editando() {
     return this.editar;
   }
 
   get desabilitado() {
     return this.desabilitar;
+  }
+
+  get recusado() {
+    return this.data ? this.data.situacao === 'Recusado' : false;
+  }
+
+  get esperandoConfirmacao() {
+    return this.data ? this.data.situacao === 'Esperando confirmação' : false;
   }
 
   private verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
@@ -382,5 +451,19 @@ export class FormularioREDComponent implements OnInit {
     }
 
     return titulo;
+  }
+
+  isCOORD() {
+    return (
+      this.user.tiposervidor === 'coordenador' ||
+      this.user.tiposervidor === 'administrador'
+    );
+  }
+
+  isCRA() {
+    return (
+      this.user.tiposervidor === 'cra' ||
+      this.user.tiposervidor === 'administrador'
+    );
   }
 }
