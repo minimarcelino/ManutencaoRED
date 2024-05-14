@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ServidorService } from '../services/servidor.service';
 import { SnackBarService } from '../services/snackbar.service';
+import { SenhaComponent } from './alterar-senha/senha.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-perfil',
@@ -11,59 +13,48 @@ import { SnackBarService } from '../services/snackbar.service';
   styleUrls: ['./perfil.component.css'],
 })
 export class PerfilComponent implements OnInit {
-  alterarPerfil!: FormGroup;
-  isSubmitting: boolean = false;
-  error: Error | null = null;
+  alterarPerfil!: FormGroup; // Adicionando "!" para indicar que será inicializado no construtor
   user: any;
+  editing: boolean = false;
 
   constructor(
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
     private router: Router,
     private snackBarService: SnackBarService,
     private servidorService: ServidorService
   ) {}
 
+
   ngOnInit(): void {
-    this.alterarPerfil = new FormGroup({
-      senha: new FormControl('', [Validators.required]),
-    });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+    this.alterarPerfil = new FormGroup({
+      nome: new FormControl({ value: this.user.nome, disabled: true }, [Validators.required,]),
+      prontuario: new FormControl({ value: this.user.prontuario, disabled: true },[Validators.required]),
+      email: new FormControl({ value: this.user.email, disabled: true }, [Validators.required,]),
+    });
+    
   }
 
-  async submit() {
-    if (this.alterarPerfil.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        await this.servidorService.alterarPerfil({
-          idservidor: this.user.idservidor,
-          email: this.user.email,
-          senha: this.senha,
-          tiposervidor: this.user.tiposervidor,
-          nome: this.user.nome,
-          prontuario: this.user.prontuario,
-        });
-        this.snackBarService.open('Perfil alterado com sucesso!!');
-        this.router.navigate([`/${this.user.tiposervidor}`]);
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          // Verifica se o erro é devido a um prontuário duplicado
-          if (errorMessage.includes('prontuario')) {
-            this.snackBarService.open(`Prontuário duplicado`);
-          } else {
-            this.snackBarService.open(`Falha ao alterar perfil: ${errorMessage}`);
-          }
-        } else {
-          this.snackBarService.open('Falha ao alterar perfil');
-        }
-      }
-    }
+  toggleEdit() {
+    this.editing = true;
   }
 
-  get senha() {
-    return this.alterarPerfil.get('senha')!.value;
+  cancelEdit() {
+    this.editing = false;
+  }
+
+  async alterarSenha() {
+    const senha = this.dialog.open(SenhaComponent, {
+
+    });
+    this.handleDialogConfirm(senha);
+  }
+
+  handleDialogConfirm(dialog: any) {
+    dialog.afterClosed().subscribe(() => {
+      
+    });
   }
 }

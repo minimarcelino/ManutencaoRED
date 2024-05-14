@@ -1,19 +1,24 @@
 <div class="container">
     <div>
-        <h1>Alterar seu usuário</h1>
+        <h1>Seu perfil</h1>
         <hr>
     </div>
     <div class="fields">
         <form [formGroup]="alterarPerfil" #formDir="ngForm">
-            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
-                <mat-label>Senha</mat-label>
-                <input type="password" matInput name="senha" formControlName="senha"/>
-                <div *ngIf="alterarPerfil.get('senha')?.invalid && formDir.submitted" class="validation">
-                    <p>Senha obrigatório!</p>
-                </div>
+            <mat-form-field appearance="fill" style="margin-right: 1%; min-width: 20%; max-width: 100%; margin-left: 1%">
+                <mat-label>Prontuário</mat-label>
+                <input matInput name="prontuario" formControlName="prontuario" mask="AA0000000"/>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 50%; max-width: 100%; ">
+                <mat-label>Nome</mat-label>
+                <input matInput name="nome" formControlName="nome"/>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 71%; max-width: 100%; margin-left: 1%">
+                <mat-label>Email</mat-label>
+                <input matInput name="email" formControlName="email"/>
             </mat-form-field>
             <div id="buttons">
-                <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Alterar</button>
+                <button mat-raised-button color="primary" (click)="alterarSenha()" style="margin-left: 4px;">Alterar senha</button>
             </div>
         </form>
     </div>
