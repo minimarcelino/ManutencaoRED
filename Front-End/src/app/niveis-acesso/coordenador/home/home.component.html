@@ -57,6 +57,10 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
+            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
             <button *ngIf="(a.pee && a.pee.length > 0)" mat-icon-button matTooltip="Visualizar RED"
               (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
@@ -180,7 +184,7 @@
             <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
               <mat-icon>star</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="visualizarPee(a)">
+            <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a)">
               <mat-icon>visibility</mat-icon>
             </button>
           </td>

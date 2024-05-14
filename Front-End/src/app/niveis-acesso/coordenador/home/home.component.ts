@@ -153,6 +153,16 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);
   }
 
+  formularioRED(visualizar: boolean, red: any = null) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        red: red,
+        visualizar: visualizar
+      },
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
+  }
+
 
   // visualizarRED(red: any) {
   //   console.log(red);
