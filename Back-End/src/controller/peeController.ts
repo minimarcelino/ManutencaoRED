@@ -104,7 +104,7 @@ export class PeeController {
           const redResponse = await redcontroller.getById(idRed);
           emailcontroller.SendEmailCoordenadorFinalizandoRed(redResponse);
         }else{
-            emailcontroller.SendEmailProfesorIniciandoPEE(response);
+            emailcontroller.SendEmailProfesorIniciandoPEE(req.body);
         }
       }
       return res.status(StatusCodes.OK).send(response.data);

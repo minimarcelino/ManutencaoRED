@@ -111,35 +111,32 @@ export class emailController {
 
    //EMAILS PROFESSOR
    async SendEmailProfesorIniciandoPEE(response: any) {
-      if (typeof response.data === 'object' && 'servidor_idservidor' in response.data) {
-         const servidor_idservidor = response.data.servidor_idservidor;
-         if (servidor_idservidor != null) {
-            const servidorResponse = await servidorservice.findByid(servidor_idservidor);
-            if (servidorResponse.ok && servidorResponse.data != null) {
-               if (typeof servidorResponse.data === 'object' && 'email' in servidorResponse.data) {
-                  const servidor = servidorResponse.data;
-                  if (typeof servidor !== 'string' && servidor) {
-                     const servidorEmail = servidor.email;
-                     const html = `
-                <html>
-                <head>
-                  <title>Inicio do Processo PEE</title>
-                </head>
-                <body>
-                  <p>Existe uma nova PEE associada a você.</p>
-                  <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para entrar no sistema e preencha a PEE.</p>
-                  <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
-                </body>
-                </html>`;
-                     sendEmail(servidorEmail as string, "Sistema RED - Inicio do Processo PEE", html);
-                     console.log("Email Enviado Iniciando PEE");
-                     console.log(html)
-                  }
-               }
+      console.log(response)
+      if (typeof response.data === 'object' && Array.isArray(response.data.pee_servidor)) {
+         const pee_servidor = response.data.pee_servidor;
+         console.log(pee_servidor)
+         for(let servidor of pee_servidor){
+            if (servidor && servidor.email) {
+               const servidorEmail = servidor.email;
+               const html = `
+                 <html>
+                 <head>
+                   <title>Inicio do Processo PEE</title>
+                 </head>
+                 <body>
+                   <p>Existe uma nova PEE associada a você.</p>
+                   <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para entrar no sistema e preencher a PEE.</p>
+                   <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                 </body>
+                 </html>`;
+               sendEmail(servidorEmail, "Sistema RED - Início do Processo PEE", html);
+               console.log("Email Enviado Iniciando PEE");
+               console.log(html)
             }
          }
       }
    }
+   
 
    async sendEmailProfessorPreencherPEE(req: Request, res: Response) {
       const idProfessor = req.body.idProfessor;

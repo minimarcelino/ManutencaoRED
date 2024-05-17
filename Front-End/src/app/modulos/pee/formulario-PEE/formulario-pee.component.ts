@@ -37,6 +37,8 @@ export class FormularioPEEComponent implements OnInit {
       }
     });
 
+    console.log(this.data)
+
     this.formularioPEE = new FormGroup({
       conteudo: new FormControl(
         { value: this.data.conteudo || '', disabled: this.desabilitar },
@@ -60,10 +62,6 @@ export class FormularioPEEComponent implements OnInit {
       ),
       prazo: new FormControl(
         { value: this.data.prazofinal || '', disabled: this.desabilitar },
-        [Validators.required]
-      ),
-      contato: new FormControl(
-        { value: this.data.servidor.email || '', disabled: this.desabilitar },
         [Validators.required]
       ),
       comunicacao: new FormControl({
@@ -147,14 +145,6 @@ export class FormularioPEEComponent implements OnInit {
       return;
     }
 
-    if (this.contato.trim() === '') {
-      this.snackBarService.open('Contato deve ser preenchido corretamente.');
-      const element = document.getElementById('contato');
-      if (element) {
-        element.focus();
-      }
-      return;
-    }
 
     const dataAtual = new Date();
     const prazoSelecionado = new Date(this.prazo);
@@ -164,6 +154,8 @@ export class FormularioPEEComponent implements OnInit {
       return;
     } else {
       this.isSubmitting = true;
+      const peeServidorIds = this.data.pee_servidor.map((item: any) => ({ idservidor: item.servidorId }));
+
       try {
         const res = await this.peeService.updateWithEmail({
           idpee: this.data.idpee,
@@ -175,11 +167,12 @@ export class FormularioPEEComponent implements OnInit {
           prazofinal: this.prazo,
           RED_idRED: this.data.RED_idRED,
           disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
-          servidor_idservidor: this.data.servidor_idservidor,
+          pee_servidor: peeServidorIds,
           percentualabono: this.data.percentualabono,
           dataEnvioProposta: new Date(),
           canalComunicacao: this.comunicacao,
           observacoes: this.observacao,
+          editando: true,
           situacao: 'Enviado para o aluno',
         });
         this.snackBarService.open('PEE cadastrado com sucesso!!');
@@ -229,10 +222,6 @@ export class FormularioPEEComponent implements OnInit {
 
   get prazo() {
     return this.formularioPEE.get('prazo')!.value;
-  }
-
-  get contato() {
-    return this.formularioPEE.get('contato')!.value;
   }
 
   get comunicacao() {

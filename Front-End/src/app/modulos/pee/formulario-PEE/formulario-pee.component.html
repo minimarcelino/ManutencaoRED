@@ -102,17 +102,10 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="lado-esquerdo">
-        <mat-label>CONTATOS DO PROFESSOR</mat-label>
-        <input matInput name="contato" id="contato" formControlName="contato">
-        <mat-error
-          *ngIf="formularioPEE.get('contato')?.errors && (formularioPEE.get('contato')?.dirty || formularioPEE.get('contato')?.touched)">
-          <span *ngIf="formularioPEE.get('contato')?.errors?.['required']">Prazo de execução obrigatório</span>
-        </mat-error>
-      </mat-form-field>
 
-      <mat-form-field class="lado-direito">
-        <mat-label>Canal de comunicação</mat-label>
+
+      <mat-form-field>
+        <mat-label>Canal de comunicação e Contato</mat-label>
         <input matInput name="comunicacao" formControlName="comunicacao" />
       </mat-form-field>
 

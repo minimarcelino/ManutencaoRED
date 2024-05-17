@@ -88,7 +88,7 @@ export class AssociarProfessoresComponent implements OnInit {
 
   async cadastrar() {
     try {
-      for (const item of this.professoresSelecionados) {
+   
         await this.peeService.updatePee({
           idpee: this.data.idPEE,
           conteudo: '',
@@ -98,12 +98,12 @@ export class AssociarProfessoresComponent implements OnInit {
           criterios: '',
           prazofinal: this.data.prazoFinal,
           RED_idRED: this.data.idRED,
-          disciplinas_iddisciplinas: item.iddisciplinas,
-          servidor_idservidor: this.professoresSelecionados[0].idservidor,
+
+          pee_servidor: this.professoresSelecionados,
           percentualabono: this.data.percentualabono,
           situacao: 'Aguardando Preenchimento',
         });
-      }
+      
       this.snackBarService.open('Professores associados com sucesso!!');
       this.dialog.close();
     } catch (error: any) {

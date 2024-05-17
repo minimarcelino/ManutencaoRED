@@ -18,7 +18,7 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrls: ['./listar.component.css'],
 })
 export class ListarPEEComponent implements OnInit {
-  pees: pee[] = [];
+  pees: any[] = [];
   user: any = '';
   filteredPEEs: any[] = [];
   situacaoSelecionada = 'todos';
@@ -58,9 +58,9 @@ export class ListarPEEComponent implements OnInit {
   async findAll() {
     const response = await this.peeService.getPee();
     this.pees = response.data.pees;
-    this.pees = this.pees.filter(
-      (pee) => pee.servidor_idservidor == this.user.idservidor
-    );
+
+    this.pees = this.pees.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
+
     //this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;

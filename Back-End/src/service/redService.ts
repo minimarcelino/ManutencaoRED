@@ -16,7 +16,7 @@ export class redService {
             pee: {
               include: {
                 disciplinas: true,
-                servidor: true,
+                pee_servidor: true,
               },
             },
           },

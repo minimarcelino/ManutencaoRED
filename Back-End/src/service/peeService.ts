@@ -55,7 +55,7 @@ export class peeService {
                 aluno: true,
               },
             },
-            servidor: true,
+            pee_servidor: true,
             disciplinas: {
               include: {
                 curso: true,
@@ -90,7 +90,7 @@ export class peeService {
             idpee: +id,
           },
           include: {
-            servidor: true,
+           // servidor: true,
           },
         }),
       ]);
@@ -106,16 +106,43 @@ export class peeService {
   }
 
   async create(pee: pee) {
-    try {
-      const createPEE = await prisma.pee.create({ data: pee });
-      this.updateHashPEE(createPEE.idpee);
 
-      return { ok: true, data: createPEE };
-    } catch (error) {
-      console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-    }
+  try {
+    const createPEE = await prisma.pee.create({
+      data: {
+        conteudo: pee.conteudo,
+        metodologia: pee.metodologia,
+        trabalhos: pee.trabalhos,
+        bibliografia: pee.bibliografia,
+        criterios: pee.criterios,
+        prazofinal: pee.prazofinal,
+        RED_idRED: pee.RED_idRED,
+        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
+        //pee_servidor: pee.pee_servidor,
+        percentualabono: pee.percentualabono,
+        situacao: pee.situacao,
+        canalComunicacao: pee.canalComunicacao,
+        observacoes: pee.observacoes,
+        dataEnvioProposta: pee.dataEnvioProposta,
+        hash: pee.hash,
+        avaliacaoAtividade: pee.avaliacaoAtividade,
+        prazoEntregaAtividade: pee.prazoEntregaAtividade,
+        dataEntregaAtividade: pee.dataEntregaAtividade,
+        cumpriuAtividade: pee.cumpriuAtividade,
+        houveAvaliacao: pee.houveAvaliacao,
+        avaliacoesRealizadas: pee.avaliacoesRealizadas,
+        dataAvaliacao: pee.dataAvaliacao,
+      }
+    });
+    this.updateHashPEE(createPEE.idpee);
+
+    return { ok: true, data: createPEE };
+  } catch (error) {
+    console.log(error);
+    return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
   }
+}
+
 
   // async createAtividade(atividade: atividades) {
   //   try {
@@ -129,8 +156,53 @@ export class peeService {
   //   }
   // }
 
-  async update(pee: pee, id: number) {
+  async update(pee: any, id: number) {
+
+
+    if('editando' in pee){
+      try {
+        const professorsData = pee.pee_servidor.map((professor: any) => ({
+          servidorId: professor.idservidor,
+        }));
+    
+        const updatePEE = await prisma.pee.update({
+          where: {
+            idpee: id,
+          },
+          data: {
+            conteudo: pee.conteudo,
+            metodologia: pee.metodologia,
+            trabalhos: pee.trabalhos,
+            bibliografia: pee.bibliografia,
+            criterios: pee.criterios,
+            prazofinal: pee.prazofinal,
+            RED_idRED: pee.RED_idRED,
+            percentualabono: pee.percentualabono,
+            dataEnvioProposta: pee.dataEnvioProposta,
+            canalComunicacao: pee.canalComunicacao,
+            houveAvaliacao: pee.houveAvaliacao,
+            avaliacoesRealizadas: pee.avaliacoesRealizadas,
+            dataAvaliacao: pee.dataAvaliacao,
+            observacoes: pee.observacoes,
+            situacao: pee.situacao,
+            cumpriuAtividade: pee.cumpriuAtividade,
+            dataEntregaAtividade: pee.dataEntregaAtividade,
+            prazoEntregaAtividade: pee.prazoEntregaAtividade
+          },
+        });
+        return { ok: true, data: updatePEE };
+      } catch (error) {
+        console.log(error);
+        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+      }
+    }else{
+ 
+
     try {
+      const professorsData = pee.pee_servidor.map((professor: any) => ({
+        servidorId: professor.idservidor,
+      }));
+  
       const updatePEE = await prisma.pee.update({
         where: {
           idpee: id,
@@ -143,8 +215,6 @@ export class peeService {
           criterios: pee.criterios,
           prazofinal: pee.prazofinal,
           RED_idRED: pee.RED_idRED,
-          disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-          servidor_idservidor: pee.servidor_idservidor,
           percentualabono: pee.percentualabono,
           dataEnvioProposta: pee.dataEnvioProposta,
           canalComunicacao: pee.canalComunicacao,
@@ -156,6 +226,11 @@ export class peeService {
           cumpriuAtividade: pee.cumpriuAtividade,
           dataEntregaAtividade: pee.dataEntregaAtividade,
           prazoEntregaAtividade: pee.prazoEntregaAtividade,
+          pee_servidor: {
+            createMany: {
+              data: professorsData,
+            },
+          },
         },
       });
       return { ok: true, data: updatePEE };
@@ -163,7 +238,11 @@ export class peeService {
       console.log(error);
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
+         
   }
+  }
+  
+  
 
   // async updateAtividade(atividade: atividades, id: number) {
   //   try {
@@ -230,7 +309,7 @@ export class peeService {
           },
           include: {
             disciplinas: true,
-            servidor: true,
+            pee_servidor: true,
           },
         }),
       ]);

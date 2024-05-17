@@ -102,7 +102,8 @@ export class HomeComponent implements OnInit {
   async findAllPEE() {
     const response = await this.peeService.getPee();
     this.pees = response.data.pees;
-    this.pees = this.pees.filter((pee) => pee.servidor_idservidor == this.user.idservidor);
+    this.pees = this.pees.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
+
     this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
 
     // Filtrar PEEs com situação "Aguardando Preenchimento"

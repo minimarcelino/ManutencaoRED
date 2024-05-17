@@ -170,7 +170,7 @@
             prazofinal: new Date(),
             RED_idRED: this.data.idRED,
             disciplinas_iddisciplinas: item.iddisciplinas,
-            servidor_idservidor: null,
+            pee_servidor: null,
             percentualabono: -1,
             situacao: "Aguardando Associação de Professor"
           });

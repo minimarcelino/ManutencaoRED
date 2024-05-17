@@ -58,6 +58,7 @@ model disciplinas {
   @@index([curso_idcurso], map: "fk_disciplinas_curso1_idx")
 }
 
+
 model pee {
   // CAMPOS INICIAIS DO PEE
   // Campos obrigatórios da para criação
@@ -74,7 +75,6 @@ model pee {
   // Opcionais da criação
   canalComunicacao          String?   @db.VarChar(30)
   observacoes               String?   @db.Text
-  servidor_idservidor       Int?
   dataEnvioProposta         DateTime? @db.Date
   hash                      String?   @db.VarChar(64)
 
@@ -91,12 +91,12 @@ model pee {
   // Associações
   red         red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
   disciplinas disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
-  servidor    servidor?    @relation(fields: [servidor_idservidor], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_servidor1")
+  pee_servidor  pee_servidor[]
 
   @@index([RED_idRED], map: "fk_pee_RED1_idx")
   @@index([disciplinas_iddisciplinas], map: "fk_pee_disciplinas1_idx")
-  @@index([servidor_idservidor], map: "fk_pee_servidor1_idx")
 }
+
 model arquivo {
   idArquivo   Int     @id @default(autoincrement())
   path        String
@@ -136,6 +136,16 @@ model servidor {
   prontuario   String  @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
   token        String? @db.VarChar(64)
   curso        curso[]
-  pee          pee[]
   red          red[]
+  pee_servidor  pee_servidor[]
+}
+model pee_servidor {
+  id            Int      @id @default(autoincrement())
+  peeId         Int
+  servidorId    Int
+  pee           pee      @relation(fields: [peeId], references: [idpee])
+  servidor      servidor @relation(fields: [servidorId], references: [idservidor])
+
+  @@index([peeId], name: "peeId")
+  @@index([servidorId], name: "servidorId")
 }
