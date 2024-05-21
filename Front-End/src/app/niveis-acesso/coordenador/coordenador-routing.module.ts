@@ -15,7 +15,7 @@ import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formu
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
 //
-import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
+import { FormularioServidoresComponent } from 'src/app/modulos/servidores/formularioServidor/formulario-servidor.component';
 import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
 //
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
@@ -77,8 +77,8 @@ const routes: Routes = [
 
       // Rotas dos Servidores(Docentes)
       {
-        path: 'cadastrarServidores',
-        component: CadastrarServidoresComponent,
+        path: 'formularioServidor',
+        component: FormularioServidoresComponent,
       },
       {
         path: 'listarServidores',

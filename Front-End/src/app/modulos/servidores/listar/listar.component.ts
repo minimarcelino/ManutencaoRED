@@ -1,16 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
 import * as XLSX from 'xlsx';
 
 import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { EditarServidoresComponent } from '../editar/editar.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-listar',
@@ -34,7 +32,6 @@ export class ListarServidoresComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private servidorService: ServidorService,
-    private dialog: MatDialog,
     private snackBarService: SnackBarService
   ) {}
 
@@ -44,8 +41,14 @@ export class ListarServidoresComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
-  async cadastrar() {
-    this.router.navigate([`/${this.user.tiposervidor}/cadastrarServidores`]);
+  formularioServidor(visualizar: boolean, servidor: any = null){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        servidor: servidor,
+        visualizar: visualizar
+      },
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioServidor`],navigationExtras);
   }
 
   applyFilter(data: Event) {
@@ -70,19 +73,6 @@ export class ListarServidoresComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource<docente>(this.servidores);
     this.dataSource.paginator = this.paginator;
-  }
-
-  editarServidor(servidor: any) {
-    const editar = this.dialog.open(EditarServidoresComponent, {
-      data: {
-        idservidor: servidor.idservidor,
-        prontuario: servidor.prontuario,
-        nome: servidor.nome,
-        email: servidor.email,
-        tiposervidor: servidor.tiposervidor,
-      },
-    });
-    this.handleDialogConfirm(editar);
   }
 
   async deleteServidorPermanent(idservidor: number) {

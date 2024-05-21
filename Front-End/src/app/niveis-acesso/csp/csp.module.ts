@@ -24,16 +24,14 @@ import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/vi
 import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
 //
-import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
-import { EditarServidoresComponent } from 'src/app/modulos/servidores/editar/editar.component';
+import { FormularioServidoresComponent } from 'src/app/modulos/servidores/formularioServidor/formulario-servidor.component';
 import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    CadastrarServidoresComponent,
+    FormularioServidoresComponent,
     ListarServidoresComponent,
-    EditarServidoresComponent,
     //
     FormularioCursoComponent,
     ListarCursosComponent,

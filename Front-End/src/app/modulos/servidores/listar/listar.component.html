@@ -55,7 +55,7 @@
         <ng-container matColumnDef="Acoes">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
-            <button mat-icon-button matTooltip="Editar docente" (click)="editarServidor(a)">
+            <button mat-icon-button matTooltip="Editar docente" (click)="formularioServidor(false, a)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button matTooltip="Remover docente" (click)="deleteServidor(a)">
@@ -72,7 +72,7 @@
     </div>
 
     <div>
-      <button mat-raised-button color="primary" (click)="cadastrar()" matTooltip="Cadastro de um servidor"
+      <button mat-raised-button color="primary" (click)="formularioServidor(false)" matTooltip="Cadastro de um servidor"
         id="cadastrar" class="button">
         <mat-icon>add</mat-icon>
         Cadastrar Servidores
