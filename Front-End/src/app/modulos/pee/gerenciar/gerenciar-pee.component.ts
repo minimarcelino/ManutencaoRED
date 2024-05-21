@@ -78,7 +78,7 @@ export class GerenciarPEEComponent implements OnInit {
     });
     // Converte o conjunto de IDs de curso de volta para um array de cursos
     this.professores = Array.from(uniqueProfessores).map(
-      (professorId) => 
+      (professorId) =>
         this.pees.find((pee) => pee.servidor.idservidor === professorId)
           ?.servidor
     );
@@ -117,7 +117,10 @@ export class GerenciarPEEComponent implements OnInit {
         visualizar: true,
       },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`], navigationExtras);
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioPEE`],
+      navigationExtras
+    );
   }
 
   visualizarPEE(pee: any) {
@@ -181,5 +184,11 @@ export class GerenciarPEEComponent implements OnInit {
 
   peeAguardandoProfessor(pee: any): boolean {
     return pee.situacao === 'Aguardando Associação de Professor';
+  }
+
+  apresentarDocentes(pee: any) {
+    return pee.pee_servidor.length > 0
+      ? `${pee.pee_servidor.map((docente: any) => docente.nome).join(', ')}`
+      : ' - ';
   }
 }

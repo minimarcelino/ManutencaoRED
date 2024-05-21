@@ -37,7 +37,7 @@ export class FormularioPEEComponent implements OnInit {
       }
     });
 
-    console.log(this.data)
+    console.log(this.data);
 
     this.formularioPEE = new FormGroup({
       conteudo: new FormControl(
@@ -145,7 +145,6 @@ export class FormularioPEEComponent implements OnInit {
       return;
     }
 
-
     const dataAtual = new Date();
     const prazoSelecionado = new Date(this.prazo);
 
@@ -154,7 +153,9 @@ export class FormularioPEEComponent implements OnInit {
       return;
     } else {
       this.isSubmitting = true;
-      const peeServidorIds = this.data.pee_servidor.map((item: any) => ({ idservidor: item.servidorId }));
+      const peeServidorIds = this.data.pee_servidor.map((item: any) => ({
+        idservidor: item.servidorId,
+      }));
 
       try {
         const res = await this.peeService.updateWithEmail({
@@ -244,9 +245,17 @@ export class FormularioPEEComponent implements OnInit {
     return this.formularioPEE.get('avaliacaoRealizada')!.value || null;
   }
 
-  titulo() {
-    let titulo;
+  cabecalho() {
     const situacao = this.data.situacao;
+    const docentes = `Docente(s): ${
+      this.data.pee_servidor.length > 0
+        ? this.data.pee_servidor.map((docente: any) => docente.nome).join(', ')
+        : ' - '
+    }`;
+    const disciplina = `Disciplina: ${this.data.disciplinas.nomeDisciplina}`;
+    const aluno = `Aluno: ${this.data.red.aluno.nome} - ${this.data.red.aluno.prontuario}`;
+    let titulo;
+
     if (situacao === 'Enviado para o aluno') {
       titulo = 'Edição de ';
     } else if (situacao === 'Aguardando Preenchimento') {
@@ -257,16 +266,10 @@ export class FormularioPEEComponent implements OnInit {
       titulo = 'Visualização de ';
     }
 
-    return titulo;
+    return { titulo, docentes, disciplina, aluno };
   }
 
-  editando(){
+  editando() {
     return this.data.situacao === 'Enviado para o aluno';
-  }
-
-  disciplinaAluno() {
-    const disciplina = `Disciplina: ${this.data.disciplinas.nomeDisciplina}`;
-    const aluno = `Aluno: ${this.data.red.aluno.nome}`;
-    return {disciplina, aluno};
   }
 }
