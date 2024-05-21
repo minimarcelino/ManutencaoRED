@@ -14,7 +14,7 @@ import { ListarServidoresComponent } from '../../modulos/servidores/listar/lista
 import { CadastrarServidoresComponent } from '../../modulos/servidores/cadastrar/cadastrar.component';
 //
 import { ListarAlunoComponent } from '../../modulos/alunos/listar/listar.component';
-import { CadastrarAlunoComponent } from '../../modulos/alunos/cadastrar/cadastrar.component';
+import { FormularioAlunoComponent } from '../../modulos/alunos/formularioAluno/formulario-aluno.component';
 //
 import { FormularioREDComponent } from '../../modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
@@ -90,8 +90,8 @@ const routes: Routes = [
         component: ListarAlunoComponent,
       },
       {
-        path: 'cadastrarAlunos',
-        component: CadastrarAlunoComponent,
+        path: 'formularioAluno',
+        component: FormularioAlunoComponent,
       },
       // Rotas dos PEE
       {

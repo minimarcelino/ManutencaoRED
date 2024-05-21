@@ -41,13 +41,13 @@
         <ng-container matColumnDef="Acoes">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
-            <button mat-icon-button matTooltip="Editar aluno" (click)="editarAluno(a)">
+            <button mat-icon-button matTooltip="Editar aluno" (click)="formularioAluno(false, a)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button matTooltip="Remover aluno" (click)="deleteAluno(a)">
               <mat-icon>delete</mat-icon>
             </button>
-            <button mat-icon-button matTooltip="Visualizar aluno" (click)="visualizarAluno(a)">
+            <button mat-icon-button matTooltip="Visualizar aluno" (click)="formularioAluno(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
           </td>
@@ -60,7 +60,7 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
     </div>
 
-    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+    <button mat-raised-button color="primary" (click)="formularioAluno(false)" id="cadastrar" class="button">
       <mat-icon>add</mat-icon>
       Cadastrar Aluno
     </button>

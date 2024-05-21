@@ -20,10 +20,8 @@ import {
 } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
-import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
-import { EditarAlunosComponent } from 'src/app/modulos/alunos/editar/editar.component';
+import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
-import { VisualizarAlunoComponent } from 'src/app/modulos/alunos/visualizar/visualizar.component';
 //
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
@@ -32,10 +30,8 @@ import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     HomeComponent,
-    CadastrarAlunoComponent,
+    FormularioAlunoComponent,
     ListarAlunoComponent,
-    EditarAlunosComponent,
-    VisualizarAlunoComponent,
     //
     ListarREDComponent,
     FormularioREDComponent

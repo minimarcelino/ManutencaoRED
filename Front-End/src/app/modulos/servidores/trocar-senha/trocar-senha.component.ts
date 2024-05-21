@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { usuarioNaoAutenticadoService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
-import { SessionService } from '../../../services/session.service';
-import { AuthenticationService } from '../../../services/authentication.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SnackBarService} from '../../../services/snackbar.service';
-import { NotificationService } from '../../../services/notification.service';
 import { ServidorService } from './../../../services/servidor.service';
 
 @Component({
@@ -45,7 +42,7 @@ export class TrocarSenhaComponent implements OnInit{
   }
 
 
-  
+
   get senha() {
     return this.senhaForm.get('senha')!.value;
   }
@@ -63,7 +60,7 @@ export class TrocarSenhaComponent implements OnInit{
       this.snackBarService.open('Senhas diferentes!');
     }
   }
-  
+
   async trocarSenha(){
     const response = await this.servidorservice.alterarSenha(this.id, this.token, this.senha);
     if(response){

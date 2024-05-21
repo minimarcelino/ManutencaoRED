@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -8,8 +7,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { aluno } from 'src/app/modelo/aluno';
 import { AlunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { EditarAlunosComponent } from '../editar/editar.component';
-import { VisualizarAlunoComponent } from '../visualizar/visualizar.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -29,7 +26,6 @@ export class ListarAlunoComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private alunoservice: AlunoService,
-    private dialog: MatDialog,
     private snackBarService: SnackBarService
   ) {}
 
@@ -39,8 +35,14 @@ export class ListarAlunoComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
-  async cadastrar() {
-    this.router.navigate([`/${this.user.tiposervidor}/cadastrarAlunos`]);
+  formularioAluno(visualizar: boolean, aluno: any = null){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        aluno: aluno,
+        visualizar: visualizar
+      },
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioAluno`],navigationExtras);
   }
 
   applyFilter(data: Event) {
@@ -81,36 +83,6 @@ export class ListarAlunoComponent implements OnInit {
         );
       }
     }
-  }
-
-  visualizarAluno(aluno: any) {
-    const editar = this.dialog.open(VisualizarAlunoComponent, {
-      data: {
-        id: aluno.id,
-        prontuario: aluno.prontuario,
-        nome: aluno.nome,
-        dataNascimento: aluno.dataNascimento,
-        telefone: aluno.telefone,
-        email: aluno.email,
-        curso: aluno.curso,
-      },
-    });
-    this.handleDialogConfirm(editar);
-  }
-
-  editarAluno(aluno: any) {
-    const editar = this.dialog.open(EditarAlunosComponent, {
-      data: {
-        id: aluno.id,
-        prontuario: aluno.prontuario,
-        nome: aluno.nome,
-        data: aluno.dataNascimento,
-        telefone: aluno.telefone,
-        email: aluno.email,
-        curso: aluno.curso,
-      },
-    });
-    this.handleDialogConfirm(editar);
   }
 
   async deleteAluno(aluno: any) {

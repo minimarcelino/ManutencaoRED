@@ -4,7 +4,7 @@ import { CRAComponent } from './cra.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
 import { HomeComponent } from './home/home.component';
 //
-import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
+import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
 import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
 //
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
@@ -41,8 +41,8 @@ const routes: Routes = [
         component: ListarAlunoComponent
       },
       {
-        path: 'cadastrarAlunos',
-        component: CadastrarAlunoComponent
+        path: 'formularioAluno',
+        component: FormularioAlunoComponent
       },
 
     ]

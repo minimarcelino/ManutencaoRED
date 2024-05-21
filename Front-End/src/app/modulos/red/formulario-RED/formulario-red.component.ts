@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 //
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { CadastrarAlunoComponent } from 'src/app/modulos/alunos/cadastrar/cadastrar.component';
+import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 
@@ -163,7 +163,7 @@ export class FormularioREDComponent implements OnInit {
   }
 
   async CadastrarAluno() {
-    const cadastrarAluno = this.dialog.open(CadastrarAlunoComponent, {
+    const cadastrarAluno = this.dialog.open(FormularioAlunoComponent, {
       data: { dialog: true },
     });
     cadastrarAluno.componentInstance.destino = 'cadastrarREDs';

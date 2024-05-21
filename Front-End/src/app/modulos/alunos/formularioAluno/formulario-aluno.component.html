@@ -1,7 +1,7 @@
 <div class="corpo">
 
   <div class="title listagem">
-    <h1>Cadastrar Aluno</h1>
+    <h1>{{ this.titulo() }}</h1>
     <hr class="linha" />
   </div>
 
@@ -29,7 +29,6 @@
       <mat-form-field class="lado-esquerdo">
         <mat-label>Data de Nascimento</mat-label>
         <input matInput [matDatepicker]="picker" id="data" formControlName="data">
-        <mat-hint>DD/MM/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error
@@ -72,9 +71,18 @@
         </mat-error>
       </mat-form-field>
 
-      <div id="buttons">
-        <button mat-raised-button color="primary" (click)="voltar()">Voltar</button>
-        <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Cadastrar</button>
+
+      <div *ngIf="!this.desabilitado">
+
+        <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
+        <button mat-raised-button color="primary" class="button" (click)="submit()">
+          {{ this.editando ? 'Editar' : 'Cadastrar'}}
+        </button>
+      </div>
+
+      <div *ngIf="this.desabilitado">
+        
+        <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
       </div>
     </form>
   </div>
