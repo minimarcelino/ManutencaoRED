@@ -31,7 +31,7 @@
           <td class="actionsColumns" mat-cell *matCellDef="let c">
 
             <div style="display: flex; align-items: center;">
-              <button mat-icon-button matTooltip="Editar curso" (click)="editarCurso(c)">
+              <button mat-icon-button matTooltip="Editar curso" (click)="formularioCurso(false, c)">
                 <mat-icon>edit</mat-icon>
               </button>
 
@@ -55,7 +55,7 @@
       </table>
     </div>
 
-    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+    <button mat-raised-button color="primary" (click)="formularioCurso(false)" id="cadastrar" class="button">
       <mat-icon>add</mat-icon>
       Cadastrar Curso
     </button>

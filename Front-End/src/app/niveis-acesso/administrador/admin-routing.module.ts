@@ -20,7 +20,7 @@ import { FormularioREDComponent } from '../../modulos/red/formulario-RED/formula
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 //
 import { ListarCursosComponent } from '../../modulos/cursos/listar/listar.component';
-import { CadastrarCursoComponent } from '../../modulos/cursos/cadastrar/cadastrar.component';
+import { FormularioCursoComponent } from '../../modulos/cursos/formularioCurso/formulario-curso.component';
 
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
@@ -80,8 +80,8 @@ const routes: Routes = [
         component: ListarCursosComponent,
       },
       {
-        path: 'cadastrarCursos',
-        component: CadastrarCursoComponent,
+        path: 'formularioCurso',
+        component: FormularioCursoComponent,
       },
 
       //Rotas dos Alunos

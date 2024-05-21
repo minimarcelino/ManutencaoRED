@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 //
-import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
+import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
 //
 import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
@@ -31,15 +31,16 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
       },
+      // Cursos
       {
         path: 'listarCursos',
         component: ListarCursosComponent,
       },
-
       {
-        path: 'cadastrarCursos',
-        component: CadastrarCursoComponent,
+        path: 'formularioCurso',
+        component: FormularioCursoComponent,
       },
+      // Disciplinas
       {
         path: 'cadastrarDisciplinas',
         component: CadastrarDisciplinaComponent,
@@ -48,6 +49,7 @@ const routes: Routes = [
         path:'listarDisciplinas',
         component:ListarDisciplinasComponent,
       },
+      // Servidores
       {
         path: 'listarServidores',
         component: ListarServidoresComponent,
@@ -56,6 +58,7 @@ const routes: Routes = [
         path: 'cadastrarServidores',
         component: CadastrarServidoresComponent,
       },
+      // REDs
       {
         path: 'formularioRED',
         component: FormularioREDComponent,

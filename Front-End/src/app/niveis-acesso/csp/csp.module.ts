@@ -21,8 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
 //
-import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
-import { EditarCursoComponent } from 'src/app/modulos/cursos/editar/editar.component';
+import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
 //
 import { CadastrarServidoresComponent } from 'src/app/modulos/servidores/cadastrar/cadastrar.component';
@@ -36,9 +35,8 @@ import { HomeComponent } from './home/home.component';
     ListarServidoresComponent,
     EditarServidoresComponent,
     //
-    CadastrarCursoComponent,
+    FormularioCursoComponent,
     ListarCursosComponent,
-    EditarCursoComponent,
     //
     CSPVisualizarREDComponent,
     AssociarDisciplinaComponent,

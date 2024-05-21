@@ -15,7 +15,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./formulario-aluno.component.css'],
 })
 export class FormularioAlunoComponent implements OnInit {
-  cadastrarAluno!: FormGroup;
+  formularioAluno!: FormGroup;
   cursos: curso[] = [];
   isSubmitting: boolean = false;
   error: Error | null = null;
@@ -52,7 +52,7 @@ export class FormularioAlunoComponent implements OnInit {
       this.editar = true;
     }
 
-    this.cadastrarAluno = new FormGroup({
+    this.formularioAluno = new FormGroup({
       prontuario: new FormControl(
         {
           value: this.data ? this.data.prontuario : '',
@@ -100,12 +100,12 @@ export class FormularioAlunoComponent implements OnInit {
   }
 
   async submit() {
-    if (this.cadastrarAluno.invalid || this.isSubmitting) {
+    if (this.formularioAluno.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
       // Encontra o primeiro campo inválido e coloca o foco nele
-      const fields = Object.keys(this.cadastrarAluno.controls);
+      const fields = Object.keys(this.formularioAluno.controls);
       const firstInvalidField = fields.find(
-        (field) => this.cadastrarAluno.get(field)!.invalid
+        (field) => this.formularioAluno.get(field)!.invalid
       );
       if (firstInvalidField) {
         const element = document.getElementById(firstInvalidField);
@@ -216,27 +216,27 @@ export class FormularioAlunoComponent implements OnInit {
   }
 
   get prontuario() {
-    return this.cadastrarAluno.get('prontuario')!.value;
+    return this.formularioAluno.get('prontuario')!.value;
   }
 
   get nome() {
-    return this.cadastrarAluno.get('nome')!.value;
+    return this.formularioAluno.get('nome')!.value;
   }
 
   get data_nascimento() {
-    return this.cadastrarAluno.get('data')!.value;
+    return this.formularioAluno.get('data')!.value;
   }
 
   get telefone() {
-    return this.cadastrarAluno.get('telefone')!.value;
+    return this.formularioAluno.get('telefone')!.value;
   }
 
   get email() {
-    return this.cadastrarAluno.get('email')!.value;
+    return this.formularioAluno.get('email')!.value;
   }
 
   get idcurso() {
-    return this.cadastrarAluno.get('curso')!.value.idcurso;
+    return this.formularioAluno.get('curso')!.value.idcurso;
   }
 
   get editando() {

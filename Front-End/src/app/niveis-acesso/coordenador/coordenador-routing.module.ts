@@ -5,7 +5,7 @@ import { CoordenadorComponent } from './coordenador.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
 import { HomeComponent } from './home/home.component';
 //
-import { CadastrarCursoComponent } from 'src/app/modulos/cursos/cadastrar/cadastrar.component';
+import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
 //
 import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
@@ -49,8 +49,8 @@ const routes: Routes = [
 
       // Rotas dos Curso
       {
-        path: 'cadastrarCursos',
-        component: CadastrarCursoComponent,
+        path: 'formularioCurso',
+        component: FormularioCursoComponent,
       },
       {
         path: 'listarCursos',

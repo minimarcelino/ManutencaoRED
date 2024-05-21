@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import * as XLSX from 'xlsx';
@@ -8,7 +8,6 @@ import { curso } from '../../../modelo/curso';
 import { servidor } from 'src/app/modelo/servidor';
 import { messageDialog } from '../../../services/messageDialog.service';
 import { CursoService } from 'src/app/services/cursos.service';
-import { EditarCursoComponent } from '../editar/editar.component';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 
@@ -31,7 +30,6 @@ export class ListarCursosComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private cursoService: CursoService,
-    private dialog: MatDialog,
     private disciplinaService: DisciplinaService,
     private snackBarService: SnackBarService
   ) {}
@@ -42,8 +40,15 @@ export class ListarCursosComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
-  async cadastrar() {
-    this.router.navigate([`/${this.user.tiposervidor}/cadastrarCursos`]);
+  formularioCurso(visualizar: boolean, curso: any = null){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        curso: curso,
+        visualizar: visualizar
+      },
+    };
+    this.router.navigate([`/${this.user.tiposervidor}/formularioCurso`],navigationExtras);
+
   }
 
   async findAll() {
@@ -55,18 +60,6 @@ export class ListarCursosComponent implements OnInit {
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
     this.dataSource.filter = value;
-  }
-
-  editarCurso(curso: any) {
-    const editar = this.dialog.open(EditarCursoComponent, {
-      data: {
-        idcurso: curso.idcurso,
-        nomeCurso: curso.nomeCurso,
-        sigla: curso.sigla,
-        coordenador: curso.servidor,
-      },
-    });
-    this.handleDialogConfirm(editar);
   }
 
   async deleteCursoPermanent(id: number) {

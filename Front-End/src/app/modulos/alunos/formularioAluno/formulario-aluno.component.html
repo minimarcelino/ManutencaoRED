@@ -6,14 +6,14 @@
   </div>
 
   <div class="formulario">
-    <form [formGroup]="cadastrarAluno" #formDir="ngForm">
+    <form [formGroup]="formularioAluno" #formDir="ngForm">
 
       <mat-form-field appearance="fill" class="lado-esquerdo">
         <mat-label>Prontuário</mat-label>
         <input matInput id="prontuario" name="prontuario" formControlName="prontuario" mask="AA000000A" />
         <mat-error
-          *ngIf="cadastrarAluno.get('prontuario')?.errors && (cadastrarAluno.get('prontuario')?.dirty || cadastrarAluno.get('prontuario')?.touched)">
-          <span *ngIf="cadastrarAluno.get('prontuario')?.errors?.['required']">Campo obrigatório</span>
+          *ngIf="formularioAluno.get('prontuario')?.errors && (formularioAluno.get('prontuario')?.dirty || formularioAluno.get('prontuario')?.touched)">
+          <span *ngIf="formularioAluno.get('prontuario')?.errors?.['required']">Campo obrigatório</span>
         </mat-error>
       </mat-form-field>
 
@@ -21,8 +21,8 @@
         <mat-label>Nome</mat-label>
         <input matInput id="nome" name="nome" formControlName="nome" />
         <mat-error
-          *ngIf="cadastrarAluno.get('nome')?.errors && (cadastrarAluno.get('nome')?.dirty || cadastrarAluno.get('nome')?.touched)">
-          <span *ngIf="cadastrarAluno.get('nome')?.errors?.['required']">Campo obrigatório</span>
+          *ngIf="formularioAluno.get('nome')?.errors && (formularioAluno.get('nome')?.dirty || formularioAluno.get('nome')?.touched)">
+          <span *ngIf="formularioAluno.get('nome')?.errors?.['required']">Campo obrigatório</span>
         </mat-error>
       </mat-form-field>
 
@@ -32,8 +32,8 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error
-          *ngIf="cadastrarAluno.get('data')?.errors && (cadastrarAluno.get('data')?.dirty || cadastrarAluno.get('data')?.touched)">
-          <span *ngIf="cadastrarAluno.get('data')?.errors?.['required']">Campo obrigatório</span>
+          *ngIf="formularioAluno.get('data')?.errors && (formularioAluno.get('data')?.dirty || formularioAluno.get('data')?.touched)">
+          <span *ngIf="formularioAluno.get('data')?.errors?.['required']">Campo obrigatório</span>
         </mat-error>
       </mat-form-field>
 
@@ -42,8 +42,8 @@
         <input matInput name="telefone" id="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']"
           mask="(00)00000-0000" />
         <mat-error
-          *ngIf="cadastrarAluno.get('telefone')?.errors && (cadastrarAluno.get('telefone')?.dirty || cadastrarAluno.get('telefone')?.touched)">
-          <span *ngIf="cadastrarAluno.get('telefone')?.errors?.['required']">Campo obrigatório</span>
+          *ngIf="formularioAluno.get('telefone')?.errors && (formularioAluno.get('telefone')?.dirty || formularioAluno.get('telefone')?.touched)">
+          <span *ngIf="formularioAluno.get('telefone')?.errors?.['required']">Campo obrigatório</span>
         </mat-error>
       </mat-form-field>
 
@@ -51,9 +51,9 @@
         <mat-label>Email</mat-label>
         <input matInput name="email" id="email" formControlName="email" />
         <mat-error
-          *ngIf="cadastrarAluno.get('email')?.errors && (cadastrarAluno.get('email')?.dirty || cadastrarAluno.get('email')?.touched)">
-          <span *ngIf="cadastrarAluno.get('email')?.errors?.['required']">Campo obrigatório</span>
-          <span *ngIf="cadastrarAluno.get('email')?.errors?.['email']">Formato inválido para e-mail</span>
+          *ngIf="formularioAluno.get('email')?.errors && (formularioAluno.get('email')?.dirty || formularioAluno.get('email')?.touched)">
+          <span *ngIf="formularioAluno.get('email')?.errors?.['required']">Campo obrigatório</span>
+          <span *ngIf="formularioAluno.get('email')?.errors?.['email']">Formato inválido para e-mail</span>
         </mat-error>
       </mat-form-field>
 
@@ -66,8 +66,8 @@
           </mat-option>
         </mat-autocomplete>
         <mat-error
-          *ngIf="cadastrarAluno.get('curso')?.errors && (cadastrarAluno.get('curso')?.dirty || cadastrarAluno.get('curso')?.touched)">
-          <span *ngIf="cadastrarAluno.get('curso')?.errors?.['required']">Campo obrigatório</span>
+          *ngIf="formularioAluno.get('curso')?.errors && (formularioAluno.get('curso')?.dirty || formularioAluno.get('curso')?.touched)">
+          <span *ngIf="formularioAluno.get('curso')?.errors?.['required']">Campo obrigatório</span>
         </mat-error>
       </mat-form-field>
 
@@ -81,7 +81,7 @@
       </div>
 
       <div *ngIf="this.desabilitado">
-        
+
         <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
       </div>
     </form>
