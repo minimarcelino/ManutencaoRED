@@ -9,6 +9,7 @@ import { docente } from 'src/app/modelo/docente';
 import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-listar',
@@ -32,13 +33,18 @@ export class ListarServidoresComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private servidorService: ServidorService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   formularioServidor(visualizar: boolean, servidor: any = null){

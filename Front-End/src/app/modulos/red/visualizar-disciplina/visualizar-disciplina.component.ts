@@ -4,9 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { messageDialog } from 'src/app/services/messageDialog.service';
-import { disciplina } from 'src/app/modelo/disciplina';
 import { NotificationService } from 'src/app/services/notification.service';
-import { servidor } from 'src/app/modelo/servidor';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-visualizar-disciplina',
@@ -26,6 +25,7 @@ export class VisualizarDisciplinaComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<VisualizarDisciplinaComponent>,
     private notificationService: NotificationService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -47,6 +47,10 @@ export class VisualizarDisciplinaComponent implements OnInit {
     this.disciplinas = this.data.pee;
     this.dataSource = new MatTableDataSource<any>(this.disciplinas);
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   applyFilter(data: Event) {

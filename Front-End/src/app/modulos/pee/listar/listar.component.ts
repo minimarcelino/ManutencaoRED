@@ -3,13 +3,13 @@ import { NavigationExtras, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSelectChange } from '@angular/material/select';
 //
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AbonarFaltaComponent } from '../abonar-faltas/abonar-faltas.component';
-import { MatSelectChange } from '@angular/material/select';
-
 
 
 @Component({
@@ -46,13 +46,18 @@ export class ListarPEEComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   async findAll() {

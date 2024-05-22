@@ -8,6 +8,7 @@ import { aluno } from 'src/app/modelo/aluno';
 import { AlunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-listar',
@@ -26,13 +27,18 @@ export class ListarAlunoComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private alunoservice: AlunoService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   formularioAluno(visualizar: boolean, aluno: any = null){

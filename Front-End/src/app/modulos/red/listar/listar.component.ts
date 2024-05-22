@@ -12,6 +12,7 @@ import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualiz
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 export interface aluno {
   id: number;
@@ -62,7 +63,7 @@ export class ListarREDComponent implements OnInit {
     'Em andamento',
     'Finalizado',
     'Arquivado',
-    'Esperando associação'
+    'Esperando associação',
   ];
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -83,6 +84,7 @@ export class ListarREDComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private snackBarService: SnackBarService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
     private dialog: MatDialog,
     private redService: RedService,
     private peeService: PeeService
@@ -94,6 +96,10 @@ export class ListarREDComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   applyFilter(data: Event) {
@@ -109,7 +115,7 @@ export class ListarREDComponent implements OnInit {
     return this.peeService.situacaoPEEs(pee);
   }
 
-  existePEEs(red: any): boolean{
+  existePEEs(red: any): boolean {
     return red.pee.length > 0 ? true : false;
   }
 
@@ -118,7 +124,7 @@ export class ListarREDComponent implements OnInit {
     this.reds = response.data.reds;
     this.dataSource = new MatTableDataSource<any>(this.reds);
     this.dataSource.paginator = this.paginator;
-    console.log("REDs atuais\n", this.reds);
+    // console.log('REDs atuais\n', this.reds);
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
@@ -191,10 +197,13 @@ export class ListarREDComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       state: {
         red: red,
-        visualizar: visualizar
+        visualizar: visualizar,
       },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioRED`],
+      navigationExtras
+    );
   }
 
   async arquivarRED(red: any) {
@@ -223,11 +232,14 @@ export class ListarREDComponent implements OnInit {
         idRED: red.idRED,
         aluno: {
           nome: red.aluno.nome,
-          prontuario: red.aluno.prontuario
-        }
-      }
+          prontuario: red.aluno.prontuario,
+        },
+      },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/visualizarREDCSP`], navigationExtras);
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/visualizarREDCSP`],
+      navigationExtras
+    );
   }
 
   associarDisciplina(red: red) {
@@ -241,10 +253,9 @@ export class ListarREDComponent implements OnInit {
     });
     this.handleDialogConfirm(editar);
     // Atualizar red para "Aguardando professor"
-
   }
 
-  async afterAssociarDisciplina(red: any){
+  async afterAssociarDisciplina(red: any) {
     try {
       let response = await this.redService.updateRed({
         idRED: red.idRED,
@@ -291,7 +302,6 @@ export class ListarREDComponent implements OnInit {
     this.aplicarFiltros();
   }
 
-
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
       this.findAll();
@@ -312,7 +322,7 @@ export class ListarREDComponent implements OnInit {
     );
   }
 
- isCSP () {
+  isCSP() {
     return (
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'

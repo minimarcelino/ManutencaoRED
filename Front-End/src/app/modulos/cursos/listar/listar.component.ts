@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as XLSX from 'xlsx';
 
@@ -10,6 +10,7 @@ import { messageDialog } from '../../../services/messageDialog.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-listar',
@@ -17,6 +18,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./listar.component.css'],
 })
 export class ListarCursosComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   items: any[] = [];
   data: any[] = [];
   coordenador: servidor[] = [];
@@ -31,13 +33,18 @@ export class ListarCursosComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private cursoService: CursoService,
     private disciplinaService: DisciplinaService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   formularioCurso(visualizar: boolean, curso: any = null){
@@ -55,6 +62,7 @@ export class ListarCursosComponent implements OnInit {
     const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
     this.dataSource = new MatTableDataSource<curso>(this.cursos);
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(data: Event) {

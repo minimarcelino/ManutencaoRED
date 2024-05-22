@@ -14,6 +14,7 @@ import { pee } from 'src/app/modelo/pee';
 import { servidor } from 'src/app/modelo/servidor';
 import { GerenciarVisualizarPeeComponent } from './gerenciar-visualizar/gerenciar-visualizar.component';
 import { AssociarProfessoresComponent } from '../../associacoes/associar-professores/associar-professores.component';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-pee',
@@ -54,13 +55,18 @@ export class GerenciarPEEComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit() {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
     this.findAll();
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   async findAll() {

@@ -10,6 +10,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-associar-professores',
@@ -34,7 +35,8 @@ export class AssociarProfessoresComponent implements OnInit {
     private docenteService: ServidorService,
     private peeService: PeeService,
     private cursoService: CursoService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit() {
@@ -43,11 +45,15 @@ export class AssociarProfessoresComponent implements OnInit {
       email: new FormControl('', [Validators.required]),
       checkbox: new FormControl('', [Validators.required]),
     });
-    console.log('PEE da associação\n', this.data.pee); //Não tem a red
+    // console.log('PEE da associação\n', this.data.pee); //Não tem a red
 
     this.findAllServidores();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   async findAllServidores() {
@@ -88,7 +94,7 @@ export class AssociarProfessoresComponent implements OnInit {
 
   async cadastrar() {
     try {
-   
+
         await this.peeService.updatePee({
           idpee: this.data.idPEE,
           conteudo: '',
@@ -103,7 +109,7 @@ export class AssociarProfessoresComponent implements OnInit {
           percentualabono: this.data.percentualabono,
           situacao: 'Aguardando Preenchimento',
         });
-      
+
       this.snackBarService.open('Professores associados com sucesso!!');
       this.dialog.close();
     } catch (error: any) {

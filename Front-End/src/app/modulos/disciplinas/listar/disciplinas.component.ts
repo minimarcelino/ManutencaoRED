@@ -10,6 +10,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { MatSelectChange } from '@angular/material/select';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 export interface curso {
   idcurso: number;
@@ -39,7 +40,8 @@ export class ListarDisciplinasComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private disciplinaService: DisciplinaService,
     private dialog: MatDialog,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {
     this.cursosFiltradas = [];
   }
@@ -48,6 +50,10 @@ export class ListarDisciplinasComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  ngAfterViewInit() {
+    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
   async cadastrar() {
