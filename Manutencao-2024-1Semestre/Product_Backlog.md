@@ -22,42 +22,42 @@
 | 16 | Listar Disciplinas: Filtro | Deve ser possível a quem deseja, filtrar as disciplinas por cursos inclusos. | Danilo D. Quirino | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 17 | Administrador: Listar RED | Como administrador, deve poder também aceitar ou recusar um RED | Danilo D. Quirino | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
 | 18 | Manter Aluno: Campos vazios | Ao manter um aluno deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
-| 19 | Perfil | Campo meio perdido no sistema, poderia ser uma página de configurações do usuário, podendo alterar outras informações. | | Preventiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Não iniciada |
+| 19 | Perfil | Como usuário logado, devo visualizar minhas informações, e poder editar as mesmas. Também deve ser possível alterar a minha senha de acesso. | Natália Leonel | Preventiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Concluído |
 | 20 | Senhas | Algumas funções no meio do sistema que utiliza a senha não utilizam o bcrypt para gerar o hash | Danilo D. Quirino | Corretiva | 5 (Muito Alta) | 4 (Alta) | Concluído |
 | 21 | Listar REDs >> Visualizar Disciplinas | Como coordenador poder visualizar diretamente as disciplinas de um RED e acompanhar cada PEE | Danilo D. Quirino | Corretiva | 3 (Moderada) | 4 (Alta) | Concluído |
 | 22 | Visualizar RED >> E-mail “não enviada ao aluno” | Botão de enviar email de aviso para disciplinas que estejam como “Não enviado ao aluno “. | Murilo Lopes | Corretiva | 3 (Moderada) | 4 (Alta) | Concluída |
 | 23 | Manual de Instalação | Atualizar o manual de instalação, refletindo os passos corretos | Murilo Lopes | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 24 | Script de Iniciação do Administrador | Criar um novo script de inicialização com usuário Administrador | Danilo D. Quirino | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
 | 25 | Manter Disciplina: CSP | Como CSP quero manter as disciplinas dos cursos | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
-| 26 | HOME >> Professor | Como Professor minha home deve notificar de PEE para preencher e/ou Avaliar | | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Não iniciada |
+| 26 | HOME >> Professor | Como Professor minha home deve notificar de PEE para preencher e/ou Avaliar | Natália Leonel | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Concluído |
 | 27 | RED >> Visualizar RED >> Notificar professor | **CANCELADA, RETIFICADA E ATUALIZADA PELA ATIVIDADE 69** </br> Como CSP e Coordenador quero enviar um aviso ao professor se o PEE não estiver enviado ao aluno. | | Corretiva | 3 (Moderada) | 3 (Moderada) | Cancelada |
-| 28 | Layout: Página de Login | Utilizar mesma estilização da página de login do projeto PEI | | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Não iniciada |
+| 28 | Layout: Página de Login | **CANCELADA PARA PRIORIZAR ASPECTOS FUNCIONAIS**.<br>Utilizar mesma estilização da página de login do projeto PEI | | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Cancelada |
 | 29 | Manter Aluno: Editar Data Nascimento e Curso | Ao editar os campos data de nascimento e/ou curso, é informado que a edição foi feita com sucesso, porém a edição não ocorre | Murilo Lopes | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Concluído |
-| 30 | RED >> Visualizar RED | Como usuário quero visualizar apenas imediatamente as colunas Disciplina, Professor, Envio PEE, Data Limite encaminhamento, Aluno Cumpriu as atividades. Demais itens podem ser visto em outra tela | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Em andamento |
+| 30 | RED >> Visualizar RED | Como CSP quero visualizar imediatamente as colunas Disciplina, Professor, Envio PEE, Data Limite encaminhamento, Aluno Cumpriu as atividades. Demais itens podem ser visto em outra tela | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Concluído |
 | 31 | Manter Administrador: Todos Niveis de Acesso | Dar ao administrador todos os niveis de acesso | Danilo D. Quirino,Natália Leonel | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
 | 32 | Servidores e Alunos com mesmo prontuário | Não deixar cadastrar servidor e aluno com mesmo prontuario | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 33 | Modal em branco | Ao deletar qualquer coisa como Coordenador aparece um Modal em branco no canto inferior | Natália Leonel | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
-| 34 | Manter Aluno: Cadastro Aluno | Quando tento cadastrar um aluno com um prontuário que já existe, ocorre um erro. Mesmo após corrigir todas as informações para as corretas, não consigo efetuar o cadastro. | | Corretiva | 3 (Moderada) | 3 (Moderada) | Em andamento |
+| 34 | Manter Aluno: Cadastro Aluno | Quando tento cadastrar um aluno com um prontuário que já existe, ocorre um erro. Mesmo após corrigir todas as informações para as corretas, não consigo efetuar o cadastro. | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 35 | Excluir como Coordenador | A função excluir, em diferentes contextos, não funciona no nível de Coordenador | Danilo D. Quirino,Natália Leonel | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
-| 36 | RED >> Visualizar RED | Adicionar um hover na coluna de título, dando informações adicionais sobre o contexto e significado de cada campo | | Corretiva | 2 (Baixa) | 1 (Muito Baixa) | Não iniciada |
+| 36 | RED >> Visualizar RED | Ao visualizar uma RED como CSP: Adicionar um hover na coluna de título, dando informações adicionais sobre o contexto e significado de cada campo | Danilo D. Quirino | Corretiva | 2 (Baixa) | 1 (Muito Baixa) | Concluído |
 | 37 | Manter Disciplina: Delete | Todos os modais do site para deletar, alterar ou criar apresentam falhas, não sendo exibidos corretamente ou funcionando adequadamente. | | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 38 | Manter RED >> Editar após finalizada ou recusada | Como usuário CRA e ADM não podem editar após finalizada ou recusada. Podendo apenas visualizar, arquivar, e gerar relatório de faltas | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 39 | Manter RED >> Cadastrar > Curso | Ao cadastrar uma RED, o campo de curso fica editável. Esse campo não deveria ser editável, uma vez que o aluno já possui um curso associado. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Concluído |
 | 40 | Manter RED >> Arquivar | Como CRA, quero poder arquivar uma RED finalizada, ou seja após incluir os abonos de falta no SUAP, a RED já não tem muita relevância | Natália Leonel | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
-| 41 | HOME >> CRA | Como CRA minha home deve notificar de REDs finalizadas aguardando arquivamento | | Adaptativa | 2 (Baixa) | 2 (Baixa) | Não iniciada |
+| 41 | HOME >> CRA | Como CRA minha home deve permitir criar uma RED e notificar de REDs finalizadas recentemente | Natália Leonel | Adaptativa | 2 (Baixa) | 2 (Baixa) | Concluído |
 | 42 | Banco de dados: Padronizar tamanho de campos de texto | Padronizar tamanho de campos de texto com 4000 caracteres | Danilo D. Quirino | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
 | 43 | Sistema: Limitar tamanho máximo de caracteres em cada Text Field | Limitar tamanho máximo de caracteres em cada Text Field para 4000 caracteres | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
-| 44 | HOME >> CSP | Como CSP minha home deve notificar RED iniciadas que não tem disciplinas associadas | | Adaptativa | 2 (Baixa) | 2 (Baixa) | Não iniciada |
-| 45 | Sistema: Implementar Esqueci minha senha | Como usuário quero poder alterar minha senha através de link de “esqueci minha senha” | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Em Andamento |
-| 46 | HOME >> COORDENADOR | Como Coordenador minha home deve notificar de RED aguardando aprovação. Deve notificar de PEE a preencher e a serem avaliadas. | | Adaptativa | 2 (Baixa) | 2 (Baixa) | Não iniciada |
+| 44 | HOME >> CSP | Como CSP minha home deve notificar RED iniciadas que não tem disciplinas associadas | Natália Leonel | Adaptativa | 2 (Baixa) | 2 (Baixa) | Concluído |
+| 45 | Sistema: Implementar Esqueci minha senha | Como usuário quero poder alterar minha senha atravez de link de “esqueci minha senha” | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 46 | HOME >> COORDENADOR | Como Coordenador minha home deve notificar de RED aguardando aprovação. Deve notificar de PEE a preencher e a serem avaliadas. | Natália Leonel | Adaptativa | 2 (Baixa) | 2 (Baixa) | Concluído |
 | 47 | PEE Professor | Listar PEE por ordem de inclusão da mais recente primeira | Danilo D. Quirino | Corretiva | 3 (Moderada) | 4 (Alta) | Concluído |
 | 48 | PEE Professores >> Associar Professores | **CANCELADA E RETIFICADA PELA ATIVIDADE 70** </br>Como Coordenador posso adicionar apenas um único professor por disciplina (coordenador/associar-professores) | | Corretiva | 3 (Moderada) | 4 (Alta) | Cancelada |
 | 49 | Sistema & Banco de Dados >> Associar Disciplina | Como CSP ao associar uma ou mais disciplina a um RED, não deve associar nenhum servidor como professor. | Natália Leonel | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
 | 50 | PEE Professor >> Indicação de necessidade de nomear professor | Como coordenador tenho que ver se há um professor associado a uma disciplina, caso não haja, ter uma indicação de “ASSOCIAR PROFESSOR” no campo de professor | Natália Leonel | Adaptativa | 3 (Moderada) | 4 (Alta) | Concluído |
-| 51 | PEE Professores >> Visualização | Como coordenador quero poder filtrar por Situação, Professores, Alunos. Campos importantes a serem exibidos: Aluno, Prontuário, Professor, Disciplina, Situação e Ações | | Corretiva | 2 (Baixa) | 3 (Moderada) | Não iniciada |
+| 51 | PEE Professores >> Visualização | Como coordenador quero poder filtrar por Situação, Professores, Alunos. Campos importantes a serem exibidos: Aluno, Prontuário, Professor, Disciplina, Situação e Ações | Danilo D. Quirino | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 52 | Banco de Dados >> PEE | Campo de id de servidor pode ser null, para durante inclusão não ter um professor associado. </br>**Relacionado a atividade 49** | Natália Leonel | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
 | 53 | Discursão sobre Processo de Manutenção da FSA | Reunião para discutir o Processo de Manutenção da FSA, e produzir relatório de mudança. | Danilo D. Quirino, Murilo Lopes, Natália Leonel | Corretiva | 3 (Moderada) | 5 (Muito Alta) | Concluído |
-| 54 | Layout: Estilização geral | Unificar as estilizações do projeto RED com o já implementado PEI | | Adaptativa | 1 (Muito Baixa) | 3 (Moderada) | Não iniciada |
+| 54 | Layout: Estilização geral | **CANCELADA PARA PRIORIZAR ASPECTOS FUNCIONAIS**.<br>Unificar as estilizações do projeto RED com o já implementado PEI | | Adaptativa | 1 (Muito Baixa) | 3 (Moderada) |Cancelada |
 | 55 | Manter Servidores: Campos Vazios | Ao manter um servidor deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 56 | Manter PEE: Campos Vazios | Ao manter um PEE deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 57 | Manter RED: Campos Vazios | Ao manter um RED deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
@@ -73,15 +73,15 @@
 | 67 | Listar PEE >> Filtros | Adicionar filtro (poder mostrar só os que necessitam da ação dele) | Danilo D. Quirino | Adaptativa | 4 (Alta) | 5 (Muito Alta) | Concluído |
 | 68 | Menu Lateral | Entrar no site com o menu lateral já aberto. | Danilo D. Quirino | Adaptativa | 1 (Muito Baixa) | 4 (Alta) | Concluído |
 | 69 | Manter RED >> Envio de E-mails | Mandar email para coordenador responsável após cadastro (CRA).</br>Mandar email para coordenador responsável após associação de disciplinas (CSP).</br>Mandar email para coordenador responsável após PEE finalizados (Professor). | Murilo Lopes | Adaptativa | 3 (Moderada) | 4 (Alta) | Concluído |
-| 70 | PEEs >> Associação de professores | Arrumar associação dos professores no PEE, deve permitir associar vários professores (Necessário alterar banco de dados e Visualização de PEE). | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Em andamento |
+| 70 | PEEs >> Associação de professores | Arrumar associação dos professores no PEE, deve permitir associar vários professores (Necessário alterar banco de dados e Visualização de PEE). | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 71 | Preencher/Avaliar PEE | Mudar os campos do preencher PEE (Houve avaliação, Caso tenha, ja foi realizada e Data nova avaliação) para o avaliar PEE | Natália Leonel | Adaptativa | 4 (Alta) | 5 (Muito Alta) | Concluído |
 | 72 | RED >> Visualizar disciplinas > Estados PEE | Mudar/Criar estados das PEEs daquelas REDs | Natália Leonel | Adaptativa | 3 (Moderada) | 5 (Muito Alta) | Concluído |
 | 73 | RED >> Visualizar disciplinas | Adicionar botão para enviar email, caso o PEE não estiver Avaliado | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluída |
 | 74 | RED >> Visualizar REDs | Especificar qual RED de qual aluno está sendo visualizada | Danilo D. Quirino | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 75 | Manter PEE >> Envio de E-mails | Mandar e-mail para professor responsável após associação de professor.</br>**RELACIONADA A ATIVIDADE 22** | Murilo Lopes | Adaptativa | 3 (Moderada) | 4 (Alta) | Concluído |
-| 76 | Relatorio RED | Atualmente o documento gerado não possui nenhum dado | - | Corretiva | 3 (Moderada) | 3 (Moderada) | Não iniciada |
+| 76 | Relatorio RED | **RESOLVIDA NA ATIVIDADE 30**. <br>Atualmente o documento gerado não possui nenhum dado. | Natália Leonel | Corretiva | 3 (Moderada) | 3 (Moderada) | Cancelada |
 | 77 | Tokem de acesso | Aumentar duração do tokem e deslogar o usuário ao expirar o token. | Murilo Lopes | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
-| 78 | Red >> Finalizar Red | Não deixar finalizar red caso tenha PEE com status diferente de avalida. | - | Corretiva | 4 (Alta) | 3 (Moderada) | Em andamento |
+| 78 | Red >> Finalizar Red | Não deixar finalizar red caso tenha PEE com status diferente de avaliada. | Natália Leonel | Corretiva | 4 (Alta) | 3 (Moderada) | Cancelada |
 | 79 | Snack Bar | Trocar todas as utilizações de funções locais do snack bar pelo serviço. | Danilo D. Quirino | Preventiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 80 | PEE >> Visualização Externa | Gerar uma página para visualizar a PEE sem ser necessário estar logado | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 81 | Email >> Visualização externa de PEE | Mandar o email pro aluno com o link do PEE referente a ele. | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
@@ -89,8 +89,23 @@
 | 83 | Listar Alunos >> Visualização | Tabela de Aluno ultrapassa limites da div | Natália Leonel | Corretiva | 1 (Muito Baixa) | 1 (Muito Baixa) | Concluído |
 | 84 | Listar RED >> Aceitar / recusar RED | Após recusar RED não pode ser possível aceitar/recusar novamente | Natália Leonel | Preventiva | 4 (Alta) | 3 (Moderada) | Concluído |
 | 85 | Foco em campos de entrada com erros | Ao apresentar um campo com algum erro, o foco deve ir automaticamente para o campo de entrada | Natália Leonel | Corretiva | 3 (Moderada) | 4 (Alta) | Concluído |
-| 86 | Relatório RED CSP >> Rota externa | O relatório deve abrir em outra guia, preenchido, e com possibildade de impressão/salvar | - | Adaptativa | 4 (Alta) | 5 (Muito Alta) | Em andamento |
-| 87 | Cadastrar RED >> Anexar documentos | Ao cadastrar uma RED, tem que ser possível incluir documentos para serem analisados pelo coordenador. | - | Adaptativa | 5 (Muito Alta) | 5 (Muito Alta) | Em andamento |
-| 88 | Listar Gerenciar PEE >> Associar professor | Da lista de REDs, verificar se não foi associado, e da lista de disciplinas associar professor. | - | Adaptativa | 4 (Alta) | 4 (Alta) | Em andamento |
-| 89 | Visualização PEE externo | A visualização do PEE de usuário externo tem que apresentar informações da disciplina e do aluno. | - | Adaptativa | 4 (Alta) | 4 (Alta) | Em andamento |
-| | **Total: 89** | **80% Concluído** | | | | | |
+| 86 | Relatório RED CSP | **RESOLVIDA NA ATIVIDADE 30**. <br>O relatório deve abrir em outra guia, preenchido, e com possibildade de impressão/salvar | Murilo Lopes | Adaptativa | 4 (Alta) | 5 (Muito Alta) | Cancelada |
+| 87 | Cadastrar RED >> Anexar documentos | Ao cadastrar uma RED, tem que ser possível incluir documentos para serem analisados pelo coordenador. | Natália Leonel | Adaptativa | 5 (Muito Alta) | 5 (Muito Alta) | Concluído |
+| 88 | Listar REDs >> Situação dos PEEs | Da lista de REDs, verificar se não foi associado um professor | Danilo D. Quirino | Adaptativa | 4 (Alta) | 4 (Alta) | Concluído |
+| 89 | Visualização PEE externo | A visualização do PEE de usuário externo tem que apresentar informações da disciplina e do aluno. | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 90 | Inatividade | Corrigir o tempo de inatividade dos usuários logados | Murilo Lopes | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 91 | Finalizar uma RED corretamente | Impedir que uma RED com PEE em abertos seja finalizada | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 92 | Associação de professores | Ao associar um professor, ao finalizar deve automaticamente sair da tela | Danilo D. Quirino | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
+| 93 | RED >> Relatório | Como coordenador, desejo ter o relatório das REDs finalizadas, tal como CSP | Natália Leonel | Evolutiva | 3 (Moderada) | 4 (Alta) | Concluído |
+| 94 | Implementar Primeiro Acesso | Como usuário quero poder definir minha senha no primeiro acesso. | Murilo Lopes | Adaptativa | 2 (Baixa) | 2 (Baixa) | Concluído |
+| 95 | Importação em lote de Docentes | Cadastro em lote de professores através de arquivo xlsx gerado pelo SUAP. | Danilo D. Quirino | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 96 | CSP >> Unir recursos e melhorias | Unificar lista de RED do CSP com o dos demais, e ajuste nos módulos associados. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Concluído |
+| 97 | Listar diversos >> Tabela de dados | Refatorar, corrigir, e melhorar o aspecto visual de todas as tabelas que apresentam dados aos usuários e ajustando os campos de pesquisa. | Danilo D. Quirino | Corretiva | 4 (Alta) | 3 (Moderada) | Concluído |
+| 98 | Formulários de cadastros | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de cadastros que se apresentam aos usuários. | Danilo D. Quirino | Corretiva | 4 (Alta) | 3 (Moderada) | Concluído |
+| 99 | Edição de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de edição, trocando de dialog para página “própria”. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Em andamento |
+| 100 | Documentação do sistema | Refatorar, corrigir e melhorar o aspecto visual da “Documentação do Sistema gRED”. Criar conjuntamente o README de tal documento. | Danilo D. Quirino | Evolutiva | 2 (Baixa) | 2 (Baixa) | Em andamento |
+| 101 | Documentação Backend | Documentar todo o backend: as rotas, e a forma (simplificada) das respostas da API | | Evolutiva | 4 (Alta) | 4 (Alta) | Não iniciada |
+| 102 | Documentação Frontend| Documentar todo o frontend: os módulos, níveis de acesso, services | | Evolutiva | 4 (Alta) | 4 (Alta) | Não iniciada |
+| 103 | Visualização de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de visualização de informações, trocando de dialog para página própria. | Danilo D. Quirino | Evolutiva | 4 (Alta) | 3 (Moderada) | Em andamento |
+| 104 | Recuperar associações já realizadas | Ao realizar alguma associação de professor / disciplina, a sessão inferior deve apresentar os dados associados anteriormente se existirem, permitindo a remoção inclusive. | Murilo Lopes | Adaptativa | 5 (Muito Alta) | 5 (Muito Alta) | Concluído |
+| | **Total: 104** | **93% Concluído** | | | | | |
