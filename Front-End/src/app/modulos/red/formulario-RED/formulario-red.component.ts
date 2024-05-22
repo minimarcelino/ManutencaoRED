@@ -272,7 +272,7 @@ export class FormularioREDComponent implements OnInit {
   }
 
   confirmarRED() {
-    this.updateSituacaoRED('Em andamento');
+    this.updateSituacaoRED('Esperando associação de disciplina');
     this.snackBarService.open(`Processo RED do aluno ${this.aluno.nome} aceita`);
     this.retornarParaLista();
   }

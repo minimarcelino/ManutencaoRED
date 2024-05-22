@@ -63,7 +63,7 @@ export class ListarREDComponent implements OnInit {
     'Em andamento',
     'Finalizado',
     'Arquivado',
-    'Esperando associação',
+    'Esperando associação de disciplina',
   ];
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
   associacaoSelecionada = 'todos';
   situacao = [
     'Esperando confirmação',
-    'Esperando associação',
+    'Esperando associação de disciplina',
     'Em andamento',
     'Finalizado',
     'Arquivado',
@@ -114,7 +114,7 @@ export class HomeComponent implements OnInit {
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    const esperaAssociacao = this.reds.filter((red) => this.peeService.todosPEEsAguardandoProfessor(red.pee));
+    const esperaAssociacao = this.reds.filter((red) => red.situacao === 'Esperando associação de disciplina');
     this.dataSource = new MatTableDataSource<any>(esperaAssociacao);
     this.dataSource.paginator = this.paginator;
     console.log("REDs atuais\n", this.reds);
