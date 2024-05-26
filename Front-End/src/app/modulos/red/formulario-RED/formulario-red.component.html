@@ -2,9 +2,9 @@
 
   <div class="title listagem">
     <h1>{{ this.titulo() }}</h1>
+    <h1 *ngIf="getCoordenador() !== undefined">Coordenador Responsável: {{ getCoordenador() }}</h1>
     <hr class="linha" />
   </div>
-
   <div class="formulario">
     <form [formGroup]="formularioRED" #formDir="ngForm">
 

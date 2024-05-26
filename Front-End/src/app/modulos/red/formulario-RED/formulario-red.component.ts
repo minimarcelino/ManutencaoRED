@@ -11,7 +11,7 @@ import { RedService } from 'src/app/services/red.service';
 import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
-
+import { CoordenadorService } from 'src/app/services/coordenador.service';
 @Component({
   selector: 'app-formulario-red',
   templateUrl: './formulario-red.component.html',
@@ -28,7 +28,8 @@ export class FormularioREDComponent implements OnInit {
     private dialog: MatDialog,
     public dialogQuestionService: messageDialog,
     private snackBarService: SnackBarService,
-    private redService: RedService
+    private redService: RedService,
+    private coordenadorService: CoordenadorService
   ) {}
 
   alunos: any[] = [];
@@ -45,6 +46,7 @@ export class FormularioREDComponent implements OnInit {
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private coordenador: any;
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(() => {
@@ -57,7 +59,9 @@ export class FormularioREDComponent implements OnInit {
     if (this.data != null) {
       this.editar = true;
     }
-
+    if(this.desabilitar == true || this.editar == true){
+      this.obterNomeCoordenador();
+    }
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
 
@@ -467,5 +471,18 @@ export class FormularioREDComponent implements OnInit {
       this.user.tiposervidor === 'cra' ||
       this.user.tiposervidor === 'administrador'
     );
+  }
+
+  getCoordenador() {
+    return this.coordenador;
+  }
+
+  async obterNomeCoordenador() {
+    try {
+      this.coordenador = await this.coordenadorService.getCoordenadorById(this.data.coordenador);
+      this.coordenador = this.coordenador.data.nome;
+    } catch (error) {
+      console.error("Erro ao obter o coordenador:", error);
+    }
   }
 }
