@@ -1,0 +1,16 @@
+.pees {
+    display: flex;
+    align-items: center;
+  }
+  
+  .pees h1 {
+    margin: 0 10px;
+  }
+
+  
+  #buttons {
+    margin-left: 10px;
+  }
+  
+  
+  

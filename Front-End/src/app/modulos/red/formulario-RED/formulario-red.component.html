@@ -116,6 +116,7 @@
       </div>
 
       <br>
+      <div *ngIf="!this.desabilitado">
       <button type="button" color="accent" class="button" mat-raised-button (click)="fileInput.click()">
         Escolher Arquivos
       </button>
@@ -129,6 +130,7 @@
           </button>
         </span>
       </div>
+    </div>
 
       <div *ngIf="!this.desabilitado">
         <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
@@ -142,7 +144,7 @@
 
         <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
 
-        <button *ngIf="isCOORD()" mat-raised-button color="accent" class="button"
+        <button *ngIf="isCOORD() &&  (situacao() !== 'Esperando associação de disciplina' && situacao() !== 'Esperando confirmação')" mat-raised-button color="accent" class="button"
           (click)="visualizarDisciplina()">Visualizar disciplinas
         </button>
 

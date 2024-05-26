@@ -241,7 +241,7 @@ export class FormularioREDComponent implements OnInit {
         dataInicioProcesso: new Date(),
         semestreOuAnoAluno: this.semestreAluno,
         tempoAfastamento: this.tempoAfastamento,
-        situacao: this.situacao,
+        situacao: 'Esperando confirmação',
         observacao: this.observacao,
         aluno_id: this.aluno.id,
         coordenador: this.filtredCursos[0].coordenador,
@@ -390,13 +390,15 @@ export class FormularioREDComponent implements OnInit {
     return this.formularioRED.get('motivoAfastamento')!.value;
   }
 
-  get situacao() {
-    return 'Esperando confirmação';
+  situacao() {
+    console.log(this.data.situacao )
+    return this.data.situacao ;
   }
 
   get observacao() {
     return this.formularioRED.get('observacao')!.value;
   }
+  
 
   get motivoRecusa() {
     return this.formularioRED.get('motivoRecusa')!.value;
