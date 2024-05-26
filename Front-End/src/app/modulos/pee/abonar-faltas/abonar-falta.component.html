@@ -1,11 +1,13 @@
-<div class="container">
+<div class="corpo">
   <div>
-    <h1>Avaliação do PEE</h1>
-    <hr>
+    <h1 class="title listagem">Avaliação do PEE</h1>
+    <hr class="linha">
   </div>
-  <div class="fields">
+
+  <div class="formulario">
     <form [formGroup]="abonarFaltaPee" #formDir="ngForm">
-      <mat-form-field class="example-full-width">
+
+      <mat-form-field>
         <mat-label>Descrição</mat-label>
         <textarea matInput name="descricao" id="descricao" formControlName="descricao"></textarea>
         <mat-error
@@ -14,7 +16,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field style="min-width: 35%; max-width: 100%; margin-right: 400px;">
+      <mat-form-field>
         <mat-label>Data de entrega do aluno</mat-label>
         <input matInput [matDatepicker]="picker" id="data" formControlName="entregaAluno">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -27,7 +29,7 @@
 
       <div>
         <p>Aluno cumpriu com as atividades</p>
-        <mat-radio-group formControlName="cumprimento" id="cumprimento" class="example-radio-group">
+        <mat-radio-group formControlName="cumprimento" id="cumprimento">
           <mat-radio-button value="Sim">Sim</mat-radio-button>
           <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
@@ -39,7 +41,7 @@
 
       <div>
         <p>Houve alguma nova atividade</p>
-        <mat-radio-group formControlName="novaAtividade" id="novaAtividade" class="example-radio-group">
+        <mat-radio-group formControlName="novaAtividade" id="novaAtividade">
           <mat-radio-button value="Sim">Sim</mat-radio-button>
           <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
@@ -61,7 +63,7 @@
 
       <div>
         <p>Houve avaliação</p>
-        <mat-radio-group formControlName="avaliacao" class="example-radio-group">
+        <mat-radio-group formControlName="avaliacao">
           <mat-radio-button value="Sim">Sim</mat-radio-button>
           <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
@@ -69,7 +71,7 @@
 
       <div>
         <p>Caso tenha, ja foi realizada ?</p>
-        <mat-radio-group formControlName="avaliacaoRealizada" class="example-radio-group">
+        <mat-radio-group formControlName="avaliacaoRealizada">
           <mat-radio-button value="Sim">Sim</mat-radio-button>
           <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
