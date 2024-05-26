@@ -51,12 +51,13 @@ export class FormularioAlunoComponent implements OnInit {
     if (this.data != null) {
       this.editar = true;
     }
+    const desabilitarControle = this.desabilitar || this.editar;
 
     this.formularioAluno = new FormGroup({
       prontuario: new FormControl(
         {
           value: this.data ? this.data.prontuario : '',
-          disabled: this.desabilitar,
+          disabled: desabilitarControle,
         },
         [Validators.required]
       ),
