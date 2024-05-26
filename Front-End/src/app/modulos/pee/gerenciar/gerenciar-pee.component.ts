@@ -104,6 +104,8 @@ export class GerenciarPEEComponent implements OnInit {
   }
 
   associarProfessor(pee: pee) {
+    console.log(pee);
+
     const editar = this.dialog.open(AssociarProfessoresComponent, {
       data: {
         idRED: pee.RED_idRED,
@@ -194,7 +196,7 @@ export class GerenciarPEEComponent implements OnInit {
 
   apresentarDocentes(pee: any) {
     return pee.pee_servidor.length > 0
-      ? `${pee.pee_servidor.map((docente: any) => docente.nome).join(', ')}`
+      ? `${pee.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')}`
       : ' - ';
   }
 }

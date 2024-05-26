@@ -88,7 +88,7 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
+            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
               (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
             </button>

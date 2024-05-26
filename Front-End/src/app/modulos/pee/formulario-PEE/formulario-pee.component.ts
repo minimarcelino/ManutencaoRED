@@ -249,7 +249,7 @@ export class FormularioPEEComponent implements OnInit {
     const situacao = this.data.situacao;
     const docentes = `Docente(s): ${
       this.data.pee_servidor.length > 0
-        ? this.data.pee_servidor.map((docente: any) => docente.nome).join(', ')
+        ? this.data.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')
         : ' - '
     }`;
     const disciplina = `Disciplina: ${this.data.disciplinas.nomeDisciplina}`;

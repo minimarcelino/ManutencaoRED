@@ -125,7 +125,7 @@ export class AssociarProfessoresComponent implements OnInit {
   }
 
   cancelar() {
-    this.dialog.close();
+    this.dialog.close(this.professoresSelecionados);
   }
 
   apresentarDisciplina(){
