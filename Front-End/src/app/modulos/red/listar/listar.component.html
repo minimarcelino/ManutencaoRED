@@ -98,7 +98,7 @@
               <mat-icon>description</mat-icon>
             </button>
 
-            <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
+            <button *ngIf="isCOORD() && this.disciplinas(a)" mat-icon-button matTooltip="Visualizar Disciplinas"
               (click)="visualizarDisciplina(a)">
               <mat-icon>library_books</mat-icon>
             </button>
