@@ -6,6 +6,7 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
     providedIn: 'root'
   })
   export class messageDialog{
+    confirmationInput: string = '';
     constructor(public dialog: MatDialog) { }
 
     async openDialogConfirmDelete(nomeTabela: string) {
@@ -75,4 +76,31 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
       return false;
   }
 
-  }
+  
+  async openDialogRemoveDisciplina() {
+    let dialogRef = this.dialog.open(MessageDialogComponent, {
+        width: '400px',
+        data: {
+            title: 'ATENÇÃO',
+            message: `
+                <p><strong>ATENÇÃO:</strong> Ao remover a disciplina, o PEE correspondente será <strong>excluído permanentemente</strong> do sistema.</p>
+                <p>Tem certeza que deseja remover:</p>
+            `,
+            buttonClose: 'Cancelar',
+            buttonConfirm: 'Continuar',
+        }
+    });
+
+    try {
+        const result = await dialogRef.afterClosed().toPromise();
+        if (result === 'Continuar') {
+            return true;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+    return false;
+}
+
+
+}

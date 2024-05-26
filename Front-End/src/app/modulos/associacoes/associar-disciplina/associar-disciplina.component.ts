@@ -144,6 +144,15 @@ export class AssociarDisciplinaComponent implements OnInit {
       const peeComDisciplina = this.data.red.pee.find(
         (pee: any) => pee.disciplinas_iddisciplinas === disciplina.iddisciplinas
       );
+      const removerDisciplina = await this.dialogQuestionService.openDialogRemoveDisciplina();
+      if(removerDisciplina === false) {
+        return;
+      }
+      if (peeComDisciplina.situacao !== "Aguardando Associação de Professor") {
+        console.log('Status:', peeComDisciplina.situacao);
+        this.snackBarService.open('Não é possível remover disciplinas pois ja possui um professor associado');
+        return; // Impede a execução do restante do código
+    }
       if (peeComDisciplina) {
         try {
           await this.peeService.deletePee(peeComDisciplina.idpee);
