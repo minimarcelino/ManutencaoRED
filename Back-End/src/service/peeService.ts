@@ -172,6 +172,7 @@ export class peeService {
             cumpriuAtividade: pee.cumpriuAtividade,
             dataEntregaAtividade: pee.dataEntregaAtividade,
             prazoEntregaAtividade: pee.prazoEntregaAtividade,
+            avaliacaoAtividade: pee.avaliacaoAtividade,
           },
         });
         return { ok: true, data: updatePEE };

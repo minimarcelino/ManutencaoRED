@@ -21,20 +21,6 @@ model aluno {
   @@index([curso_idcurso], map: "fk_aluno_curso_idx")
 }
 
-// model atividades {
-//   idatividades     Int       @default(autoincrement())
-//   descricao        String    @db.VarChar(1000)
-//   prazoatividade   DateTime  @db.Date
-//   pee_idpee        Int
-//   dateEntregaAluno DateTime? @db.Date
-//   cumpriuAtividade String?   @db.VarChar(3)
-//   novaAtividade    String?   @db.VarChar(3)
-//   pee              pee       @relation(fields: [pee_idpee], references: [idpee], onDelete: NoAction, onUpdate: NoAction, map: "fk_atividades_pee1")
-
-//   @@id([idatividades, pee_idpee])
-//   @@index([pee_idpee], map: "fk_atividades_pee1_idx")
-// }
-
 model curso {
   idcurso     Int           @id @default(autoincrement())
   sigla       String        @unique(map: "sigla_UNIQUE") @db.VarChar(15)
@@ -57,7 +43,6 @@ model disciplinas {
 
   @@index([curso_idcurso], map: "fk_disciplinas_curso1_idx")
 }
-
 
 model pee {
   // CAMPOS INICIAIS DO PEE
@@ -89,62 +74,64 @@ model pee {
   percentualabono       Float
 
   // Associações
-  red         red          @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
-  disciplinas disciplinas  @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
-  pee_servidor  pee_servidor[]
+  red          red            @relation(fields: [RED_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_RED1")
+  disciplinas  disciplinas    @relation(fields: [disciplinas_iddisciplinas], references: [iddisciplinas], onDelete: NoAction, onUpdate: NoAction, map: "fk_pee_disciplinas1")
+  pee_servidor pee_servidor[]
 
   @@index([RED_idRED], map: "fk_pee_RED1_idx")
   @@index([disciplinas_iddisciplinas], map: "fk_pee_disciplinas1_idx")
 }
 
 model arquivo {
-  idArquivo   Int     @id @default(autoincrement())
-  path        String
-  red         red     @relation(fields: [red_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_arquivo_red")
-  red_idRED   Int
-  
+  idArquivo Int    @id @default(autoincrement())
+  path      String
+  red       red    @relation(fields: [red_idRED], references: [idRED], onDelete: NoAction, onUpdate: NoAction, map: "fk_arquivo_red")
+  red_idRED Int
+
   @@index([red_idRED], map: "idx_red_idRED") // Índice na coluna red_idRED
 }
 
 model red {
-  idRED               Int      @id @default(autoincrement())
-  dataInicioProcesso  DateTime @db.Date
-  dataPrevisaoTermino DateTime @db.Date
-  motivoAfastamento   String   @db.Text
-  situacao            String   @db.VarChar(40)
+  idRED               Int       @id @default(autoincrement())
+  dataInicioProcesso  DateTime  @db.Date
+  dataPrevisaoTermino DateTime  @db.Date
+  motivoAfastamento   String    @db.Text
+  situacao            String    @db.VarChar(40)
   coordenador         Int
   aluno_id            Int
-  observacao          String?  @db.Text
-  motivoRecusa        String?  @db.Text
-  inicioAfastamento   DateTime @db.Date
+  observacao          String?   @db.Text
+  motivoRecusa        String?   @db.Text
+  inicioAfastamento   DateTime  @db.Date
   tempoAfastamento    Int?
   semestreOuAnoAluno  Int?
   pee                 pee[]
-  aluno               aluno    @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
-  servidor            servidor @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
+  aluno               aluno     @relation(fields: [aluno_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_aluno1")
+  servidor            servidor  @relation(fields: [coordenador], references: [idservidor], onDelete: NoAction, onUpdate: NoAction, map: "fk_RED_servidor1")
   arquivos            arquivo[]
+
   @@index([aluno_id], map: "fk_RED_aluno1_idx")
   @@index([coordenador], map: "fk_RED_servidor1_idx")
 }
 
 model servidor {
-  idservidor   Int     @id @default(autoincrement())
-  email        String  @unique(map: "email_UNIQUE") @db.VarChar(60)
-  tiposervidor String  @db.VarChar(15)
-  senha        String  @db.VarChar(60)
-  nome         String  @db.VarChar(60)
-  prontuario   String  @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
-  token        String? @db.VarChar(64)
+  idservidor   Int            @id @default(autoincrement())
+  email        String         @unique(map: "email_UNIQUE") @db.VarChar(60)
+  tiposervidor String         @db.VarChar(15)
+  senha        String         @db.VarChar(60)
+  nome         String         @db.VarChar(60)
+  prontuario   String         @unique(map: "prontuario_UNIQUE") @db.VarChar(15)
+  token        String?        @db.VarChar(64)
   curso        curso[]
   red          red[]
-  pee_servidor  pee_servidor[]
+  pee_servidor pee_servidor[]
 }
+
 model pee_servidor {
-  id            Int      @id @default(autoincrement())
-  peeId         Int
-  servidorId    Int
-  pee           pee      @relation(fields: [peeId], references: [idpee])
-  servidor      servidor @relation(fields: [servidorId], references: [idservidor])
+  id         Int      @id @default(autoincrement())
+  peeId      Int
+  servidorId Int
+  pee        pee      @relation(fields: [peeId], references: [idpee])
+  servidor   servidor @relation(fields: [servidorId], references: [idservidor])
 
   @@index([peeId], name: "peeId")
   @@index([servidorId], name: "servidorId")
