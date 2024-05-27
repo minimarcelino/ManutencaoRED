@@ -3,7 +3,7 @@
 # 🚪 Product Backlog
 
 | # ID | Tarefa | Descrição | Responsáveis | Tipo Correção | Impacto | Prioridade | Estado |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| ---- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------- | --------------- | --------------- | ------------ |
 | 1 | Manter Disciplina: Campos Vazios | Ao manter uma disciplina deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 2 | Manter Cursos: Campos Vazios | Ao manter um curso deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 3 | Unificar rotas: níveis de acesso | Unificar rotas por nível de acesso, permitindo que cada nível de acesso acesse os recurso por rotas unificadas | Danilo D. Quirino, Natália Leonel | Preventiva | 5 (Muito Alta) | 5 (Muito Alta) | Concluído |
@@ -57,7 +57,7 @@
 | 51 | PEE Professores >> Visualização | Como coordenador quero poder filtrar por Situação, Professores, Alunos. Campos importantes a serem exibidos: Aluno, Prontuário, Professor, Disciplina, Situação e Ações | Danilo D. Quirino | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 52 | Banco de Dados >> PEE | Campo de id de servidor pode ser null, para durante inclusão não ter um professor associado. </br>**Relacionado a atividade 49** | Natália Leonel | Corretiva | 4 (Alta) | 4 (Alta) | Concluído |
 | 53 | Discursão sobre Processo de Manutenção da FSA | Reunião para discutir o Processo de Manutenção da FSA, e produzir relatório de mudança. | Danilo D. Quirino, Murilo Lopes, Natália Leonel | Corretiva | 3 (Moderada) | 5 (Muito Alta) | Concluído |
-| 54 | Layout: Estilização geral | **CANCELADA PARA PRIORIZAR ASPECTOS FUNCIONAIS**.<br>Unificar as estilizações do projeto RED com o já implementado PEI | | Adaptativa | 1 (Muito Baixa) | 3 (Moderada) |Cancelada |
+| 54 | Layout: Estilização geral | **CANCELADA PARA PRIORIZAR ASPECTOS FUNCIONAIS**.<br>Unificar as estilizações do projeto RED com o já implementado PEI | | Adaptativa | 1 (Muito Baixa) | 3 (Moderada) | Cancelada |
 | 55 | Manter Servidores: Campos Vazios | Ao manter um servidor deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 56 | Manter PEE: Campos Vazios | Ao manter um PEE deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
 | 57 | Manter RED: Campos Vazios | Ao manter um RED deve validar o texto informado, não permitindo a inclusão de apenas espaços em branco | Natália Leonel | Corretiva | 2 (Baixa) | 3 (Moderada) | Concluído |
@@ -102,10 +102,14 @@
 | 96 | CSP >> Unir recursos e melhorias | Unificar lista de RED do CSP com o dos demais, e ajuste nos módulos associados. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Concluído |
 | 97 | Listar diversos >> Tabela de dados | Refatorar, corrigir, e melhorar o aspecto visual de todas as tabelas que apresentam dados aos usuários e ajustando os campos de pesquisa. | Danilo D. Quirino | Corretiva | 4 (Alta) | 3 (Moderada) | Concluído |
 | 98 | Formulários de cadastros | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de cadastros que se apresentam aos usuários. | Danilo D. Quirino | Corretiva | 4 (Alta) | 3 (Moderada) | Concluído |
-| 99 | Edição de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de edição, trocando de dialog para página “própria”. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Em andamento |
+| 99 | Edição de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de edição, trocando de dialog para página “própria”. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 100 | Documentação do sistema | Refatorar, corrigir e melhorar o aspecto visual da “Documentação do Sistema gRED”. Criar conjuntamente o README de tal documento. | Danilo D. Quirino | Evolutiva | 2 (Baixa) | 2 (Baixa) | Em andamento |
 | 101 | Documentação Backend | Documentar todo o backend: as rotas, e a forma (simplificada) das respostas da API | | Evolutiva | 4 (Alta) | 4 (Alta) | Não iniciada |
-| 102 | Documentação Frontend| Documentar todo o frontend: os módulos, níveis de acesso, services | | Evolutiva | 4 (Alta) | 4 (Alta) | Não iniciada |
-| 103 | Visualização de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de visualização de informações, trocando de dialog para página própria. | Danilo D. Quirino | Evolutiva | 4 (Alta) | 3 (Moderada) | Em andamento |
+| 102 | Documentação Frontend | Documentar todo o frontend: os módulos, níveis de acesso, services | | Evolutiva | 4 (Alta) | 4 (Alta) | Não iniciada |
+| 103 | Visualização de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de visualização de informações, trocando de dialog para página própria. | Danilo D. Quirino | Evolutiva | 4 (Alta) | 3 (Moderada) | Concluído |
 | 104 | Recuperar associações já realizadas | Ao realizar alguma associação de professor / disciplina, a sessão inferior deve apresentar os dados associados anteriormente se existirem, permitindo a remoção inclusive. | Murilo Lopes | Adaptativa | 5 (Muito Alta) | 5 (Muito Alta) | Concluído |
-| | **Total: 104** | **93% Concluído** | | | | | |
+| 105 | Troca de cadastro para edição | Como usuário, ao começar o cadastro de um aluno, servidor, curso ou disciplina, se tal já existir, deve alterar a tela para edição. | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 106 | Visualização de PEE Avaliado | Como usuário, ao visualizar um PEE, se ele estiver avaliado deve apresentar também os dados da avaliação do professor. | Danilo D. Quirino | Evolutiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 107 | Visualizar e Editar RED >> Arquivos | Ao visualizar e editar uma RED, os arquivos devem aparecer para visualização. | Natália Leonel | Evolutiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 108 | Tradução do paginator | O paginator, componente responsável por mostrar as páginas das tabelas, deve estar em português. | Danilo D. Quirino | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
+| | **Total: 108** | **97% Concluído** | | | | | |

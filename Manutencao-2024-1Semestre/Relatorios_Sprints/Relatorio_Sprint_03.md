@@ -50,11 +50,15 @@ O objetivo primário da terceira sprint é a resolução de todas as dependênci
 | 96 | Concluído | 8 de maio de 2024 | 8 de maio de 2024 | |
 | 97 | Concluído | 9 de maio de 2024 | 9 de maio de 2024 | |
 | 98 | Concluído | 9 de maio de 2024 | 9 de maio de 2024 | |
-| 99 | Em andamento | 9 de maio de 2024 | - | |
+| 99 | Concluído | 9 de maio de 2024 | - | |
 | 100 | Em andamento | 10 de maio de 2024 | - | |
-| 103 | Em andamento | 11 de maio de 2024 | - | |
+| 103 | Concluído | 11 de maio de 2024 | - | |
 | 104 | Concluído | 11 de maio de 2024 | 11 de maio de 2024 | |
-| | **Total: 30**| **90% Concluído** | | |
+| 105 | Concluído | 24 de maio de 2024 | 27 de maio de 2024 | Incluída após apresentação apedido do orientador |
+| 106 | Concluído | 24 de maio de 2024 | 27 de maio de 2024 | Incluída após apresentação apedido do orientador |
+| 107 | Concluído | 24 de maio de 2024 | 27 de maio de 2024 | Incluída após apresentação apedido do orientador |
+| 108 | Concluído | 24 de maio de 2024 | 27 de maio de 2024 | Incluída após apresentação apedido do orientador |
+| | **Total: 34**| **94% Concluído** | | |
 
 
 # Conclusão
@@ -63,3 +67,5 @@ O objetivo primário da terceira sprint é a resolução de todas as dependênci
 > 
 
 A sprint foi concluída com sucesso, mesmo com as dificuldades encontradas devido a uma comunicação ineficiente entre os membros da equipe, que será utilizado como aprendizado para futuras atividades.
+
+Após a entrega e apresentação da terceira sprint, ocorreu mais uma reunião junto ao orientador que apresentou uma lista de correções, que gerou novas atividades

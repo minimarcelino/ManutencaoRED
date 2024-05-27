@@ -36,8 +36,12 @@
 | 96 | CSP >> Unir recursos e melhorias | Unificar lista de RED do CSP com o dos demais, e ajuste nos módulos associados. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 2 (Baixa) | Concluído |
 | 97 | Listar diversos >> Tabela de dados | Refatorar, corrigir, e melhorar o aspecto visual de todas as tabelas que apresentam dados aos usuários e ajustando os campos de pesquisa. | Danilo D. Quirino | Corretiva | 4 (Alta) | 3 (Moderada) | Concluído |
 | 98 | Formulários de cadastros | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de cadastros que se apresentam aos usuários. | Danilo D. Quirino | Corretiva | 4 (Alta) | 3 (Moderada) | Concluído |
-| 99 | Edição de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de edição, trocando de dialog para página “própria”. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Em andamento |
+| 99 | Edição de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de edição, trocando de dialog para página “própria”. | Danilo D. Quirino | Corretiva | 3 (Moderada) | 3 (Moderada) | Concluído |
 | 100 | Documentação do sistema | Refatorar, corrigir e melhorar o aspecto visual da “Documentação do Sistema gRED”. Criar conjuntamente o README de tal documento. | Danilo D. Quirino | Evolutiva | 2 (Baixa) | 2 (Baixa) | Em andamento |
-| 103 | Visualização de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de visualização de informações, trocando de dialog para página própria. | Danilo D. Quirino | Evolutiva | 4 (Alta) | 3 (Moderada) | Em andamento |
+| 103 | Visualização de informações | Refatorar, corrigir e melhorar o aspecto visual de todas as telas de visualização de informações, trocando de dialog para página própria. | Danilo D. Quirino | Evolutiva | 4 (Alta) | 3 (Moderada) | Concluído |
 | 104 | Recuperar associações já realizadas | Ao realizar alguma associação de professor / disciplina, a sessão inferior deve apresentar os dados associados anteriormente se existirem, permitindo a remoção inclusive. | Murilo Lopes | Adaptativa | 5 (Muito Alta) | 5 (Muito Alta) | Concluído |
-| | **Total: 30**| **90% Concluído** | | | | | |
+| 105 | Troca de cadastro para edição | Como usuário, ao começar o cadastro de um aluno, servidor, curso ou disciplina, se tal já existir, deve alterar a tela para edição. | Murilo Lopes | Adaptativa | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 106 | Visualização de PEE Avaliado | Como usuário, ao visualizar um PEE, se ele estiver avaliado deve apresentar também os dados da avaliação do professor. | Danilo D. Quirino | Evolutiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 107 | Visualizar e Editar RED >> Arquivos | Ao visualizar e editar uma RED, os arquivos devem aparecer para visualização. | Natália Leonel | Evolutiva | 3 (Moderada) | 3 (Moderada) | Concluído |
+| 108 | Tradução do paginator | O paginator, componente responsável por mostrar as páginas das tabelas, deve estar em português. | Danilo D. Quirino | Corretiva | 2 (Baixa) | 2 (Baixa) | Concluído |
+| | **Total: 34**| **94% Concluído** | | | | | |
