@@ -6,10 +6,27 @@
     <div class="fields">
         <form [formGroup]="alterarPerfil" #formDir="ngForm">
             <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
-                <mat-label>Senha</mat-label>
-                <input type="password" matInput name="senha" formControlName="senha"/>
-                <div *ngIf="alterarPerfil.get('senha')?.invalid && formDir.submitted" class="validation">
-                    <p>Senha obrigatório!</p>
+                <mat-label>Senha Atual</mat-label>
+                <input type="password" matInput name="senhaAtual" formControlName="senhaAtual"/>
+                <div *ngIf="alterarPerfil.get('senhaAtual')?.invalid && formDir.submitted" class="validation">
+                    <p>Senha atual obrigatória!</p>
+                </div>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
+                <mat-label>Nova Senha</mat-label>
+                <input type="password" matInput name="novaSenha" formControlName="novaSenha"/>
+                <div *ngIf="alterarPerfil.get('novaSenha')?.invalid && formDir.submitted" class="validation">
+                    <p>Nova senha obrigatória!</p>
+                </div>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
+                <mat-label>Confirmar Nova Senha</mat-label>
+                <input type="password" matInput name="confirmarSenha" formControlName="confirmarSenha"/>
+                <div *ngIf="alterarPerfil.get('confirmarSenha')?.invalid && formDir.submitted" class="validation">
+                    <p>Confirmação da nova senha obrigatória!</p>
+                </div>
+                <div *ngIf="novaSenha !== confirmarSenha" class="validation">
+                    <p>As senhas não correspondem!</p>
                 </div>
             </mat-form-field>
             <div id="buttons">

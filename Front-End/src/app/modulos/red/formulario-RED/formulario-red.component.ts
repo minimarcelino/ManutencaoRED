@@ -33,6 +33,7 @@ export class FormularioREDComponent implements OnInit {
 
   alunos: any[] = [];
   cursos: any[] = [];
+  attachedFiles: any[] = [];
   inputCurso: any = '';
   filtredCursos: any[] = [];
   formularioRED!: FormGroup;
@@ -56,6 +57,7 @@ export class FormularioREDComponent implements OnInit {
 
     if (this.data != null) {
       this.editar = true;
+      this.loadAttachedFiles(this.data.idRED);
     }
 
     this._locale = 'pt-BR';
@@ -123,6 +125,19 @@ export class FormularioREDComponent implements OnInit {
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  async loadAttachedFiles(idRED: number) {
+    try {
+      const response = await this.redService.getAttachedFiles(idRED);
+      console.log(response);
+      
+      this.attachedFiles = response;
+      console.log(this.attachedFiles);
+      console.log("teste")
+    } catch (error) {
+      console.error('Erro ao carregar arquivos anexados:', error);
+    }
   }
 
   displayFn(aluno: any): string {

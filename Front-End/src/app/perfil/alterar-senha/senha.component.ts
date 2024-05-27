@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ServidorService } from '../../services/servidor.service';
 import { SnackBarService } from '../../services/snackbar.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-senha',
@@ -13,6 +14,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class SenhaComponent implements OnInit {
   alterarPerfil!: FormGroup;
+  logging: boolean = true;
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
@@ -21,12 +23,15 @@ export class SenhaComponent implements OnInit {
     private router: Router,
     private snackBarService: SnackBarService,
     private servidorService: ServidorService,
+    private authenticationService: AuthenticationService,
     private dialog: MatDialogRef<SenhaComponent>,
   ) {}
 
   ngOnInit(): void {
     this.alterarPerfil = new FormGroup({
-      senha: new FormControl('', [Validators.required]),
+      senhaAtual: new FormControl('', [Validators.required]),
+      novaSenha: new FormControl('', [Validators.required]),
+      confirmarSenha: new FormControl('', [Validators.required]),
     });
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
@@ -37,12 +42,22 @@ export class SenhaComponent implements OnInit {
       this.snackBarService.open('Campos Obrigatórios');
       return;
     } else {
-      this.isSubmitting = true;
+
+      const senhaAtual = this.alterarPerfil.get('senhaAtual')!.value;
+      this.logging = await this.authenticationService.login({
+        prontuario: this.user.prontuario,
+        //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
+        senha: senhaAtual,
+      });
+      console.log(this.logging);
+
+      if (this.logging) {
+        this.isSubmitting = true;
       try {
         await this.servidorService.alterarPerfil({
           idservidor: this.user.idservidor,
           email: this.user.email,
-          senha: this.senha,
+          senha: this.novaSenha,
           tiposervidor: this.user.tiposervidor,
           nome: this.user.nome,
           prontuario: this.user.prontuario,
@@ -62,10 +77,27 @@ export class SenhaComponent implements OnInit {
           this.snackBarService.open('Falha ao alterar perfil');
         }
       }
+        this.snackBarService.open('Senha alterada!');
+        
+          this.authenticationService.logout();
+          this.router.navigate(['/login']); // redireciona o usuário para a página de login após o logout
+      
+      } else {
+        this.snackBarService.open('Senha incorreta!');
+      }
+
     }
   }
 
-  get senha() {
-    return this.alterarPerfil.get('senha')!.value;
+  get senhaAtual() {
+    return this.alterarPerfil.get('senhaAtual')!.value;
+  }
+
+  get novaSenha() {
+    return this.alterarPerfil.get('novaSenha')!.value;
+  }
+
+  get confirmarSenha() {
+    return this.alterarPerfil.get('confirmarSenha')!.value;
   }
 }
