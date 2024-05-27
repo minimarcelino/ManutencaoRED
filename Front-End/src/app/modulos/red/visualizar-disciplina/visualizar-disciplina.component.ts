@@ -1,11 +1,16 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+import { AssociarProfessoresComponent } from '../../associacoes/associar-professores/associar-professores.component';
 
 @Component({
   selector: 'app-visualizar-disciplina',
@@ -19,11 +24,18 @@ export class VisualizarDisciplinaComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns = ['professor', 'sigla', 'nomedisciplina', 'situacao', 'acoes'];
+  displayedColumns = [
+    'Professor',
+    'Sigla',
+    'NomeDisciplina',
+    'Situacao',
+    'Acoes',
+  ];
 
   constructor(
     public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<VisualizarDisciplinaComponent>,
+    private dialogProfessor: MatDialog,
     private notificationService: NotificationService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -62,15 +74,50 @@ export class VisualizarDisciplinaComponent implements OnInit {
     this.dialog.close();
   }
 
-  verificarSituacao(): boolean[] {
-    const situacoes: boolean[] = [];
-    for (const item of this.data.pee) {
-      situacoes.push(item.situacao === 'Aguardando Preenchimento' || item.situacao === 'Enviado para o aluno');
-    }
-    return situacoes;
+  verificarSituacao(pee: any): boolean {
+    return (
+      pee.situacao === 'Aguardando Preenchimento' ||
+      pee.situacao === 'Enviado para o aluno'
+    );
   }
 
-  sendEmailProfessor(pee: any){
-    this.notificationService.sendEmailProfessor(pee.servidor_idservidor, pee.idpee);
+  sendEmailProfessor(pee: any) {
+    pee.pee_servidor.forEach((servidor: any) => {
+      this.notificationService.sendEmailProfessor(
+        servidor.servidorId,
+        pee.idpee
+      );
+    });
+  }
+
+  peeAguardandoProfessor(pee: any): boolean {
+    return pee.situacao === 'Aguardando Associação de Professor';
+  }
+
+  associarProfessor(pee: any) {
+    const associarProfessor = this.dialogProfessor.open(
+      AssociarProfessoresComponent,
+      {
+        data: {
+          idRED: pee.RED_idRED,
+          idPEE: pee.idpee,
+          servidor_idservidor: pee.pee_servidor.servidorId,
+          pee: pee,
+        },
+      }
+    );
+    this.handleDialogConfirm(associarProfessor);
+  }
+
+  apresentarDocentes(pee: any) {
+    return pee.pee_servidor.length > 0
+      ? `${pee.pee_servidor
+          .map((docente: any) => docente.servidor.nome)
+          .join(', ')}`
+      : ' - ';
+  }
+
+  handleDialogConfirm(dialog: any) {
+    dialog.afterClosed().subscribe(() => {});
   }
 }

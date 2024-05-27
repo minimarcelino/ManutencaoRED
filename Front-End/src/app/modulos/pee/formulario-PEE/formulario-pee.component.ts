@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, formatDate } from '@angular/common';
 
 import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
@@ -18,7 +18,8 @@ export class FormularioPEEComponent implements OnInit {
   user: any;
 
   private data: any;
-  desabilitar: boolean = false;
+  private editar: boolean = false;
+  private desabilitar: boolean = false;
 
   constructor(
     private location: Location,
@@ -196,9 +197,7 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   updateCharacterCount(campoTexto: string, limite: number): number {
-    // Por algum motivo não está pegando o tamanho do texto do campo
-    //return limite - campoTexto.length;
-    return limite - 0;
+    return limite - (campoTexto ? campoTexto.length: 0);
   }
 
   get conteudo() {
@@ -245,11 +244,19 @@ export class FormularioPEEComponent implements OnInit {
     return this.formularioPEE.get('avaliacaoRealizada')!.value || null;
   }
 
+  get editando() : boolean{
+    return this.data.situacao === 'Enviado para o aluno';
+  }
+
+  get desabilitado() {
+    return this.desabilitar;
+  }
+
   cabecalho() {
     const situacao = this.data.situacao;
     const docentes = `Docente(s): ${
       this.data.pee_servidor.length > 0
-        ? this.data.pee_servidor.map((docente: any) => docente.nome).join(', ')
+        ? this.data.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')
         : ' - '
     }`;
     const disciplina = `Disciplina: ${this.data.disciplinas.nomeDisciplina}`;
@@ -269,7 +276,15 @@ export class FormularioPEEComponent implements OnInit {
     return { titulo, docentes, disciplina, aluno };
   }
 
-  editando() {
-    return this.data.situacao === 'Enviado para o aluno';
+  formatData(Data: Date): string {
+    if (Data) {
+      return formatDate(Data, 'dd/MM/yyyy', 'en-US', 'UTC');
+    } else {
+      return '';
+    }
+  }
+  
+  apresentarAbono(abono: number){
+    return abono < 0 ? "Não avaliado" : `${abono} %`;
   }
 }

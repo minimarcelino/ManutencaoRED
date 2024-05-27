@@ -78,34 +78,43 @@ export class AbonarFaltaComponent implements OnInit {
     try {
       console.log(this.cumprimento);
       console.log(this.novaAtividade);
-      await this.peeService.createAtividade({
-        descricao: this.descricao,
-        prazoatividade: this.data.prazofinal,
-        pee_idpee: this.data.idpee,
-        dateEntregaAluno: this.entregaAluno,
-        cumpriuAtividade: this.cumprimento,
-        novaAtividade: this.novaAtividade,
-      });
+      // await this.peeService.createAtividade({
+      //   descricao: this.descricao,
+      //   prazoatividade: this.data.prazofinal,
+      //   pee_idpee: this.data.idpee,
+      //   dateEntregaAluno: this.entregaAluno,
+      //   cumpriuAtividade: this.cumprimento,
+      //   novaAtividade: this.novaAtividade,
+      // });
 
       await this.peeService.updatePee({
-        idpee: this.data.idpee,
-        conteudo: this.data.conteudo,
-        metodologia: this.data.metodologia,
-        trabalhos: this.data.trabalhos,
-        bibliografia: this.data.bibliografia,
-        criterios: this.data.exigencia,
-        prazofinal: this.data.prazofinal,
-        RED_idRED: this.data.RED_idRED,
-        disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
         editando: true,
-        percentualabono: this.percentualAbono,
-        dataEnvioProposta: this.data.dataEnvioProposta,
-        canalComunicacao: this.data.canalComunicacao,
+        idpee: this.data.idpee,
+        // conteudo: this.data.conteudo,
+        // metodologia: this.data.metodologia,
+        // trabalhos: this.data.trabalhos,
+        // bibliografia: this.data.bibliografia,
+        // criterios: this.data.exigencia,
+        // prazofinal: this.data.prazofinal,
+        // RED_idRED: this.data.RED_idRED,
+        // disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
+        // servidor_idservidor: this.data.servidor_idservidor,
+        // percentualabono: this.percentualAbono,
+        // dataEnvioProposta: this.data.dataEnvioProposta,
+        // canalComunicacao: this.data.canalComunicacao,
+        // houveAvaliacao: this.avaliacao,
+        // avaliacoesRealizadas: this.avaliacaoRealizada,
+        // dataAvaliacao: this.dataAvaliacao,
+        // observacao: this.data.observacao,
+        situacao: "Avaliado",
+        avaliacaoAtividade: this.descricao,
+        prazoEntregaAtividade: this.data.prazofinal,
+        dataEntregaAtividade: this.entregaAluno,
+        cumpriuAtividade: this.cumprimento,
         houveAvaliacao: this.avaliacao,
         avaliacoesRealizadas: this.avaliacaoRealizada,
         dataAvaliacao: this.dataAvaliacao,
-        observacao: this.data.observacao,
-        situacao: "Avaliado"
+        percentualabono: this.percentualAbono,
       });
       this.snackBarService.open('Faltas abonadas com sucesso!!');
       this.dialog.close();

@@ -115,6 +115,10 @@ export class ListarREDComponent implements OnInit {
     return this.peeService.situacaoPEEs(pee);
   }
 
+  disciplinas(red: any){
+    return (this.situacaoPEEs(red.pee) !== 'Em Associação de Disciplina');
+  }
+
   existePEEs(red: any): boolean {
     return red.pee.length > 0 ? true : false;
   }
@@ -124,7 +128,7 @@ export class ListarREDComponent implements OnInit {
     this.reds = response.data.reds;
     this.dataSource = new MatTableDataSource<any>(this.reds);
     this.dataSource.paginator = this.paginator;
-    // console.log('REDs atuais\n', this.reds);
+    console.log('REDs atuais\n', this.reds);
 
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
@@ -244,6 +248,8 @@ export class ListarREDComponent implements OnInit {
 
   associarDisciplina(red: red) {
     const editar = this.dialog.open(AssociarDisciplinaComponent, {
+      minWidth: '1200px',
+      minHeight: '800px',
       data: {
         idRED: red.idRED,
         situacao: red.situacao,

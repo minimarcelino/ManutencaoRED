@@ -75,7 +75,7 @@ mat-sidenav {
   margin: 15px;
 }
 
-h1{
+h1, p{
   padding-top: 10px;
   color: lightgray;
 }

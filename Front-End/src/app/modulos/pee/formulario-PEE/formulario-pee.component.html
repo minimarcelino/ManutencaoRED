@@ -103,8 +103,6 @@
         </mat-error>
       </mat-form-field>
 
-
-
       <mat-form-field>
         <mat-label>Canal de comunicação e Contato</mat-label>
         <input matInput name="comunicacao" formControlName="comunicacao" />
@@ -114,17 +112,64 @@
         <mat-label>Observações</mat-label>
         <textarea matInput name="observacao" id="observacao" formControlName="observacao" maxlength="4000" rows="3"
           spellcheck="true"></textarea>
-        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }} caracteres
+        <mat-hint *ngIf="this.desabilitado" align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }} caracteres
           restantes</mat-hint>
       </mat-form-field>
 
-      <div id="buttons" *ngIf="!this.desabilitar">
+      <!-- Seção se avaliado -->
+
+      <div>
+        <mat-form-field>
+          <mat-label>Descrição da Avaliação</mat-label>
+          <textarea matInput name="descricao" id="descricao" formControlName="descricao"></textarea>
+          <mat-error
+            *ngIf="formularioPEE.get('descricao')?.errors && (formularioPEE.get('descricao')?.dirty || formularioPEE.get('descricao')?.touched)">
+            <span *ngIf="formularioPEE.get('descricao')?.errors?.['required']">Descrição obrigatória</span>
+          </mat-error>
+        </mat-form-field>
+
+        <ng-container matColumnDef="Abono">
+          <th mat-header-cell *matHeaderCellDef> Percentual de abono </th>
+          <td mat-cell *matCellDef="let a"> {{ this.apresentarAbono(a.percentualabono) }} </td>
+      </ng-container>
+
+          <ng-container matColumnDef="DataEntrega">
+              <th mat-header-cell *matHeaderCellDef matTooltip="Data de entrega das atividades pelo aluno">Data de entrega</th>
+              <td mat-cell *matCellDef="let a">
+                  {{ (a.dataEntregaAtividade) ? formatData(a.dataEntregaAtividade) : '' }}
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Cumprimento">
+              <th mat-header-cell *matHeaderCellDef>Aluno cumpriu as atividade</th>
+              <td mat-cell *matCellDef="let a"> {{(a.cumpriuAtividade) ? a.cumpriuAtividade : '' }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="AtividadeAvaliativa">
+              <th mat-header-cell *matHeaderCellDef matTooltip="Houve atividade avaliativa durante o periodo de afastamento do aluno?"> Houve atividade avaliativa?</th>
+              <td mat-cell *matCellDef="let a"> {{a.houveAvaliacao}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="AtividadeAvaliativaRealizadas">
+              <th mat-header-cell *matHeaderCellDef matTooltip="Aluno realizou as atividades avaliativas durante o afastamento?"> Realizou avaliações? </th>
+              <td mat-cell *matCellDef="let a"> {{a.avaliacoesRealizadas}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="DataAvaliacao">
+              <th mat-header-cell *matHeaderCellDef>Data da avaliação</th>
+              <td mat-cell *matCellDef="let a"> {{formatData(a.dataAvaliacao)}} </td>
+          </ng-container>
+
+      </div>
+
+
+      <div id="buttons" *ngIf="!this.desabilitado">
         <button mat-raised-button color="primary" (click)="submit()" class="button">
-          {{ this.editando() ? 'Editar' : 'Cadastrar' }}
+          {{ this.editando ? 'Editar' : 'Cadastrar' }}
         </button>
         <button mat-raised-button color="warn" (click)="voltar()" class="button">Cancelar</button>
       </div>
-      <div id="buttons" *ngIf="this.desabilitar">
+      <div id="buttons" *ngIf="this.desabilitado">
         <button mat-raised-button color="primary" (click)="voltar()" class="button">Voltar</button>
       </div>
     </form>
