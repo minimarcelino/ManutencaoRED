@@ -14,7 +14,7 @@ import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.comp
 import { FormularioServidoresComponent } from 'src/app/modulos/servidores/formularioServidor/formulario-servidor.component';
 import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
 //
-import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
+import { FormularioDisciplinaComponent } from 'src/app/modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
 
@@ -42,8 +42,8 @@ const routes: Routes = [
       },
       // Disciplinas
       {
-        path: 'cadastrarDisciplinas',
-        component: CadastrarDisciplinaComponent,
+        path: 'formularioDisciplina',
+        component: FormularioDisciplinaComponent,
       },
       {
         path:'listarDisciplinas',

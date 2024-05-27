@@ -43,7 +43,7 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button mat-icon-button matTooltip="Editar disciplina" (click)="editarDisciplina(a)">
+            <button mat-icon-button matTooltip="Editar disciplina" (click)="formularioDisciplina(false, a)">
               <mat-icon>edit</mat-icon>
             </button>
 
@@ -60,7 +60,7 @@
       <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
     </div>
 
-    <button mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+    <button mat-raised-button color="primary" (click)="formularioDisciplina(false)" id="cadastrar" class="button">
       <mat-icon>add</mat-icon>
       Cadastrar Disciplina
     </button>

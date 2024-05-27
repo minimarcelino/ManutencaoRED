@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
 import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
 //
-import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
+import { FormularioDisciplinaComponent } from 'src/app/modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 //
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
@@ -43,8 +43,8 @@ const routes: Routes = [
         component: ListarDisciplinasComponent,
       },
       {
-        path: 'cadastrarDisciplinas',
-        component: CadastrarDisciplinaComponent,
+        path: 'formularioDisciplina',
+        component: FormularioDisciplinaComponent,
       },
 
       // Rotas dos Curso

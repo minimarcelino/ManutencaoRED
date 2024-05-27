@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 import { DisciplinaService } from 'src/app/services/disciplina.service';
-import { EditarDisciplinaComponent } from '../editar/editar.component';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { disciplina } from 'src/app/modelo/disciplina';
 import { SnackBarService } from 'src/app/services/snackbar.service';
@@ -39,7 +37,6 @@ export class ListarDisciplinasComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private disciplinaService: DisciplinaService,
-    private dialog: MatDialog,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {
@@ -56,10 +53,17 @@ export class ListarDisciplinasComponent implements OnInit {
     this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
-  async cadastrar() {
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
-    this.router.navigate([`/${this.user.tiposervidor}/cadastrarDisciplinas`]);
+  formularioDisciplina(visualizar: boolean, disciplina: any = null) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        disciplina: disciplina,
+        visualizar: visualizar,
+      },
+    };
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioDisciplina`],
+      navigationExtras
+    );
   }
 
   applyFilter(data: Event) {
@@ -95,22 +99,6 @@ export class ListarDisciplinasComponent implements OnInit {
 
     // Log para depuração
     console.log('Cursos:', this.cursos);
-  }
-
-  // irAssociar() {
-  //   this.router.navigate([`/${this.user.tiposervidor}/associarDisciplinas`]);
-  // }
-
-  editarDisciplina(disciplina: any) {
-    const editar = this.dialog.open(EditarDisciplinaComponent, {
-      data: {
-        iddisciplinas: disciplina.iddisciplinas,
-        nomeDisciplina: disciplina.nomeDisciplina,
-        sigla: disciplina.sigla,
-        curso: disciplina.curso,
-      },
-    });
-    this.handleDialogConfirm(editar);
   }
 
   async deleteDisciplinaPermanent(iddisciplinas: number) {
