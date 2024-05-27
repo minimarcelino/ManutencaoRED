@@ -79,6 +79,7 @@ export class AssociarProfessoresComponent implements OnInit {
       const professoresAssociados = this.professores.filter(
         (professor) => servidoresAssociadosIds.includes(professor.idservidor)
       );
+      this.professoresSelecionados = [...professoresAssociados];
       // Atualiza o dataSource2 para exibir os professores já associados no grupo de baixo
       this.dataSource2 = new MatTableDataSource<any>(professoresAssociados);
 
@@ -150,8 +151,6 @@ export class AssociarProfessoresComponent implements OnInit {
       }
       if (professoresAssociados) {
         try {
-          // await this.peeService.deletePee(peeComDisciplina.idpee); Criar o método para deletar o Professor do PEE
-
           // Remove a disciplina do dataSource2
           this.dataSource2.data = this.dataSource2.data.filter(
             (item: any) => item.idservidor !== docente.idservidor
@@ -169,7 +168,7 @@ export class AssociarProfessoresComponent implements OnInit {
 
   async cadastrar() {
     try {
-
+      console.log("TESTE:",this.professoresSelecionados);
       await this.peeService.updatePee({
         idpee: this.data.idPEE,
         conteudo: '',

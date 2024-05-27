@@ -97,7 +97,7 @@ export class AbonarFaltaComponent implements OnInit {
         prazofinal: this.data.prazofinal,
         RED_idRED: this.data.RED_idRED,
         disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
-        servidor_idservidor: this.data.servidor_idservidor,
+        editando: true,
         percentualabono: this.percentualAbono,
         dataEnvioProposta: this.data.dataEnvioProposta,
         canalComunicacao: this.data.canalComunicacao,
