@@ -21,9 +21,12 @@ export class FormularioAlunoComponent implements OnInit {
   error: Error | null = null;
   user: any;
   destino = '';
+  alunos: any[] = [];
+  aluno: any;
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private cadastrar: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,6 +53,9 @@ export class FormularioAlunoComponent implements OnInit {
 
     if (this.data != null) {
       this.editar = true;
+    }
+    if (this.data == null) {
+      this.cadastrar = true;
     }
     const desabilitarControle = this.desabilitar || this.editar;
 
@@ -97,6 +103,10 @@ export class FormularioAlunoComponent implements OnInit {
         [Validators.required]
       ),
     });
+    if(this.cadastrar){
+      this.buscarAlunos();
+      this.verificarProntuario();
+    }
     this.buscarCursos();
   }
 
@@ -183,8 +193,14 @@ export class FormularioAlunoComponent implements OnInit {
   }
 
   private async updateAluno() {
+    let idAluno;
+    if(this.cadastrar){
+      idAluno = this.aluno.id;
+    }else{
+        idAluno = this.data.id;
+    }
     await this.alunoService.updateAluno({
-      id: this.data.id,
+      id: idAluno,
       prontuario: this.prontuario.toUpperCase(),
       nome: this.nome,
       dataNascimento: this.data_nascimento,
@@ -262,4 +278,62 @@ export class FormularioAlunoComponent implements OnInit {
 
     return titulo;
   }
+
+  async buscarAlunos(): Promise<void> {
+    try {
+      this.alunos = await this.alunoService.getAluno();
+      this.alunos = Object.values(this.alunos);
+    } catch (error) {
+      console.error('Erro ao carregar os alunos:', error);
+    }
+  }
+
+  // Função para preencher o formulário com dados
+  preencherFormulario(alunoData: any) {
+    this.formularioAluno.patchValue({
+      nome: alunoData.nome,
+      data: alunoData.dataNascimento,
+      telefone: alunoData.telefone,
+      email: alunoData.email,
+      curso: alunoData.curso
+    });
+  }
+  // Função para limpar o formulário
+  esvaziarFormulario() {
+    this.formularioAluno.patchValue({
+      nome: '',
+      data: '',
+      telefone: '',
+      email: '',
+      curso: ''
+    });
+  }
+
+  async verificarProntuarioCadastrada(prontuario: string): Promise<boolean> {
+    const listaAlunos = this.alunos[1].alunos;
+    return listaAlunos.some((aluno: any) => aluno.prontuario === prontuario);
+  }
+
+  async verificarProntuario(){
+        this.formularioAluno.get('prontuario')!.valueChanges.subscribe(async (value) => {
+          console.log("entrou")
+          if (value) {
+            const prontuarioCadastrado = await this.verificarProntuarioCadastrada(value.toUpperCase());
+            if (prontuarioCadastrado) {
+              this.editar = true;
+              const listaAlunos = this.alunos[1].alunos;
+              this.aluno = listaAlunos.find((aluno: any) => aluno.prontuario === value.toUpperCase());
+              this.preencherFormulario(this.aluno);
+            }
+            else{
+              if(this.editar == true){
+                this.editar = false;
+                this.aluno = null;
+                this.esvaziarFormulario();
+              }
+            }
+          }
+        });
+  }
+
 }
