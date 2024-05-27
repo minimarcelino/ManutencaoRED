@@ -149,7 +149,6 @@ export class peeService {
   async update(pee: any, id: number) {
     if ('editando' in pee) {
       try {
-
         const updatePEE = await prisma.pee.update({
           where: {
             idpee: id,
@@ -180,67 +179,79 @@ export class peeService {
         console.log(error);
         return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
       }
-    }else{
-    try {
-      // Obter todos os IDs de servidores associados com o ID específico de pee
-      const servidoresAssociados = await prisma.pee_servidor.findMany({
-        where: {
-          pee: {
-            idpee: id
-          }
-        },
-        select: {
-          servidorId: true
-        }
-      });
-
-      // Extrair os IDs dos servidores associados
-      const idsServidoresAssociados = servidoresAssociados.map((associacao) => associacao.servidorId);
-      // Filtrar os servidores que não estão na lista de servidores associados
-      const professoresData = pee.pee_servidor.filter((professor: any) => !idsServidoresAssociados.includes(professor.idservidor))
-                                                .map((professor: any) => ({
-                                                    servidorId: professor.idservidor,
-                                                }));
-
-       // Verificar associações a serem removidas
-       const idsRemover: number[] = idsServidoresAssociados.filter(servidorId => !pee.pee_servidor.some((professor: any) => professor.idservidor === servidorId));
-      // Remover associações não desejadas
-      if (idsRemover.length > 0) {
-        await prisma.pee_servidor.deleteMany({
+    } else {
+      try {
+        // Obter todos os IDs de servidores associados com o ID específico de pee
+        const servidoresAssociados = await prisma.pee_servidor.findMany({
           where: {
-            peeId: pee.id,
-            servidorId: {
-              in: idsRemover
-            }
-          }
+            pee: {
+              idpee: id,
+            },
+          },
+          select: {
+            servidorId: true,
+          },
         });
-      }
-      const updatePEE = await prisma.pee.update({
-        where: {
-          idpee: id,
-        },
-        data: {
-          conteudo: pee.conteudo,
-          metodologia: pee.metodologia,
-          trabalhos: pee.trabalhos,
-          bibliografia: pee.bibliografia,
-          criterios: pee.criterios,
-          prazofinal: pee.prazofinal,
-          RED_idRED: pee.RED_idRED,
-          percentualabono: pee.percentualabono,
-          dataEnvioProposta: pee.dataEnvioProposta,
-          canalComunicacao: pee.canalComunicacao,
-          houveAvaliacao: pee.houveAvaliacao,
-          avaliacoesRealizadas: pee.avaliacoesRealizadas,
-          dataAvaliacao: pee.dataAvaliacao,
-          observacoes: pee.observacoes,
-          situacao: pee.situacao,
-          cumpriuAtividade: pee.cumpriuAtividade,
-          dataEntregaAtividade: pee.dataEntregaAtividade,
-          prazoEntregaAtividade: pee.prazoEntregaAtividade,
-          pee_servidor: {
-            createMany: {
-              data: professoresData,
+
+        // Extrair os IDs dos servidores associados
+        const idsServidoresAssociados = servidoresAssociados.map(
+          (associacao) => associacao.servidorId
+        );
+        // Filtrar os servidores que não estão na lista de servidores associados
+        const professoresData = pee.pee_servidor
+          .filter(
+            (professor: any) =>
+              !idsServidoresAssociados.includes(professor.idservidor)
+          )
+          .map((professor: any) => ({
+            servidorId: professor.idservidor,
+          }));
+
+        // Verificar associações a serem removidas
+        const idsRemover: number[] = idsServidoresAssociados.filter(
+          (servidorId) =>
+            !pee.pee_servidor.some(
+              (professor: any) => professor.idservidor === servidorId
+            )
+        );
+        // Remover associações não desejadas
+        if (idsRemover.length > 0) {
+          await prisma.pee_servidor.deleteMany({
+            where: {
+              peeId: pee.id,
+              servidorId: {
+                in: idsRemover,
+              },
+            },
+          });
+        }
+        const updatePEE = await prisma.pee.update({
+          where: {
+            idpee: id,
+          },
+          data: {
+            conteudo: pee.conteudo,
+            metodologia: pee.metodologia,
+            trabalhos: pee.trabalhos,
+            bibliografia: pee.bibliografia,
+            criterios: pee.criterios,
+            prazofinal: pee.prazofinal,
+            RED_idRED: pee.RED_idRED,
+            percentualabono: pee.percentualabono,
+            dataEnvioProposta: pee.dataEnvioProposta,
+            canalComunicacao: pee.canalComunicacao,
+            houveAvaliacao: pee.houveAvaliacao,
+            avaliacoesRealizadas: pee.avaliacoesRealizadas,
+            dataAvaliacao: pee.dataAvaliacao,
+            observacoes: pee.observacoes,
+            situacao: pee.situacao,
+            cumpriuAtividade: pee.cumpriuAtividade,
+            dataEntregaAtividade: pee.dataEntregaAtividade,
+            prazoEntregaAtividade: pee.prazoEntregaAtividade,
+            pee_servidor: {
+              createMany: {
+                data: professoresData,
+              },
             },
           },
         });
