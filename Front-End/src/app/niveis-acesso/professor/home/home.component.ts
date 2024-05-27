@@ -8,6 +8,7 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AbonarFaltaComponent } from '../../../modulos/pee/abonar-faltas/abonar-faltas.component';
 import { NavigationExtras, Router } from '@angular/router';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
     private peeService: PeeService,
     private dialog: MatDialog,
     private router: Router,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit(): void {
@@ -37,12 +39,16 @@ export class HomeComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
+  ngAfterViewInit() {
+    this.paginatorAguardando._intl = this.customPaginatorIntlService.paginatorIntl;
+  }
+
   async findAll() {
     const response = await this.peeService.getPee();
     this.pees = response.data.pees;
     this.pees = this.pees.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
     this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
-    
+
     // Filtrar PEEs com situação "Aguardando Preenchimento"
     const aguardandoPreenchimento = this.pees.filter((pee) => pee.situacao === 'Aguardando Preenchimento');
     this.dataSourceAguardando = new MatTableDataSource<pee>(aguardandoPreenchimento);

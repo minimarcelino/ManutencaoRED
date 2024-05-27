@@ -82,8 +82,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
         -->
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"
-        #paginatorRed></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons #paginatorRed></mat-paginator>
 
     </div>
   </div>
@@ -139,7 +138,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumnsPEE;"></tr>
 
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users" #paginatorAguardando></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorAguardando></mat-paginator>
     </div>
   </div>
   <br />
@@ -223,8 +222,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
         -->
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"
-        #paginatorRedAtivos></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorRedAtivos></mat-paginator>
 
     </div>
   </div>

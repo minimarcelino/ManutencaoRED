@@ -74,7 +74,7 @@
               <mat-icon>description</mat-icon>
             </button>
 
-        
+
             <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
@@ -87,7 +87,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
   <div class="listagem">
@@ -153,7 +153,7 @@
               <mat-icon>description</mat-icon>
             </button>
 
-        
+
             <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
@@ -163,10 +163,9 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-  
+
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"
-        #paginatorRedAtivos></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons #paginatorRedAtivos></mat-paginator>
 
     </div>
 </div>
