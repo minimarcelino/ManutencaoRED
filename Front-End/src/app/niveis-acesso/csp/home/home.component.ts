@@ -68,6 +68,19 @@ export class HomeComponent implements OnInit {
   ];
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorRedAtivos!: MatPaginator;
+
+  displayedColumnsRED = [
+    'ProntuarioRED',
+    'NomeRED',
+    'CursoRED',
+    'Inicio-RED',
+    'Tempo-AfastamentoRED',
+    'TerminoRED',
+    'Situacao-RED',
+    'Situacao-PEE',
+    'AcoesRED',
+  ];
 
   displayedColumns = [
     'Prontuario',
@@ -80,6 +93,7 @@ export class HomeComponent implements OnInit {
     'Situacao-PEE',
     'Acoes',
   ];
+  dataSourceRedAtivos: any;
 
   constructor(
     private router: Router,
@@ -119,26 +133,10 @@ export class HomeComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     console.log("REDs atuais\n", this.reds);
 
-
-    // Cria um conjunto para armazenar cursos únicos
-    const uniqueCursos = new Set<number>();
-
-    this.reds.forEach((red) => {
-      uniqueCursos.add(red.aluno.curso.idcurso);
-    });
-
-    // Converte o conjunto de IDs de curso de volta para um array de cursos
-    this.cursos = Array.from(uniqueCursos).map(
-      (cursoId) =>
-        this.reds.find((red) => red.aluno.curso.idcurso === cursoId)?.aluno
-          .curso
-    );
-
-    // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
-    this.cursos = this.cursos.filter((curso) => curso !== undefined);
-
-    // Log para depuração
-    //console.log('Cursos:', this.cursos);
+    const ativos = this.reds.filter((red) => (red.situacao === 'Em andamento') );
+    this.dataSourceRedAtivos = new MatTableDataSource<any>(ativos);
+    this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
+    console.log("REDs atuais\n", this.reds);
   }
 
   formatData(data: Date): string {

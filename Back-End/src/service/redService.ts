@@ -80,6 +80,7 @@ export class redService {
     }
   }
 
+
   async updateSituacao(req: any) {
     try {
       const updateRed = await prisma.red.update({
@@ -105,6 +106,20 @@ export class redService {
         },
       });
       return { ok: true, data: deleteCurso };
+    } catch (error) {
+      console.log(error);
+      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
+  async findFilesByRedId(id: number) {
+    try {
+      const files = await prisma.arquivo.findMany({
+        where: {
+          red_idRED: id,
+        },
+      });
+      return { ok: true, data: files };
     } catch (error) {
       console.log(error);
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };

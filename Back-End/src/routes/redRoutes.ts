@@ -14,4 +14,6 @@ router.post('/create',authentication.validate, upload.array("arquivos"), redcont
 router.put('/update/:id',authentication.validate,  redcontroller.Update);
 router.put('/update/situacao/:id',authentication.validate,  redcontroller.UpdateSituacao);
 router.delete('/delete/:id',authentication.validate, redcontroller.Delete);
+router.get('/files/:id', authentication.validate, redcontroller.getFiles); // Nova rota para obter arquivos
+
 export default router;
