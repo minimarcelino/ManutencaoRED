@@ -18,9 +18,12 @@ export class FormularioCursoComponent implements OnInit {
   coordenadores: any[] = [];
   isSubmitting: boolean = false;
   user: any;
+  cursos: any[] = [];
+  curso: any;
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private cadastrar: boolean = false;
 
   constructor(
     private cursoService: CursoService,
@@ -42,6 +45,11 @@ export class FormularioCursoComponent implements OnInit {
 
     if (this.data != null) {
       this.editar = true;
+    }
+
+    if(this.data == null)
+    {
+      this.cadastrar = true;
     }
 
     this._locale = 'pt-BR';
@@ -70,6 +78,12 @@ export class FormularioCursoComponent implements OnInit {
         [Validators.required]
       ),
     });
+
+    if(this.cadastrar){
+      this.buscarCursos();
+      this.verificarSigla();
+    }
+    
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
     this.buscarCoordenador();
@@ -140,8 +154,14 @@ export class FormularioCursoComponent implements OnInit {
   }
 
   private async updateCurso() {
+    let idCurso;
+    if(this.cadastrar){
+       idCurso = this.curso.idcurso;
+    }else{
+       idCurso = this.data.idcurso;
+    }
     await this.cursoService.updateCurso({
-      idcurso: this.data.idcurso,
+      idcurso: idCurso,
       sigla: this.sigla.toUpperCase(),
       nomeCurso: this.nomeCurso,
       coordenador: this.idcordenador,
@@ -191,4 +211,59 @@ export class FormularioCursoComponent implements OnInit {
     }
     return titulo;
   }
+
+  async verificarSiglaCadastrada(sigla: string): Promise<boolean> {
+    // Obtém a lista de cursos do segundo elemento (índice 1) de this.cursos
+    const listaCursos = this.cursos[1].cursos;
+    // Retorna true se encontrar um curso com a sigla desejada, false caso contrário
+    return listaCursos.some((curso: any) => curso.sigla === sigla);
+  }
+
+  async buscarCursos(): Promise<void> {
+    try {
+      this.cursos = await this.cursoService.getCursos();
+      this.cursos = Object.values(this.cursos);
+    } catch (error) {
+      console.error('Erro ao carregar os cursos:', error);
+    }
+  }
+    // Função para preencher o formulário com os dados do curso existente
+  preencherFormulario(curso: any) {
+    if (curso) {
+      this.formularioCurso.patchValue({
+        nomeCurso: curso.nomeCurso,
+        Coordenador: curso.servidor
+      });
+    }
+  }
+
+  // Função para esvaziar o formulário
+  esvaziarFormulario() {
+    this.formularioCurso.patchValue({
+      nomeCurso: "",
+      Coordenador: ""
+    });
+  }
+  async verificarSigla(){
+        this.formularioCurso.get('sigla')!.valueChanges.subscribe(async (value) => {
+          console.log("entrou")
+          if (value) {
+            const siglaCadastrada = await this.verificarSiglaCadastrada(value.toUpperCase());
+            if (siglaCadastrada) {
+              this.editar = true;
+              const listaCursos = this.cursos[1].cursos;
+              this.curso = listaCursos.find((curso: any) => curso.sigla === value.toUpperCase());
+              this.preencherFormulario(this.curso);
+            }
+            else{
+              if(this.editar == true){
+                this.editar = false;
+                this.curso = null;
+                this.esvaziarFormulario();
+              }
+            }
+          }
+        });
+  }
+
 }
