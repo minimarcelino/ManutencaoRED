@@ -86,14 +86,38 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
                 <p><strong>ATENÇÃO:</strong> Ao remover a disciplina, o PEE correspondente será <strong>excluído permanentemente</strong> do sistema.</p>
                 <p>Tem certeza que deseja remover:</p>
             `,
-            buttonClose: 'Cancelar',
-            buttonConfirm: 'Continuar',
+            buttonClose: 'Não',
+            buttonConfirm: 'Sim',
         }
     });
 
     try {
         const result = await dialogRef.afterClosed().toPromise();
-        if (result === 'Continuar') {
+        if (result === 'Sim') {
+            return true;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+    return false;
+}
+
+async openDialogRemoveProfessor() {
+    let dialogRef = this.dialog.open(MessageDialogComponent, {
+        width: '400px',
+        data: {
+            title: 'ATENÇÃO',
+            message: `
+                <p>Tem certeza que deseja remover o professor:</p>
+            `,
+            buttonClose: 'Não',
+            buttonConfirm: 'Sim',
+        }
+    });
+
+    try {
+        const result = await dialogRef.afterClosed().toPromise();
+        if (result === 'Sim') {
             return true;
         }
     } catch (err) {

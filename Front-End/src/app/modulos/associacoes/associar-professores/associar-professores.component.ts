@@ -37,7 +37,7 @@ export class AssociarProfessoresComponent implements OnInit {
     private cursoService: CursoService,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.associarProfessor = new FormGroup({
@@ -56,59 +56,134 @@ export class AssociarProfessoresComponent implements OnInit {
     this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
   }
 
-  async findAllServidores() {
-    const response = await this.docenteService.getServidores();
-    this.professores = response.data.servidores;
-    this.professores = this.professores.filter(
-      (servidor) =>
-        servidor.tiposervidor === 'professor' ||
-        servidor.tiposervidor === 'coordenador'
-    );
-    this.dataSource = new MatTableDataSource<docente>(this.professores);
-    this.dataSource.paginator = this.paginator;
-  }
 
   applyFilter(data: Event) {
     const value = (data.target as HTMLInputElement).value;
     this.dataSource.filter = value;
   }
 
-  selecionarProfessor(docente: any) {
-    this.professoresSelecionados.push(docente);
-    this.dataSource2 = new MatTableDataSource<docente>(
-      this.professoresSelecionados
-    );
+  async findAllServidores() {
+    try {
+      // Consulta ao banco de dados para obter todos os servidores disponíveis
+      const response = await this.docenteService.getServidores();
+      this.professores = response.data.servidores;
+      this.professores = this.professores.filter(
+        (servidor) =>
+          servidor.tiposervidor === 'professor' ||
+          servidor.tiposervidor === 'coordenador'
+      );
+
+      // Servidores já associados ao PEE
+      const servidoresAssociadosIds = this.data.pee.pee_servidor.map((item: any) => item.servidorId);
+      // Filtra os servidores já associados
+      const professoresAssociados = this.professores.filter(
+        (professor) => servidoresAssociadosIds.includes(professor.idservidor)
+      );
+      // Atualiza o dataSource2 para exibir os professores já associados no grupo de baixo
+      this.dataSource2 = new MatTableDataSource<any>(professoresAssociados);
+
+      // Remove os professores já associados do grupo de cima
+      this.professores = this.professores.filter(
+        (professor) => !servidoresAssociadosIds.includes(professor.idservidor)
+      );
+      // Atualiza o dataSource para exibir os professores restantes no grupo de cima
+      this.dataSource = new MatTableDataSource<any>(this.professores);
+    } catch (error: any) {
+      console.error('Erro ao obter servidores associados:', error);
+    }
   }
 
-  removerProfessor(docente: any) {
-    const index = this.professoresSelecionados.findIndex(
-      (item) => item.id === docente.id
+
+  selecionarProfessor(docente: any) {
+    // Verifica se o professor já foi selecionado
+    const professorExistenteIndex = this.professoresSelecionados.findIndex(
+      (professor) => professor.idservidor === docente.idservidor
     );
-    if (index >= 0) {
-      this.professoresSelecionados.splice(index, 1);
-      this.dataSource2 = new MatTableDataSource<docente>(
-        this.professoresSelecionados
+    if (professorExistenteIndex === -1) {
+      // Adiciona o professor ao array de professores selecionados
+      this.professoresSelecionados.push(docente);
+
+      // Atualiza o dataSource2 para incluir o novo professor sem substituir os existentes
+      this.dataSource2.data.push(docente);
+      this.dataSource2._updateChangeSubscription();
+
+      // Remove o professor do array original
+      const index = this.professores.findIndex((item) => item.idservidor === docente.idservidor);
+      if (index >= 0) {
+        this.professores.splice(index, 1);
+        this.dataSource = new MatTableDataSource<any>(this.professores);
+      }
+
+      // Atualiza o MatTableDataSource para exibir os professores restantes no grupo de cima
+      this.dataSource.data = [...this.professores];
+    } else {
+      // Se o professor já foi selecionado, exibe uma mensagem informando ao usuário
+      this.snackBarService.open('Este professor já foi selecionado');
+    }
+  }
+
+  async removerProfessor(docente: any) {
+    const professorExistenteIndex = this.professoresSelecionados.findIndex(
+      (professor) => professor.idservidor === docente.idservidor
+    );
+    if (professorExistenteIndex >= 0) {
+      this.professoresSelecionados.splice(professorExistenteIndex, 1);
+
+      // Remove a disciplina do dataSource2
+      this.dataSource2.data = this.dataSource2.data.filter(
+        (item: any) => item.idservidor !== docente.idservidor
       );
+
+      // Adiciona a disciplina removida de volta ao grupo de cima
+      this.professores.push(docente);
+      this.dataSource.data = [...this.professores]; // Atualiza o dataSource
+    } else {
+      // Se o professor já estava associada anteriormente, precisamos removê-lo
+      const servidoresAssociadosIds = this.data.pee.pee_servidor.map((item: any) => item.servidorId);
+      // Filtra os servidores já associados
+      const professoresAssociados = this.professores.filter(
+        (professor) => servidoresAssociadosIds.includes(professor.idservidor)
+      );
+      const removerDisciplina = await this.dialogQuestionService.openDialogRemoveProfessor();
+      if (removerDisciplina === false) {
+        return;
+      }
+      if (professoresAssociados) {
+        try {
+          // await this.peeService.deletePee(peeComDisciplina.idpee); Criar o método para deletar o Professor do PEE
+
+          // Remove a disciplina do dataSource2
+          this.dataSource2.data = this.dataSource2.data.filter(
+            (item: any) => item.idservidor !== docente.idservidor
+          );
+
+          // Adiciona a disciplina removida de volta ao grupo de cima
+          this.professores.push(docente);
+          this.dataSource.data = [...this.professores]; // Atualiza o dataSource
+        } catch (error: any) {
+          console.error('Erro ao remover servidor:', error);
+        }
+      }
     }
   }
 
   async cadastrar() {
     try {
 
-        await this.peeService.updatePee({
-          idpee: this.data.idPEE,
-          conteudo: '',
-          metodologia: '',
-          trabalhos: '',
-          bibliografia: '',
-          criterios: '',
-          prazofinal: this.data.prazoFinal,
-          RED_idRED: this.data.idRED,
+      await this.peeService.updatePee({
+        idpee: this.data.idPEE,
+        conteudo: '',
+        metodologia: '',
+        trabalhos: '',
+        bibliografia: '',
+        criterios: '',
+        prazofinal: this.data.prazoFinal,
+        RED_idRED: this.data.idRED,
 
-          pee_servidor: this.professoresSelecionados,
-          percentualabono: this.data.percentualabono,
-          situacao: 'Aguardando Preenchimento',
-        });
+        pee_servidor: this.professoresSelecionados,
+        percentualabono: this.data.percentualabono,
+        situacao: 'Aguardando Preenchimento',
+      });
 
       this.snackBarService.open('Professores associados com sucesso!!');
       this.dialog.close();
@@ -128,7 +203,7 @@ export class AssociarProfessoresComponent implements OnInit {
     this.dialog.close();
   }
 
-  apresentarDisciplina(){
+  apresentarDisciplina() {
     const nomeDisciplina = this.data.pee.disciplinas.nomeDisciplina;
     const siglaDisciplina = this.data.pee.disciplinas.sigla;
     const nomeCurso = this.data.pee.disciplinas.curso.nomeCurso;

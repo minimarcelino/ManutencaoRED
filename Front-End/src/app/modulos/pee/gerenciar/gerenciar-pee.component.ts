@@ -192,6 +192,10 @@ export class GerenciarPEEComponent implements OnInit {
     return pee.situacao === 'Aguardando Associação de Professor';
   }
 
+  peeAguardandoPreenchimento(pee: any): boolean{
+    return pee.situacao === 'Aguardando Preenchimento';
+  }	
+
   apresentarDocentes(pee: any) {
     return pee.pee_servidor.length > 0
       ? `${pee.pee_servidor.map((docente: any) => docente.nome).join(', ')}`

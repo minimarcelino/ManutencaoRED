@@ -65,7 +65,7 @@
             </button>
 
             <button mat-icon-button matTooltip="Associar Professor" (click)="associarProfessor(a)"
-              *ngIf="this.peeAguardandoProfessor(a)">
+              *ngIf="this.peeAguardandoProfessor(a) || peeAguardandoPreenchimento(a)">
               <mat-icon>person_add_alt</mat-icon>
             </button>
           </td>
