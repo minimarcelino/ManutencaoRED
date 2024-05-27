@@ -285,8 +285,16 @@ export class peeService {
             RED_idRED: +id,
           },
           include: {
-            disciplinas: true,
-            pee_servidor: true,
+            pee_servidor: {
+              include: {
+                servidor: true,
+              },
+            },
+            disciplinas: {
+              include: {
+                curso: true,
+              },
+            },
           },
         }),
       ]);

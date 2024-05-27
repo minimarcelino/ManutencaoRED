@@ -55,7 +55,7 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
       let dialogRef = this.dialog.open(MessageDialogComponent, {
       width: '400px',
       data: {
-          title: 'Importarção de Docentes',
+          title: 'Importação de Docentes',
           message: `
           <p>Os servidores cadastrados serão atribuídos com o cargo de <strong>PROFESSORES</strong>.</p>
           <p>Deseja continuar a importação?</p>
@@ -76,7 +76,7 @@ import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.c
       return false;
   }
 
-  
+
   async openDialogRemoveDisciplina() {
     let dialogRef = this.dialog.open(MessageDialogComponent, {
         width: '400px',

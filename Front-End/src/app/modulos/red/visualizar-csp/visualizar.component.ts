@@ -82,6 +82,12 @@ export class CSPVisualizarREDComponent implements OnInit {
     return abono < 0 ? "Não avaliado" : `${abono} %`;
   }
 
+  apresentarDocentes(pee: any) {
+    return pee.pee_servidor.length > 0
+      ? `${pee.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')}`
+      : ' - ';
+  }
+
   imprimir() {
     const printableContent = document.querySelector('.corpo')!.innerHTML;
     const printWindow = window.open('Acompanhamento RED', '_blank');

@@ -16,7 +16,7 @@
 
             <ng-container matColumnDef="Professor">
                 <th mat-header-cell *matHeaderCellDef>Professor</th>
-                <td mat-cell *matCellDef="let a"> {{a.servidor.nome}} </td>
+                <td mat-cell *matCellDef="let a"> {{ this.apresentarDocentes(a) }} </td>
             </ng-container>
 
             <ng-container matColumnDef="Comunicacao">

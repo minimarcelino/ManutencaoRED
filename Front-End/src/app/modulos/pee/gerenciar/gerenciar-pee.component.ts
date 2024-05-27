@@ -56,7 +56,7 @@ export class GerenciarPEEComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
     private dialog: MatDialog,
-    private customPaginatorIntlService: CustomPaginatorIntlService,
+    private customPaginatorIntlService: CustomPaginatorIntlService
   ) {}
 
   ngOnInit() {
@@ -75,17 +75,23 @@ export class GerenciarPEEComponent implements OnInit {
     this.dataSource = new MatTableDataSource<pee>(this.pees);
     this.dataSource.paginator = this.paginator;
 
+    console.log('PEEs', this.pees);
+
     // Cria um conjunto para armazenar cursos únicos
     const uniqueProfessores = new Set<number>();
     this.pees.forEach((pee) => {
-      if (pee.servidor && pee.servidor.idservidor) {
-        uniqueProfessores.add(pee.servidor.idservidor);
+      if (pee.pee_servidor.length > 0) {
+        pee.pee_servidor.forEach((servidor: any) => {
+          uniqueProfessores.add(servidor.ServidorId);
+        });
       }
     });
+    console.log("unique id", uniqueProfessores);
+
     // Converte o conjunto de IDs de curso de volta para um array de cursos
     this.professores = Array.from(uniqueProfessores).map(
       (professorId) =>
-        this.pees.find((pee) => pee.servidor.idservidor === professorId)
+        this.pees.find((pee) => pee.pee_servidor === professorId)
           ?.servidor
     );
 
@@ -93,6 +99,7 @@ export class GerenciarPEEComponent implements OnInit {
     this.professores = this.professores.filter(
       (professor) => professor !== undefined
     );
+    console.log('Professores do filtro:', this.professores);
   }
 
   formatData(data: Date): string {
@@ -194,13 +201,15 @@ export class GerenciarPEEComponent implements OnInit {
     return pee.situacao === 'Aguardando Associação de Professor';
   }
 
-  peeAguardandoPreenchimento(pee: any): boolean{
+  peeAguardandoPreenchimento(pee: any): boolean {
     return pee.situacao === 'Aguardando Preenchimento';
-  }	
+  }
 
   apresentarDocentes(pee: any) {
     return pee.pee_servidor.length > 0
-      ? `${pee.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')}`
+      ? `${pee.pee_servidor
+          .map((docente: any) => docente.servidor.nome)
+          .join(', ')}`
       : ' - ';
   }
 }
