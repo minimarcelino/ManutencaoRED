@@ -17,6 +17,8 @@ export class FormularioServidoresComponent implements OnInit {
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
+  servidores: any[] = [];
+  servidor: any;
   tipoServidores: string[] = [
     'administrador',
     'professor',
@@ -27,6 +29,7 @@ export class FormularioServidoresComponent implements OnInit {
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private cadastrar: boolean = false;
 
   constructor(
     private servidorService: ServidorService,
@@ -51,7 +54,10 @@ export class FormularioServidoresComponent implements OnInit {
       pront = String(this.data.prontuario);
     }
 
-    console.log(this.data);
+    if(this.data == null)
+    {
+        this.cadastrar = true;
+    }
 
 
     this._locale = 'pt-BR';
@@ -90,6 +96,11 @@ export class FormularioServidoresComponent implements OnInit {
 
     if (this.data) {
       this.formularioServidor.get('prontuario')?.setValue(String(this.data.prontuario));
+    }
+
+    if(this.cadastrar){
+      this.buscarServidores();
+      this.verificarProntuario();
     }
   }
 
@@ -163,13 +174,22 @@ export class FormularioServidoresComponent implements OnInit {
   }
 
   private async updateServidor() {
+    let idServidor;
+    let senha;
+    if(this.cadastrar){
+      idServidor = this.servidor.idservidor;
+      senha = this.servidor.senha;
+    }else{
+      idServidor = this.data.idservidor;
+      senha = this.data.senha;
+    }
     await this.servidorService.updateServidor({
-      idservidor: this.data.idservidor,
+      idservidor: idServidor,
       prontuario: this.prontuario.toUpperCase(),
       nome: this.nome,
       email: this.email,
       tiposervidor: this.tiposervidor,
-      senha: this.data.senha,
+      senha: senha,
     });
     this.snackBarService.open('Docente editado com sucesso!!');
   }
@@ -223,7 +243,59 @@ export class FormularioServidoresComponent implements OnInit {
       var indice = Math.floor(Math.random() * letras.length);
       palavra += letras.charAt(indice);
     }
-    console.log(palavra);
     return palavra;
+  }
+
+  
+  async buscarServidores(): Promise<void> {
+    try {
+      this.servidores = await this.servidorService.getServidores();
+      this.servidores = Object.values(this.servidores);
+    } catch (error) {
+      console.error('Erro ao carregar os alunos:', error);
+    }
+  }
+
+  preencherFormulario(servidorData: any) {
+    this.formularioServidor.patchValue({
+      nome: servidorData.nome,
+      email: servidorData.email,
+      tiposervidor: servidorData.tiposervidor,
+    });
+  }
+  // Função para limpar o formulário
+  esvaziarFormulario() {
+    this.formularioServidor.patchValue({
+      nome: '',
+      email: '',
+      tiposervidor: '',
+    });
+  }
+
+  async verificarProntuarioCadastrada(prontuario: string): Promise<boolean> {
+    const listaServidores = this.servidores[1].servidores;
+    return listaServidores.some((servidor: any) => servidor.prontuario === prontuario);
+  }
+
+  async verificarProntuario(){
+        this.formularioServidor.get('prontuario')!.valueChanges.subscribe(async (value) => {
+          console.log("entrou")
+          if (value) {
+            const prontuarioCadastrado = await this.verificarProntuarioCadastrada(value.toUpperCase());
+            if (prontuarioCadastrado) {
+              this.editar = true;
+              const listaServidores = this.servidores[1].servidores;
+              this.servidor = listaServidores.find((servidor: any) => servidor.prontuario === value.toUpperCase());
+              this.preencherFormulario(this.servidor);
+            }
+            else{
+              if(this.editar == true){
+                this.editar = false;
+                this.servidor = null;
+                this.esvaziarFormulario();
+              }
+            }
+          }
+        });
   }
 }
