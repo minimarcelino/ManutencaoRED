@@ -501,17 +501,26 @@ export class FormularioREDComponent implements OnInit {
     }
   }
 
-  deleteFile(file: any) {
+  async deleteFile(file: any) {
+    let res = false;
+    res = await this.dialogQuestionService.openDialogConfirmDelete('arquivo');
+    if (res) {
+      this.deleteFilePermanent(file)
+    }
+  }
+
+ 
+
+  deleteFilePermanent(file: any) {
     console.log(file.idArquivo)
-    if (confirm('Tem certeza que deseja excluir este arquivo?')) {
+    
       this.redService.deleteFile(file.idArquivo).subscribe(response => {
         // Atualize a lista de arquivos após a exclusão
         this.attachedFiles = this.attachedFiles.filter(f => f !== file);
-        alert('Arquivo excluído com sucesso');
-}, error => {
+        this.snackBarService.open('Arquivo excluído!');
+      }, error => {
         console.error(error);
-        alert('Erro ao excluir o arquivo');
+        this.snackBarService.open('Erro ao excluir arquivo!');
       });
-    }
   }
 }
