@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CursoService } from 'src/app/services/cursos.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common';
 //
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
@@ -29,7 +30,8 @@ export class FormularioREDComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private snackBarService: SnackBarService,
     private redService: RedService,
-    private coordenadorService: CoordenadorService
+    private coordenadorService: CoordenadorService,
+    private location: Location,
   ) {}
 
   alunos: any[] = [];
@@ -64,6 +66,7 @@ export class FormularioREDComponent implements OnInit {
     if(this.desabilitar == true || this.editar == true){
       this.obterNomeCoordenador();
     }
+
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
 
@@ -369,7 +372,8 @@ export class FormularioREDComponent implements OnInit {
   }
 
   retornarParaLista() {
-    this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
+    this.location.back();
+    // this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
   }
 
   updateCharacterCount(campoTexto: string): number {
@@ -381,7 +385,7 @@ export class FormularioREDComponent implements OnInit {
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe((result: string) => {});
+    dialog.afterClosed().subscribe(() => {});
   }
 
   get aluno() {
@@ -509,12 +513,12 @@ export class FormularioREDComponent implements OnInit {
     }
   }
 
- 
+
 
   deleteFilePermanent(file: any) {
     console.log(file.idArquivo)
-    
-      this.redService.deleteFile(file.idArquivo).subscribe(response => {
+
+      this.redService.deleteFile(file.idArquivo).subscribe(() => {
         // Atualize a lista de arquivos após a exclusão
         this.attachedFiles = this.attachedFiles.filter(f => f !== file);
         this.snackBarService.open('Arquivo excluído!');

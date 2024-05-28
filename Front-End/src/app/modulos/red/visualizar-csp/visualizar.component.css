@@ -35,3 +35,9 @@ mat-dialog-container{
 .table{
   margin-right: 10px;
 }
+
+.botao-impressao {
+  height: 800%;
+  width: 80%;
+  margin: 20px;
+}

@@ -83,7 +83,7 @@ export class FormularioCursoComponent implements OnInit {
       this.buscarCursos();
       this.verificarSigla();
     }
-    
+
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
     this.buscarCoordenador();

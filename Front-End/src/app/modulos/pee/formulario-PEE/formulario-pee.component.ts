@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Location, formatDate } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
@@ -20,12 +20,9 @@ export class FormularioPEEComponent implements OnInit {
   user: any;
 
   private data: any;
-  private editar: boolean = false;
   private desabilitar: boolean = false;
-  private avaliar: boolean = false;
 
   constructor(
-    private router: Router,
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private snackBarService: SnackBarService,
@@ -231,7 +228,7 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   retornarParaLista() {
-    this.router.navigate([`/${this.user.tiposervidor}/gerenciarPEEs`]);
+    this.location.back();
   }
 
   updateCharacterCount(campoTexto: string, limite: number): number {

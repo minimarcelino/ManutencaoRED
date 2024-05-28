@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { Location, formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -39,7 +39,8 @@ export class CSPVisualizarREDComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public dialogQuestionService: messageDialog,
-    private peeService: PeeService
+    private peeService: PeeService,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +76,7 @@ export class CSPVisualizarREDComponent implements OnInit {
   }
 
   voltar() {
-    this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
+    this.location.back();
   }
 
   apresentarAbono(abono: number){
@@ -89,7 +90,7 @@ export class CSPVisualizarREDComponent implements OnInit {
   }
 
   imprimir() {
-    const printableContent = document.querySelector('.corpo')!.innerHTML;
+    const printableContent = document.querySelector('.impressao')!.innerHTML;
     const printWindow = window.open('Acompanhamento RED', '_blank');
     if (printWindow) {
       printWindow.document.write(`
@@ -98,7 +99,7 @@ export class CSPVisualizarREDComponent implements OnInit {
         <head>
         <link rel="stylesheet" type="text/css" href="./impressao.css">
           <title>Impressão</title>
-          <style> .corpo {height: 100%;width: 100%;margin: 20px;}h1, h2 {color: black;padding-top: 10px;}mat-dialog-container {min-width: 85%;min-height: 85%;}.listagem {margin: 15px;}.corpo {margin: 5px;width: 100%;height: 100%;padding-bottom: 5px;}.button, #imprimir {margin: 15px;padding: 10px; max-height: 40px; max-width:75px}.table {margin-right: 10px;border-collapse: separate;border-spacing: 10px;}td, th {border: 10px;padding: 10px;border: 1px solid black }</style>
+          <style> .impressao {height: 100%;width: 100%;margin: 20px;}h1, h2 {color: black;padding-top: 10px;}mat-dialog-container {min-width: 85%;min-height: 85%;}.listagem {margin: 15px;}.corpo {margin: 5px;width: 100%;height: 100%;padding-bottom: 5px;}.button, #imprimir {margin: 15px;padding: 10px; max-height: 40px; max-width:75px}.table {margin-right: 10px;border-collapse: separate;border-spacing: 10px;}td, th {border: 10px;padding: 10px;border: 1px solid black }</style>
         </head>
         <body>${printableContent}</body>
         </html>

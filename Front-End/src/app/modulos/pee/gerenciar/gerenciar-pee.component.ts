@@ -16,7 +16,7 @@ import { AssociarProfessoresComponent } from '../../associacoes/associar-profess
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
-  selector: 'app-pee',
+  selector: 'app-gerenciar-pee',
   templateUrl: './gerenciar-pee.component.html',
   styleUrls: ['./gerenciar-pee.component.css'],
 })
@@ -51,7 +51,6 @@ export class GerenciarPEEComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
     private dialog: MatDialog,
