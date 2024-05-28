@@ -1,6 +1,11 @@
 import { red } from '@prisma/client';
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
+import { promisify } from 'util';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const unlinkAsync = promisify(fs.unlink);
 
 export class redService {
   async findAll() {
@@ -139,4 +144,32 @@ export class redService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
+
+  async deleteFile(idFile: number) {
+    try {
+      // Encontrar o arquivo no banco de dados usando Prisma
+      const file = await prisma.arquivo.findUnique({
+        where: { idArquivo: idFile }
+      });
+
+      if (!file) {
+        return { ok: false, message: 'Arquivo não encontrado', status: StatusCodes.NOT_FOUND };
+      }
+
+      // Excluir o arquivo do sistema de arquivos
+      const filePath = path.join(__dirname, '..', '..', 'uploads', file.path);
+      await unlinkAsync(filePath);
+
+      // Excluir a entrada do banco de dados usando Prisma
+      await prisma.arquivo.delete({
+        where: { idArquivo: idFile }
+      });
+
+      return { ok: true, message: 'Arquivo excluído com sucesso', status: StatusCodes.OK };
+    } catch (error) {
+      console.log(error);
+      return { ok: false, message: 'Erro ao excluir o arquivo', status: StatusCodes.INTERNAL_SERVER_ERROR };
+    }
+  }
+
 }

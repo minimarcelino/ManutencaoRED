@@ -115,4 +115,10 @@ async updateRed(red: any, arquivos: File[]): Promise<any> {
       this.authenticationService.tratarErro(error);
     }
   }
+
+  deleteFile(idFile: number): Observable<any> {
+    console.log("idFile:", idFile)
+    return this.http.delete(`${environment.API}arquivos/${idFile}`);
+  }
 }
+Promise

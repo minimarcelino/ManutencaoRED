@@ -12,10 +12,13 @@ import usuarioNaoAutenticado from './routes/usuarioRoutes';
 import coordenadorRoutes from './routes/coordenadorRoutes';
 import loginRoutes from './routes/loginRoutes';
 import path from "path";
+import { redService } from './service/redService';
+import { StatusCodes } from 'http-status-codes';
 
 
 const PORT = process.env.BACKEND_PORT || 3333;
 const app = express();
+const redservice = new redService();
 
 const corsOptions = {
     origin: "*",
@@ -35,6 +38,17 @@ app.use('/servidor/usuario', usuarioNaoAutenticado); // Verificar, da acesso a a
 app.use('/servidor/login', loginRoutes);
 app.use('/servidor/coordenador', coordenadorRoutes);
 app.use('/servidor/arquivos', express.static(path.join(__dirname, "..", "uploads")));
+app.delete('/servidor/arquivos/:idFile', async (req, res) => {
+    const { idFile } = req.params;
+  
+    try {
+      const result = await redservice.deleteFile(Number(idFile));
+      res.status(result.status).send(result);
+    } catch (error) {
+      console.error(error);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: 'Erro ao processar a solicitação' });
+    }
+  });
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}\n\n\n\n\n\n\n-------------\n\n\n\n\n\n\n`));
 

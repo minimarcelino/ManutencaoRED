@@ -500,4 +500,18 @@ export class FormularioREDComponent implements OnInit {
       console.error("Erro ao obter o coordenador:", error);
     }
   }
+
+  deleteFile(file: any) {
+    console.log(file.idArquivo)
+    if (confirm('Tem certeza que deseja excluir este arquivo?')) {
+      this.redService.deleteFile(file.idArquivo).subscribe(response => {
+        // Atualize a lista de arquivos após a exclusão
+        this.attachedFiles = this.attachedFiles.filter(f => f !== file);
+        alert('Arquivo excluído com sucesso');
+}, error => {
+        console.error(error);
+        alert('Erro ao excluir o arquivo');
+      });
+    }
+  }
 }
