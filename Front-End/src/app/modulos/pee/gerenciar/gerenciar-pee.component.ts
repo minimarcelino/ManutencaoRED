@@ -1,8 +1,8 @@
-import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectChange } from '@angular/material/select';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
@@ -12,7 +12,6 @@ import { PeeService } from 'src/app/services/pee.service';
 import { red } from 'src/app/modelo/red';
 import { pee } from 'src/app/modelo/pee';
 import { servidor } from 'src/app/modelo/servidor';
-import { GerenciarVisualizarPeeComponent } from './gerenciar-visualizar/gerenciar-visualizar.component';
 import { AssociarProfessoresComponent } from '../../associacoes/associar-professores/associar-professores.component';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
@@ -136,27 +135,6 @@ export class GerenciarPEEComponent implements OnInit {
       [`/${this.user.tiposervidor}/formularioPEE`],
       navigationExtras
     );
-  }
-
-  visualizarPEE(pee: any) {
-    const visualizar = this.dialog.open(GerenciarVisualizarPeeComponent, {
-      data: {
-        aluno_prontuario: pee.red.aluno.prontuario,
-        nome: pee.red.aluno.nome,
-        conteudo: pee.conteudo,
-        metodologia: pee.metodologia,
-        trabalhos: pee.trabalhos,
-        bibliografia: pee.bibliografia,
-        criterios: pee.criterios,
-        prazofinal: pee.prazofinal,
-        percentualabono: pee.percentualabono,
-        dataEnvioProposta: pee.dataEnvioProposta,
-        canalComunicacao: pee.canalComunicacao,
-        observacoes: pee.observacoes,
-        situacao: pee.situacao,
-      },
-    });
-    this.handleDialogConfirm(visualizar);
   }
 
   aplicarFiltros() {

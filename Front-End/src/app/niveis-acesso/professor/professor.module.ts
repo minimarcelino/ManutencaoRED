@@ -21,7 +21,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AbonarFaltaComponent } from 'src/app/modulos/pee/abonar-faltas/abonar-faltas.component';
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
-import { GerenciarVisualizarPeeComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-visualizar/gerenciar-visualizar.component';
 import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
 import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associar-professores/associar-professores.component';
 import { HomeComponent } from './home/home.component';
@@ -33,7 +32,6 @@ import { HomeComponent } from './home/home.component';
       AbonarFaltaComponent,
       FormularioPEEComponent,
       GerenciarPEEComponent,
-      GerenciarVisualizarPeeComponent,
       AssociarProfessoresComponent,
       HomeComponent
   ],
