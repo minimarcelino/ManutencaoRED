@@ -60,7 +60,7 @@
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
             <button mat-icon-button matTooltip="Visualizar PEE" (click)="formularioPEE(a)"
-            *ngIf="!this.peeAguardandoProfessor(a)">
+            *ngIf="!this.peeAguardandoProfessor(a) && a.situacao !== 'Aguardando Preenchimento'">
               <mat-icon>visibility</mat-icon>
             </button>
 
@@ -74,7 +74,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>

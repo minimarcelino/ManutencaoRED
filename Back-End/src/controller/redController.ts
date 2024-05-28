@@ -18,6 +18,15 @@ export class redController {
     }
   }
 
+  async getFiles(req: Request, res: Response) {
+    const response = await redservice.findFilesByRedId(Number(req.params.id));
+    if (response.ok) {
+      return res.status(StatusCodes.OK).send(response.data);
+    } else {
+      return res.status(StatusCodes.BAD_REQUEST).send(response.data);
+    }
+  }
+
   async Create(req: Request, res: Response) {
     const redData = JSON.parse(req.body.red);
     const response = await redservice.create(redData);

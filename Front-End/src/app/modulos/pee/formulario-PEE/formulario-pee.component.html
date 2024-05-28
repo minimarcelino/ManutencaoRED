@@ -54,7 +54,8 @@
         <mat-error
           *ngIf="formularioPEE.get('trabalhos')?.errors && (formularioPEE.get('trabalhos')?.dirty || formularioPEE.get('trabalhos')?.touched)">
           <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['required']">Trabalhos obrigatório</span>
-          <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+          <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['maxlength']">Quantidade de caracteres superior ao
+            limite
             do campo</span>
         </mat-error>
       </mat-form-field>
@@ -87,45 +88,122 @@
         <mat-error
           *ngIf="formularioPEE.get('exigencia')?.errors && (formularioPEE.get('exigencia')?.dirty || formularioPEE.get('exigencia')?.touched)">
           <span *ngIf="formularioPEE.get('exigencia')?.errors?.['required']">Critérios de exigência obrigatório</span>
-          <span *ngIf="formularioPEE.get('exigencia')?.errors?.['maxlength']">Quantidade de caracteres superior ao limite
+          <span *ngIf="formularioPEE.get('exigencia')?.errors?.['maxlength']">Quantidade de caracteres superior ao
+            limite
             do campo</span>
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
-        <input matInput [matDatepicker]="picker" id="prazo" formControlName="prazo">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="pickerPrazo" id="prazo" formControlName="prazo">
+        <mat-datepicker-toggle matIconSuffix [for]="pickerPrazo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerPrazo></mat-datepicker>
         <mat-error
           *ngIf="formularioPEE.get('prazo')?.errors && (formularioPEE.get('prazo')?.dirty || formularioPEE.get('prazo')?.touched)">
           <span *ngIf="formularioPEE.get('prazo')?.errors?.['required']">Prazo de execução obrigatório</span>
         </mat-error>
       </mat-form-field>
 
-
-
       <mat-form-field>
         <mat-label>Canal de comunicação e Contato</mat-label>
         <input matInput name="comunicacao" formControlName="comunicacao" />
       </mat-form-field>
 
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Observações</mat-label>
         <textarea matInput name="observacao" id="observacao" formControlName="observacao" maxlength="4000" rows="3"
           spellcheck="true"></textarea>
-        <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }} caracteres
+        <mat-hint *ngIf="this.desabilitado" align="end" class="hint-inside">{{ updateCharacterCount(observacao, 4000) }}
+          caracteres
           restantes</mat-hint>
       </mat-form-field>
 
-      <div id="buttons" *ngIf="!this.desabilitar">
-        <button mat-raised-button color="primary" (click)="submit()" class="button">
-          {{ this.editando() ? 'Editar' : 'Cadastrar' }}
-        </button>
-        <button mat-raised-button color="warn" (click)="voltar()" class="button">Cancelar</button>
+      <!-- Seção se avaliado -->
+
+      <div *ngIf="avaliado">
+
+        <h2>Avaliação do PEE</h2>
+        <hr class="linha">
+
+        <mat-form-field>
+          <mat-label>Descrição da Avaliação</mat-label>
+          <textarea matInput name="avaliacaoAtividade" id="avaliacaoAtividade"
+            formControlName="avaliacaoAtividade"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="lado-esquerdo">
+          <mat-label>Percentual de abono</mat-label>
+          <input type="number" id="percentualAbono" matInput name="percentualAbono" formControlName="percentualAbono" />
+        </mat-form-field>
+
+        <mat-form-field class="lado-direito">
+          <mat-label matTooltip="Data de entrega das atividades pelo aluno">Data de entrega da atividade</mat-label>
+          <input matInput [matDatepicker]="pickerDataEntrega" id="dataEntrega" formControlName="dataEntrega" name="dataEntrega">
+          <mat-datepicker #pickerDataEntrega></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="lado-esquerdo">
+          <mat-label>Aluno Cumpriu as atividades</mat-label>
+          <input type="text" id="cumpriuAtividade" matInput name="cumpriuAtividade"
+            formControlName="cumpriuAtividade" />
+        </mat-form-field>
+
+        <mat-form-field class="lado-direito">
+          <mat-label matTooltip="Houve atividade avaliativa durante o periodo de afastamento do aluno?">Houve atividades
+            avaliaticas</mat-label>
+          <input type="text" id="houveAvaliacao" matInput name="houveAvaliacao" formControlName="houveAvaliacao" />
+        </mat-form-field>
+
+        <mat-form-field class="lado-esquerdo">
+          <mat-label matTooltip="Aluno realizou as atividades avaliativas durante o afastamento?">Realizou
+            avaliações?</mat-label>
+          <input type="text" id="avaliacoesRealizadas" matInput name="avaliacoesRealizadas"
+            formControlName="avaliacoesRealizadas" />
+        </mat-form-field>
+
+        <mat-form-field class="lado-direito">
+          <mat-label>Data da avaliação</mat-label>
+          <input matInput [matDatepicker]="pickerDataAvaliacao" id="dataAvaliacao" formControlName="dataAvaliacao" name="dataAvaliacao">
+          <mat-datepicker #pickerDataAvaliacao></mat-datepicker>
+        </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </div>
-      <div id="buttons" *ngIf="this.desabilitar">
-        <button mat-raised-button color="primary" (click)="voltar()" class="button">Voltar</button>
+
+
+      <div id="buttons" *ngIf="!this.desabilitado">
+        <button mat-raised-button color="primary" (click)="submit()" class="button">
+          {{ this.editando ? 'Editar' : 'Cadastrar' }}
+        </button>
+        <button mat-raised-button color="warn" (click)="retornarParaLista()" class="button">Cancelar</button>
+      </div>
+
+      <div id="buttons" *ngIf="this.desabilitado">
+        <button mat-raised-button color="primary" (click)="retornarParaLista()" class="button">Voltar</button>
       </div>
     </form>
   </div>

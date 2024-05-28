@@ -12,7 +12,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./abonar-falta.component.css'],
 })
 export class AbonarFaltaComponent implements OnInit {
-  abonarFaltaPee!: FormGroup;
+  abonarFaltaPEE!: FormGroup;
   isSubmitting: boolean = false;
   error: Error | null = null;
   user: any;
@@ -29,8 +29,8 @@ export class AbonarFaltaComponent implements OnInit {
   ngOnInit(): void {
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
-    this.abonarFaltaPee = new FormGroup({
-      descricao: new FormControl('', [Validators.required]),
+    this.abonarFaltaPEE = new FormGroup({
+      avaliacaoAtividade: new FormControl('', [Validators.required]),
       entregaAluno: new FormControl('', [Validators.required]),
       cumprimento: new FormControl('', [Validators.required]),
       novaAtividade: new FormControl('', [Validators.required]),
@@ -45,10 +45,10 @@ export class AbonarFaltaComponent implements OnInit {
 
   async submit() {
     // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.abonarFaltaPee.invalid || this.isSubmitting) {
+    if (this.abonarFaltaPEE.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos obrigatórios!!');
-      const fields = Object.keys(this.abonarFaltaPee.controls);
-      const firstInvalidField = fields.find(field => this.abonarFaltaPee.get(field)!.invalid);
+      const fields = Object.keys(this.abonarFaltaPEE.controls);
+      const firstInvalidField = fields.find(field => this.abonarFaltaPEE.get(field)!.invalid);
       if (firstInvalidField) {
         const element = document.getElementById(firstInvalidField);
         if (element) {
@@ -58,7 +58,7 @@ export class AbonarFaltaComponent implements OnInit {
       return;
     }
 
-    if (this.descricao.trim() === '') {
+    if (this.avaliacaoAtividade.trim() === '') {
       this.snackBarService.open('Descrição deve ser preenchido corretamente.');
       const element = document.getElementById('descricao');
       if (element) {
@@ -76,36 +76,19 @@ export class AbonarFaltaComponent implements OnInit {
 
     this.isSubmitting = true;
     try {
-      console.log(this.cumprimento);
-      console.log(this.novaAtividade);
-      await this.peeService.createAtividade({
-        descricao: this.descricao,
-        prazoatividade: this.data.prazofinal,
-        pee_idpee: this.data.idpee,
-        dateEntregaAluno: this.entregaAluno,
-        cumpriuAtividade: this.cumprimento,
-        novaAtividade: this.novaAtividade,
-      });
 
       await this.peeService.updatePee({
-        idpee: this.data.idpee,
-        conteudo: this.data.conteudo,
-        metodologia: this.data.metodologia,
-        trabalhos: this.data.trabalhos,
-        bibliografia: this.data.bibliografia,
-        criterios: this.data.exigencia,
-        prazofinal: this.data.prazofinal,
-        RED_idRED: this.data.RED_idRED,
-        disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
         editando: true,
-        percentualabono: this.percentualAbono,
-        dataEnvioProposta: this.data.dataEnvioProposta,
-        canalComunicacao: this.data.canalComunicacao,
+        idpee: this.data.idpee,
+        situacao: "Avaliado",
+        avaliacaoAtividade: this.avaliacaoAtividade,
+        prazoEntregaAtividade: this.data.prazofinal,
+        dataEntregaAtividade: this.entregaAluno,
+        cumpriuAtividade: this.cumprimento,
         houveAvaliacao: this.avaliacao,
         avaliacoesRealizadas: this.avaliacaoRealizada,
         dataAvaliacao: this.dataAvaliacao,
-        observacao: this.data.observacao,
-        situacao: "Avaliado"
+        percentualabono: this.percentualAbono,
       });
       this.snackBarService.open('Faltas abonadas com sucesso!!');
       this.dialog.close();
@@ -123,36 +106,36 @@ export class AbonarFaltaComponent implements OnInit {
     this.dialog.close();
   }
 
-  get descricao() {
-    return this.abonarFaltaPee.get('descricao')!.value;
+  get avaliacaoAtividade() {
+    return this.abonarFaltaPEE.get('avaliacaoAtividade')!.value;
   }
 
   get entregaAluno() {
-    return this.abonarFaltaPee.get('entregaAluno')!.value;
+    return this.abonarFaltaPEE.get('entregaAluno')!.value;
   }
 
   get cumprimento() {
-    return this.abonarFaltaPee.get('cumprimento')!.value;
+    return this.abonarFaltaPEE.get('cumprimento')!.value;
   }
 
   get novaAtividade() {
-    return this.abonarFaltaPee.get('novaAtividade')!.value;
+    return this.abonarFaltaPEE.get('novaAtividade')!.value;
   }
 
   get percentualAbono() {
-    return this.abonarFaltaPee.get('percentualAbono')!.value;
+    return this.abonarFaltaPEE.get('percentualAbono')!.value;
   }
 
   get avaliacao() {
-    return this.abonarFaltaPee.get('avaliacao')!.value || null;
+    return this.abonarFaltaPEE.get('avaliacao')!.value || null;
   }
 
   get dataAvaliacao() {
-    return this.abonarFaltaPee.get('dataAvaliacao')!.value || null;
+    return this.abonarFaltaPEE.get('dataAvaliacao')!.value || null;
   }
 
   get avaliacaoRealizada() {
-    return this.abonarFaltaPee.get('avaliacaoRealizada')!.value || null;
+    return this.abonarFaltaPEE.get('avaliacaoRealizada')!.value || null;
   }
 }
 

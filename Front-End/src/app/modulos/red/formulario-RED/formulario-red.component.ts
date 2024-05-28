@@ -34,6 +34,7 @@ export class FormularioREDComponent implements OnInit {
 
   alunos: any[] = [];
   cursos: any[] = [];
+  attachedFiles: any[] = [];
   inputCurso: any = '';
   filtredCursos: any[] = [];
   formularioRED!: FormGroup;
@@ -58,6 +59,7 @@ export class FormularioREDComponent implements OnInit {
 
     if (this.data != null) {
       this.editar = true;
+      this.loadAttachedFiles(this.data.idRED);
     }
     if(this.desabilitar == true || this.editar == true){
       this.obterNomeCoordenador();
@@ -127,6 +129,16 @@ export class FormularioREDComponent implements OnInit {
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  async loadAttachedFiles(idRED: number) {
+    try {
+      const response = await this.redService.getAttachedFiles(idRED);
+      this.attachedFiles = response;
+      // console.log(this.attachedFiles);
+    } catch (error) {
+      console.error('Erro ao carregar arquivos anexados:', error);
+    }
   }
 
   displayFn(aluno: any): string {
@@ -218,7 +230,7 @@ export class FormularioREDComponent implements OnInit {
       );
       return;
     }
-    if (!this.verificarDataInicioAfastamento(this.inicioAfastamento)) {
+    if (!this.verificarDataInicioAfastamento(this.inicioAfastamento) && !this.editar) {
       this.snackBarService.open(
         'O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!'
       );
@@ -245,7 +257,7 @@ export class FormularioREDComponent implements OnInit {
         dataInicioProcesso: new Date(),
         semestreOuAnoAluno: this.semestreAluno,
         tempoAfastamento: this.tempoAfastamento,
-        situacao: this.situacao,
+        situacao: 'Esperando confirmação',
         observacao: this.observacao,
         aluno_id: this.aluno.id,
         coordenador: this.filtredCursos[0].coordenador,
@@ -394,13 +406,15 @@ export class FormularioREDComponent implements OnInit {
     return this.formularioRED.get('motivoAfastamento')!.value;
   }
 
-  get situacao() {
-    return 'Esperando confirmação';
+  situacao() {
+    console.log(this.data.situacao )
+    return this.data.situacao ;
   }
 
   get observacao() {
     return this.formularioRED.get('observacao')!.value;
   }
+
 
   get motivoRecusa() {
     return this.formularioRED.get('motivoRecusa')!.value;

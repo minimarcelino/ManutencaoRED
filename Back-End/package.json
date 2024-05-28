@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,33 @@
     "build": "tsc"
   },
   "keywords": [],
-  "author": "igor Antonio",
+  "authors": [
+    {
+      "name": "Igor Antonio Serafin Siqueira",
+      "email": "igorassi2001@gmail.com",
+      "role": "Desenvolvimento do sistema"
+    },
+    {
+      "name": "Igor Matheus Teixeira",
+      "email": "igorteixeirapf@hotmail.com",
+      "role": "Desenvolvimento do sistema"
+    },
+    {
+      "name": "Danilo Domingues Quirino",
+      "email": "danilo.quirino@aluno.ifsp.edu.br",
+      "role": "Manutenção do sistema"
+    },
+    {
+      "name": "Murilo Lopes Fray de Oliveira",
+      "email": "murilofray01@gmail.com",
+      "role": "Manutenção do sistema"
+    },
+    {
+      "name": "Natalia Aparecida Barreiro Antunes Leonel",
+      "email": "leonel.natalia@aluno.ifsp.edu.br",
+      "role": "Manutenção do sistema"
+    }
+  ],
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

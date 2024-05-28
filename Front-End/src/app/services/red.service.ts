@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/app/environments/environment.development';
 import { AuthenticationService } from './authentication.service';
 
@@ -11,6 +12,21 @@ export class RedService {
     private http: HttpClient,
     private authenticationService: AuthenticationService
   ) {}
+
+  async getAttachedFiles(id: number): Promise<any> {
+    try {
+      const response = await this.http
+        .get(
+          `${environment.API}red/files/${id}`,
+          this.authenticationService.getHttpOptions()
+        )
+        .toPromise();
+      return response;
+    } catch (error) {
+      this.authenticationService.tratarErro(error);
+    }
+
+  }
 
   async getRed(): Promise<any> {
     try {

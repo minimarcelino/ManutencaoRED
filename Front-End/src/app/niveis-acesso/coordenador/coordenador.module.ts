@@ -18,8 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //
-import { CadastrarDisciplinaComponent } from 'src/app/modulos/disciplinas/cadastrar/cadastrar.component';
-import { EditarDisciplinaComponent } from 'src/app/modulos/disciplinas/editar/editar.component';
+import { FormularioDisciplinaComponent } from 'src/app/modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
 import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
 import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
 import { HomeComponent } from './home/home.component';
@@ -30,8 +29,7 @@ import { HomeComponent } from './home/home.component';
     VisualizarDisciplinaComponent,
     //
     ListarDisciplinasComponent,
-    CadastrarDisciplinaComponent,
-    EditarDisciplinaComponent,
+    FormularioDisciplinaComponent,
   ],
   imports: [
     CommonModule,

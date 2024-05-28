@@ -139,11 +139,17 @@ $ npm install
 3. Criar um .env e adicionar estas informações:
 
 ```bash
+NODE_ENV=development
 ACCESS_TOKEN_SECRET=tokensecret
-NODE_ENV=dev
 BACKEND_PORT=3333
 DATABASE_URL="mysql://root:senha@localhost:3306/nomeDoSeuBanco"
+EMAIL_USER=""
+EMAIL_HOTS=""
+EMAIL_SENHA=""
+EMAIL_URL="http://localhost:4200/"
 ```
+As informações referente ao email pode ser encontrada no mesmo arquivo presente no servidor, ou com os servidores da CTI.
+
 4. Logo em seguida é necessário installar o prisma. Navegue até a pasta Back-End do projeto e digite o seguinte comando:
 
 ```bash

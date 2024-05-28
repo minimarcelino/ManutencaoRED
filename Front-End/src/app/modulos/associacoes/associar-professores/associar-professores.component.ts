@@ -89,6 +89,7 @@ export class AssociarProfessoresComponent implements OnInit {
       );
       // Atualiza o dataSource para exibir os professores restantes no grupo de cima
       this.dataSource = new MatTableDataSource<any>(this.professores);
+      this.dataSource.paginator = this.paginator;
     } catch (error: any) {
       console.error('Erro ao obter servidores associados:', error);
     }
@@ -113,6 +114,7 @@ export class AssociarProfessoresComponent implements OnInit {
       if (index >= 0) {
         this.professores.splice(index, 1);
         this.dataSource = new MatTableDataSource<any>(this.professores);
+        this.dataSource.paginator = this.paginator;
       }
 
       // Atualiza o MatTableDataSource para exibir os professores restantes no grupo de cima
@@ -199,7 +201,7 @@ export class AssociarProfessoresComponent implements OnInit {
   }
 
   cancelar() {
-    this.dialog.close();
+    this.dialog.close(this.professoresSelecionados);
   }
 
   apresentarDisciplina() {

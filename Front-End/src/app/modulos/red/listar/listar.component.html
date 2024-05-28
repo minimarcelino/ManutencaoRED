@@ -88,7 +88,7 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
+            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
               (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
             </button>
@@ -98,7 +98,7 @@
               <mat-icon>description</mat-icon>
             </button>
 
-            <button *ngIf="isCOORD()" mat-icon-button matTooltip="Visualizar Disciplinas"
+            <button *ngIf="isCOORD() && (a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')" mat-icon-button matTooltip="Visualizar Disciplinas"
               (click)="visualizarDisciplina(a)">
               <mat-icon>library_books</mat-icon>
             </button>
@@ -129,7 +129,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons></mat-paginator>
 
     </div>
     <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="formularioRED(false)" id="cadastrarRED" class="button">

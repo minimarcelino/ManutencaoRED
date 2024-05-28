@@ -2,19 +2,19 @@
 
   <div class="title listagem">
     <div>
-      <h1>Cadastrar Disciplina</h1>
+      <h1>{{ this.titulo() }}</h1>
       <hr class="linha">
     </div>
 
     <div class="formulario">
-      <form [formGroup]="cadastrarDisciplina" #formDir="ngForm">
+      <form [formGroup]="formularioDisciplina" #formDir="ngForm">
 
         <mat-form-field appearance="fill" class="lado-esquerdo">
           <mat-label>Sigla</mat-label>
           <input matInput id="sigla" name="sigla" formControlName="sigla" />
           <mat-error
-            *ngIf="cadastrarDisciplina.get('sigla')?.errors && (cadastrarDisciplina.get('sigla')?.dirty || cadastrarDisciplina.get('sigla')?.touched)">
-            <span *ngIf="cadastrarDisciplina.get('sigla')?.errors?.['required']">Campo obrigatório.</span>
+            *ngIf="formularioDisciplina.get('sigla')?.errors && (formularioDisciplina.get('sigla')?.dirty || formularioDisciplina.get('sigla')?.touched)">
+            <span *ngIf="formularioDisciplina.get('sigla')?.errors?.['required']">Campo obrigatório.</span>
           </mat-error>
         </mat-form-field>
 
@@ -22,8 +22,8 @@
           <mat-label>Nome</mat-label>
           <input matInput id="nome" name="nomeDisciplina" formControlName="nomeDisciplina" />
           <mat-error
-            *ngIf="cadastrarDisciplina.get('nomeDisciplina')?.errors && (cadastrarDisciplina.get('nomeDisciplina')?.dirty || cadastrarDisciplina.get('nomeDisciplina')?.touched)">
-            <span *ngIf="cadastrarDisciplina.get('nomeDisciplina')?.errors?.['required']">Campo obrigatório.</span>
+            *ngIf="formularioDisciplina.get('nomeDisciplina')?.errors && (formularioDisciplina.get('nomeDisciplina')?.dirty || formularioDisciplina.get('nomeDisciplina')?.touched)">
+            <span *ngIf="formularioDisciplina.get('nomeDisciplina')?.errors?.['required']">Campo obrigatório.</span>
           </mat-error>
         </mat-form-field>
 
@@ -40,14 +40,14 @@
             </mat-option> -->
           </mat-autocomplete>
           <mat-error
-            *ngIf="cadastrarDisciplina.get('Curso')?.errors && (cadastrarDisciplina.get('Curso')?.dirty || cadastrarDisciplina.get('Curso')?.touched)">
-            <span *ngIf="cadastrarDisciplina.get('Curso')?.errors?.['required']">Campo obrigatório.</span>
+            *ngIf="formularioDisciplina.get('Curso')?.errors && (formularioDisciplina.get('Curso')?.dirty || formularioDisciplina.get('Curso')?.touched)">
+            <span *ngIf="formularioDisciplina.get('Curso')?.errors?.['required']">Campo obrigatório.</span>
           </mat-error>
         </mat-form-field>
 
-        <div id="buttons">
-          <button mat-raised-button color="primary" class="button" (click)="voltar()">Voltar</button>
-          <button mat-raised-button color="primary" class="button" (click)="submit()">Cadastrar</button>
+        <div>
+          <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Voltar</button>
+          <button *ngIf="!this.desabilitado" mat-raised-button color="primary" class="button" (click)="submit()">{{ this.editando ? 'Editar' : 'Cadastrar'}}</button>
         </div>
       </form>
     </div>

@@ -8,7 +8,7 @@ import { PerfilComponent } from '../../perfil/perfil.component';
 import { HomeComponent } from './home/home.component';
 //
 import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/disciplinas.component';
-import { CadastrarDisciplinaComponent } from '../../modulos/disciplinas/cadastrar/cadastrar.component';
+import { FormularioDisciplinaComponent } from '../../modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
 //
 import { ListarServidoresComponent } from '../../modulos/servidores/listar/listar.component';
 import { FormularioServidoresComponent } from '../../modulos/servidores/formularioServidor/formulario-servidor.component';
@@ -46,8 +46,8 @@ const routes: Routes = [
         component: ListarDisciplinasComponent,
       },
       {
-        path: 'cadastrarDisciplinas',
-        component: CadastrarDisciplinaComponent,
+        path: 'formularioDisciplina',
+        component: FormularioDisciplinaComponent,
       },
       {
         path: 'associarDisciplinas',

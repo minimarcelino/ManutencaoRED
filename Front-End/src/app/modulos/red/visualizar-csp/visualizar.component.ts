@@ -27,6 +27,7 @@ export class CSPVisualizarREDComponent implements OnInit {
     'Comunicacao',
     'DataEnvio',
     'DataLimite',
+    'Abono',
     'DataEntrega',
     'Cumprimento',
     'AtividadeAvaliativa',
@@ -75,6 +76,16 @@ export class CSPVisualizarREDComponent implements OnInit {
 
   voltar() {
     this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
+  }
+
+  apresentarAbono(abono: number){
+    return abono < 0 ? "Não avaliado" : `${abono} %`;
+  }
+
+  apresentarDocentes(pee: any) {
+    return pee.pee_servidor.length > 0
+      ? `${pee.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')}`
+      : ' - ';
   }
 
   imprimir() {

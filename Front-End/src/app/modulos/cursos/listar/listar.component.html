@@ -39,13 +39,14 @@
                 <mat-icon>delete</mat-icon>
               </button>
 
-              <div class="file-input-container">
+              <!-- Ninguem verificou se o import de disciplinas está funcionando -->
+              <!-- <div class="file-input-container">
                 <button mat-icon-button matTooltip="Importar disciplinas" (click)="fileInput.click()">
                   <mat-icon>attach_file</mat-icon>
                 </button>
 
                 <input type="file" #fileInput style="display: none" (change)="onFileChange($event, c)" />
-              </div>
+              </div> -->
             </div>
           </td>
         </ng-container>
@@ -53,7 +54,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
     </div>
 
     <button mat-raised-button color="primary" (click)="formularioCurso(false)" id="cadastrar" class="button">

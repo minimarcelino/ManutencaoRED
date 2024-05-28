@@ -7,7 +7,7 @@
 - Software: Gerencia **RED**
 - Data de Início: 01 de abril de 2024
 - Estado: ✔ Concluído
-- Autores: Danilo D. Quirino, Natália A. B. A. Leonel e Murilo L. F. de Oliveira
+- Autores: Danilo D. Quirino, Murilo L. F. de Oliveira e Natália A. B. A. Leonel
 - [**🏍 Sprint Backlog 02**](./../Sprint_02.md)
 
 # Descrição da Sprint
@@ -67,6 +67,7 @@ De forma complementar algumas atividades elencadas anteriormente foram executada
 | 83 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
 | 84 | Concluído | 14 de abril de 2024 | 14 de abril de 2024 | |
 | 85 | Concluído | 14 de abril de 2024 | 15 de abril de 2024 | |
+| | **Total: 41**| **95% Concluído** | | |
 
 # Conclusão
 

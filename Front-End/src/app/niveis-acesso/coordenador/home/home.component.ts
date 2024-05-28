@@ -2,16 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import * as XLSX from 'xlsx';
 
 //
 import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
-import { AbonarFaltaComponent } from '../../../modulos/pee/abonar-faltas/abonar-faltas.component';
 import { RedService } from 'src/app/services/red.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
+import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associar-professores/associar-professores.component';
+import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 export interface curso {
   idcurso: number;
@@ -37,17 +39,19 @@ export interface red {
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  peesProfessor: pee[] = [];
   pees: pee[] = [];
   reds: any[] = [];
   alunos: any[] = [];
   cursos: curso[] = [];
   user: any = '';
   dataSourceAguardando: any;
-  dataSourceEnviada: any;
   dataSourceRed : any;
+  dataSourceRedAtivos: any;
   @ViewChild('paginatorAguardando') paginatorAguardando!: MatPaginator;
   @ViewChild('paginatorEnviada') paginatorEnviada!: MatPaginator;
   @ViewChild('paginatorRed') paginatorRed!: MatPaginator;
+  @ViewChild('paginatorRedAtivos') paginatorRedAtivos!: MatPaginator;
 
   displayedColumnsPEE = ['Disciplina', 'Nome', 'Prontuario', 'Email','Situacao' ,'Acoes'];
   displayedColumnsRED = [
@@ -64,10 +68,12 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public dialogQuestionService: messageDialog,
+    private snackBarService: SnackBarService,
     private peeService: PeeService,
     private redService: RedService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
   ) {}
 
   ngOnInit(): void {
@@ -77,20 +83,25 @@ export class HomeComponent implements OnInit {
     this.user = JSON.parse(this.user);
   }
 
+  ngAfterViewInit() {
+    this.paginatorAguardando._intl = this.customPaginatorIntlService.paginatorIntl;
+  }
+
   async findAllRED() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    const esperaConfirmacao = this.reds.filter((red) => red.situacao === 'Esperando confirmação');
+    const esperaConfirmacao = this.reds.filter((red) => red.situacao === 'Esperando confirmação' );
     this.dataSourceRed = new MatTableDataSource<any>(esperaConfirmacao);
     this.dataSourceRed.paginator = this.paginatorRed;
     console.log("REDs atuais\n", this.reds);
 
-    // Cria um conjunto para armazenar cursos únicos
+    const ativos = this.reds.filter((red) => (red.coordenador == this.user.idservidor) && (red.situacao === 'Em andamento') || (red.situacao === 'Esperando associação de disciplina') );
+    this.dataSourceRedAtivos = new MatTableDataSource<any>(ativos);
+    this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
+    console.log("REDs atuais\n", this.reds);
 
-
-    // Log para depuração
-    //console.log('Cursos:', this.cursos);
   }
+
   formatData(data: Date): string {
     if (data) {
       return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
@@ -101,47 +112,84 @@ export class HomeComponent implements OnInit {
 
   async findAllPEE() {
     const response = await this.peeService.getPee();
+    this.peesProfessor = response.data.pees;
+    this.peesProfessor = this.peesProfessor.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
+    this.peesProfessor = this.peesProfessor.filter((pee) => pee.percentualabono == -1.0);
+    this.peesProfessor = this.peesProfessor.filter((pee) => pee.situacao === 'Enviado para o aluno' || pee.situacao === 'Aguardando Preenchimento');
+
     this.pees = response.data.pees;
-    this.pees = this.pees.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
 
-    this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
-
-    // Filtrar PEEs com situação "Aguardando Preenchimento"
-    const aguardandoPreenchimento = this.pees.filter((pee) => pee.situacao === 'Aguardando Preenchimento');
-    this.dataSourceAguardando = new MatTableDataSource<pee>(aguardandoPreenchimento);
+    const aguardandoProfessor = this.pees.filter((pee) => pee.situacao === 'Aguardando Associação de Professor' );
+    this.dataSourceAguardando = new MatTableDataSource<pee>(aguardandoProfessor);
     this.dataSourceAguardando.paginator = this.paginatorAguardando;
-
-    // Filtrar PEEs com situação "Enviada ao Aluno"
-    const enviadaAoAluno = this.pees.filter((pee) => pee.situacao === 'Enviado para o aluno');
-    this.dataSourceEnviada = new MatTableDataSource<pee>(enviadaAoAluno);
-    this.dataSourceEnviada.paginator = this.paginatorEnviada;
   }
 
-  abonarFalta(pee: any) {
-    const editar = this.dialog.open(AbonarFaltaComponent, {
+  listarPEEs(){
+    this.router.navigate([`/${this.user.tiposervidor}/listarPEEs`]);
+  }
+
+  preencherAvaliarPEE (){
+    return this.peesProfessor.length > 0 ? true : false;
+  }
+
+  associarProfessor(pee: pee) {
+    const editar = this.dialog.open(AssociarProfessoresComponent, {
       data: {
-        idpee: pee.idpee,
-        RED_idRED: pee.RED_idRED,
-        disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
+        idRED: pee.RED_idRED,
+        idPEE: pee.idpee,
         servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
-        aluno_prontuario: pee.red.aluno.prontuario,
-        nome_aluno: pee.red.aluno.nome,
-        prazofinal: pee.prazofinal,
-        conteudo: pee.conteudo,
-        metodologia: pee.metodologia,
-        trabalhos: pee.trabalhos,
-        bibliografia: pee.bibliografia,
-        criterios: pee.criterios,
-        dataEnvioProposta: pee.dataEnvioProposta,
-        canalComunicacao: pee.canalComunicacao,
-        houveAvaliacao: pee.houveAvaliacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
-        dataAvaliacao: pee.dataAvaliacao,
-        observacao: pee.observacao,
+        //disciplina: pee.pee.disciplinas,
+        pee: pee,
       },
     });
     this.handleDialogConfirm(editar);
+  }
+
+  async finalizarProcessoPermanent(red: any) {
+    try {
+      let response = await this.redService.updateRed({
+        idRED: red.idRED,
+        situacao: 'Finalizado',
+      });
+      if (response) {
+        this.snackBarService.open('RED finalizado com sucesso!!');
+        this.findAllRED();
+      }
+    } catch (error: any) {
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao finalizar RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao finalizar RED');
+      }
+    }
+  }
+
+  async finalizarRED(red: any) {
+    let res = false;
+    res = await this.dialogQuestionService.openDialogConfirmDone('red');
+    if (res) {
+      await this.finalizarProcessoPermanent(red);
+    }
+  }
+
+  existePEEs(red: any): boolean {
+    return red.pee.length > 0 ? true : false;
+  }
+
+
+  todosPeesPreenchidos(pee: any[]): boolean {
+    return this.peeService.todosPeesPreenchidos(pee);
+  }
+
+  async visualizarDisciplina(red: any) {
+    const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
+      data: {
+        idRED: red.idRED,
+        pee: red.pee,
+      },
+    });
+    this.handleDialogConfirm(visualizar);
   }
 
   formularioPEE(pee: any, visualizar: boolean) {
@@ -164,88 +212,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
   }
 
-
-  // visualizarRED(red: any) {
-  //   console.log(red);
-  //   const visualizar = this.dialog.open(VisualizarREDComponent, {
-  //     data: {
-  //       idRED: red.idRED,
-  //       aluno_prontuario: red.aluno.prontuario,
-  //       nome: red.aluno.nome,
-  //       dataInicioProcesso: red.dataInicioProcesso,
-  //       dataPrevisaoTermino: red.dataPrevisaoTermino,
-  //       motivoAfastamento: red.motivoAfastamento,
-  //       situacao: red.situacao,
-  //       coordenador: red.coordenador,
-  //       aluno_id: red.aluno_id,
-  //       inicioAfastamento: red.inicioAfastamento,
-  //       observacao: red.observacao,
-  //       tempoAfastamento: red.tempoAfastamento,
-  //       semestreOuAnoAluno: red.semestreOuAnoAluno,
-  //       pee: red.pee,
-  //       motivoRecusa: red.motivoRecusa,
-  //       //arquivos: red.arquivos
-  //     },
-  //   });
-  //   this.handleDialogConfirm(visualizar);
-  // }
-
   isCSP() {
     return (
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'
     );
-  }
-
-  async gerarRelatorioFaltasAbonadas(red: any) {
-    try {
-      const redAluno = await this.peeService.getPeeByIdRED(red.idRED);
-
-      // Extrair os dados necessários do redAluno
-      const dados = redAluno.data.pees.map((item: any) => ({
-        Disciplina: item.disciplinas.nomeDisciplina,
-        'As atividades do aluno foram entregues ao professor?':
-          item.atividades.dateEntregaAluno,
-        'O aluno cumpriu com as atividades propostas no PEE?':
-          item.atividades.cumpriuAtividade,
-        'Se "não cumpriu", foi proposta alguma nova atividade ao aluno (e que tenha sido cumprida)?':
-          item.atividades.novaAtividade,
-        'Houveram atividades avaliativas no periodo de afastamento do aluno?':
-          item.houveAvaliacao,
-        'As atividades avaliativas necessárias já foram realizadas?':
-          item.avaliacoesRealizadas,
-        'Data prevista para aplicação da atividade avaliativa, caso ainda não tenha sido aplicada.':
-          item.dataAvaliacao,
-      }));
-
-      // Criar uma nova planilha
-      const ws = XLSX.utils.json_to_sheet(dados);
-
-      // Definir largura de colunas (Exemplo: coluna A com largura 20, coluna B com largura 30)
-      const colWidths = [
-        { wch: 30 }, // Largura da coluna A
-        { wch: 50 },
-        { wch: 70 },
-        { wch: 90 },
-        { wch: 65 },
-        { wch: 50 },
-        { wch: 90 },
-        // Adicione mais larguras de coluna conforme necessário para suas colunas
-      ];
-      ws['!cols'] = colWidths;
-
-      // Criar um novo livro de trabalho e adicionar a planilha
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Relatorio_Faltas_Abonadas');
-
-      // Salvar o arquivo XLSX
-      const nomeArquivo = 'relatorio_faltas_abonadas.xlsx';
-      XLSX.writeFile(wb, nomeArquivo);
-
-      console.log(`Arquivo ${nomeArquivo} gerado com sucesso.`);
-    } catch (error) {
-      console.error('Erro ao gerar o arquivo XLSX:', error);
-    }
   }
 
   VisualizarRED_CSP(red: any) {
@@ -260,6 +231,7 @@ export class HomeComponent implements OnInit {
     };
     this.router.navigate([`/${this.user.tiposervidor}/visualizarREDCSP`], navigationExtras);
   }
+
   situacaoPEEs(pee: any[]): string {
     return this.peeService.situacaoPEEs(pee);
   }
