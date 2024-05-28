@@ -1,7 +1,9 @@
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import { pee } from '@prisma/client';
+import { emailController } from '../controller/emailController';
 
+const emailcontroller = new emailController();
 export class peeService {
   async findMany(
     search: string,
@@ -215,6 +217,18 @@ export class peeService {
               (professor: any) => professor.idservidor === servidorId
             )
         );
+                  // Envio de e-mail para os servidores sendo removidos
+          for (const servidorId of idsRemover) {
+            const servidor = await prisma.servidor.findUnique({
+              where: { idservidor: servidorId },
+              select: { email: true },
+            });
+
+            if (servidor) {
+              await emailcontroller.SendEmailProfessorDesassociadoPEE(pee.idpee, servidor.email);
+            }
+          }
+          SendEmailProfessorDesassocia
         // Remover associações não desejadas
         if (idsRemover.length > 0) {
           await prisma.pee_servidor.deleteMany({

@@ -137,6 +137,23 @@ export class emailController {
       }
    }
    
+   async SendEmailProfessorDesassociadoPEE(idPee: number, email: string) {
+               const servidorEmail = email;
+               const html = `
+                 <html>
+                 <head>
+                   <title>Desassociado do Processo PEE</title>
+                 </head>
+                 <body>
+                   <p>Informamos que você foi desassociado do processo PEE ${idPee}.</p>
+                   <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                 </body>
+                 </html>`;
+               sendEmail(servidorEmail, "Sistema RED - Início do Processo PEE", html);
+               console.log("Email Enviado Iniciando PEE");
+               console.log(html)
+            }
+
 
    async sendEmailProfessorPreencherPEE(req: Request, res: Response) {
       const idProfessor = req.body.idProfessor;
