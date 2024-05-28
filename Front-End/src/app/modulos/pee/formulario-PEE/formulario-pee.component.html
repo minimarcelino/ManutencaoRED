@@ -199,11 +199,11 @@
         <button mat-raised-button color="primary" (click)="submit()" class="button">
           {{ this.editando ? 'Editar' : 'Cadastrar' }}
         </button>
-        <button mat-raised-button color="warn" (click)="voltar()" class="button">Cancelar</button>
+        <button mat-raised-button color="warn" (click)="retornarParaLista()" class="button">Cancelar</button>
       </div>
 
       <div id="buttons" *ngIf="this.desabilitado">
-        <button mat-raised-button color="primary" (click)="voltar()" class="button">Voltar</button>
+        <button mat-raised-button color="primary" (click)="retornarParaLista()" class="button">Voltar</button>
       </div>
     </form>
   </div>

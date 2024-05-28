@@ -134,11 +134,8 @@ export class FormularioREDComponent implements OnInit {
   async loadAttachedFiles(idRED: number) {
     try {
       const response = await this.redService.getAttachedFiles(idRED);
-      console.log(response);
-
       this.attachedFiles = response;
-      console.log(this.attachedFiles);
-      console.log("teste")
+      // console.log(this.attachedFiles);
     } catch (error) {
       console.error('Erro ao carregar arquivos anexados:', error);
     }
