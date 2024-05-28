@@ -86,6 +86,7 @@ export class LoginComponent implements OnInit {
   backToLogin(){
     this.isResetPassword=false;
     this.isEmailSended=false;
+    location.reload();
   }
 
   async resetPassword(){

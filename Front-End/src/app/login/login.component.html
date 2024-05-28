@@ -43,6 +43,7 @@
             </button>
 
             <p *ngIf="isEmailSended">Foi enviado um e-mail para recuperação de senha para sua caixa de entrada!</p>
+            <p *ngIf="!isResetPassword" style="color: #4a8d69; text-align: end; cursor: pointer; margin-top: 5px" (click)="isResetPassword = !isResetPassword">Primeiro Acesso</p>
             <p *ngIf="!isResetPassword" style="color: #4a8d69; text-align: end; cursor: pointer; margin-top: 5px" (click)="isResetPassword = !isResetPassword">Esqueci minha senha</p>
             <p *ngIf="isResetPassword" style="color: rgb(66, 66, 66); text-align: center; cursor: pointer; margin-top: 5px" (click)="backToLogin()">Voltar para Login</p>
         </form>
