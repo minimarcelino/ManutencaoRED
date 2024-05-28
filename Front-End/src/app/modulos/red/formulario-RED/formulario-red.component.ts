@@ -98,7 +98,7 @@ export class FormularioREDComponent implements OnInit {
       ),
       inicioAfastamento: new FormControl(
         {
-          value: this.data ? this.data.inicioAfastamento : '',
+          value: this.data ? this.data.inicioAfastamento : new Date(),
           disabled: this.desabilitar,
         },
         [Validators.required]
@@ -335,10 +335,10 @@ export class FormularioREDComponent implements OnInit {
       const previsaoTerminoRed = this.dateToString(red.dataPrevisaoTermino);
       const inicioAfastamentoThis = this.dateToString(this.inicioAfastamento);
       const previsaoTerminoThis = this.dateToString(this.previsaoTerminoRed());
-
+      const idAluno = red.aluno_id;
       return (
         inicioAfastamentoRed === inicioAfastamentoThis &&
-        previsaoTerminoRed === previsaoTerminoThis
+        idAluno === this.aluno.id
       );
     });
     return existe;

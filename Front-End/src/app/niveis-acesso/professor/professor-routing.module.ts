@@ -32,6 +32,10 @@ const routes: Routes = [
         path: 'listarPEEs',
         component: ListarPEEComponent,
       },
+      {
+        path:'gerenciarPEEs',
+        component:ListarPEEComponent,
+      }
     ],
   },
 ];

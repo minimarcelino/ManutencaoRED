@@ -90,7 +90,7 @@ export class FormularioPEEComponent implements OnInit {
       }),
       dataEntrega: new FormControl({
         value: this.data.dataEntregaAtividade || '',
-        disable: this.desabilitar,
+        disabled: this.desabilitar,
       }),
       cumpriuAtividade: new FormControl({
         value: this.data.cumpriuAtividade || '',
@@ -102,7 +102,7 @@ export class FormularioPEEComponent implements OnInit {
       }),
       avaliacoesRealizadas: new FormControl({
         value: this.data.avaliacoesRealizadas || '',
-        disable: this.desabilitar,
+        disabled: this.desabilitar,
       }),
       dataAvaliacao: new FormControl({
         value: this.data.dataAvaliacao || '',

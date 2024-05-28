@@ -9,6 +9,7 @@ import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.compo
 //
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'listarREDs',
         component: ListarREDComponent
+      },
+      {
+        path: 'visualizarREDCSP',
+        component:CSPVisualizarREDComponent
       },
 
       // Aluno
