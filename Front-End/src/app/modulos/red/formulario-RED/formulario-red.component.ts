@@ -6,6 +6,7 @@ import { CursoService } from 'src/app/services/cursos.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+import { environment } from 'src/app/environments/environment.development';
 //
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
@@ -513,7 +514,9 @@ export class FormularioREDComponent implements OnInit {
     }
   }
 
-
+ get caminhoArquivo(){
+  return `${environment.API}arquivos/`
+ }
 
   deleteFilePermanent(file: any) {
     console.log(file.idArquivo)

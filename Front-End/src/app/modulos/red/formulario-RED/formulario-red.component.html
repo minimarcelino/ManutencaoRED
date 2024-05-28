@@ -87,7 +87,7 @@
       <mat-form-field class="observacao">
         <mat-label>Faça uma observação</mat-label>
         <textarea formControlName="observacao" matInput
-          placeholder="Ex. O aluno entrou em red faltando 15 dias para ferias matInput" maxlength="4000" rows="5"
+          placeholder="Ex. O aluno entrou em RED faltando 15 dias para as férias" maxlength="4000" rows="5"
           spellcheck="true">
         </textarea>
         <mat-hint align="end" class="hint-inside">{{ updateCharacterCount(observacao) }} caracteres restantes</mat-hint>
@@ -119,7 +119,7 @@
       <div *ngIf="attachedFiles.length > 0;">
         <ul>
           <li *ngFor="let file of attachedFiles" style="display: flex; align-items: center;">
-            <a style="color: white;" [href]="'http://localhost:3333/servidor/arquivos/' + file.path" target="_blank" download>
+            <a style="color: white;" [href]="caminhoArquivo + file.path" target="_blank" download>
               <h3 style="margin: 0;">{{ file.path }}</h3>
             </a>
             <button mat-icon-button *ngIf="!this.desabilitado" (click)="deleteFile(file)" style="margin-left: 5px;">
@@ -129,25 +129,22 @@
         </ul>
       </div>
 
-
-      
       <div *ngIf="!this.desabilitado">
         <button type="button" color="accent" class="button" mat-raised-button (click)="fileInput.click()">
           Escolher Arquivos
         </button>
         <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" multiple>
         <div *ngFor="let file of selectedFiles" style="margin-top: 10px; margin-bottom: 20px;">
-          <span >
+          <span>
             <h3>
-            {{ file.name }}
-            <button mat-icon-button (click)="removeFile(file)" style="margin-left: 5px;">
-              <mat-icon style="font-size: 24px;">delete</mat-icon>
-            </button></h3>
+              {{ file.name }}
+              <button mat-icon-button (click)="removeFile(file)" style="margin-left: 5px;">
+                <mat-icon style="font-size: 24px;">delete</mat-icon>
+              </button>
+            </h3>
           </span>
         </div>
       </div>
-
-      
 
       <div *ngIf="!this.desabilitado">
         <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
@@ -157,24 +154,23 @@
         </button>
       </div>
 
-
       <div *ngIf="this.desabilitado">
         <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
-      
-        <button *ngIf="isCOORD() &&  (situacao() !== 'Esperando associação de disciplina' && situacao() !== 'Esperando confirmação')" mat-raised-button color="accent" class="button"
-          (click)="visualizarDisciplina()">Visualizar disciplinas
+
+        <button
+          *ngIf="isCOORD() &&  (situacao() !== 'Esperando associação de disciplina' && situacao() !== 'Esperando confirmação')"
+          mat-raised-button color="accent" class="button" (click)="visualizarDisciplina()">Visualizar disciplinas
         </button>
       </div>
 
       <div class="topo-direita button" id="buttons" *ngIf="isCOORD() && esperandoConfirmacao">
-          <button mat-raised-button color="primary" class="button" (click)="confirmarRED()">
-            Aceitar o Processo
-          </button>
-          <button mat-raised-button color="warn" class="button" (click)="recusarRED()">
-            Recusar o Processo
-          </button>
+        <button mat-raised-button color="primary" class="button" (click)="confirmarRED()">
+          Aceitar o Processo
+        </button>
+        <button mat-raised-button color="warn" class="button" (click)="recusarRED()">
+          Recusar o Processo
+        </button>
       </div>
-      
     </form>
   </div>
 </div>
