@@ -140,7 +140,7 @@
           {{ this.editando ? 'Editar' : 'Cadastrar'}}
         </button>
       </div>
-       
+      <div *ngIf="this.desabilitado || editando"> 
       <h2>Arquivos Anexados</h2>
       <div *ngIf="attachedFiles.length > 0; else noFiles">
         <ul>
@@ -155,7 +155,7 @@
       <ng-template #noFiles>
         <h3>Não há arquivos anexados.</h3>
       </ng-template>
-        <div *ngIf="this.desabilitado">
+
         <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
 
         <button *ngIf="isCOORD() &&  (situacao() !== 'Esperando associação de disciplina' && situacao() !== 'Esperando confirmação')" mat-raised-button color="accent" class="button"
