@@ -20,9 +20,12 @@ export class FormularioDisciplinaComponent implements OnInit {
   cursos: any[] = [];
   user: any;
   filteredCursos: Observable<any[]> | undefined;
+  disciplinas: any[] = [];
+  disciplina: any;
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private cadastrar: boolean = false;
 
   constructor(
     private snackBarService: SnackBarService,
@@ -45,6 +48,11 @@ export class FormularioDisciplinaComponent implements OnInit {
     if (this.data != null) {
       this.editar = true;
     }
+
+    if(this.data == null){
+        this.cadastrar = true;
+    }
+
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
 
@@ -69,6 +77,10 @@ export class FormularioDisciplinaComponent implements OnInit {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
     this.filterCurso();
+    if(this.cadastrar){
+      this.buscarDisciplinas();
+      this.verificarSigla();
+    }
   }
 
   async submit() {
@@ -232,4 +244,59 @@ export class FormularioDisciplinaComponent implements OnInit {
 
     return titulo;
   }
+
+  async verificarSiglaCadastrada(sigla: string): Promise<boolean> {
+    // Obtém a lista de disciplina do segundo elemento (índice 1) de this.disciplina
+    const listaDisciplina = this.disciplinas[1].disciplinas;
+    // Retorna true se encontrar um curso com a sigla desejada, false caso contrário
+    return listaDisciplina.some((disciplina: any) => disciplina.sigla === sigla);
+  }
+
+  async buscarDisciplinas(): Promise<void> {
+    try {
+      this.disciplinas = await this.disciplinaService.getDisciplina();
+      this.disciplinas = Object.values(this.disciplinas);
+    } catch (error) {
+      console.error('Erro ao carregar as disciplinas:', error);
+    }
+  }
+    // Função para preencher o formulário com os dados do curso existente
+  preencherFormulario(disciplina: any) {
+    if (disciplina) {
+      this.formularioDisciplina.patchValue({
+        nomeDisciplina: disciplina.nomeDisciplina,
+        Curso: disciplina.curso
+      });
+    }
+  }
+
+  // Função para esvaziar o formulário
+  esvaziarFormulario() {
+    this.formularioDisciplina.patchValue({
+      nomeDisciplina:"",
+      Curso: ""
+    });
+  }
+  async verificarSigla(){
+        this.formularioDisciplina.get('sigla')!.valueChanges.subscribe(async (value) => {
+          console.log("entrou")
+          if (value) {
+            const siglaCadastrada = await this.verificarSiglaCadastrada(value.toUpperCase());
+            if (siglaCadastrada) {
+              this.editar = true;
+              const listarDisciplinas = this.disciplinas[1].disciplinas;
+              this.disciplina = listarDisciplinas.find((disciplina: any) => disciplina.sigla === value.toUpperCase());
+              this.preencherFormulario(this.disciplina);
+            }
+            else{
+              if(this.editar == true){
+                this.editar = false;
+                this.disciplina = null;
+                this.esvaziarFormulario();
+              }
+            }
+          }
+        });
+  }
+
 }
