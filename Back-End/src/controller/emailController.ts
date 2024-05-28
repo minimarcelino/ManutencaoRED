@@ -45,17 +45,17 @@ export class emailController {
    }
 
    async SendEmailCoordenadorAssocieProfessor(redResponse: any) {
-         if (redResponse.ok && redResponse.data != null) {
-            if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
-               const coordenadorResponse = await servidorservice.findByIdCoordenador(redResponse.data.coordenador);
-               const alunoResponse = await alunoservice.findById(redResponse.data.aluno_id);
-               if (coordenadorResponse.ok && alunoResponse.ok && alunoResponse.data != null) {
-                  const coordenador = coordenadorResponse.data;
-                  if (typeof coordenador !== 'string' && coordenador) {
-                     const coordenadorEmail = coordenador.email;
-                     if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
-                        const aluno_prontuario = alunoResponse.data.prontuario;
-                        const html = `
+      if (redResponse.ok && redResponse.data != null) {
+         if (typeof redResponse.data === 'object' && 'coordenador' in redResponse.data && 'aluno_id' in redResponse.data) {
+            const coordenadorResponse = await servidorservice.findByIdCoordenador(redResponse.data.coordenador);
+            const alunoResponse = await alunoservice.findById(redResponse.data.aluno_id);
+            if (coordenadorResponse.ok && alunoResponse.ok && alunoResponse.data != null) {
+               const coordenador = coordenadorResponse.data;
+               if (typeof coordenador !== 'string' && coordenador) {
+                  const coordenadorEmail = coordenador.email;
+                  if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
+                     const aluno_prontuario = alunoResponse.data.prontuario;
+                     const html = `
                 <html>
                   <head>
                     <title>Processo RED</title>
@@ -67,14 +67,14 @@ export class emailController {
                   </body>
                 </html>
                 `;
-                        sendEmail(coordenadorEmail, "Sistema RED - Processo RED", html);
-                        console.log("Email Enviado Associe Professor");
-                        return 'Email Enviado';
-                     }
+                     sendEmail(coordenadorEmail, "Sistema RED - Processo RED", html);
+                     console.log("Email Enviado Associe Professor");
+                     return 'Email Enviado';
                   }
                }
             }
          }
+      }
       return 'Error';
    }
 
@@ -115,7 +115,7 @@ export class emailController {
       if (typeof response.data === 'object' && Array.isArray(response.data.pee_servidor)) {
          const pee_servidor = response.data.pee_servidor;
          console.log(pee_servidor)
-         for(let servidor of pee_servidor){
+         for (let servidor of pee_servidor) {
             if (servidor && servidor.email) {
                const servidorEmail = servidor.email;
                const html = `
@@ -136,10 +136,10 @@ export class emailController {
          }
       }
    }
-   
+
    async SendEmailProfessorDesassociadoPEE(idPee: number, email: string) {
-               const servidorEmail = email;
-               const html = `
+      const servidorEmail = email;
+      const html = `
                  <html>
                  <head>
                    <title>Desassociado do Processo PEE</title>
@@ -149,10 +149,10 @@ export class emailController {
                    <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
                  </body>
                  </html>`;
-               sendEmail(servidorEmail, "Sistema RED - Início do Processo PEE", html);
-               console.log("Email Enviado Iniciando PEE");
-               console.log(html)
-            }
+      sendEmail(servidorEmail, "Sistema RED - Início do Processo PEE", html);
+      console.log("Email Enviado Iniciando PEE");
+      console.log(html)
+   }
 
 
    async sendEmailProfessorPreencherPEE(req: Request, res: Response) {
@@ -179,28 +179,28 @@ export class emailController {
 
    // EMAILS ALUNO
    async sendEmailAluno(redAluno: any, req: Request) {
-         if (redAluno && typeof redAluno === 'object' && 'aluno_id' in redAluno) {
-            const alunoId = redAluno.aluno_id;
-            const alunoDetails = await alunoservice.findById(alunoId);
+      if (redAluno && typeof redAluno === 'object' && 'aluno_id' in redAluno) {
+         const alunoId = redAluno.aluno_id;
+         const alunoDetails = await alunoservice.findById(alunoId);
 
-            if (alunoDetails && alunoDetails.ok && alunoDetails.data && typeof alunoDetails.data === 'object') {
-               const alunoData = alunoDetails.data as {
-                  prontuario: string;
-                  nome: string;
-                  dataNascimento: Date;
-                  endereco: string;
-                  telefone: string;
-                  email: string;
-                  curso_idcurso: number;
-                  id: number;
-               };
-               const crypto = require('crypto');
-               const hash = crypto.createHash('sha256');
-               hash.update(req.params.id.toString());
-               const hashPEE = hash.digest('hex');
-               const alunoEmail = alunoData.email;
-               console.log(alunoEmail);
-               const texto = `
+         if (alunoDetails && alunoDetails.ok && alunoDetails.data && typeof alunoDetails.data === 'object') {
+            const alunoData = alunoDetails.data as {
+               prontuario: string;
+               nome: string;
+               dataNascimento: Date;
+               endereco: string;
+               telefone: string;
+               email: string;
+               curso_idcurso: number;
+               id: number;
+            };
+            const crypto = require('crypto');
+            const hash = crypto.createHash('sha256');
+            hash.update(req.params.id.toString());
+            const hashPEE = hash.digest('hex');
+            const alunoEmail = alunoData.email;
+            console.log(alunoEmail);
+            const texto = `
                          <html>
                            <body>
                              <p>As atividades do professor foram enviadas. 👍</p>
@@ -212,13 +212,13 @@ export class emailController {
                          </html>
 
              `;
-               console.log("Email Enviado");
-               console.log(texto)
-               sendEmail(alunoEmail, 'Sistema RED - Inicio das atividades', texto);
-            } else {
-               console.log('Detalhes do aluno não encontrados ou erro na busca.');
-            }
+            console.log("Email Enviado");
+            console.log(texto)
+            sendEmail(alunoEmail, 'Sistema RED - Inicio das atividades', texto);
+         } else {
+            console.log('Detalhes do aluno não encontrados ou erro na busca.');
          }
+      }
 
    }
 
@@ -263,9 +263,9 @@ export class emailController {
    //EMAILS CSP
    async sendEmailCSP(response: any) {
       console.log(response)
-      if('aluno_id' in response.data){
+      if ('aluno_id' in response.data) {
          const aluno = await alunoservice.findById(response.data.aluno_id);
-         if(aluno.data != null && typeof aluno.data == 'object' && 'nome' in aluno.data){
+         if (aluno.data != null && typeof aluno.data == 'object' && 'nome' in aluno.data) {
             const nome = aluno.data.nome;
             const texto = `<html>
             <head>
@@ -280,9 +280,9 @@ export class emailController {
             `;
             sendEmail('gerenciared.ifsp@gmail.com', 'Sistema RED - Associe Disciplinas', texto);
             console.log('Email Enviado CSP');
-      }
+         }
 
+      }
    }
-}
 
 }

@@ -228,7 +228,7 @@ export class peeService {
               await emailcontroller.SendEmailProfessorDesassociadoPEE(pee.idpee, servidor.email);
             }
           }
-          SendEmailProfessorDesassocia
+
         // Remover associações não desejadas
         if (idsRemover.length > 0) {
           await prisma.pee_servidor.deleteMany({
