@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location, formatDate } from '@angular/common';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+
 
 @Component({
   selector: 'app-formulario-pee',
@@ -20,12 +22,15 @@ export class FormularioPEEComponent implements OnInit {
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private avaliar: boolean = false;
 
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private snackBarService: SnackBarService,
-    private peeService: PeeService
+    private peeService: PeeService,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +43,8 @@ export class FormularioPEEComponent implements OnInit {
       }
     });
 
-    console.log(this.data);
+    this._locale = 'pt-BR';
+    this._adapter.setLocale(this._locale);
 
     this.formularioPEE = new FormGroup({
       conteudo: new FormControl(
@@ -73,9 +79,40 @@ export class FormularioPEEComponent implements OnInit {
         { value: this.data.observacoes || '', disabled: this.desabilitar },
         [Validators.maxLength(4000)]
       ),
+      avaliacaoAtividade: new FormControl({
+        value: this.data.avaliacaoAtividade || '',
+        disabled: this.desabilitar,
+      }),
+      percentualAbono: new FormControl({
+        value: this.data.percentualabono || '',
+        disabled: this.desabilitar,
+      }),
+      dataEntrega: new FormControl({
+        value: this.data.dataEntregaAtividade || '',
+        disable: this.desabilitar,
+      }),
+      cumpriuAtividade: new FormControl({
+        value: this.data.cumpriuAtividade || '',
+        disabled: this.desabilitar,
+      }),
+      houveAvaliacao: new FormControl({
+        value: this.data.houveAvaliacao || '',
+        disabled: this.desabilitar,
+      }),
+      avaliacoesRealizadas: new FormControl({
+        value: this.data.avaliacoesRealizadas || '',
+        disable: this.desabilitar,
+      }),
+      dataAvaliacao: new FormControl({
+        value: this.data.dataAvaliacao || '',
+        disabled: this.desabilitar,
+      })
     });
+
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+    console.log("Dados da PEE que vai ser apresentada\n", this.data);
+
   }
 
   async submit() {
@@ -197,7 +234,7 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   updateCharacterCount(campoTexto: string, limite: number): number {
-    return limite - (campoTexto ? campoTexto.length: 0);
+    return limite - (campoTexto ? campoTexto.length : 0);
   }
 
   get conteudo() {
@@ -244,7 +281,7 @@ export class FormularioPEEComponent implements OnInit {
     return this.formularioPEE.get('avaliacaoRealizada')!.value || null;
   }
 
-  get editando() : boolean{
+  get editando(): boolean {
     return this.data.situacao === 'Enviado para o aluno';
   }
 
@@ -252,11 +289,17 @@ export class FormularioPEEComponent implements OnInit {
     return this.desabilitar;
   }
 
+  get avaliado(): boolean {
+    return this.data.situacao === 'Avaliado';
+  }
+
   cabecalho() {
     const situacao = this.data.situacao;
     const docentes = `Docente(s): ${
       this.data.pee_servidor.length > 0
-        ? this.data.pee_servidor.map((docente: any) => docente.servidor.nome).join(', ')
+        ? this.data.pee_servidor
+            .map((docente: any) => docente.servidor.nome)
+            .join(', ')
         : ' - '
     }`;
     const disciplina = `Disciplina: ${this.data.disciplinas.nomeDisciplina}`;
@@ -283,8 +326,8 @@ export class FormularioPEEComponent implements OnInit {
       return '';
     }
   }
-  
-  apresentarAbono(abono: number){
-    return abono < 0 ? "Não avaliado" : `${abono} %`;
+
+  apresentarAbono(abono: number) {
+    return abono < 0 ? 'Não avaliado' : `${abono} %`;
   }
 }

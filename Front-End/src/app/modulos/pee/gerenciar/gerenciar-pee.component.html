@@ -60,7 +60,7 @@
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
             <button mat-icon-button matTooltip="Visualizar PEE" (click)="formularioPEE(a)"
-            *ngIf="!this.peeAguardandoProfessor(a)">
+            *ngIf="!this.peeAguardandoProfessor(a) && a.situacao !== 'Aguardando Preenchimento'">
               <mat-icon>visibility</mat-icon>
             </button>
 

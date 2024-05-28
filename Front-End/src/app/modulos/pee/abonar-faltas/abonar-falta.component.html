@@ -5,14 +5,14 @@
   </div>
 
   <div class="formulario">
-    <form [formGroup]="abonarFaltaPee" #formDir="ngForm">
+    <form [formGroup]="abonarFaltaPEE" #formDir="ngForm">
 
       <mat-form-field>
-        <mat-label>Descrição</mat-label>
-        <textarea matInput name="descricao" id="descricao" formControlName="descricao"></textarea>
+        <mat-label>Avaliação da atividade</mat-label>
+        <textarea matInput name="avaliacaoAtividade" id="avaliacaoAtividade" formControlName="avaliacaoAtividade"></textarea>
         <mat-error
-          *ngIf="abonarFaltaPee.get('descricao')?.errors && (abonarFaltaPee.get('descricao')?.dirty || abonarFaltaPee.get('descricao')?.touched)">
-          <span *ngIf="abonarFaltaPee.get('descricao')?.errors?.['required']">Descrição obrigatória</span>
+          *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors && (abonarFaltaPEE.get('avaliacaoAtividade')?.dirty || abonarFaltaPEE.get('avaliacaoAtividade')?.touched)">
+          <span *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors?.['required']">Avaliação da atividade é obrigatória</span>
         </mat-error>
       </mat-form-field>
 
@@ -22,8 +22,8 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error
-          *ngIf="abonarFaltaPee.get('entregaAluno')?.errors && (abonarFaltaPee.get('entregaAluno')?.dirty || abonarFaltaPee.get('entregaAluno')?.touched)">
-          <span *ngIf="abonarFaltaPee.get('entregaAluno')?.errors?.['required']">Data de entrega obrigatória</span>
+          *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors && (abonarFaltaPEE.get('entregaAluno')?.dirty || abonarFaltaPEE.get('entregaAluno')?.touched)">
+          <span *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors?.['required']">Data de entrega obrigatória</span>
         </mat-error>
       </mat-form-field>
 
@@ -34,8 +34,8 @@
           <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
         <mat-error
-          *ngIf="abonarFaltaPee.get('cumprimento')?.errors && (abonarFaltaPee.get('cumprimento')?.dirty || abonarFaltaPee.get('cumprimento')?.touched)">
-          <span *ngIf="abonarFaltaPee.get('cumprimento')?.errors?.['required']">Opção obrigatória</span>
+          *ngIf="abonarFaltaPEE.get('cumprimento')?.errors && (abonarFaltaPEE.get('cumprimento')?.dirty || abonarFaltaPEE.get('cumprimento')?.touched)">
+          <span *ngIf="abonarFaltaPEE.get('cumprimento')?.errors?.['required']">Opção obrigatória</span>
         </mat-error>
       </div>
 
@@ -46,8 +46,8 @@
           <mat-radio-button value="Não">Não</mat-radio-button>
         </mat-radio-group>
         <mat-error
-          *ngIf="abonarFaltaPee.get('novaAtividade')?.errors && (abonarFaltaPee.get('novaAtividade')?.dirty || abonarFaltaPee.get('novaAtividade')?.touched)">
-          <span *ngIf="abonarFaltaPee.get('novaAtividade')?.errors?.['required']">Opção obrigatória</span>
+          *ngIf="abonarFaltaPEE.get('novaAtividade')?.errors && (abonarFaltaPEE.get('novaAtividade')?.dirty || abonarFaltaPEE.get('novaAtividade')?.touched)">
+          <span *ngIf="abonarFaltaPEE.get('novaAtividade')?.errors?.['required']">Opção obrigatória</span>
         </mat-error>
       </div>
 
@@ -55,8 +55,8 @@
         <mat-label>Percentual de abono</mat-label>
         <input type="number" id="percentualAbono" matInput name="percentualAbono" formControlName="percentualAbono" />
         <mat-error
-          *ngIf="abonarFaltaPee.get('percentualAbono')?.errors && (abonarFaltaPee.get('percentualAbono')?.dirty || abonarFaltaPee.get('percentualAbono')?.touched)">
-          <span *ngIf="abonarFaltaPee.get('percentualAbono')?.errors?.['required']">Percentual de abono
+          *ngIf="abonarFaltaPEE.get('percentualAbono')?.errors && (abonarFaltaPEE.get('percentualAbono')?.dirty || abonarFaltaPEE.get('percentualAbono')?.touched)">
+          <span *ngIf="abonarFaltaPEE.get('percentualAbono')?.errors?.['required']">Percentual de abono
             obrigatória</span>
         </mat-error>
       </mat-form-field>

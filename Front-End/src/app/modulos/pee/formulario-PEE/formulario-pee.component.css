@@ -1,0 +1,10 @@
+.formulario .lado-esquerdo {
+  min-width: 49%;
+  max-width: 100%;
+}
+
+.formulario .lado-direito {
+  margin-left: 2%;
+  min-width: 49%;
+  max-width: 100%;
+}
