@@ -135,7 +135,7 @@ export class FormularioREDComponent implements OnInit {
     try {
       const response = await this.redService.getAttachedFiles(idRED);
       console.log(response);
-      
+
       this.attachedFiles = response;
       console.log(this.attachedFiles);
       console.log("teste")
@@ -233,7 +233,7 @@ export class FormularioREDComponent implements OnInit {
       );
       return;
     }
-    if (!this.verificarDataInicioAfastamento(this.inicioAfastamento)) {
+    if (!this.verificarDataInicioAfastamento(this.inicioAfastamento) && !this.editar) {
       this.snackBarService.open(
         'O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!'
       );
@@ -417,7 +417,7 @@ export class FormularioREDComponent implements OnInit {
   get observacao() {
     return this.formularioRED.get('observacao')!.value;
   }
-  
+
 
   get motivoRecusa() {
     return this.formularioRED.get('motivoRecusa')!.value;
