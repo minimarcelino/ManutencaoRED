@@ -49,7 +49,7 @@ export class RedService {
       for (let i = 0; i < arquivos.length; i++) {
         formData.append('arquivos', arquivos[i]);
       }
-
+      console.log(formData);
       const response = await this.http
         .post(
           `${environment.API}red/create`,
@@ -63,21 +63,28 @@ export class RedService {
     }
   }
 
-  async updateRed(red: any): Promise<any> {
+async updateRed(red: any, arquivos: File[]): Promise<any> {
     try {
-      console.log(red);
-      const response = await this.http
-        .put(
-          `${environment.API}red/update/${red.idRED}`,
-          red,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
+        const formData = new FormData();
+        formData.append('red', JSON.stringify(red));
+        for (let i = 0; i < arquivos.length; i++) {
+            formData.append('arquivos', arquivos[i]);
+        }
+        console.log(formData);
+        console.log(red.idRED);
+        const response = await this.http
+            .post(
+                `${environment.API}red/update/${red.idRED}`,
+                formData,
+                this.authenticationService.getHttpOptions()
+            )
+            .toPromise();
+        return response;
     } catch (error) {
-      this.authenticationService.tratarErro(error);
+        this.authenticationService.tratarErro(error);
     }
-  }
+}
+
 
   async updateSituacaoRED(red: any): Promise<any> {
     try {

@@ -281,8 +281,8 @@ export class FormularioREDComponent implements OnInit {
         observacao: this.observacao,
         aluno_id: this.aluno.id,
         coordenador: this.data.coordenador,
-      }
-      //this.selectedFiles
+      },
+      this.selectedFiles
     );
     this.retornarParaLista();
   }
@@ -314,7 +314,8 @@ export class FormularioREDComponent implements OnInit {
         idRED: this.data.idRED,
         situacao: situacao,
         motivoRecusa: this.motivoRecusa,
-      });
+      },this.selectedFiles
+    );
       this.snackBarService.open('RED alterado com sucesso!!');
     } catch (error: any) {
       if (error && error.error && error.error.data) {

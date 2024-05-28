@@ -147,7 +147,7 @@ export class HomeComponent implements OnInit {
 
   async finalizarProcessoPermanent(red: any) {
     try {
-      let response = await this.redService.updateRed({
+      let response = await this.redService.updateSituacaoRED({
         idRED: red.idRED,
         situacao: 'Finalizado',
       });

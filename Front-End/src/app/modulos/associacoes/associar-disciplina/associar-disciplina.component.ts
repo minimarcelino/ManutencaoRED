@@ -190,7 +190,7 @@ export class AssociarDisciplinaComponent implements OnInit {
         });
         // altera situação red
         try {
-          let response = await this.redService.updateRed({
+          let response = await this.redService.updateSituacaoRED({
             idRED: this.data.idRED,
             situacao: 'Em andamento',
           });

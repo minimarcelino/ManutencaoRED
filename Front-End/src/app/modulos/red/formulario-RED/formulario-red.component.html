@@ -53,7 +53,7 @@
         <mat-label>Início do afastamento</mat-label>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error
-          *ngIf="formularioRED.get('inicioAfastamento')?.errors && (formularioRED.get('inicioAfastamento')?.dirty || formularioRED.get('inicioAfastamento')?.touched)">
+          *ngIf="!editando && formularioRED.get('inicioAfastamento')?.errors && (formularioRED.get('inicioAfastamento')?.dirty || formularioRED.get('inicioAfastamento')?.touched)">
           <span *ngIf="formularioRED.get('inicioAfastamento')?.errors?.['required']">Data do início do afastamento
             obrigatório</span>
         </mat-error>
