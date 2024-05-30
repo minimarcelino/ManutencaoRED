@@ -46,7 +46,6 @@ export class SenhaComponent implements OnInit {
       const senhaAtual = this.alterarPerfil.get('senhaAtual')!.value;
       this.logging = await this.authenticationService.login({
         prontuario: this.user.prontuario,
-        //// REMOÇÃO DA SENHA PARA REALIZAR TESTES MAIS RAPIDAMENTE
         senha: senhaAtual,
       });
       console.log(this.logging);
@@ -78,10 +77,10 @@ export class SenhaComponent implements OnInit {
         }
       }
         this.snackBarService.open('Senha alterada!');
-        
+
           this.authenticationService.logout();
           this.router.navigate(['/login']); // redireciona o usuário para a página de login após o logout
-      
+
       } else {
         this.snackBarService.open('Senha incorreta!');
       }

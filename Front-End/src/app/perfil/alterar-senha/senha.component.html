@@ -1,25 +1,27 @@
-<div class="container">
-    <div>
+<div>
+    <div class="tittle listagem">
         <h1>Alterar senha</h1>
-        <hr>
+        <hr class="linha">
     </div>
-    <div class="fields">
+    <div class="formulario">
         <form [formGroup]="alterarPerfil" #formDir="ngForm">
-            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
+            <mat-form-field appearance="fill" >
                 <mat-label>Senha Atual</mat-label>
                 <input type="password" matInput name="senhaAtual" formControlName="senhaAtual"/>
                 <div *ngIf="alterarPerfil.get('senhaAtual')?.invalid && formDir.submitted" class="validation">
                     <p>Senha atual obrigatória!</p>
                 </div>
             </mat-form-field>
-            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
+
+            <mat-form-field appearance="fill">
                 <mat-label>Nova Senha</mat-label>
                 <input type="password" matInput name="novaSenha" formControlName="novaSenha"/>
                 <div *ngIf="alterarPerfil.get('novaSenha')?.invalid && formDir.submitted" class="validation">
                     <p>Nova senha obrigatória!</p>
                 </div>
             </mat-form-field>
-            <mat-form-field appearance="fill" style="min-width: 26%; max-width: 100%; margin-right: 600px;">
+
+            <mat-form-field appearance="fill">
                 <mat-label>Confirmar Nova Senha</mat-label>
                 <input type="password" matInput name="confirmarSenha" formControlName="confirmarSenha"/>
                 <div *ngIf="alterarPerfil.get('confirmarSenha')?.invalid && formDir.submitted" class="validation">
@@ -29,8 +31,9 @@
                     <p>As senhas não correspondem!</p>
                 </div>
             </mat-form-field>
-            <div id="buttons">
-                <button mat-raised-button color="primary" (click)="submit()" style="margin-left: 4px;">Alterar</button>
+
+            <div>
+                <button mat-raised-button color="primary" (click)="submit()" class="button">Alterar</button>
             </div>
         </form>
     </div>

@@ -20,13 +20,13 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="campo-professor">
+      <!-- <mat-form-field class="campo-professor">
         <mat-label>Professor</mat-label>
         <mat-select [(value)]="professorSelecionado" (selectionChange)="filroPorProfessor($event)">
           <mat-option value="todos">Todos professores</mat-option>
           <mat-option *ngFor="let p of professores" [value]="p.nome">{{p.nome}}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ServidorService } from '../services/servidor.service';
-import { SnackBarService } from '../services/snackbar.service';
 import { SenhaComponent } from './alterar-senha/senha.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -18,12 +15,7 @@ export class PerfilComponent implements OnInit {
   editing: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private router: Router,
-    private snackBarService: SnackBarService,
-    private servidorService: ServidorService
-  ) {}
+    private dialog: MatDialog  ) {}
 
 
   ngOnInit(): void {
@@ -34,7 +26,7 @@ export class PerfilComponent implements OnInit {
       prontuario: new FormControl({ value: this.user.prontuario, disabled: true },[Validators.required]),
       email: new FormControl({ value: this.user.email, disabled: true }, [Validators.required,]),
     });
-    
+
   }
 
   toggleEdit() {
@@ -47,14 +39,15 @@ export class PerfilComponent implements OnInit {
 
   async alterarSenha() {
     const senha = this.dialog.open(SenhaComponent, {
-
+      width: '25%',  // Defina a largura do diálogo
+      height: 'auto',  // Defina a altura do diálogo
     });
     this.handleDialogConfirm(senha);
   }
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe(() => {
-      
+
     });
   }
 }

@@ -515,7 +515,7 @@ export class FormularioREDComponent implements OnInit {
   }
 
  get caminhoArquivo(){
-  return `${environment.API}arquivos/`
+  return `${environment.API}arquivos/`; // Necessário alterar manualmente no servidor, ele não reconheceu o caminho da API
  }
 
   deleteFilePermanent(file: any) {
