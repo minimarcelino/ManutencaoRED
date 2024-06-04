@@ -5,8 +5,8 @@
 Nesta seção podem ser encontrados toda a documentação referente ao **Sistema de Gerenciamento do Regime de Exercícios Domiciliares (gRED)**, e os arquivos utilizados para a elaboração da documentação e um resumo do sistema.
 
 Estão presentes nessa seção os documentos:
-- [📝 Manual do Sistema](./Manual%20do%20Sistema/)
-- [📲 Manual de Instalação](./Manual%20de%20Instalação/)
+- [📝 Manual do Sistema](./Manual-do-Sistema/)
+- [📲 Manual de Instalação](./Manual-de-Instalação/)
 - [Documentação da 1ª Manutenção (1ª semestre de 2024)](./Manutencao-2024-1Semestre/)
 
 ## 📝 Resumo do Sistema de Gerenciamento do Regime de Exercícios Domiciliares (gRED)

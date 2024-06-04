@@ -7,8 +7,8 @@ O GRED proporcionará maior eficiência, transparência e agilidade na administr
 
 ## Documentos
 
-- [**Manual do Sitema**](DOCUMENTACAO/Manual%20do%20Sistema/)
-- [📲 Manual de Instalação](DOCUMENTACAO/Manual%20de%20Instalação/)
+- [**Manual do Sitema**](DOCUMENTACAO/Manual-do-Sistema/)
+- [📲 Manual de Instalação](DOCUMENTACAO/Manual-de-Instalação/)
 - [📝 Resumo do Sistema](DOCUMENTACAO/)
 - [⚙️ Documentação do Backend](CODIGOFONTE/Back-End/)
 - [Documentação da 1ª Manutenção](DOCUMENTACAO/Manutencao-2024-1Semestre/)
