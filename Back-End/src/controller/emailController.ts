@@ -247,7 +247,7 @@ export class emailController {
           </head>
           <body>
           <p>Olá ${nome}! Recebemos sua solicitação para realizar a troca de senha.</p>
-          <p>Por favor, <a href="${EMAIL_URL}usuario/${token}">clique aqui</a> para definir sua senha</p>
+          <p>Por favor, <a href="${EMAIL_URL}usuario/trocar-senha/${token}">clique aqui</a> para definir sua senha</p>
           <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
           </body>
           </html>
