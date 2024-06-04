@@ -1,0 +1,144 @@
+import { Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
+import { AuthenticationService } from './authentication.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class authorizationService {
+  user: any;
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
+
+  async canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<boolean> {
+    const token = await this.authenticationService.getToken();
+    this.user = localStorage.getItem('user');
+
+    if (this.user != null) {
+      let userType;
+      this.user = JSON.parse(this.user);
+      // Verifique a rota atual
+      const currentRoute = state.url;
+
+      if (token && this.user) {
+        // Obtenha o nível de acesso do usuário atual
+        const userAccessLevel = this.user.tiposervidor;
+
+        // Verifique o nível de acesso e a rota atual
+        if (
+          userAccessLevel === 'coordenador' &&
+          (currentRoute === '/coordenador' ||
+          currentRoute === '/coordenador/home' ||
+            currentRoute === '/coordenador/perfil' ||
+            // Disciplinas
+            currentRoute === '/coordenador/listarDisciplinas' ||
+            currentRoute === '/coordenador/cadastrarDisciplinas' ||
+            // Curso
+            currentRoute === '/coordenador/listarCursos' ||
+            currentRoute === '/coordenador/cadastrarCursos' ||
+            // Servidores (Docentes)
+            currentRoute === '/coordenador/listarServidores' ||
+            currentRoute === '/coordenador/cadastrarServidores' ||
+            //RED
+            currentRoute === '/coordenador/cadastrarREDs' ||
+            currentRoute === '/coordenador/listarREDs' ||
+            //PEE
+            currentRoute === '/coordenador/gerenciarPEEs' ||
+            currentRoute === '/coordenador/listarPEEs' ||
+            currentRoute === '/coordenador/PEEAbonados' ||
+            //
+            currentRoute === '/coordenador/listar')
+        ) {
+          return true;
+        } else if (
+          userAccessLevel === 'cra' &&
+          (currentRoute === '/cra' ||
+          currentRoute === '/cra/home' ||
+            currentRoute === '/cra/perfil' ||
+            // RED
+            currentRoute === '/cra/listarREDs' ||
+            currentRoute === '/cra/cadastrarREDs' ||
+            // Alunos
+            currentRoute === '/cra/listarAlunos' ||
+            currentRoute === '/cra/cadastrarAlunos')
+        ) {
+          return true;
+        } else if (
+          userAccessLevel === 'csp' &&
+          (currentRoute === '/csp' ||
+            currentRoute === '/csp/home' ||
+            currentRoute === '/csp/perfil' ||
+            // Servidores (Docentes)
+            currentRoute === '/csp/cadastrarServidores' ||
+            currentRoute === '/csp/listarServidores' ||
+            currentRoute === '/csp/editarServidores' ||
+            // Cursos
+            currentRoute === '/csp/listarCursos' ||
+            currentRoute === '/csp/cadastrarCursos' ||
+            // RED
+            currentRoute === '/csp/listarREDs')
+          // Cursos
+        ) {
+          return true;
+        } else if (
+          // O que é docente e o que é professor????
+          userAccessLevel === 'docente' &&
+          (currentRoute === '/docente' ||
+            // Falta perfil
+            currentRoute === '/docente/outra-rota-convidado')
+          // PEE
+        ) {
+          return true;
+        } else if (
+          userAccessLevel === 'administrador' &&
+          (currentRoute === '/administrador' ||
+            currentRoute === '/administrador/home' ||
+            currentRoute === '/administrador/perfil' ||
+            // Disciplinas
+            currentRoute === '/administrador/listarDisciplinas' ||
+            currentRoute === '/administrador/cadastrarDisciplinas' ||
+            // RED
+            currentRoute === '/administrador/listarREDs' ||
+            currentRoute === '/administrador/cadastrarREDs' ||
+            // Servidores
+            currentRoute === '/administrador/listarServidores' ||
+            currentRoute === '/administrador/cadastrarServidores' ||
+            // Alunos
+            currentRoute === '/administrador/listarAlunos' ||
+            currentRoute === '/administrador/cadastrarAlunos' ||
+            // Curso
+            currentRoute === '/administrador/listarCursos' ||
+            currentRoute === '/administrador/cadastrarCursos' ||
+            //PEE
+            currentRoute === '/administrador/gerenciarPEEs' ||
+            currentRoute === '/administrador/PEEAbonados'
+            )
+        ) {
+          return true;
+        } else if (
+          userAccessLevel === 'professor' &&
+          (currentRoute === '/professor' ||
+            currentRoute === '/professor/home' ||
+            currentRoute === '/professor/perfil' ||
+            //PEE
+            currentRoute === '/professor/listarPEEs' ||
+            currentRoute === '/professor/PEEAbonados' )
+        ) {
+          return true;
+        }
+      }
+    }
+    this.router.navigate(['login']);
+    return false;
+  }
+}

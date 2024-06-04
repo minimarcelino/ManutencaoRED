@@ -5,9 +5,10 @@ O Sistema de Gerenciamento do Regime de Exercícios Domiciliares (GRED) tem como
 
 O GRED proporcionará maior eficiência, transparência e agilidade na administração deste regime, beneficiando tanto os estudantes quanto a instituição de ensino.
 
-## Documentos auxiliares
+## Documentos
 
-- [📲 Manual de Instalação](Documentacao/Manual%20de%20instalacao.md)
-- [📝 Manual do Sistema](Documentacao/Manual%20do%20sistema.md)
-- [⚙️ Documentação do Backend](Back-End/README.md)
-- [Documentação da 1ª Manutenção](Manutencao-2024-1Semestre/README.md)
+- [**Manual do Sitema**](DOCUMENTACAO/Manual%20do%20Sistema/)
+- [📲 Manual de Instalação](DOCUMENTACAO/Manual%20de%20Instalação/)
+- [📝 Resumo do Sistema](DOCUMENTACAO/)
+- [⚙️ Documentação do Backend](CODIGOFONTE/Back-End/)
+- [Documentação da 1ª Manutenção](DOCUMENTACAO/Manutencao-2024-1Semestre/)
