@@ -126,8 +126,6 @@ export class FormularioServidoresComponent implements OnInit {
       return;
     }
 
-    let catServidor =
-      this.tiposervidor.charAt(0).toUpperCase() + this.tiposervidor.slice(1);
     if (this.formularioServidor.invalid || this.isSubmitting) {
       this.snackBarService.open('Campos Obrigatórios');
       const fields = Object.keys(this.formularioServidor.controls);
@@ -147,7 +145,7 @@ export class FormularioServidoresComponent implements OnInit {
         if (this.editar) {
           this.updateServidor();
         } else {
-          this.createServidor(catServidor);
+          this.createServidor();
         }
         this.retornarParaLista();
         this.isSubmitting = true;
@@ -155,16 +153,16 @@ export class FormularioServidoresComponent implements OnInit {
         if (error && error.error && error.error.data) {
           const errorMessage = error.error.data;
           this.snackBarService.open(
-            `Falha ao cadastrar ${catServidor}: ${errorMessage}`
+            `Falha ao cadastrar Servidor: ${errorMessage}`
           );
         } else {
-          this.snackBarService.open(`Falha ao cadastrar ${catServidor}`);
+          this.snackBarService.open(`Falha ao cadastrar Servidor`);
         }
       }
     }
   }
 
-  private async createServidor(catServidor: string) {
+  private async createServidor() {
     await this.servidorService.createServidor({
       prontuario: this.prontuario.trim().toUpperCase(),
       nome: this.nome.trim(),
@@ -172,7 +170,7 @@ export class FormularioServidoresComponent implements OnInit {
       tiposervidor: this.tiposervidor || 'professor',
       senha: this.gerarPalavraAleatoria(8),
     });
-    this.snackBarService.open(`${catServidor} cadastrado com sucesso!!`);
+    this.snackBarService.open(`Servidor cadastrado com sucesso`);
   }
 
   private async updateServidor() {
@@ -193,7 +191,7 @@ export class FormularioServidoresComponent implements OnInit {
       tiposervidor: this.tiposervidor,
       senha: senha,
     });
-    this.snackBarService.open('Docente editado com sucesso!!');
+    this.snackBarService.open('Servidor editado com sucesso');
   }
 
   retornarParaLista() {
@@ -228,9 +226,9 @@ export class FormularioServidoresComponent implements OnInit {
   titulo() {
     let titulo;
     if (!this.editar) {
-      titulo = 'Cadastro de Curso';
+      titulo = 'Cadastro de Servidor';
     } else {
-      titulo = 'Edição de Curso';
+      titulo = 'Edição de Servidor';
     }
     return titulo;
   }

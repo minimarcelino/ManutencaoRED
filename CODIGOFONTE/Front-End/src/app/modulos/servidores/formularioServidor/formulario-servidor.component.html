@@ -50,12 +50,11 @@
       <div *ngIf="isADM()">
         <mat-form-field>
           <mat-label>Categoria de Servidor</mat-label>
-          <input matInput name="tiposervidor" id="tiposervidor" formControlName="tiposervidor" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
+          <mat-select name="tiposervidor" id="tiposervidor" formControlName="tiposervidor">
             <mat-option *ngFor="let c of tipoServidores" [value]="c">
               {{c}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
           <mat-error
             *ngIf="formularioServidor.get('tiposervidor')?.errors && (formularioServidor.get('tiposervidor')?.dirty || formularioServidor.get('tiposervidor')?.touched)">
             <span *ngIf="formularioServidor.get('tiposervidor')?.errors?.['required']">Tipo do servidor
