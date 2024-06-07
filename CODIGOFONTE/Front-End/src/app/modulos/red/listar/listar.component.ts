@@ -248,8 +248,8 @@ export class ListarREDComponent implements OnInit {
 
   associarDisciplina(red: red) {
     const editar = this.dialog.open(AssociarDisciplinaComponent, {
-      minWidth: '1200px',
-      minHeight: '800px',
+      width: '100%',
+      height: '95%',
       data: {
         idRED: red.idRED,
         situacao: red.situacao,

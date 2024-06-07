@@ -98,6 +98,8 @@ export class VisualizarDisciplinaComponent implements OnInit {
     const associarProfessor = this.dialogProfessor.open(
       AssociarProfessoresComponent,
       {
+        width:'100%',
+        height:'95%',
         data: {
           idRED: pee.RED_idRED,
           idPEE: pee.idpee,

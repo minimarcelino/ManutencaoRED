@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mat-dialog-content {
+  flex: 1;
+  overflow-y: auto; /* Permite rolagem vertical */
+  overflow-x: hidden; /* Esconde a rolagem horizontal, se houver */
+}
+
+.mat-dialog-actions {
+  flex-shrink: 0;
+}

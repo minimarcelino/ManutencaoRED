@@ -1,12 +1,12 @@
-<div class="container" translate="no">
+<div class="corpo" translate="no">
 
-  <div class="title" translate="no">
+  <div class="title listagem" translate="no">
     <h1>Associação de Disciplina</h1>
     <h2>{{ this.apresentarAluno() }}</h2>
     <hr class="linha" />
   </div>
 
-  <div>
+  <div class="formulario">
     <form [formGroup]="associarDisciplina" #formDir="ngForm">
 
       <mat-form-field>
@@ -14,9 +14,9 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Banco de Dados 1 | PEPBDD1">
       </mat-form-field>
 
-      <div class="header-container">
+      <div class="titulo-container">
         <hr class="linha" />
-        <h3 class="centralized-header">Disciplinas disponíveis</h3>
+        <h3 class="titulo-centralizado">Disciplinas disponíveis</h3>
 
         <div id="tabela">
           <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
@@ -50,9 +50,9 @@
       </div>
 
 
-      <div class="header-container">
+      <div class="titulo-container">
         <hr class="linha" />
-        <h3 class="centralized-header">Disciplinas associadas</h3>
+        <h3 class="titulo-centralizado">Disciplinas associadas</h3>
 
         <div id="tabela">
           <table appearance="outline" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" matSort>
