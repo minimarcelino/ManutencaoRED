@@ -1,14 +1,23 @@
 .custom-tela {
     background-color: #f7f7f7;
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 5px;
+    padding: 2%;
+    margin: 2%;
+}
+
+.custom-tela h1{
+  color: black;
+  font-size: xx-large;
+}
+
+.custom-tela h2{
+  color: black;
+  font-size: x-large;
 }
 
 .custom-tela p {
+  color: black;
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: large;
 }
 
 .custom-tela p:first-child {
@@ -16,7 +25,7 @@
 }
 
 .custom-item {
-    border: 1px solid #ccc;
+    border: 3px solid #ccc;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
