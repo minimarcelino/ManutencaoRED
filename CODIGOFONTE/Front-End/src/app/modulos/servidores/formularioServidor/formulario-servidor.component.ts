@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { ServidorService } from 'src/app/services/servidor.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
@@ -35,7 +35,6 @@ export class FormularioServidoresComponent implements OnInit {
   constructor(
     private servidorService: ServidorService,
     private snackBarService: SnackBarService,
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
@@ -196,7 +195,7 @@ export class FormularioServidoresComponent implements OnInit {
 
   retornarParaLista() {
     this.location.back();
-    this.router.navigate([`/${this.user.tiposervidor}/listarServidores`]);
+    //this.router.navigate([`/${this.user.tiposervidor}/listarServidores`]);
   }
 
   get prontuario() {

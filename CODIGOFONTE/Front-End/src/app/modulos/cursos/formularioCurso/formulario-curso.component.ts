@@ -6,6 +6,7 @@ import { CursoService } from '../../../services/cursos.service';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-formulario-curso',
@@ -32,7 +33,8 @@ export class FormularioCursoComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -170,7 +172,8 @@ export class FormularioCursoComponent implements OnInit {
   }
 
   retornarParaLista() {
-    this.router.navigate([`/${this.user.tiposervidor}/listarCursos`]);
+    this.location.back();
+    // this.router.navigate([`/${this.user.tiposervidor}/listarCursos`]);
   }
 
   displayFn(Coordenador: any): string {
@@ -264,6 +267,10 @@ export class FormularioCursoComponent implements OnInit {
             }
           }
         });
+  }
+
+  compareFn(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.idservidor === c2.idservidor : c1 === c2;
   }
 
 }

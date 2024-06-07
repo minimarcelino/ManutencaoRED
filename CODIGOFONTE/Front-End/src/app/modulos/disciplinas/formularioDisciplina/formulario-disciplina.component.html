@@ -29,25 +29,22 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Curso</mat-label>
-          <input formControlName="Curso" id="curso" type="text" placeholder="Selecione um curso" matInput
-            [matAutocomplete]="auto">
+          <input formControlName="Curso" id="curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto">
           <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
-            <mat-option *ngFor="let c of cursos" [value]="c">
-            {{c.nomeCurso}}
-          </mat-option>
-            <!-- <mat-option *ngFor="let c of filteredCursos | async" [value]="c">
+            <mat-option *ngFor="let c of filteredCursos | async" [value]="c">
               {{c.nomeCurso}}
-            </mat-option> -->
+            </mat-option>
           </mat-autocomplete>
-          <mat-error
-            *ngIf="formularioDisciplina.get('Curso')?.errors && (formularioDisciplina.get('Curso')?.dirty || formularioDisciplina.get('Curso')?.touched)">
+          <mat-error *ngIf="formularioDisciplina.get('Curso')?.errors && (formularioDisciplina.get('Curso')?.dirty || formularioDisciplina.get('Curso')?.touched)">
             <span *ngIf="formularioDisciplina.get('Curso')?.errors?.['required']">Campo obrigatório.</span>
+            <span *ngIf="formularioDisciplina.get('Curso')?.errors?.['cursoInvalido']">Curso inválido. Selecione um curso da lista.</span>
           </mat-error>
         </mat-form-field>
 
+
         <div>
           <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Voltar</button>
-          <button *ngIf="!this.desabilitado" mat-raised-button color="primary" class="button" (click)="submit()">{{ this.editando ? 'Editar' : 'Cadastrar'}}</button>
+          <button *ngIf="!this.desabilitado" mat-raised-button color="primary" class="button" (click)="submit()">{{ this.editando ? 'Salvar' : 'Cadastrar'}}</button>
         </div>
       </form>
     </div>

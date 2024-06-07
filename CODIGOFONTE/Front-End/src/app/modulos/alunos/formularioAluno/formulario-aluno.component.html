@@ -61,13 +61,14 @@
         <input formControlName="curso" id="curso" type="text" placeholder="Selecione um Curso" matInput
           [matAutocomplete]="auto">
         <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
-          <mat-option *ngFor="let c of cursos" [value]="c">
+          <mat-option *ngFor="let c of filteredCursos | async" [value]="c">
             {{c.nomeCurso}}
           </mat-option>
         </mat-autocomplete>
         <mat-error
           *ngIf="formularioAluno.get('curso')?.errors && (formularioAluno.get('curso')?.dirty || formularioAluno.get('curso')?.touched)">
           <span *ngIf="formularioAluno.get('curso')?.errors?.['required']">Campo obrigatório</span>
+          <span *ngIf="formularioAluno.get('curso')?.errors?.['cursoInvalido']">Curso inválido. Selecione um curso da lista.</span>
         </mat-error>
       </mat-form-field>
 
@@ -76,7 +77,7 @@
 
         <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
         <button mat-raised-button color="primary" class="button" (click)="submit()">
-          {{ this.editando ? 'Editar' : 'Cadastrar'}}
+          {{ this.editando ? 'Salvar' : 'Cadastrar'}}
         </button>
       </div>
 

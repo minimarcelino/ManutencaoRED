@@ -1,13 +1,22 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Location } from '@angular/common';
+import { Observable, startWith, map } from 'rxjs';
 
 import { AlunoService } from 'src/app/services/alunos.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { curso } from 'src/app/modelo/curso';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+
+// Validador personalizado para verificar se o curso existe na lista de cursos
+function cursoValidoValidator(cursos: any[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isValid = cursos.some(curso => curso.nomeCurso === control.value.nomeCurso);
+    return isValid ? null : { cursoInvalido: true };
+  };
+}
 
 @Component({
   selector: 'app-formulario-aluno',
@@ -23,6 +32,7 @@ export class FormularioAlunoComponent implements OnInit {
   destino = '';
   alunos: any[] = [];
   aluno: any;
+  filteredCursos: Observable<any[]> | undefined;
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
@@ -98,16 +108,18 @@ export class FormularioAlunoComponent implements OnInit {
       curso: new FormControl(
         {
           value: this.data ? this.data.curso : '',
-          disabled: this.desabilitar,
+          disabled: desabilitarControle,
         },
-        [Validators.required]
+        [Validators.required, cursoValidoValidator(this.cursos)]
       ),
     });
     if(this.cadastrar){
       this.buscarAlunos();
       this.verificarProntuario();
+      this.filterCurso();
     }
     this.buscarCursos();
+    this.filterCurso();
   }
 
   async submit() {
@@ -219,13 +231,35 @@ export class FormularioAlunoComponent implements OnInit {
     return idade >= 13;
   }
 
+  filterCurso() {
+    if (this.formularioAluno && this.formularioAluno.get('curso')) {
+      this.filteredCursos = this.formularioAluno
+        .get('curso')!
+        .valueChanges.pipe(
+          startWith(''),
+          map((value) => (typeof value === 'string' ? value : value.nomeCurso)),
+          map((nomeCurso) =>
+            nomeCurso ? this._filterCursos(nomeCurso) : this.cursos.slice()
+          )
+        );
+    }
+  }
+
+  private _filterCursos(nomeCurso: string): any[] {
+    const filterValue = nomeCurso.toLowerCase();
+    return this.cursos.filter(
+      (curso) => curso.nomeCurso.toLowerCase().indexOf(filterValue) !== -1
+    );
+  }
+
   async buscarCursos() {
     const getCursos = await this.cursoService.getCursos();
     this.cursos = getCursos.data.cursos;
+    this.filterCurso(); // Chamar a filtragem após buscar os cursos
   }
 
   displayFn(curso: curso): string {
-    return curso && curso.nomeCurso;
+    return curso && curso.nomeCurso ? curso.nomeCurso : '';
   }
 
   retornarParaLista() {

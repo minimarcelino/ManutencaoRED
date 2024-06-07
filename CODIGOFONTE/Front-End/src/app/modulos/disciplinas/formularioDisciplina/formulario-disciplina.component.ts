@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Observable, startWith, map } from 'rxjs';
@@ -7,6 +7,14 @@ import { Observable, startWith, map } from 'rxjs';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { CursoService } from '../../../services/cursos.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+
+// Validador personalizado para verificar se o curso existe na lista de cursos
+function cursoValidoValidator(cursos: any[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isValid = cursos.some(curso => curso.nomeCurso === control.value.nomeCurso);
+    return isValid ? null : { cursoInvalido: true };
+  };
+}
 
 @Component({
   selector: 'app-formulario-disciplina',
@@ -52,6 +60,7 @@ export class FormularioDisciplinaComponent implements OnInit {
     if(this.data == null){
         this.cadastrar = true;
     }
+    const desabilitarControle = this.desabilitar || this.editar;
 
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
@@ -70,8 +79,8 @@ export class FormularioDisciplinaComponent implements OnInit {
       }, [Validators.required]),
       Curso: new FormControl({
         value: this.data ? this.data.curso : '',
-        disabled: this.desabilitar
-      }, [Validators.required]),
+        disabled: desabilitarControle
+      }, [Validators.required, cursoValidoValidator(this.cursos)]),
     });
     this.buscarCursos();
     this.user = localStorage.getItem('user');
@@ -177,12 +186,13 @@ export class FormularioDisciplinaComponent implements OnInit {
   }
 
   displayFn(Curso: any): string {
-    return Curso && Curso.nomeCurso;
+    return Curso && Curso.nomeCurso ? Curso.nomeCurso : '';
   }
 
   async buscarCursos() {
     const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
+    this.filterCurso(); // Chamar a filtragem após buscar os cursos
   }
 
   filterCurso() {

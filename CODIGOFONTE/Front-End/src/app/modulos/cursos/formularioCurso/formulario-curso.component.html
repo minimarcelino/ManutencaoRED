@@ -27,16 +27,15 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <input formControlName="Coordenador" type="text" placeholder="Selecione um coordenador"
-          aria-label="Professor Coordenador" matInput [matAutocomplete]="auto">
-        <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+        <mat-label>Coordenador</mat-label>
+        <mat-select formControlName="Coordenador" placeholder="Selecione um coordenador" [compareWith]="compareFn">
           <mat-option *ngFor="let c of coordenadores" [value]="c">
-            {{c.nome}}
+            {{ c.nome }}
           </mat-option>
-        </mat-autocomplete>
+        </mat-select>
         <mat-error
           *ngIf="formularioCurso.get('idcordenador')?.errors && (formularioCurso.get('idcordenador')?.dirty || formularioCurso.get('idcordenador')?.touched)">
-          <span *ngIf="formularioCurso.get('idcordenador')?.errors?.['required']">Cordenador obrigatório</span>
+          <span *ngIf="formularioCurso.get('idcordenador')?.errors?.['required']">Coordenador obrigatório</span>
         </mat-error>
       </mat-form-field>
 
@@ -44,7 +43,7 @@
 
         <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
         <button mat-raised-button color="primary" class="button" (click)="submit()">
-          {{ this.editando ? 'Editar' : 'Cadastrar'}}
+          {{ this.editando ? 'Salvar' : 'Cadastrar'}}
         </button>
       </div>
     </form>
