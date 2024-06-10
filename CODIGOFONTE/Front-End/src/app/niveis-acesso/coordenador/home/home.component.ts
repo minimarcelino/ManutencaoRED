@@ -42,6 +42,9 @@ export class HomeComponent implements OnInit {
   peesProfessor: pee[] = [];
   pees: pee[] = [];
   reds: any[] = [];
+  esperandoConfirmacao: any[] = [];
+  aguardandoProfessor: any[] = [];
+  ativos: any[] = [];
   alunos: any[] = [];
   cursos: curso[] = [];
   user: any = '';
@@ -90,13 +93,13 @@ export class HomeComponent implements OnInit {
   async findAllRED() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    const esperaConfirmacao = this.reds.filter((red) => red.situacao === 'Esperando confirmação' );
-    this.dataSourceRed = new MatTableDataSource<any>(esperaConfirmacao);
+    this.esperandoConfirmacao = this.reds.filter((red) => red.situacao === 'Esperando confirmação' );
+    this.dataSourceRed = new MatTableDataSource<any>(this.esperandoConfirmacao);
     this.dataSourceRed.paginator = this.paginatorRed;
     console.log("REDs atuais\n", this.reds);
 
-    const ativos = this.reds.filter((red) => (red.coordenador == this.user.idservidor) && (red.situacao === 'Em andamento') || (red.situacao === 'Esperando associação de disciplina') );
-    this.dataSourceRedAtivos = new MatTableDataSource<any>(ativos);
+    this.ativos = this.reds.filter((red) => (red.coordenador == this.user.idservidor) && (red.situacao === 'Em andamento') || (red.situacao === 'Esperando associação de disciplina') );
+    this.dataSourceRedAtivos = new MatTableDataSource<any>(this.ativos);
     this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
     console.log("REDs atuais\n", this.reds);
 
@@ -119,8 +122,8 @@ export class HomeComponent implements OnInit {
 
     this.pees = response.data.pees;
 
-    const aguardandoProfessor = this.pees.filter((pee) => pee.situacao === 'Aguardando Associação de Professor' );
-    this.dataSourceAguardando = new MatTableDataSource<pee>(aguardandoProfessor);
+    this.aguardandoProfessor = this.pees.filter((pee) => pee.situacao === 'Aguardando Associação de Professor' );
+    this.dataSourceAguardando = new MatTableDataSource<pee>(this.aguardandoProfessor);
     this.dataSourceAguardando.paginator = this.paginatorAguardando;
   }
 

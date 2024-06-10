@@ -90,6 +90,7 @@ export class ListarREDComponent implements OnInit {
     private peeService: PeeService
   ) {
     this.filteredReds = [];
+    
   }
 
   ngOnInit(): void {
@@ -187,6 +188,7 @@ export class ListarREDComponent implements OnInit {
       },
     });
     this.handleDialogConfirm(visualizar);
+    this.findAll();
   }
 
   async finalizarRED(red: any) {

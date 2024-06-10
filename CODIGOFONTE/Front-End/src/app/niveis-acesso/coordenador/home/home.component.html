@@ -12,7 +12,7 @@
     <hr class="linha" />
   </div>
 
-  <div class="listagem">
+  <div class="listagem" *ngIf="esperandoConfirmacao.length>0">
     <div id="tabela">
       <h1>REDs esperando confirmação</h1>
       <hr class="linha" />
@@ -88,7 +88,7 @@
   </div>
 
   <br />
-  <div class="listagem">
+  <div class="listagem"  *ngIf="aguardandoProfessor.length>0">
     <div id="tabela">
       <h1>PEEs Aguardando Associação de Professor</h1>
       <hr class="linha" />
@@ -143,7 +143,7 @@
   </div>
   <br />
 
-  <div class="listagem">
+  <div class="listagem"  *ngIf="ativos.length>0">
     <div id="tabela">
       <h1>REDs ativos</h1>
       <hr class="linha" />

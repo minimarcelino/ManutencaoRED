@@ -9,6 +9,10 @@ import { AlunoService } from 'src/app/services/alunos.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RedService } from 'src/app/services/red.service';
+import { MessageDialogComponent } from '../../../utils/message-dialog/message-dialog.component';
+
 
 @Component({
   selector: 'app-listar',
@@ -20,6 +24,8 @@ export class ListarAlunoComponent implements OnInit {
   dataSource: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   user: any;
+  res: any;
+  reds: any[] = [];
 
   displayedColumns = ['Prontuario', 'Nome', 'Telefone', 'Email', 'Acoes'];
 
@@ -29,6 +35,8 @@ export class ListarAlunoComponent implements OnInit {
     private alunoservice: AlunoService,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
+    public dialog: MatDialog,
+    private redService: RedService,
   ) {}
 
   ngOnInit(): void {
@@ -91,10 +99,38 @@ export class ListarAlunoComponent implements OnInit {
     }
   }
 
+  async openDialogConfirmDelete() {
+    let dialogRef = this.dialog.open(MessageDialogComponent, {
+    width: '250px',
+    data: {
+        title: 'Erro ao excluir',
+        message: 'Não é possível excluir aluno com RED cadastrada',
+        buttonConfirm: 'Ok',
+    }
+    });
+    try {
+    const result = await dialogRef.afterClosed().toPromise();
+    if (result === 'Confirmar') {
+        return true;
+    }
+    } catch (err) {
+    console.error(err);
+    }
+    return false;
+}
+
+
   async deleteAluno(aluno: any) {
-    let res = false;
-    res = await this.dialogQuestionService.openDialogConfirmDelete('aluno');
-    if (res) {
+    const response = await this.redService.getRed();
+    this.reds = response.data.reds;
+    this.reds = this.reds.filter((red) => red.aluno_id == aluno.id );
+    this.res = false;
+    if(this.reds.length>0){
+      this.openDialogConfirmDelete()
+    } else {
+      this.res = await this.dialogQuestionService.openDialogConfirmDelete('aluno');
+    }
+    if (this.res) {
       await this.deleteAlunoPermanent(aluno.id);
     }
   }
