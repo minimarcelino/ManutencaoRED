@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ServidorService } from 'src/app/services/servidor.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 @Component({
   selector: 'app-formulario-servidor',
@@ -34,6 +35,7 @@ export class FormularioServidoresComponent implements OnInit {
 
   constructor(
     private servidorService: ServidorService,
+    private entityUpdateService: EntityUpdateService,
     private snackBarService: SnackBarService,
     private activatedRoute: ActivatedRoute,
     private _adapter: DateAdapter<any>,
@@ -194,8 +196,8 @@ export class FormularioServidoresComponent implements OnInit {
   }
 
   retornarParaLista() {
+    this.entityUpdateService.notifyUpdate('servidor');
     this.location.back();
-    //this.router.navigate([`/${this.user.tiposervidor}/listarServidores`]);
   }
 
   get prontuario() {

@@ -13,6 +13,7 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { AssociarDisciplinaComponent } from '../../associacoes/associar-disciplina/associar-disciplina.component';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 export interface aluno {
   id: number;
@@ -84,19 +85,25 @@ export class ListarREDComponent implements OnInit {
     private router: Router,
     public dialogQuestionService: messageDialog,
     private snackBarService: SnackBarService,
-    private customPaginatorIntlService: CustomPaginatorIntlService,
     private dialog: MatDialog,
     private redService: RedService,
-    private peeService: PeeService
+    private peeService: PeeService,
+    private customPaginatorIntlService: CustomPaginatorIntlService,
+    private entityUpdateService: EntityUpdateService,
   ) {
     this.filteredReds = [];
-    
+
   }
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+
+     // Assine para receber notificações de atualização de REDs
+     this.entityUpdateService.getUpdateNotifier('RED').subscribe(() => {
+      this.findAll();
+    });
   }
 
   ngAfterViewInit() {

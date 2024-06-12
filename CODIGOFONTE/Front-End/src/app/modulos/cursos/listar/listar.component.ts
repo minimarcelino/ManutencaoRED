@@ -11,6 +11,7 @@ import { CursoService } from 'src/app/services/cursos.service';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 @Component({
   selector: 'app-listar',
@@ -35,12 +36,18 @@ export class ListarCursosComponent implements OnInit {
     private disciplinaService: DisciplinaService,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
+    private entityUpdateService: EntityUpdateService,
   ) {}
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+
+     // Assine para receber notificações de atualização de cursos
+     this.entityUpdateService.getUpdateNotifier('curso').subscribe(() => {
+      this.findAll();
+    });
   }
 
   ngAfterViewInit() {

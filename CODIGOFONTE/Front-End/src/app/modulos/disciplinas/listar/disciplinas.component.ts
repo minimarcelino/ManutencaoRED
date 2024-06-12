@@ -9,6 +9,7 @@ import { disciplina } from 'src/app/modelo/disciplina';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { MatSelectChange } from '@angular/material/select';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 export interface curso {
   idcurso: number;
@@ -39,6 +40,7 @@ export class ListarDisciplinasComponent implements OnInit {
     private disciplinaService: DisciplinaService,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
+    private entityUpdateService: EntityUpdateService,
   ) {
     this.cursosFiltradas = [];
   }
@@ -47,13 +49,11 @@ export class ListarDisciplinasComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
-    // Verifica se precisa recarregar a lista
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state?.['atualizar']) {
-      console.log("Deve atualizar");
 
+     // Assine para receber notificações de atualização de disciplinas
+     this.entityUpdateService.getUpdateNotifier('disciplina').subscribe(() => {
       this.findAll();
-    }
+    });
   }
 
   ngAfterViewInit() {
@@ -65,7 +65,6 @@ export class ListarDisciplinasComponent implements OnInit {
       state: {
         disciplina: disciplina,
         visualizar: visualizar,
-        atualizar: true,  // Adiciona a sinalização de atualização
       },
     };
     this.router.navigate(

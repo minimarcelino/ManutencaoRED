@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Location } from '@angular/common';
 
 import { CursoService } from '../../../services/cursos.service';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { Location } from '@angular/common';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 @Component({
   selector: 'app-formulario-curso',
@@ -30,7 +31,7 @@ export class FormularioCursoComponent implements OnInit {
     private cursoService: CursoService,
     private coodenadorService: CoordenadorService,
     private snackBarService: SnackBarService,
-    private router: Router,
+    private entityUpdateService: EntityUpdateService,
     private activatedRoute: ActivatedRoute,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
@@ -172,8 +173,8 @@ export class FormularioCursoComponent implements OnInit {
   }
 
   retornarParaLista() {
+    this.entityUpdateService.notifyUpdate('curso');
     this.location.back();
-    // this.router.navigate([`/${this.user.tiposervidor}/listarCursos`]);
   }
 
   displayFn(Coordenador: any): string {

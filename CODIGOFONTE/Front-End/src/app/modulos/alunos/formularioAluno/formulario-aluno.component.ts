@@ -16,6 +16,7 @@ import { AlunoService } from 'src/app/services/alunos.service';
 import { CursoService } from 'src/app/services/cursos.service';
 import { curso } from 'src/app/modelo/curso';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 // Validador personalizado para verificar se o curso existe na lista de cursos
 function cursoValidoValidator(cursos: any[]): ValidatorFn {
@@ -52,6 +53,7 @@ export class FormularioAlunoComponent implements OnInit {
     private snackBarService: SnackBarService,
     private alunoService: AlunoService,
     private cursoService: CursoService,
+    private entityUpdateService: EntityUpdateService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
     private location: Location
@@ -275,7 +277,8 @@ export class FormularioAlunoComponent implements OnInit {
     return curso && curso.nomeCurso ? curso.nomeCurso : '';
   }
 
-  retornarParaLista() {5
+  retornarParaLista() {
+    this.entityUpdateService.notifyUpdate('aluno');
     this.location.back();
   }
 

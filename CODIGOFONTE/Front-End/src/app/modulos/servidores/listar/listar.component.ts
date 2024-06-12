@@ -10,6 +10,7 @@ import { ServidorService } from 'src/app/services/servidor.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 @Component({
   selector: 'app-listar',
@@ -35,12 +36,18 @@ export class ListarServidoresComponent implements OnInit {
     private servidorService: ServidorService,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
+    private entityUpdateService: EntityUpdateService,
   ) {}
 
   ngOnInit(): void {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+
+     // Assine para receber notificações de atualização de servidores
+     this.entityUpdateService.getUpdateNotifier('servidor').subscribe(() => {
+      this.findAll();
+    });
   }
 
   ngAfterViewInit() {

@@ -14,6 +14,7 @@ import { Observable, startWith, map } from 'rxjs';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { CursoService } from '../../../services/cursos.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 // Validador personalizado para verificar se o curso existe na lista de cursos
 function cursoValidoValidator(cursos: any[]): ValidatorFn {
@@ -51,6 +52,7 @@ export class FormularioDisciplinaComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private disciplinaService: DisciplinaService,
     private cursoService: CursoService,
+    private entityUpdateService: EntityUpdateService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string
   ) {}
@@ -244,9 +246,8 @@ export class FormularioDisciplinaComponent implements OnInit {
   }
 
   retornarParaLista() {
-    this.router.navigate([`/${this.user.tiposervidor}/listarDisciplinas`], {
-      state: { ['atualizar']: true },
-    });
+    this.entityUpdateService.notifyUpdate('disciplina');
+    this.router.navigate([`/${this.user.tiposervidor}/listarDisciplinas`]);
   }
 
   get sigla() {

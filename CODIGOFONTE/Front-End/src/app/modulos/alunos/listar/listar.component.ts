@@ -12,6 +12,7 @@ import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl
 import { MatDialog } from '@angular/material/dialog';
 import { RedService } from 'src/app/services/red.service';
 import { MessageDialogComponent } from '../../../utils/message-dialog/message-dialog.component';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class ListarAlunoComponent implements OnInit {
     private alunoservice: AlunoService,
     private snackBarService: SnackBarService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
+    private entityUpdateService: EntityUpdateService,
     public dialog: MatDialog,
     private redService: RedService,
   ) {}
@@ -43,6 +45,11 @@ export class ListarAlunoComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+
+     // Assine para receber notificações de atualização de alunos
+     this.entityUpdateService.getUpdateNotifier('aluno').subscribe(() => {
+      this.findAll();
+    });
   }
 
   ngAfterViewInit() {
