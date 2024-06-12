@@ -47,6 +47,7 @@ export class FormularioAlunoComponent implements OnInit {
   private editar: boolean = false;
   private desabilitar: boolean = false;
   private cadastrar: boolean = false;
+  private idAluno: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -340,13 +341,15 @@ export class FormularioAlunoComponent implements OnInit {
 
   // Função para preencher o formulário com dados
   preencherFormulario(alunoData: any) {
-    this.formularioAluno.patchValue({
-      nome: alunoData.nome,
-      data: alunoData.dataNascimento,
-      telefone: alunoData.telefone,
-      email: alunoData.email,
-      curso: alunoData.curso,
-    });
+    if (alunoData) {
+      this.formularioAluno.patchValue({
+        nome: alunoData.nome,
+        data: alunoData.dataNascimento,
+        telefone: alunoData.telefone,
+        email: alunoData.email,
+        curso: alunoData.curso,
+      });
+    }
   }
   // Função para limpar o formulário
   esvaziarFormulario() {
