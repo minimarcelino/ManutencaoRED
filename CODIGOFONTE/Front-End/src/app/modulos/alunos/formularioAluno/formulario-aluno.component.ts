@@ -1,5 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Location } from '@angular/common';
@@ -13,7 +20,9 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
 // Validador personalizado para verificar se o curso existe na lista de cursos
 function cursoValidoValidator(cursos: any[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const isValid = cursos.some(curso => curso.nomeCurso === control.value.nomeCurso);
+    const isValid = cursos.some(
+      (curso) => curso.nomeCurso === control.value.nomeCurso
+    );
     return isValid ? null : { cursoInvalido: true };
   };
 }
@@ -110,10 +119,10 @@ export class FormularioAlunoComponent implements OnInit {
           value: this.data ? this.data.curso : '',
           disabled: desabilitarControle,
         },
-        [Validators.required, cursoValidoValidator(this.cursos)]
+        [Validators.required]
       ),
     });
-    if(this.cadastrar){
+    if (this.cadastrar) {
       this.buscarAlunos();
       this.verificarProntuario();
       this.filterCurso();
@@ -206,10 +215,10 @@ export class FormularioAlunoComponent implements OnInit {
 
   private async updateAluno() {
     let idAluno;
-    if(this.cadastrar){
+    if (this.cadastrar) {
       idAluno = this.aluno.id;
-    }else{
-        idAluno = this.data.id;
+    } else {
+      idAluno = this.data.id;
     }
     await this.alunoService.updateAluno({
       id: idAluno,
@@ -256,13 +265,17 @@ export class FormularioAlunoComponent implements OnInit {
     const getCursos = await this.cursoService.getCursos();
     this.cursos = getCursos.data.cursos;
     this.filterCurso(); // Chamar a filtragem após buscar os cursos
+    this.formularioAluno
+      .get('Curso')!
+      .setValidators([Validators.required, cursoValidoValidator(this.cursos)]);
+    this.formularioAluno.get('Curso')!.updateValueAndValidity();
   }
 
   displayFn(curso: curso): string {
     return curso && curso.nomeCurso ? curso.nomeCurso : '';
   }
 
-  retornarParaLista() {
+  retornarParaLista() {5
     this.location.back();
   }
 
@@ -329,7 +342,7 @@ export class FormularioAlunoComponent implements OnInit {
       data: alunoData.dataNascimento,
       telefone: alunoData.telefone,
       email: alunoData.email,
-      curso: alunoData.curso
+      curso: alunoData.curso,
     });
   }
   // Função para limpar o formulário
@@ -339,7 +352,7 @@ export class FormularioAlunoComponent implements OnInit {
       data: '',
       telefone: '',
       email: '',
-      curso: ''
+      curso: '',
     });
   }
 
@@ -348,26 +361,30 @@ export class FormularioAlunoComponent implements OnInit {
     return listaAlunos.some((aluno: any) => aluno.prontuario === prontuario);
   }
 
-  async verificarProntuario(){
-        this.formularioAluno.get('prontuario')!.valueChanges.subscribe(async (value) => {
-          console.log("entrou")
-          if (value) {
-            const prontuarioCadastrado = await this.verificarProntuarioCadastrada(value.toUpperCase());
-            if (prontuarioCadastrado) {
-              this.editar = true;
-              const listaAlunos = this.alunos[1].alunos;
-              this.aluno = listaAlunos.find((aluno: any) => aluno.prontuario === value.toUpperCase());
-              this.preencherFormulario(this.aluno);
-            }
-            else{
-              if(this.editar == true){
-                this.editar = false;
-                this.aluno = null;
-                this.esvaziarFormulario();
-              }
+  async verificarProntuario() {
+    this.formularioAluno
+      .get('prontuario')!
+      .valueChanges.subscribe(async (value) => {
+        console.log('entrou');
+        if (value) {
+          const prontuarioCadastrado = await this.verificarProntuarioCadastrada(
+            value.toUpperCase()
+          );
+          if (prontuarioCadastrado) {
+            this.editar = true;
+            const listaAlunos = this.alunos[1].alunos;
+            this.aluno = listaAlunos.find(
+              (aluno: any) => aluno.prontuario === value.toUpperCase()
+            );
+            this.preencherFormulario(this.aluno);
+          } else {
+            if (this.editar == true) {
+              this.editar = false;
+              this.aluno = null;
+              this.esvaziarFormulario();
             }
           }
-        });
+        }
+      });
   }
-
 }

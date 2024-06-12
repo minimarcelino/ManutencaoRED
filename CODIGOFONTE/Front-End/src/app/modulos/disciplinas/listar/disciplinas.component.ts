@@ -47,6 +47,13 @@ export class ListarDisciplinasComponent implements OnInit {
     this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+    // Verifica se precisa recarregar a lista
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state?.['atualizar']) {
+      console.log("Deve atualizar");
+
+      this.findAll();
+    }
   }
 
   ngAfterViewInit() {
@@ -58,6 +65,7 @@ export class ListarDisciplinasComponent implements OnInit {
       state: {
         disciplina: disciplina,
         visualizar: visualizar,
+        atualizar: true,  // Adiciona a sinalização de atualização
       },
     };
     this.router.navigate(
