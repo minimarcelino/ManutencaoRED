@@ -96,12 +96,13 @@ export class PeeController {
 
   async Update(req: Request, res: Response) {
     const response = await peeservice.update(req.body, Number(req.params.id));
-
+    console.log("aaaaaaaaaaaaaaaaaaaaaa")
     if (response.ok) {
       if (typeof response.data === 'object' && 'metodologia' in response.data) {
         if (response.data.metodologia != "") {
           const idRed = response.data.RED_idRED;
           const redResponse = await redcontroller.getById(idRed);
+          console.log(redResponse)
           emailcontroller.SendEmailCoordenadorFinalizandoRed(redResponse);
         }else{
             emailcontroller.SendEmailProfesorIniciandoPEE(req.body);

@@ -22,20 +22,25 @@ export class emailController {
 
             if (typeof coordenador !== 'string' && coordenador) {
                const coordenadorEmail = coordenador.email;
+               const coordenadorNome = coordenador.nome;
                const aluno = await alunoservice.findById(response.data.aluno_id);
                if (aluno.data != null && typeof aluno.data == 'object' && 'prontuario' in aluno.data) {
                   const aluno_prontuario = aluno.data.prontuario;
+                  const aluno_nome = aluno.data.nome;
+                  const aluno_email = aluno.data.email;
                   const html = `
-                 <html>
-                 <head>
-                   <title>Inicio do Processo RED</title>
-                 </head>
-                 <body>
-                   <p>O processo RED do aluno ${aluno_prontuario} foi criado.</p>
-                   <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para acessar ao site e confirme a abertura do Processo RED.</p>
-                   <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
-                 </body>
-                 </html>`;
+                  <html>
+                  <head>
+                    <title>Início do Processo RED</title>
+                  </head>
+                  <body>
+                    <p>Prezado(a) ${coordenadorNome},</p>
+                    <p>Informamos que o processo RED do aluno ${aluno_nome} (${aluno_prontuario}) foi criado.</p>
+                    <p>Por favor, <a href="${EMAIL_URL}">clique aqui</a> para acessar o site e confirmar a abertura do Processo RED.</p>
+                    <p>Se precisar de mais informações sobre o aluno, você pode entrar em contato com ele pelo e-mail: ${aluno_email}.</p>
+                    <p>Atenciosamente,<br />Equipe de Suporte do RED.</p>
+                  </body>
+                  </html>`;
                   sendEmail(coordenadorEmail, 'Sistema RED - Inicio do Processo RED', html);
                   console.log('Email Enviado');
                }
@@ -53,19 +58,24 @@ export class emailController {
                const coordenador = coordenadorResponse.data;
                if (typeof coordenador !== 'string' && coordenador) {
                   const coordenadorEmail = coordenador.email;
+                  const coordenadorNome = coordenador.nome;
                   if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
                      const aluno_prontuario = alunoResponse.data.prontuario;
+                     const aluno_nome = alunoResponse.data.nome;
+                     const aluno_email = alunoResponse.data.email;
                      const html = `
-                <html>
-                  <head>
-                    <title>Processo RED</title>
-                  </head>
-                  <body>
-                    <p>O processo RED do aluno <b>${aluno_prontuario}</b> possui novas disciplinas adicionadas.</p>
-                    <p>Por favor, <a href="${EMAIL_URL}login">clique aqui</a> para entrar no sistema e associe os professores responsaveis.</p>
-                    <p>Atenciosamente,<br/>Equipe de suporte do RED.</p>
-                  </body>
-                </html>
+                     <html>
+                     <head>
+                       <title>Processo RED</title>
+                     </head>
+                     <body>
+                       <p>Prezado(a) ${coordenadorNome},</p>
+                       <p>Informamos que o processo RED do aluno ${aluno_nome} (${aluno_prontuario}) possui novas disciplinas adicionadas.</p>
+                       <p>Por favor, <a href="${EMAIL_URL}login">clique aqui</a> para entrar no sistema e associar os professores responsáveis.</p>
+                       <p>Se precisar de mais informações sobre o aluno, você pode entrar em contato com ele pelo e-mail: ${aluno_email}.</p>
+                       <p>Atenciosamente,<br/>Equipe de Suporte do RED.</p>
+                     </body>
+                     </html>
                 `;
                      sendEmail(coordenadorEmail, "Sistema RED - Processo RED", html);
                      console.log("Email Enviado Associe Professor");
@@ -87,18 +97,21 @@ export class emailController {
                const coordenador = coordenadorResponse.data;
                if (typeof coordenador !== 'string' && coordenador) {
                   const coordenadorEmail = coordenador.email;
+                  const coordenadorNome = coordenador.nome;
                   if (typeof alunoResponse.data === 'object' && 'prontuario' in alunoResponse.data) {
                      const aluno_prontuario = alunoResponse.data.prontuario;
+                     const aluno_nome = alunoResponse.data.nome;
                      const html = `
-               <html>
-               <head>
-                 <title>Finalização do Processo RED</title>
-               </head>
-               <body>
-                 <p>O processo RED do aluno ${aluno_prontuario} foi finalizado.</p>
-                 <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
-               </body>
-               </html>`;
+                     <html>
+                     <head>
+                     <title>Finalização do Processo RED</title>
+                     </head>
+                     <body>
+                     <p>Prezado(a) ${coordenadorNome},</p>
+                     <p>Informamos que o processo RED do aluno ${aluno_nome} (${aluno_prontuario}) foi finalizado.</p>
+                     <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
+                     </body>
+                     </html>`;
                      sendEmail(coordenadorEmail, "Sistema RED - Finalização do Processo RED", html);
                      console.log("Email Enviado Finalizando RED");
                   }
@@ -247,7 +260,7 @@ export class emailController {
           </head>
           <body>
           <p>Olá ${nome}! Recebemos sua solicitação para realizar a troca de senha.</p>
-          <p>Por favor, <a href="${EMAIL_URL}usuario/trocar-senha/${token}">clique aqui</a> para definir sua senha</p>
+          <p>Por favor, <a href="${EMAIL_URL}usuario/${token}">clique aqui</a> para definir sua senha</p>
           <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
           </body>
           </html>
