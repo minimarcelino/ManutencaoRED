@@ -5,25 +5,25 @@ import { AdministradorComponent } from './administrador.component';
 
 import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
 import { PerfilComponent } from '../../perfil/perfil.component';
-import { HomeComponent } from './home/home.component';
+import { HomeAdministradorComponent } from './home/home-administrador.component';
 //
-import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/disciplinas.component';
+import { ListarDisciplinasComponent } from '../../modulos/disciplinas/listar/listar-disciplina.component';
 import { FormularioDisciplinaComponent } from '../../modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
 //
-import { ListarServidoresComponent } from '../../modulos/servidores/listar/listar.component';
+import { ListarServidoresComponent } from '../../modulos/servidores/listar/listar-servidor.component';
 import { FormularioServidoresComponent } from '../../modulos/servidores/formularioServidor/formulario-servidor.component';
 //
-import { ListarAlunoComponent } from '../../modulos/alunos/listar/listar.component';
+import { ListarAlunoComponent } from '../../modulos/alunos/listar/listar-aluno.component';
 import { FormularioAlunoComponent } from '../../modulos/alunos/formularioAluno/formulario-aluno.component';
 //
 import { FormularioREDComponent } from '../../modulos/red/formulario-RED/formulario-red.component';
-import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar-red.component';
 //
-import { ListarCursosComponent } from '../../modulos/cursos/listar/listar.component';
+import { ListarCursosComponent } from '../../modulos/cursos/listar/listar-curso.component';
 import { FormularioCursoComponent } from '../../modulos/cursos/formularioCurso/formulario-curso.component';
 
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
-import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar-red-csp.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
 
 const routes: Routes = [
@@ -37,7 +37,7 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        component: HomeComponent,
+        component: HomeAdministradorComponent,
       },
 
       //Rotas das disciplinas

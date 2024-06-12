@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CRAComponent } from './cra.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
-import { HomeComponent } from './home/home.component';
+import { HomeCRAComponent } from './home/home-cra.component';
 //
 import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
-import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
+import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar-aluno.component';
 //
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
-import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
-import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar-red.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar-red-csp.component';
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
 
       {
         path: 'home',
-        component: HomeComponent,
+        component: HomeCRAComponent,
       },
 
       // RED

@@ -3,20 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CSPComponent } from './csp.component';
 import { PerfilComponent } from 'src/app/perfil/perfil.component';
-import { HomeComponent } from './home/home.component';
+import { HomeCSPComponent } from './home/home-csp.component';
 //
-import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar-red.component';
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
 //
 import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
-import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
+import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar-curso.component';
 //
 import { FormularioServidoresComponent } from 'src/app/modulos/servidores/formularioServidor/formulario-servidor.component';
-import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
+import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar-servidor.component';
 //
 import { FormularioDisciplinaComponent } from 'src/app/modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
-import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
-import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
+import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/listar-disciplina.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar-red-csp.component';
 
 const routes: Routes = [
   {
@@ -29,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        component: HomeComponent,
+        component: HomeCSPComponent,
       },
       // Cursos
       {
