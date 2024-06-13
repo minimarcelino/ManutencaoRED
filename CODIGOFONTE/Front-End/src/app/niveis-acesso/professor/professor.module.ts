@@ -21,9 +21,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AbonarFaltaComponent } from 'src/app/modulos/pee/abonar-faltas/abonar-faltas.component';
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
-import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar.component';
+import { ListarPEEComponent } from 'src/app/modulos/pee/listar/listar-pee.component';
 import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associar-professores/associar-professores.component';
-import { HomeComponent } from './home/home.component';
+import { HomeProfessorComponent } from './home/home-professor.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +33,7 @@ import { HomeComponent } from './home/home.component';
       FormularioPEEComponent,
       GerenciarPEEComponent,
       AssociarProfessoresComponent,
-      HomeComponent
+      HomeProfessorComponent
   ],
     imports: [
       CommonModule,

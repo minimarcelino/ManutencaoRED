@@ -14,6 +14,7 @@ import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 @Component({
   selector: 'app-formulario-red',
   templateUrl: './formulario-red.component.html',
@@ -32,6 +33,7 @@ export class FormularioREDComponent implements OnInit {
     private snackBarService: SnackBarService,
     private redService: RedService,
     private coordenadorService: CoordenadorService,
+    private entityUpdateService: EntityUpdateService,
     private location: Location,
   ) {}
 
@@ -373,8 +375,8 @@ export class FormularioREDComponent implements OnInit {
   }
 
   retornarParaLista() {
+    this.entityUpdateService.notifyUpdate('RED');
     this.location.back();
-    // this.router.navigate([`/${this.user.tiposervidor}/listarREDs`]);
   }
 
   updateCharacterCount(campoTexto: string): number {

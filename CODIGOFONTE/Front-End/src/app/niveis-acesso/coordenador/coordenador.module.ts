@@ -19,13 +19,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //
 import { FormularioDisciplinaComponent } from 'src/app/modulos/disciplinas/formularioDisciplina/formulario-disciplina.component';
-import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/disciplinas.component';
+import { ListarDisciplinasComponent } from 'src/app/modulos/disciplinas/listar/listar-disciplina.component';
 import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
-import { HomeComponent } from './home/home.component';
+import { HomeCoordenadorComponent } from './home/home-coordenador.component';
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    HomeCoordenadorComponent,
     VisualizarDisciplinaComponent,
     //
     ListarDisciplinasComponent,

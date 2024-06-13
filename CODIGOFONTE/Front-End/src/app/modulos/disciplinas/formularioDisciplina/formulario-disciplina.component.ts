@@ -1,5 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Observable, startWith, map } from 'rxjs';
@@ -7,11 +14,14 @@ import { Observable, startWith, map } from 'rxjs';
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { CursoService } from '../../../services/cursos.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
+import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
 // Validador personalizado para verificar se o curso existe na lista de cursos
 function cursoValidoValidator(cursos: any[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const isValid = cursos.some(curso => curso.nomeCurso === control.value.nomeCurso);
+    const isValid = cursos.some(
+      (curso) => curso.nomeCurso === control.value.nomeCurso
+    );
     return isValid ? null : { cursoInvalido: true };
   };
 }
@@ -34,6 +44,7 @@ export class FormularioDisciplinaComponent implements OnInit {
   private editar: boolean = false;
   private desabilitar: boolean = false;
   private cadastrar: boolean = false;
+  private idDisciplina: any;
 
   constructor(
     private snackBarService: SnackBarService,
@@ -41,6 +52,7 @@ export class FormularioDisciplinaComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private disciplinaService: DisciplinaService,
     private cursoService: CursoService,
+    private entityUpdateService: EntityUpdateService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string
   ) {}
@@ -57,8 +69,8 @@ export class FormularioDisciplinaComponent implements OnInit {
       this.editar = true;
     }
 
-    if(this.data == null){
-        this.cadastrar = true;
+    if (this.data == null) {
+      this.cadastrar = true;
     }
     const desabilitarControle = this.desabilitar || this.editar;
 
@@ -73,20 +85,26 @@ export class FormularioDisciplinaComponent implements OnInit {
         },
         [Validators.required]
       ),
-      nomeDisciplina: new FormControl({
-        value: this.data ? this.data.nomeDisciplina : '',
-        disabled: this.desabilitar
-      }, [Validators.required]),
-      Curso: new FormControl({
-        value: this.data ? this.data.curso : '',
-        disabled: desabilitarControle
-      }, [Validators.required, cursoValidoValidator(this.cursos)]),
+      nomeDisciplina: new FormControl(
+        {
+          value: this.data ? this.data.nomeDisciplina : '',
+          disabled: this.desabilitar,
+        },
+        [Validators.required]
+      ),
+      Curso: new FormControl(
+        {
+          value: this.data ? this.data.curso : '',
+          disabled: desabilitarControle,
+        },
+        [Validators.required]
+      ),
     });
     this.buscarCursos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
     this.filterCurso();
-    if(this.cadastrar){
+    if (this.cadastrar) {
       this.buscarDisciplinas();
       this.verificarSigla();
     }
@@ -128,14 +146,14 @@ export class FormularioDisciplinaComponent implements OnInit {
       return;
     } else {
       this.isSubmitting = true;
-      let modo = ''
+      let modo = '';
       try {
         if (this.editar) {
           this.updateDiscipina();
           modo = 'editar';
         } else {
           this.createDisciplina();
-          modo= 'cadastrar';
+          modo = 'cadastrar';
         }
         this.retornarParaLista();
       } catch (error: any) {
@@ -166,7 +184,8 @@ export class FormularioDisciplinaComponent implements OnInit {
     }
   }
 
-  private async createDisciplina(){
+  private async createDisciplina() {
+    console.log(this.curso_idcurso);
     await this.disciplinaService.createDisciplina({
       sigla: this.sigla.trim().toUpperCase(),
       nomeDisciplina: this.nomeDisciplina.trim(),
@@ -175,9 +194,15 @@ export class FormularioDisciplinaComponent implements OnInit {
     this.snackBarService.open(`Disciplina cadastrada com sucesso!`);
   }
 
-  private async updateDiscipina(){
+  private async updateDiscipina() {
+    let id;
+    if (this.idDisciplina != undefined) {
+      id = this.idDisciplina;
+    } else {
+      id = this.data.iddisciplinas;
+    }
     await this.disciplinaService.updateDisciplina({
-      iddisciplinas: this.data.iddisciplinas,
+      iddisciplinas: id,
       sigla: this.sigla.trim().toUpperCase(),
       nomeDisciplina: this.nomeDisciplina.trim(),
       curso_idcurso: this.curso_idcurso,
@@ -193,6 +218,10 @@ export class FormularioDisciplinaComponent implements OnInit {
     const response = await this.cursoService.getCursos();
     this.cursos = response.data.cursos;
     this.filterCurso(); // Chamar a filtragem após buscar os cursos
+    this.formularioDisciplina
+      .get('Curso')!
+      .setValidators([Validators.required, cursoValidoValidator(this.cursos)]);
+    this.formularioDisciplina.get('Curso')!.updateValueAndValidity();
   }
 
   filterCurso() {
@@ -217,6 +246,7 @@ export class FormularioDisciplinaComponent implements OnInit {
   }
 
   retornarParaLista() {
+    this.entityUpdateService.notifyUpdate('disciplina');
     this.router.navigate([`/${this.user.tiposervidor}/listarDisciplinas`]);
   }
 
@@ -259,7 +289,9 @@ export class FormularioDisciplinaComponent implements OnInit {
     // Obtém a lista de disciplina do segundo elemento (índice 1) de this.disciplina
     const listaDisciplina = this.disciplinas[1].disciplinas;
     // Retorna true se encontrar um curso com a sigla desejada, false caso contrário
-    return listaDisciplina.some((disciplina: any) => disciplina.sigla === sigla);
+    return listaDisciplina.some(
+      (disciplina: any) => disciplina.sigla === sigla
+    );
   }
 
   async buscarDisciplinas(): Promise<void> {
@@ -270,12 +302,14 @@ export class FormularioDisciplinaComponent implements OnInit {
       console.error('Erro ao carregar as disciplinas:', error);
     }
   }
-    // Função para preencher o formulário com os dados do curso existente
+  // Função para preencher o formulário com os dados do curso existente
   preencherFormulario(disciplina: any) {
     if (disciplina) {
+      this.idDisciplina = disciplina.iddisciplinas;
+      console.log(this.idDisciplina);
       this.formularioDisciplina.patchValue({
         nomeDisciplina: disciplina.nomeDisciplina,
-        Curso: disciplina.curso
+        Curso: disciplina.curso,
       });
     }
   }
@@ -283,30 +317,34 @@ export class FormularioDisciplinaComponent implements OnInit {
   // Função para esvaziar o formulário
   esvaziarFormulario() {
     this.formularioDisciplina.patchValue({
-      nomeDisciplina:"",
-      Curso: ""
+      nomeDisciplina: '',
+      Curso: '',
     });
   }
-  async verificarSigla(){
-        this.formularioDisciplina.get('sigla')!.valueChanges.subscribe(async (value) => {
-          console.log("entrou")
-          if (value) {
-            const siglaCadastrada = await this.verificarSiglaCadastrada(value.toUpperCase());
-            if (siglaCadastrada) {
-              this.editar = true;
-              const listarDisciplinas = this.disciplinas[1].disciplinas;
-              this.disciplina = listarDisciplinas.find((disciplina: any) => disciplina.sigla === value.toUpperCase());
-              this.preencherFormulario(this.disciplina);
-            }
-            else{
-              if(this.editar == true){
-                this.editar = false;
-                this.disciplina = null;
-                this.esvaziarFormulario();
-              }
+  async verificarSigla() {
+    this.formularioDisciplina
+      .get('sigla')!
+      .valueChanges.subscribe(async (value) => {
+        console.log('entrou');
+        if (value) {
+          const siglaCadastrada = await this.verificarSiglaCadastrada(
+            value.toUpperCase()
+          );
+          if (siglaCadastrada) {
+            this.editar = true;
+            const listarDisciplinas = this.disciplinas[1].disciplinas;
+            this.disciplina = listarDisciplinas.find(
+              (disciplina: any) => disciplina.sigla === value.toUpperCase()
+            );
+            this.preencherFormulario(this.disciplina);
+          } else {
+            if (this.editar == true) {
+              this.editar = false;
+              this.disciplina = null;
+              this.esvaziarFormulario();
             }
           }
-        });
+        }
+      });
   }
-
 }

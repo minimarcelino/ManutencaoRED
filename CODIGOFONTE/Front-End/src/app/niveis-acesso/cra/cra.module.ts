@@ -21,15 +21,15 @@ import {
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
-import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar.component';
+import { ListarAlunoComponent } from 'src/app/modulos/alunos/listar/listar-aluno.component';
 //
 import { FormularioREDComponent } from 'src/app/modulos/red/formulario-RED/formulario-red.component';
-import { ListarREDComponent } from 'src/app/modulos/red/listar/listar.component';
-import { HomeComponent } from './home/home.component';
+import { ListarREDComponent } from 'src/app/modulos/red/listar/listar-red.component';
+import { HomeCRAComponent } from './home/home-cra.component';
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    HomeCRAComponent,
     FormularioAlunoComponent,
     ListarAlunoComponent,
     //

@@ -19,14 +19,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 
 import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
-import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar.component';
+import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/visualizar-red-csp.component';
 //
 import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
-import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar.component';
+import { ListarCursosComponent } from 'src/app/modulos/cursos/listar/listar-curso.component';
 //
 import { FormularioServidoresComponent } from 'src/app/modulos/servidores/formularioServidor/formulario-servidor.component';
-import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar.component';
-import { HomeComponent } from './home/home.component';
+import { ListarServidoresComponent } from 'src/app/modulos/servidores/listar/listar-servidor.component';
+import { HomeCSPComponent } from './home/home-csp.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { HomeComponent } from './home/home.component';
     //
     CSPVisualizarREDComponent,
     AssociarDisciplinaComponent,
-    HomeComponent
+    HomeCSPComponent
   ],
   imports: [
     CommonModule,
