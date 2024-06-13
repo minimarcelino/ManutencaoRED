@@ -133,7 +133,7 @@
         <button type="button" color="accent" class="button" mat-raised-button (click)="fileInput.click()">
           Escolher Arquivos
         </button>
-        <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" multiple>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".pdf" id="file" multiple>
         <div *ngFor="let file of selectedFiles" style="margin-top: 10px; margin-bottom: 20px;">
           <span>
             <h3>
