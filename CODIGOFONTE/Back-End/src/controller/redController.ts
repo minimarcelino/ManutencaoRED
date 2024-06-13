@@ -75,7 +75,7 @@ export class redController {
       if (response.ok) {
         // Enviar email se necessário
         if (typeof response.data === 'object' && 'situacao' in response.data) {
-          if (response.data.situacao === 'Em andamento') {
+          if (response.data.situacao === 'Esperando associação de disciplina') {
             emailcontroller.sendEmailCSP(response);
           }
         }

@@ -225,7 +225,8 @@ export class peeService {
             });
 
             if (servidor) {
-              await emailcontroller.SendEmailProfessorDesassociadoPEE(pee.idpee, servidor.email);
+              console.log("Email Enviado Removendo PEE" + "\n" + pee + "\n" + servidor);
+              await emailcontroller.SendEmailProfessorDesassociadoPEE(pee, servidor.email);
             }
           }
 
