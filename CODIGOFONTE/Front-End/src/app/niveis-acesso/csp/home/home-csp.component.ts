@@ -66,6 +66,8 @@ export class HomeCSPComponent implements OnInit {
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatPaginator) paginatorRedAtivos!: MatPaginator;
+  private existeREDAssociacao: boolean = false;
+  private existeREDAtivas: boolean = false;
 
   displayedColumnsRED = [
     'ProntuarioRED',
@@ -130,15 +132,25 @@ export class HomeCSPComponent implements OnInit {
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
+
+    // Selecionando as redes que precisam associar disciplinas
     const esperaAssociacao = this.reds.filter((red) => red.situacao === 'Esperando associação de disciplina');
     this.dataSource = new MatTableDataSource<any>(esperaAssociacao);
     this.dataSource.paginator = this.paginator;
-    console.log("REDs atuais\n", this.reds);
+    this.existeREDAssociacao = esperaAssociacao.length > 0;
 
     const ativos = this.reds.filter((red) => (red.situacao === 'Em andamento') );
     this.dataSourceRedAtivos = new MatTableDataSource<any>(ativos);
     this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
-    console.log("REDs atuais\n", this.reds);
+    this.existeREDAtivas = ativos.length > 0;
+  }
+
+  get existeAssociacao(){
+    return this.existeREDAssociacao;
+  }
+
+  get existeAtivas(){
+    return this.existeREDAtivas;
   }
 
   formatData(data: Date): string {

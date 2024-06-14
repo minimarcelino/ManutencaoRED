@@ -49,14 +49,21 @@ export class HomeCoordenadorComponent implements OnInit {
   cursos: curso[] = [];
   user: any = '';
   dataSourceAguardando: any;
-  dataSourceRed : any;
+  dataSourceRed: any;
   dataSourceRedAtivos: any;
   @ViewChild('paginatorAguardando') paginatorAguardando!: MatPaginator;
   @ViewChild('paginatorEnviada') paginatorEnviada!: MatPaginator;
   @ViewChild('paginatorRed') paginatorRed!: MatPaginator;
   @ViewChild('paginatorRedAtivos') paginatorRedAtivos!: MatPaginator;
 
-  displayedColumnsPEE = ['Disciplina', 'Nome', 'Prontuario', 'Email','Situacao' ,'Acoes'];
+  displayedColumnsPEE = [
+    'Disciplina',
+    'Nome',
+    'Prontuario',
+    'Email',
+    'Situacao',
+    'Acoes',
+  ];
   displayedColumnsRED = [
     'ProntuarioRED',
     'NomeRED',
@@ -76,7 +83,7 @@ export class HomeCoordenadorComponent implements OnInit {
     private redService: RedService,
     private router: Router,
     private dialog: MatDialog,
-    private customPaginatorIntlService: CustomPaginatorIntlService,
+    private customPaginatorIntlService: CustomPaginatorIntlService
   ) {}
 
   ngOnInit(): void {
@@ -87,22 +94,32 @@ export class HomeCoordenadorComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.paginatorAguardando._intl = this.customPaginatorIntlService.paginatorIntl;
+    this.paginatorAguardando._intl =
+      this.customPaginatorIntlService.paginatorIntl;
   }
 
   async findAllRED() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
-    this.esperandoConfirmacao = this.reds.filter((red) => red.situacao === 'Esperando confirmação' );
+
+    this.esperandoConfirmacao = this.reds.filter(
+      (red) =>
+        red.situacao === 'Esperando confirmação' &&
+        red.coordenador == this.user.idservidor
+    );
     this.dataSourceRed = new MatTableDataSource<any>(this.esperandoConfirmacao);
     this.dataSourceRed.paginator = this.paginatorRed;
-    console.log("REDs atuais\n", this.reds);
+    // console.log('REDs Aguardando confirmaçãp\n', this.reds);
 
-    this.ativos = this.reds.filter((red) => (red.coordenador == this.user.idservidor) && (red.situacao === 'Em andamento') || (red.situacao === 'Esperando associação de disciplina') );
+    this.ativos = this.reds.filter(
+      (red) =>
+        red.coordenador == this.user.idservidor &&
+        (red.situacao === 'Em andamento' ||
+          red.situacao === 'Esperando associação de disciplina')
+    );
     this.dataSourceRedAtivos = new MatTableDataSource<any>(this.ativos);
     this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
-    console.log("REDs atuais\n", this.reds);
-
+    // console.log('REDs Ativas\n', this.reds);
   }
 
   formatData(data: Date): string {
@@ -116,22 +133,32 @@ export class HomeCoordenadorComponent implements OnInit {
   async findAllPEE() {
     const response = await this.peeService.getPee();
     this.peesProfessor = response.data.pees;
-    this.peesProfessor = this.peesProfessor.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
-    this.peesProfessor = this.peesProfessor.filter((pee) => pee.percentualabono == -1.0);
-    this.peesProfessor = this.peesProfessor.filter((pee) => pee.situacao === 'Enviado para o aluno' || pee.situacao === 'Aguardando Preenchimento');
+
+    this.peesProfessor = this.peesProfessor.filter(
+      (pee: any) =>
+        pee.pee_servidor.some(
+          (item: any) => item.servidorId === this.user.idservidor) &&
+        pee.percentualabono == -1.0 &&
+        (pee.situacao === 'Enviado para o aluno' ||
+          pee.situacao === 'Aguardando Preenchimento')
+    );
 
     this.pees = response.data.pees;
 
-    this.aguardandoProfessor = this.pees.filter((pee) => pee.situacao === 'Aguardando Associação de Professor' );
-    this.dataSourceAguardando = new MatTableDataSource<pee>(this.aguardandoProfessor);
+    this.aguardandoProfessor = this.pees.filter(
+      (pee) => pee.situacao === 'Aguardando Associação de Professor'
+    );
+    this.dataSourceAguardando = new MatTableDataSource<pee>(
+      this.aguardandoProfessor
+    );
     this.dataSourceAguardando.paginator = this.paginatorAguardando;
   }
 
-  listarPEEs(){
+  listarPEEs() {
     this.router.navigate([`/${this.user.tiposervidor}/listarPEEs`]);
   }
 
-  preencherAvaliarPEE (){
+  preencherAvaliarPEE() {
     return this.peesProfessor.length > 0 ? true : false;
   }
 
@@ -180,7 +207,6 @@ export class HomeCoordenadorComponent implements OnInit {
     return red.pee.length > 0 ? true : false;
   }
 
-
   todosPeesPreenchidos(pee: any[]): boolean {
     return this.peeService.todosPeesPreenchidos(pee);
   }
@@ -199,20 +225,26 @@ export class HomeCoordenadorComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       state: {
         pee: pee,
-        visualizar: visualizar
+        visualizar: visualizar,
       },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioPEE`],
+      navigationExtras
+    );
   }
 
   formularioRED(visualizar: boolean, red: any = null) {
     const navigationExtras: NavigationExtras = {
       state: {
         red: red,
-        visualizar: visualizar
+        visualizar: visualizar,
       },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioRED`],
+      navigationExtras
+    );
   }
 
   isCSP() {
@@ -228,21 +260,23 @@ export class HomeCoordenadorComponent implements OnInit {
         idRED: red.idRED,
         aluno: {
           nome: red.aluno.nome,
-          prontuario: red.aluno.prontuario
-        }
-      }
+          prontuario: red.aluno.prontuario,
+        },
+      },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/visualizarREDCSP`], navigationExtras);
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/visualizarREDCSP`],
+      navigationExtras
+    );
   }
 
   situacaoPEEs(pee: any[]): string {
     return this.peeService.situacaoPEEs(pee);
   }
 
-  isPreencher(pee: any){
+  isPreencher(pee: any) {
     return pee.situacao === 'Aguardando Preenchimento';
   }
-
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {

@@ -1,120 +1,132 @@
 <div class="corpo">
-<div class="title listagem" translate="no">
+  <div class="title listagem" translate="no">
+    <h1>PEEs a serem preenchidos</h1>
+    <hr class="linha" />
+  </div>
 
-</div>
+  <div class="listagem">
+    <div id="tabela" *ngIf="existePreencher; else noDataPreencher">
 
-<div class="listagem1">
-    <div id="tabela1">
-        <h1>PEEs a serem preenchidos</h1>
-        <hr class="linha" />
-        <table appearance="outline" mat-table [dataSource]="dataSourceAguardando" class="mat-elevation-z8" matSort>
+      <table appearance="outline" mat-table [dataSource]="dataSourceAguardando" class="mat-elevation-z8" matSort>
 
-            <!-- disciplinaColumn -->
-            <ng-container matColumnDef="Disciplina" >
-                <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-                <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
-            </ng-container>
+        <!-- disciplinaColumn -->
+        <ng-container matColumnDef="Disciplina">
+          <th mat-header-cell *matHeaderCellDef> Disciplina </th>
+          <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
+        </ng-container>
 
-            <!-- NomeColumn -->
-            <ng-container matColumnDef="Nome">
-                <th mat-header-cell *matHeaderCellDef> Nome </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
-            </ng-container>
+        <!-- NomeColumn -->
+        <ng-container matColumnDef="Nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
+        </ng-container>
 
-            <!-- ProntuarioColumn -->
-            <ng-container matColumnDef="Prontuario">
-                <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
-            </ng-container>
+        <!-- ProntuarioColumn -->
+        <ng-container matColumnDef="Prontuario">
+          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+          <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
+        </ng-container>
 
-            <!-- EmailColumn -->
-            <ng-container matColumnDef="Email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
-            </ng-container>
+        <!-- EmailColumn -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
+        </ng-container>
 
-            <ng-container matColumnDef="Situacao">
-                <th mat-header-cell *matHeaderCellDef> Situação </th>
-                <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-            </ng-container>
+        <ng-container matColumnDef="Situacao">
+          <th mat-header-cell *matHeaderCellDef> Situação </th>
+          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+        </ng-container>
 
-            <!-- Outras colunas aqui, se necessário -->
-            <ng-container matColumnDef="Acoes">
-                <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-                <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button mat-icon-button matTooltip="Preencher Pee" (click)="formularioPEE(a, false)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
-                        <mat-icon>star</mat-icon>
-                    </button>
-                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+        <!-- Outras colunas aqui, se necessário -->
+        <ng-container matColumnDef="Acoes">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let a">
+            <button mat-icon-button matTooltip="Preencher Pee" (click)="formularioPEE(a, false)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
+              <mat-icon>star</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25 ]" showFirstLastButtons #paginatorAguardando></mat-paginator>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25 ]" showFirstLastButtons #paginatorAguardando></mat-paginator>
     </div>
-</div>
-<br/>
-<div class="listagem1">
-    <div id="tabela1">
-        <h1>PEEs a serem avaliados</h1>
-        <hr class="linha" />
-        <table appearance="outline" mat-table [dataSource]="dataSourceEnviada" class="mat-elevation-z8" matSort>
+  </div>
 
-            <!-- disciplinaColumn -->
-            <ng-container matColumnDef="Disciplina" >
-                <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-                <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
-            </ng-container>
+  <ng-template #noDataPreencher>
+    <p class="p-sem-conteudo">Sem PEEs a serem preenchidos.</p>
+  </ng-template>
 
-            <!-- NomeColumn -->
-            <ng-container matColumnDef="Nome">
-                <th mat-header-cell *matHeaderCellDef> Nome </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
-            </ng-container>
+  <div class="title listagem" translate="no">
+    <h1>PEEs a serem avaliados</h1>
+    <hr class="linha" />
+  </div>
 
-            <!-- ProntuarioColumn -->
-            <ng-container matColumnDef="Prontuario">
-                <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
-            </ng-container>
+  <div class="listagem">
+    <div id="tabela" *ngIf="existeAvaliar; else noDataAvaliar">
 
-            <!-- EmailColumn -->
-            <ng-container matColumnDef="Email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
-            </ng-container>
+      <table appearance="outline" mat-table [dataSource]="dataSourceEnviada" class="mat-elevation-z8" matSort>
 
-            <ng-container matColumnDef="Situacao">
-                <th mat-header-cell *matHeaderCellDef> Situação </th>
-                <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-            </ng-container>
+        <!-- disciplinaColumn -->
+        <ng-container matColumnDef="Disciplina">
+          <th mat-header-cell *matHeaderCellDef> Disciplina </th>
+          <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
+        </ng-container>
 
-            <!-- Outras colunas aqui, se necessário -->
-            <ng-container matColumnDef="Acoes">
-                <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-                <td class="actionsColumns" mat-cell *matCellDef="let a">
-                    <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
-                        <mat-icon>star</mat-icon>
-                    </button>
-                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+        <!-- NomeColumn -->
+        <ng-container matColumnDef="Nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- ProntuarioColumn -->
+        <ng-container matColumnDef="Prontuario">
+          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+          <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
+        </ng-container>
 
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorAguardando></mat-paginator>
+        <!-- EmailColumn -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Situacao">
+          <th mat-header-cell *matHeaderCellDef> Situação </th>
+          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+        </ng-container>
+
+        <!-- Outras colunas aqui, se necessário -->
+        <ng-container matColumnDef="Acoes">
+          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+          <td class="actionsColumns" mat-cell *matCellDef="let a">
+            <button *ngIf="a.conteudo != ''" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
+              <mat-icon>star</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorAguardando></mat-paginator>
     </div>
-</div>
+  </div>
+
+  <ng-template #noDataAvaliar>
+    <p class="p-sem-conteudo">Sem PEEs a serem avalidos.</p>
+  </ng-template>
 </div>

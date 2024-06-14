@@ -90,6 +90,10 @@ h1, h2, h3, p{
   color: lightgray;
 }
 
+.p-sem-conteudo{
+  font-size: medium;
+}
+
 .corpo {
   margin: 5px;
   width: 100%;
@@ -100,6 +104,10 @@ h1, h2, h3, p{
   /* align-items: center; */
   justify-content: center;
 
+}
+
+.tabela{
+  max-width: 100rem;
 }
 
 .button

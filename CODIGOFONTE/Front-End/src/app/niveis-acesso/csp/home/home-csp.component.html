@@ -5,7 +5,8 @@
   </div>
 
   <div class="listagem">
-    <div id="tabela">
+    <div id="tabela" *ngIf="existeAssociacao; else noDataAssociacao">
+
       <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
         <!-- Coluna NOME -->
@@ -59,18 +60,19 @@
           </td>
         </ng-container>
 
-
         <!-- Coluna de AÇÕES do usuário -->
         <ng-container matColumnDef="Acoes">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
-              (click)="associarDisciplina(a)">
+            <button
+              *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
+              mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
             </button>
 
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+              (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
             </button>
 
@@ -79,21 +81,28 @@
               <mat-icon>visibility</mat-icon>
             </button>
 
-
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons></mat-paginator>
     </div>
+
+    <ng-template #noDataAssociacao>
+      <p class="p-sem-conteudo">Não há REDs aguardando associação de disciplinas</p>
+    </ng-template>
   </div>
+
+  <div class="title listagem">
+    <h1>REDs ativos</h1>
+    <hr class="linha" />
+  </div>
+
   <div class="listagem">
-    <div id="tabela">
-      <h1>REDs ativos</h1>
-      <hr class="linha" />
+    <div id="tabela" *ngIf="existeAtivas; else noDataAtivas">
+
       <table appearence="outline" mat-table [dataSource]="dataSourceRedAtivos" class="mat-elevation-z8 table">
 
         <ng-container matColumnDef="NomeRED">
@@ -139,17 +148,18 @@
           </td>
         </ng-container>
 
-
         <ng-container matColumnDef="AcoesRED">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
-              (click)="associarDisciplina(a)">
+            <button
+              *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
+              mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
             </button>
 
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+              (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
             </button>
 
@@ -157,15 +167,18 @@
             <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
             </button>
-
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons #paginatorRedAtivos></mat-paginator>
-
     </div>
+
+    <ng-template #noDataAtivas>
+      <p class="p-sem-conteudo">Sem REDs ativas no momento.</p>
+    </ng-template>
+
+  </div>
 </div>
