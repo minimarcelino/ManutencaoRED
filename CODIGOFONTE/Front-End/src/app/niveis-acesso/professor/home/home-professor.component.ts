@@ -22,15 +22,24 @@ export class HomeProfessorComponent implements OnInit {
   dataSourceEnviada: any;
   @ViewChild('paginatorAguardando') paginatorAguardando!: MatPaginator;
   @ViewChild('paginatorEnviada') paginatorEnviada!: MatPaginator;
+  private existePEEaPreencher: boolean = false;
+  private existePEEaAvaliar: boolean = false;
 
-  displayedColumns = ['Disciplina', 'Nome', 'Prontuario', 'Email','Situacao' ,'Acoes'];
+  displayedColumns = [
+    'Disciplina',
+    'Nome',
+    'Prontuario',
+    'Email',
+    'Situacao',
+    'Acoes',
+  ];
 
   constructor(
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
     private dialog: MatDialog,
     private router: Router,
-    private customPaginatorIntlService: CustomPaginatorIntlService,
+    private customPaginatorIntlService: CustomPaginatorIntlService
   ) {}
 
   ngOnInit(): void {
@@ -46,18 +55,41 @@ export class HomeProfessorComponent implements OnInit {
   async findAll() {
     const response = await this.peeService.getPee();
     this.pees = response.data.pees;
-    this.pees = this.pees.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
-    this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
+
+    this.pees = this.pees.filter(
+      (pee: any) =>
+        pee.pee_servidor.some(
+          (item: any) => item.servidorId === this.user.idservidor) &&
+        pee.percentualabono == -1.0 &&
+        (pee.situacao === 'Enviado para o aluno' ||
+          pee.situacao === 'Aguardando Preenchimento')
+    );
 
     // Filtrar PEEs com situação "Aguardando Preenchimento"
-    const aguardandoPreenchimento = this.pees.filter((pee) => pee.situacao === 'Aguardando Preenchimento');
-    this.dataSourceAguardando = new MatTableDataSource<pee>(aguardandoPreenchimento);
+    const aguardandoPreenchimento = this.pees.filter(
+      (pee) => pee.situacao === 'Aguardando Preenchimento'
+    );
+    this.dataSourceAguardando = new MatTableDataSource<pee>(
+      aguardandoPreenchimento
+    );
     this.dataSourceAguardando.paginator = this.paginatorAguardando;
+    this.existePEEaPreencher = aguardandoPreenchimento.length > 0;
 
     // Filtrar PEEs com situação "Enviada ao Aluno"
-    const enviadaAoAluno = this.pees.filter((pee) => pee.situacao === 'Enviado para o aluno');
+    const enviadaAoAluno = this.pees.filter(
+      (pee) => pee.situacao === 'Enviado para o aluno'
+    );
     this.dataSourceEnviada = new MatTableDataSource<pee>(enviadaAoAluno);
     this.dataSourceEnviada.paginator = this.paginatorEnviada;
+    this.existePEEaAvaliar = enviadaAoAluno.length < 0;
+  }
+
+  get existePreencher(){
+    return this.existePEEaPreencher;
+  }
+
+  get existeAvaliar(){
+    return this.existePEEaAvaliar;
   }
 
   abonarFalta(pee: any) {
@@ -91,7 +123,7 @@ export class HomeProfessorComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       state: {
         pee: pee,
-        visualizar: visualizar
+        visualizar: visualizar,
       },
     };
     this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);

@@ -64,6 +64,7 @@ export class HomeCRAComponent implements OnInit {
   ];
   associacoes = ['Concluída', 'Não Concluída'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  private existeFinalizadas: boolean = false;
 
   displayedColumns = [
     'Prontuario',
@@ -117,6 +118,12 @@ export class HomeCRAComponent implements OnInit {
     const finalizado = this.reds.filter((red) => red.situacao === 'Finalizado');
     this.dataSource = new MatTableDataSource<any>(finalizado);
     this.dataSource.paginator = this.paginator;
+
+    this.existeFinalizadas = finalizado.length > 0;
+  }
+
+  get existeREDFinalizada(){
+    return this.existeFinalizadas;
   }
 
   formatData(data: Date): string {

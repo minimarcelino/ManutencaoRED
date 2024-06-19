@@ -5,7 +5,7 @@
   </div>
 
   <div class="listagem">
-    <div id="tabela">
+    <div id="tabela" *ngIf="existeREDFinalizada; else noData">
 
       <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
@@ -93,8 +93,12 @@
 
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons></mat-paginator>
-
     </div>
+
+    <ng-template #noData>
+      <p class="p-sem-conteudo">Não há REDs finalizadas recentementes.</p>
+    </ng-template>
+
     <button mat-raised-button color="primary" (click)="formularioRED(false)" id="cadastrarRED" class="button">
       <mat-icon>add</mat-icon>
       Cadastrar RED

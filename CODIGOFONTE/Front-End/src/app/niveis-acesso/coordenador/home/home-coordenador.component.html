@@ -12,10 +12,14 @@
     <hr class="linha" />
   </div>
 
+  <div class="title listagem" translate="no">
+    <h1>REDs esperando confirmação</h1>
+    <hr class="linha" />
+  </div>
+
   <div class="listagem" *ngIf="esperandoConfirmacao.length>0">
-    <div id="tabela">
-      <h1>REDs esperando confirmação</h1>
-      <hr class="linha" />
+    <div class="tabela">
+
       <table appearence="outline" mat-table [dataSource]="dataSourceRed" class="mat-elevation-z8 table">
 
         <ng-container matColumnDef="NomeRED">
@@ -61,7 +65,6 @@
           </td>
         </ng-container>
 
-
         <ng-container matColumnDef="AcoesRED">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
@@ -74,24 +77,26 @@
               (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
             </button>
-
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-        -->
       </table>
+
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons #paginatorRed></mat-paginator>
 
     </div>
   </div>
 
-  <br />
-  <div class="listagem"  *ngIf="aguardandoProfessor.length>0">
-    <div id="tabela">
-      <h1>PEEs Aguardando Associação de Professor</h1>
-      <hr class="linha" />
+  <div class="title listagem" translate="no">
+    <h1>PEEs Aguardando Associação de Professor</h1>
+    <hr class="linha" />
+  </div>
+
+  <div class="listagem" *ngIf="aguardandoProfessor.length>0">
+    <div class="tabela">
+
       <table appearance="outline" mat-table [dataSource]="dataSourceAguardando" class="mat-elevation-z8" matSort>
 
         <!-- disciplinaColumn -->
@@ -129,24 +134,26 @@
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
             <button mat-icon-button matTooltip="Associar Professor" (click)="associarProfessor(a)">
-            <mat-icon>person_add_alt</mat-icon>
+              <mat-icon>person_add_alt</mat-icon>
             </button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsPEE"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsPEE;"></tr>
-
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorAguardando></mat-paginator>
     </div>
   </div>
-  <br />
 
-  <div class="listagem"  *ngIf="ativos.length>0">
-    <div id="tabela">
-      <h1>REDs ativos</h1>
-      <hr class="linha" />
+  <div class="title listagem" translate="no">
+    <h1>REDs ativos</h1>
+    <hr class="linha" />
+  </div>
+
+  <div class="listagem" *ngIf="ativos.length>0">
+    <div class="tabela">
+
       <table appearence="outline" mat-table [dataSource]="dataSourceRedAtivos" class="mat-elevation-z8 table">
 
         <ng-container matColumnDef="NomeRED">
@@ -197,12 +204,14 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+              (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
             </button>
 
-            <button *ngIf="(a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')" mat-icon-button matTooltip="Visualizar Disciplinas"
-              (click)="visualizarDisciplina(a)">
+            <button
+              *ngIf="(a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')"
+              mat-icon-button matTooltip="Visualizar Disciplinas" (click)="visualizarDisciplina(a)">
               <mat-icon>library_books</mat-icon>
             </button>
 
@@ -220,7 +229,6 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-        -->
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorRedAtivos></mat-paginator>
 

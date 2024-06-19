@@ -134,29 +134,19 @@ export class ListarREDComponent implements OnInit {
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
+
+    // Se usuário for coordenador, apresentar apenas as RED de sua coordenação
+    if (this.user.tiposervidor === 'coordenador') {
+      this.reds = this.reds.filter((red) =>
+      red.coordenador == this.user.idservidor)
+    }
+
+    // Consolidação das REDs a serem apresentadas
     this.dataSource = new MatTableDataSource<any>(this.reds);
     this.dataSource.paginator = this.paginator;
-    console.log('REDs atuais\n', this.reds);
+    // console.log('REDs atuais\n', this.reds);
 
-    // Cria um conjunto para armazenar cursos únicos
-    const uniqueCursos = new Set<number>();
-
-    this.reds.forEach((red) => {
-      uniqueCursos.add(red.aluno.curso.idcurso);
-    });
-
-    // Converte o conjunto de IDs de curso de volta para um array de cursos
-    this.cursos = Array.from(uniqueCursos).map(
-      (cursoId) =>
-        this.reds.find((red) => red.aluno.curso.idcurso === cursoId)?.aluno
-          .curso
-    );
-
-    // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
-    this.cursos = this.cursos.filter((curso) => curso !== undefined);
-
-    // Log para depuração
-    //console.log('Cursos:', this.cursos);
+    this.listarCursosFiltro();
   }
 
   formatData(data: Date): string {
@@ -342,5 +332,31 @@ export class ListarREDComponent implements OnInit {
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'
     );
+  }
+
+  /**
+   * Responsável por coletar todos os cursos presentes nas REDs e adicionar ao filtro
+   *
+   */
+  private listarCursosFiltro(){
+    // Cria um conjunto para armazenar cursos únicos
+    const uniqueCursos = new Set<number>();
+
+    this.reds.forEach((red) => {
+      uniqueCursos.add(red.aluno.curso.idcurso);
+    });
+
+    // Converte o conjunto de IDs de curso de volta para um array de cursos
+    this.cursos = Array.from(uniqueCursos).map(
+      (cursoId) =>
+        this.reds.find((red) => red.aluno.curso.idcurso === cursoId)?.aluno
+          .curso
+    );
+
+    // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
+    this.cursos = this.cursos.filter((curso) => curso !== undefined);
+
+    // Log para depuração
+    //console.log('Cursos:', this.cursos);
   }
 }
