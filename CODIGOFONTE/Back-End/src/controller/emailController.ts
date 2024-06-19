@@ -325,7 +325,7 @@ export class emailController {
             </body>
             </html>
             `;
-            sendEmail('gerenciared.ifsp@gmail.com', 'Sistema RED - Associe Disciplinas', texto);
+            sendEmail('csp.pep@ifsp.edu.br', 'Sistema RED - Associe Disciplinas', texto);
             console.log('Email Enviado CSP');
          }
 
