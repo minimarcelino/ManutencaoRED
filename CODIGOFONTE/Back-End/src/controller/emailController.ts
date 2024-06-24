@@ -170,7 +170,7 @@ export class emailController {
 
    async SendEmailProfessorDesassociadoPEE(pee: any, email: string) {
       const servidorEmail = email;
-      const red: any = await redservice.findById(pee.RED_idRED); 
+      const red: any = await redservice.findById(pee.RED_idRED);
       console.log(red)
       const aluno: any = await alunoservice.findById(red.data.aluno_id);
       const aluno_nome = aluno.data.nome;
@@ -291,7 +291,7 @@ export class emailController {
           </head>
           <body>
           <p>Olá ${nome}! Recebemos sua solicitação para realizar a troca de senha.</p>
-          <p>Por favor, <a href="${EMAIL_URL}usuario/${token}">clique aqui</a> para definir sua senha</p>
+          <p>Por favor, <a href="${EMAIL_URL}usuario/trocar-senha/${token}">clique aqui</a> para definir sua senha</p>
           <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
           </body>
           </html>
