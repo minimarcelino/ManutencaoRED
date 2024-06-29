@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlunoService } from 'src/app/services/alunos.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CursoService } from 'src/app/services/cursos.service';
@@ -10,7 +10,6 @@ import { environment } from 'src/app/environments/environment.development';
 //
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
-import { FormularioAlunoComponent } from 'src/app/modulos/alunos/formularioAluno/formulario-aluno.component';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
@@ -34,7 +33,7 @@ export class FormularioREDComponent implements OnInit {
     private redService: RedService,
     private coordenadorService: CoordenadorService,
     private entityUpdateService: EntityUpdateService,
-    private location: Location,
+    private location: Location
   ) {}
 
   alunos: any[] = [];
@@ -66,7 +65,7 @@ export class FormularioREDComponent implements OnInit {
       this.editar = true;
       this.loadAttachedFiles(this.data.idRED);
     }
-    if(this.desabilitar == true || this.editar == true){
+    if (this.desabilitar == true || this.editar == true) {
       this.obterNomeCoordenador();
     }
 
@@ -184,12 +183,17 @@ export class FormularioREDComponent implements OnInit {
     this.isDisable = true;
   }
 
-  async CadastrarAluno() {
-    const cadastrarAluno = this.dialog.open(FormularioAlunoComponent, {
-      data: { dialog: true },
-    });
-    cadastrarAluno.componentInstance.destino = 'cadastrarREDs';
-    this.handleDialogConfirm(cadastrarAluno);
+  CadastrarAluno() {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        visualizar: false,
+        retornoRED: true,
+      },
+    };
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioAluno`],
+      navigationExtras
+    );
   }
 
   async cadastrar() {
@@ -236,7 +240,10 @@ export class FormularioREDComponent implements OnInit {
       );
       return;
     }
-    if (!this.verificarDataInicioAfastamento(this.inicioAfastamento) && !this.editar) {
+    if (
+      !this.verificarDataInicioAfastamento(this.inicioAfastamento) &&
+      !this.editar
+    ) {
       this.snackBarService.open(
         'O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!'
       );
@@ -295,7 +302,9 @@ export class FormularioREDComponent implements OnInit {
 
   confirmarRED() {
     this.updateSituacaoRED('Esperando associação de disciplina');
-    this.snackBarService.open(`Processo RED do aluno ${this.aluno.nome} aceita`);
+    this.snackBarService.open(
+      `Processo RED do aluno ${this.aluno.nome} aceita`
+    );
     this.retornarParaLista();
   }
 
@@ -316,12 +325,14 @@ export class FormularioREDComponent implements OnInit {
 
   private async updateSituacaoRED(situacao: String) {
     try {
-      await this.redService.updateRed({
-        idRED: this.data.idRED,
-        situacao: situacao,
-        motivoRecusa: this.motivoRecusa,
-      },this.selectedFiles
-    );
+      await this.redService.updateRed(
+        {
+          idRED: this.data.idRED,
+          situacao: situacao,
+          motivoRecusa: this.motivoRecusa,
+        },
+        this.selectedFiles
+      );
       this.snackBarService.open('RED alterado com sucesso!!');
     } catch (error: any) {
       if (error && error.error && error.error.data) {
@@ -415,14 +426,13 @@ export class FormularioREDComponent implements OnInit {
   }
 
   situacao() {
-    console.log(this.data.situacao )
-    return this.data.situacao ;
+    // console.log(this.data.situacao);
+    return this.data.situacao;
   }
 
   get observacao() {
     return this.formularioRED.get('observacao')!.value;
   }
-
 
   get motivoRecusa() {
     return this.formularioRED.get('motivoRecusa')!.value;
@@ -501,10 +511,12 @@ export class FormularioREDComponent implements OnInit {
 
   async obterNomeCoordenador() {
     try {
-      this.coordenador = await this.coordenadorService.getCoordenadorById(this.data.coordenador);
+      this.coordenador = await this.coordenadorService.getCoordenadorById(
+        this.data.coordenador
+      );
       this.coordenador = this.coordenador.data.nome;
     } catch (error) {
-      console.error("Erro ao obter o coordenador:", error);
+      console.error('Erro ao obter o coordenador:', error);
     }
   }
 
@@ -512,24 +524,27 @@ export class FormularioREDComponent implements OnInit {
     let res = false;
     res = await this.dialogQuestionService.openDialogConfirmDelete('arquivo');
     if (res) {
-      this.deleteFilePermanent(file)
+      this.deleteFilePermanent(file);
     }
   }
 
- get caminhoArquivo(){
-  return `${environment.API}arquivos/`; // Necessário alterar manualmente no servidor, ele não reconheceu o caminho da API
- }
+  get caminhoArquivo() {
+    return `${environment.API}arquivos/`; // Necessário alterar manualmente no servidor, ele não reconheceu o caminho da API
+  }
 
   deleteFilePermanent(file: any) {
-    console.log(file.idArquivo)
+    console.log(file.idArquivo);
 
-      this.redService.deleteFile(file.idArquivo).subscribe(() => {
+    this.redService.deleteFile(file.idArquivo).subscribe(
+      () => {
         // Atualize a lista de arquivos após a exclusão
-        this.attachedFiles = this.attachedFiles.filter(f => f !== file);
+        this.attachedFiles = this.attachedFiles.filter((f) => f !== file);
         this.snackBarService.open('Arquivo excluído!');
-      }, error => {
+      },
+      (error) => {
         console.error(error);
         this.snackBarService.open('Erro ao excluir arquivo!');
-      });
+      }
+    );
   }
 }

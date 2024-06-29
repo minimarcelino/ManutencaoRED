@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Location } from '@angular/common';
 import { Observable, startWith, map } from 'rxjs';
@@ -33,7 +33,7 @@ function cursoValidoValidator(cursos: any[]): ValidatorFn {
   templateUrl: './formulario-aluno.component.html',
   styleUrls: ['./formulario-aluno.component.css'],
 })
-export class FormularioAlunoComponent implements OnInit {
+export class  FormularioAlunoComponent implements OnInit {
   formularioAluno!: FormGroup;
   cursos: curso[] = [];
   isSubmitting: boolean = false;
@@ -46,10 +46,12 @@ export class FormularioAlunoComponent implements OnInit {
   private data: any;
   private editar: boolean = false;
   private desabilitar: boolean = false;
+  private retornoRED: boolean = false;
   private cadastrar: boolean = false;
   private idAluno: any;
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private snackBarService: SnackBarService,
     private alunoService: AlunoService,
@@ -70,6 +72,7 @@ export class FormularioAlunoComponent implements OnInit {
       if (window.history.state) {
         this.data = window.history.state.aluno;
         this.desabilitar = window.history.state.visualizar;
+        this.retornoRED = window.history.state.retornoRED;
       }
     });
 
@@ -280,6 +283,17 @@ export class FormularioAlunoComponent implements OnInit {
 
   retornarParaLista() {
     this.entityUpdateService.notifyUpdate('aluno');
+    if (this.retornoRED){
+      const navigationExtras: NavigationExtras = {
+        state: {
+          visualizar: false,
+        },
+      };
+      this.router.navigate(
+        [`/${this.user.tiposervidor}/formularioRED`],
+        navigationExtras
+      );
+    }
     this.location.back();
   }
 
