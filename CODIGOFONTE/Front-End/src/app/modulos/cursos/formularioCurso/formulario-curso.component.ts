@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { Location } from '@angular/common';
 
 import { CursoService } from '../../../services/cursos.service';
 import { CoordenadorService } from 'src/app/services/coordenador.service';
@@ -35,7 +34,7 @@ export class FormularioCursoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
-    private location: Location,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -92,60 +91,92 @@ export class FormularioCursoComponent implements OnInit {
     this.buscarCoordenador();
   }
 
-  submit() {
-    if (this.formularioCurso.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      // Encontra o primeiro campo inválido e coloca o foco nele
-      const fields = Object.keys(this.formularioCurso.controls);
-      const firstInvalidField = fields.find(
-        (field) => this.formularioCurso.get(field)!.invalid
-      );
-      if (firstInvalidField) {
-        const element = document.getElementById(firstInvalidField);
-        if (element) {
-          element.focus();
-        }
-      }
-      return;
-    }
+  async submit() {
 
-    if (this.sigla.trim() === '') {
-      this.snackBarService.open('Sigla deve ser preenchida corretamente.');
-      const element = document.getElementById('sigla');
+  if (this.formularioCurso.invalid || this.isSubmitting) {
+
+    this.snackBarService.open('Campos Obrigatórios');
+
+    const fields = Object.keys(this.formularioCurso.controls);
+
+    const firstInvalidField = fields.find(
+      (field) => this.formularioCurso.get(field)!.invalid
+    );
+
+    if (firstInvalidField) {
+
+      const element = document.getElementById(firstInvalidField);
+
       if (element) {
         element.focus();
       }
-      return;
+
     }
 
-    if (this.nomeCurso.trim() === '') {
-      this.snackBarService.open(
-        'Nome do curso deve ser preenchido corretamente.'
-      );
-      const element = document.getElementById('nome');
-      if (element) {
-        element.focus();
-      }
-      return;
-    }
-
-    try {
-      if (this.editar) {
-        this.updateCurso();
-      } else {
-        this.createCurso();
-      }
-      this.retornarParaLista();
-      this.isSubmitting = true;
-    } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao cadastrar curso: ${errorMessage}`);
-      } else {
-        this.snackBarService.open('Falha ao cadastrar curso');
-      }
-    }
+    return;
   }
+
+  if (this.sigla.trim() === '') {
+
+    this.snackBarService.open(
+      'Sigla deve ser preenchida corretamente.'
+    );
+
+    return;
+  }
+
+  if (this.nomeCurso.trim() === '') {
+
+    this.snackBarService.open(
+      'Nome do curso deve ser preenchido corretamente.'
+    );
+
+    return;
+  }
+
+  try {
+
+    this.isSubmitting = true;
+
+    // 🔥 ESPERA SALVAR
+    if (this.editar) {
+
+      await this.updateCurso();
+
+    } else {
+
+      await this.createCurso();
+
+    }
+
+    // 🔥 SÓ VOLTA DEPOIS DE SALVAR
+    this.retornarParaLista();
+
+  } catch (error: any) {
+
+    console.error(error);
+
+    this.isSubmitting = false;
+
+    if (error && error.error && error.error.data) {
+
+      const errorMessage = error.error.data;
+
+      this.snackBarService.open(
+        `Falha ao cadastrar curso: ${errorMessage}`
+      );
+
+    } else {
+
+      this.snackBarService.open(
+        'Falha ao cadastrar curso'
+      );
+
+    }
+
+  }
+
+}
 
   private async createCurso() {
     await this.cursoService.createCurso({
@@ -173,9 +204,20 @@ export class FormularioCursoComponent implements OnInit {
   }
 
   retornarParaLista() {
-    this.entityUpdateService.notifyUpdate('curso');
-    this.location.back();
-  }
+
+  this.entityUpdateService.notifyUpdate('curso');
+
+  // 🔥 volta atualizando cursos
+  this.router.navigate(
+    [`/${this.user.tiposervidor}/formularioAluno`],
+    {
+      state: {
+        atualizarCursos: true
+      }
+    }
+  );
+
+}
 
   displayFn(Coordenador: any): string {
     return Coordenador && Coordenador.nome;

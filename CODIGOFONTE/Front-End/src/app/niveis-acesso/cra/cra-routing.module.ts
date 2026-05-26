@@ -17,6 +17,7 @@ import { CSPVisualizarREDComponent } from 'src/app/modulos/red/visualizar-csp/vi
 // 🔥 NOVOS COMPONENTES (IMPORTANTE)
 import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
 import { AssociarDisciplinaComponent } from 'src/app/modulos/associacoes/associar-disciplina/associar-disciplina.component';
+import { FormularioCursoComponent } from 'src/app/modulos/cursos/formularioCurso/formulario-curso.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
       {
         path: 'associar-disciplina',
         component: AssociarDisciplinaComponent
+      },
+      {
+        path: 'formularioCurso',
+        component: FormularioCursoComponent
       },
 
       /* ================= ALUNO ================= */
