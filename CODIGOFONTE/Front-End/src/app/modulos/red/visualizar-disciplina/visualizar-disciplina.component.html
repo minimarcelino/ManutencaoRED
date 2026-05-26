@@ -1,41 +1,90 @@
 <div class="corpo">
+
+  <!-- TÍTULO -->
   <div class="title listagem">
     <h1>Disciplinas</h1>
     <hr class="linha" />
   </div>
 
   <div class="formulario">
-    <form [formGroup]="visualizarDisciplina" #formDir="ngForm">
+
+    <form [formGroup]="visualizarDisciplina">
 
       <div id="tabela">
-        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
+        <!-- PESQUISA -->
+        <mat-form-field appearance="outline" class="campo-pesquisa">
+          <mat-label>Pesquisar</mat-label>
+
+          <input
+            matInput
+            placeholder="Buscar disciplina..."
+            (keyup)="applyFilter($event)"
+          />
+        </mat-form-field>
+
+        <!-- TABELA -->
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="mat-elevation-z8"
+          matSort
+        >
+
+          <!-- PROFESSOR -->
           <ng-container matColumnDef="Professor">
-            <th mat-header-cell *matHeaderCellDef> Professor </th>
-            <td mat-cell *matCellDef="let a"> {{ this.apresentarDocentes(a)}} </td>
-          </ng-container>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Professor
+            </th>
 
-          <ng-container matColumnDef="Sigla">
-            <th mat-header-cell *matHeaderCellDef> Sigla </th>
-            <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="NomeDisciplina">
-            <th mat-header-cell *matHeaderCellDef> Nome </th>
-            <td mat-cell *matCellDef="let a"> {{a.disciplinas.nomeDisciplina}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="Situacao">
-            <th mat-header-cell *matHeaderCellDef> Situação </th>
             <td mat-cell *matCellDef="let a">
-              {{a.situacao}}
+              {{ apresentarDocentes(a) }}
             </td>
           </ng-container>
 
+          <!-- SIGLA -->
+          <ng-container matColumnDef="Sigla">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Sigla
+            </th>
 
-          <ng-container matColumnDef="Acoes">
-            <th mat-header-cell *matHeaderCellDef> Ações </th>
             <td mat-cell *matCellDef="let a">
+              {{ a.disciplinas?.sigla || '-' }}
+            </td>
+          </ng-container>
+
+          <!-- NOME -->
+          <ng-container matColumnDef="NomeDisciplina">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Nome
+            </th>
+
+            <td mat-cell *matCellDef="let a">
+              {{ a.disciplinas?.nomeDisciplina || '-' }}
+            </td>
+          </ng-container>
+
+          <!-- SITUAÇÃO -->
+          <ng-container matColumnDef="Situacao">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Situação
+            </th>
+
+            <td mat-cell *matCellDef="let a">
+              {{ a.situacao || '-' }}
+            </td>
+          </ng-container>
+
+          <!-- AÇÕES -->
+          <ng-container matColumnDef="Acoes">
+
+            <th mat-header-cell *matHeaderCellDef>
+              Ações
+            </th>
+
+            <td mat-cell *matCellDef="let a" class="acoes">
+
+              <!-- ASSOCIAR PROFESSOR -->
 
               <button mat-raised-button matTooltip="Associar Professor" class="button" color="primary"
                 (click)="associarProfessor(a)" *ngIf="this.peeAguardandoProfessor(a)">
@@ -43,20 +92,58 @@
                 Associar Professor
               </button>
 
-              <button mat-raised-button color="primary" class="button" *ngIf="verificarSituacao(a)"
-                (click)="sendEmailProfessor(a)" id="cadastrar">Enviar Email
+              <!-- ENVIAR EMAIL -->
+              <button
+                type="button"
+                mat-raised-button
+                color="primary"
+                class="button"
+                matTooltip="Enviar Email"
+                *ngIf="verificarSituacao(a)"
+                (click)="sendEmailProfessor(a)"
+              >
+                <mat-icon>mail</mat-icon>
+                Enviar Email
               </button>
 
             </td>
           </ng-container>
 
+          <!-- HEADER -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+          <!-- ROWS -->
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
+
+        <!-- PAGINADOR -->
+        <mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+
       </div>
-      <button mat-raised-button color="warn" (click)="cancelar()" id="cadastrar" class="button"
-        >Fechar</button>
+
+      <!-- FOOTER -->
+      <div class="acoes-footer">
+
+        <button
+          type="button"
+          mat-raised-button
+          color="warn"
+          class="button"
+          (click)="cancelar()"
+        >
+          <mat-icon>close</mat-icon>
+          Fechar
+        </button>
+
+      </div>
+
     </form>
+
   </div>
 </div>

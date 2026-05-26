@@ -108,47 +108,5 @@ export class ListarCursosComponent implements OnInit {
       this.findAll();
     });
   }
-
-  onFileChange(event: any, curso: any) {
-    const target: DataTransfer = <DataTransfer>event.target;
-    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-    const reader: FileReader = new FileReader();
-    reader.readAsBinaryString(target.files[0]);
-    reader.onload = (e: any) => {
-      const binarystr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-      const data = XLSX.utils.sheet_to_json(ws);
-      this.data = data.map((item: any) => {
-        const componente = item['Componente'];
-        const nomeSplit = componente.split(' - ');
-
-        if (nomeSplit.length === 2) {
-          const nome = nomeSplit[1];
-          const sigla = item['Sigla'];
-          const regexSiglaResult = /\((.*?)\)/.exec(sigla);
-          const dentroParenteses = regexSiglaResult
-            ? regexSiglaResult[1]
-            : null;
-
-          return {
-            sigla: dentroParenteses,
-            curso_idcurso: curso.idcurso,
-            nomeDisciplina: nome,
-          };
-        } else {
-          return {
-            sigla: null,
-            curso_idcurso: curso.idcurso,
-            nomeDisciplina: 'Nome não encontrado',
-          };
-        }
-      });
-      this.data.forEach((item) =>
-        this.disciplinaService.exportDisciplina(item)
-      );
-      this.snackBarService.open('Importação das disciplinas realizadas! ');
-    };
-  }
+  
 }

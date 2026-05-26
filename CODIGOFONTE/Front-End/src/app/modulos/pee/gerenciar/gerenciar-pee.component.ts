@@ -1,19 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSelectChange } from '@angular/material/select';
-import { messageDialog } from 'src/app/services/messageDialog.service';
 import { formatDate } from '@angular/common';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
-//
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSelectChange } from '@angular/material/select';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
+import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
+
 import { red } from 'src/app/modelo/red';
 import { pee } from 'src/app/modelo/pee';
 import { servidor } from 'src/app/modelo/servidor';
+
 import { AssociarProfessoresComponent } from '../../associacoes/associar-professores/associar-professores.component';
-import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 @Component({
   selector: 'app-gerenciar-pee',
@@ -21,15 +23,21 @@ import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl
   styleUrls: ['./gerenciar-pee.component.css'],
 })
 export class GerenciarPEEComponent implements OnInit {
+
   pees: any[] = [];
   disciplinas: any[] = [];
   reds: red[] = [];
-  user: any;
   alunos: any[] = [];
+
   filteredPEEs: any[] = [];
+
+  user: any;
+
   situacaoSelecionada = 'todos';
   professorSelecionado = 'todos';
+
   professores: servidor[] = [];
+
   situacao = [
     'Aguardando Associação de Professor',
     'Aguardando Preenchimento',
@@ -37,7 +45,8 @@ export class GerenciarPEEComponent implements OnInit {
     'Avaliado',
   ];
 
-  dataSource: any;
+  dataSource = new MatTableDataSource<any>([]);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
@@ -55,138 +64,207 @@ export class GerenciarPEEComponent implements OnInit {
     private peeService: PeeService,
     private dialog: MatDialog,
     private customPaginatorIntlService: CustomPaginatorIntlService
-  ) {}
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+
     this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+
+    if (this.user) {
+      this.user = JSON.parse(this.user);
+    }
+
     this.findAll();
   }
 
-  ngAfterViewInit() {
-    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
-  }
+  ngAfterViewInit(): void {
 
-  async findAll() {
-    const response = await this.peeService.getPee();
-    this.pees = response.data.pees;
-    this.dataSource = new MatTableDataSource<pee>(this.pees);
-    this.dataSource.paginator = this.paginator;
-
-    console.log('PEEs', this.pees);
-
-    // Cria um conjunto para armazenar cursos únicos
-    const uniqueProfessores = new Set<number>();
-    this.pees.forEach((pee) => {
-      if (pee.pee_servidor.length > 0) {
-        pee.pee_servidor.forEach((servidor: any) => {
-          uniqueProfessores.add(servidor.ServidorId);
-        });
-      }
-    });
-    console.log("unique id", uniqueProfessores);
-
-    // Converte o conjunto de IDs de curso de volta para um array de cursos
-    this.professores = Array.from(uniqueProfessores).map(
-      (professorId) =>
-        this.pees.find((pee) => pee.pee_servidor === professorId)
-          ?.servidor
-    );
-
-    // Filtra cursos nulos (pode ocorrer se o curso não for encontrado)
-    this.professores = this.professores.filter(
-      (professor) => professor !== undefined
-    );
-    console.log('Professores do filtro:', this.professores);
-  }
-
-  formatData(data: Date): string {
-    if (data) {
-      return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
-    } else {
-      return '';
+    if (this.paginator) {
+      this.paginator._intl =
+        this.customPaginatorIntlService.paginatorIntl;
     }
   }
 
-  associarProfessor(pee: pee) {
-    console.log(pee);
+  async findAll(): Promise<void> {
 
-    const editar = this.dialog.open(AssociarProfessoresComponent, {
-      data: {
-        idRED: pee.RED_idRED,
-        idPEE: pee.idpee,
-        servidor_idservidor: pee.servidor_idservidor,
-        //disciplina: pee.pee.disciplinas,
-        pee: pee,
-      },
-    });
+    try {
+
+      const response = await this.peeService.getPee();
+
+      this.pees = response.data.pees || [];
+
+      console.log('PEEs:', this.pees);
+
+      this.dataSource = new MatTableDataSource<any>(this.pees);
+
+      this.dataSource.paginator = this.paginator;
+
+      // 🔥 LISTA DE PROFESSORES ÚNICOS
+      const uniqueProfessores = new Map<number, servidor>();
+
+      this.pees.forEach((pee: any) => {
+
+        if (pee?.pee_servidor?.length > 0) {
+
+          pee.pee_servidor.forEach((item: any) => {
+
+            const professor = item.servidor;
+
+            if (professor?.idservidor) {
+
+              uniqueProfessores.set(
+                professor.idservidor,
+                professor
+              );
+            }
+          });
+        }
+      });
+
+      this.professores = Array.from(uniqueProfessores.values());
+
+      console.log('Professores:', this.professores);
+
+    } catch (error) {
+
+      console.error('Erro ao buscar PEEs:', error);
+    }
+  }
+
+  formatData(data: Date): string {
+
+    if (data) {
+
+      return formatDate(
+        data,
+        'dd/MM/yyyy',
+        'pt-BR',
+        'UTC'
+      );
+    }
+
+    return '';
+  }
+
+  associarProfessor(pee: any): void {
+
+    console.log('PEE selecionado:', pee);
+
+    const editar = this.dialog.open(
+      AssociarProfessoresComponent,
+      {
+        width: '1000px',
+        autoFocus: false,
+        disableClose: true,
+
+        data: {
+          idRED: pee?.RED_idRED,
+          idPEE: pee?.idpee,
+          servidor_idservidor: pee?.servidor_idservidor,
+          pee: pee,
+        },
+      }
+    );
+
     this.handleDialogConfirm(editar);
   }
 
-  formularioPEE(pee: any) {
+  testar(a: any) {
+
+    console.log(a);
+
+  }
+
+  formularioPEE(pee: any): void {
+
     const navigationExtras: NavigationExtras = {
+
       state: {
         pee: pee,
         visualizar: true,
       },
     };
+
     this.router.navigate(
       [`/${this.user.tiposervidor}/formularioPEE`],
       navigationExtras
     );
   }
 
-  aplicarFiltros() {
-    // Aplica os filtros de curso e situação simultaneamente
-    this.filteredPEEs = this.pees.filter(
-      (pee) =>
-        this.situacaoSelecionada === 'todos' ||
-        pee.situacao === this.situacaoSelecionada
-    );
+  aplicarFiltros(): void {
 
-    // Atualiza o dataSource com os REDs filtrados
-    this.dataSource = new MatTableDataSource<any>(this.filteredPEEs);
+    this.filteredPEEs = this.pees.filter((pee: any) => {
+
+      const filtroSituacao =
+        this.situacaoSelecionada === 'todos' ||
+        pee.situacao === this.situacaoSelecionada;
+
+      return filtroSituacao;
+    });
+
+    this.dataSource =
+      new MatTableDataSource<any>(this.filteredPEEs);
+
     this.dataSource.paginator = this.paginator;
   }
 
-  filtroPorSituacao(event: MatSelectChange) {
-    // Atualiza o filtro de situação e aplica todos os filtros novamente
+  filtroPorSituacao(event: MatSelectChange): void {
+
     this.situacaoSelecionada = event.value;
+
     this.aplicarFiltros();
   }
 
-  filroPorProfessor(event: MatSelectChange) {
-    // Atualiza o filtro de curso e aplica todos os filtros novamente
+  filroPorProfessor(event: MatSelectChange): void {
+
     this.professorSelecionado = event.value;
+
     this.aplicarFiltros();
   }
 
-  pesquisar(data: Event) {
-    console.log(this.dataSource);
+  pesquisar(event: Event): void {
 
-    const value = (data.target as HTMLInputElement).value;
-    this.dataSource.filter = value;
+    const value =
+      (event.target as HTMLInputElement).value;
+
+    this.dataSource.filter =
+      value.trim().toLowerCase();
   }
 
-  handleDialogConfirm(dialog: any) {
+  handleDialogConfirm(dialog: any): void {
+
     dialog.afterClosed().subscribe(() => {
+
       this.findAll();
     });
   }
 
   peeAguardandoProfessor(pee: any): boolean {
-    return pee.situacao === 'Aguardando Associação de Professor';
+
+    return (
+      pee?.situacao ===
+      'Aguardando Associação de Professor'
+    );
   }
 
   peeAguardandoPreenchimento(pee: any): boolean {
-    return pee.situacao === 'Aguardando Preenchimento';
+
+    return (
+      pee?.situacao ===
+      'Aguardando Preenchimento'
+    );
   }
 
-  apresentarDocentes(pee: any) {
-    return pee.pee_servidor.length > 0
-      ? `${pee.pee_servidor
-          .map((docente: any) => docente.servidor.nome)
-          .join(', ')}`
-      : ' - ';
+  apresentarDocentes(pee: any): string {
+
+    if (!pee?.pee_servidor?.length) {
+
+      return ' - ';
+    }
+
+    return pee.pee_servidor
+      .map((docente: any) => docente?.servidor?.nome)
+      .filter((nome: string) => nome)
+      .join(', ');
   }
 }

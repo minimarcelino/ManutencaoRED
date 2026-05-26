@@ -80,7 +80,7 @@ export class ListarAlunoComponent implements OnInit {
 
   formatDataNascimento(dataNascimento: Date): string {
     if (dataNascimento) {
-      return formatDate(dataNascimento, 'dd/MM/yyyy', 'en-US', 'UTC');
+      return formatDate(dataNascimento, 'dd/MM/yyyy', 'pt-BR', 'UTC');
     } else {
       return '';
     }
@@ -112,7 +112,6 @@ export class ListarAlunoComponent implements OnInit {
     data: {
         title: 'Erro ao excluir',
         message: 'Não é possível excluir aluno com RED cadastrada',
-        buttonConfirm: 'Ok',
     }
     });
     try {

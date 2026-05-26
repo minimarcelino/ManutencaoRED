@@ -1,0 +1,28 @@
+/* ocupa largura total nos inputs */
+.full-width {
+  width: 100%;
+}
+
+/* espaçamento entre blocos */
+.grupo {
+  margin: 16px 0;
+}
+
+/* melhora aparência dos radios */
+mat-radio-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* deixa o textarea mais confortável */
+textarea {
+  min-height: 80px;
+}
+
+/* opcional: melhora espaçamento geral do conteúdo */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

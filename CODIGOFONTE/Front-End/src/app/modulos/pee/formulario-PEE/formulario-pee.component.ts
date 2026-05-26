@@ -19,6 +19,7 @@ export class FormularioPEEComponent implements OnInit {
   error: Error | null = null;
   user: any;
 
+  minDate: Date = new Date();
   private data: any;
   private desabilitar: boolean = false;
 
@@ -319,7 +320,7 @@ export class FormularioPEEComponent implements OnInit {
 
   formatData(Data: Date): string {
     if (Data) {
-      return formatDate(Data, 'dd/MM/yyyy', 'en-US', 'UTC');
+      return formatDate(Data, 'dd/MM/yyyy', 'pt-BR', 'UTC');
     } else {
       return '';
     }

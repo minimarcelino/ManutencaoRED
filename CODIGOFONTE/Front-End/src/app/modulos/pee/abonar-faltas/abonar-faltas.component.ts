@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-//
+
 import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 
@@ -12,23 +12,26 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
   styleUrls: ['./abonar-falta.component.css'],
 })
 export class AbonarFaltaComponent implements OnInit {
+
   abonarFaltaPEE!: FormGroup;
-  isSubmitting: boolean = false;
-  error: Error | null = null;
+  isSubmitting = false;
   user: any;
 
   constructor(
     private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialogRef<AbonarFaltaComponent>,
-    private _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private _locale: string,
+    private adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private locale: string,
     private peeService: PeeService
   ) {}
 
   ngOnInit(): void {
-    this._locale = 'pt-BR';
-    this._adapter.setLocale(this._locale);
+    // Locale do datepicker
+    this.locale = 'pt-BR';
+    this.adapter.setLocale(this.locale);
+
+    // Formulário
     this.abonarFaltaPEE = new FormGroup({
       avaliacaoAtividade: new FormControl('', [Validators.required]),
       entregaAluno: new FormControl('', [Validators.required]),
@@ -39,103 +42,95 @@ export class AbonarFaltaComponent implements OnInit {
       avaliacaoRealizada: new FormControl(null),
       dataAvaliacao: new FormControl(null),
     });
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+
+    // Usuário
+    const userStorage = localStorage.getItem('user');
+    this.user = userStorage ? JSON.parse(userStorage) : null;
   }
 
   async submit() {
-    // Verifica se algum campo obrigatório é apenas espaços em branco
     if (this.abonarFaltaPEE.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos obrigatórios!!');
-      const fields = Object.keys(this.abonarFaltaPEE.controls);
-      const firstInvalidField = fields.find(field => this.abonarFaltaPEE.get(field)!.invalid);
-      if (firstInvalidField) {
-        const element = document.getElementById(firstInvalidField);
-        if (element) {
-          element.focus();
-        }
-      }
+      this.snackBarService.open('Preencha todos os campos obrigatórios!');
+      this.abonarFaltaPEE.markAllAsTouched();
       return;
     }
 
-    if (this.avaliacaoAtividade.trim() === '') {
-      this.snackBarService.open('Descrição deve ser preenchido corretamente.');
-      const element = document.getElementById('descricao');
-      if (element) {
-        element.focus();
-      }
+    // Validação extra
+    if (!this.avaliacaoAtividade.trim()) {
+      this.snackBarService.open('Avaliação da atividade não pode estar vazia.');
       return;
     }
-
-
 
     if (this.percentualAbono < 0 || this.percentualAbono > 100) {
-      this.snackBarService.open('O percentual de faltas abonadas deve ser entre 0 e 100.');
+      this.snackBarService.open('O percentual deve ser entre 0 e 100.');
       return;
     }
 
     this.isSubmitting = true;
-    try {
 
+    try {
       await this.peeService.updatePee({
         editando: true,
         idpee: this.data.idpee,
         situacao: "Avaliado",
+
         avaliacaoAtividade: this.avaliacaoAtividade,
         prazoEntregaAtividade: this.data.prazofinal,
         dataEntregaAtividade: this.entregaAluno,
+
         cumpriuAtividade: this.cumprimento,
         houveAvaliacao: this.avaliacao,
         avaliacoesRealizadas: this.avaliacaoRealizada,
         dataAvaliacao: this.dataAvaliacao,
+
         percentualabono: this.percentualAbono,
       });
-      this.snackBarService.open('Faltas abonadas com sucesso!!');
-      this.dialog.close();
+
+      this.snackBarService.open('Faltas abonadas com sucesso!');
+      this.dialog.close(true);
+
     } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao abonar as Faltas: ${errorMessage}`);
-      } else {
-        this.snackBarService.open('Falha ao abonar as Faltas');
-      }
+      const msg = error?.error?.data || 'Falha ao abonar as faltas';
+      this.snackBarService.open(msg);
+    } finally {
+      this.isSubmitting = false;
     }
   }
 
   cancelar() {
-    this.dialog.close();
+    this.dialog.close(false);
   }
 
-  get avaliacaoAtividade() {
-    return this.abonarFaltaPEE.get('avaliacaoAtividade')!.value;
+  // ===== GETTERS =====
+  get avaliacaoAtividade(): string {
+    return this.abonarFaltaPEE.get('avaliacaoAtividade')?.value || '';
   }
 
   get entregaAluno() {
-    return this.abonarFaltaPEE.get('entregaAluno')!.value;
+    return this.abonarFaltaPEE.get('entregaAluno')?.value;
   }
 
   get cumprimento() {
-    return this.abonarFaltaPEE.get('cumprimento')!.value;
+    return this.abonarFaltaPEE.get('cumprimento')?.value;
   }
 
   get novaAtividade() {
-    return this.abonarFaltaPEE.get('novaAtividade')!.value;
+    return this.abonarFaltaPEE.get('novaAtividade')?.value;
   }
 
-  get percentualAbono() {
-    return this.abonarFaltaPEE.get('percentualAbono')!.value;
+  get percentualAbono(): number {
+    return Number(this.abonarFaltaPEE.get('percentualAbono')?.value || 0);
   }
 
   get avaliacao() {
-    return this.abonarFaltaPEE.get('avaliacao')!.value || null;
-  }
-
-  get dataAvaliacao() {
-    return this.abonarFaltaPEE.get('dataAvaliacao')!.value || null;
+    return this.abonarFaltaPEE.get('avaliacao')?.value ?? null;
   }
 
   get avaliacaoRealizada() {
-    return this.abonarFaltaPEE.get('avaliacaoRealizada')!.value || null;
+    return this.abonarFaltaPEE.get('avaliacaoRealizada')?.value ?? null;
+  }
+
+  get dataAvaliacao() {
+    return this.abonarFaltaPEE.get('dataAvaliacao')?.value ?? null;
   }
 }
-

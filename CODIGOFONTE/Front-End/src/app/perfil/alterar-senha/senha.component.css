@@ -1,0 +1,52 @@
+/* BOTÃO BASE */
+.button {
+  margin: 10px;
+  min-width: 140px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+
+  /* sombra igual ao da imagem */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* EFEITO HOVER */
+.button:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* EFEITO CLICK */
+.button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* CANCELAR */
+.btn-cancelar {
+  background-color: #dc3545;
+}
+
+.btn-cancelar:hover {
+  background-color: #b02a37;
+}
+
+/* CADASTRAR / CONFIRMAR */
+.btn-confirmar {
+  background-color: #2e7d32; /* verde IFSP */
+}
+
+.btn-confirmar:hover {
+  background-color: #1b5e20;
+}
+
+/* DESABILITADO */
+.button:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+}

@@ -1,0 +1,97 @@
+.container {
+  padding: 20px;
+  background: #3b3b3b;
+  color: #00c853;
+  overflow-x: auto; /* evita quebrar layout */
+}
+
+/* largura total */
+.full-width {
+  width: 100%;
+}
+
+/* títulos */
+.titulo {
+  text-align: center;
+  margin: 25px 0 15px;
+  color: #00c853;
+}
+
+/* linha divisória */
+hr {
+  margin: 20px 0;
+  border: 1px solid #777;
+}
+
+/* tabela */
+table {
+  width: 100%;
+  table-layout: fixed; /* mantém colunas alinhadas */
+  background: #4a4a4a;
+  color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* cabeçalho */
+th {
+  font-weight: bold;
+  text-align: left;
+  padding: 12px;
+}
+
+/* células */
+td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+/* colunas específicas */
+.mat-column-sigla {
+  width: 15%;
+}
+
+.mat-column-nome {
+  width: 65%;
+}
+
+.mat-column-acoes {
+  width: 20%;
+  text-align: center;
+}
+
+/* botões */
+button {
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* efeito hover na tabela */
+tr.mat-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* campo de busca */
+mat-form-field {
+  width: 100%;
+}
+
+/* garantir que nada externo quebre layout */
+* {
+  box-sizing: border-box;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header button {
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
+
+.header {
+  position: relative;
+}

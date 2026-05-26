@@ -1,0 +1,18 @@
+/* BASE */
+.button {
+  padding: 10px 20px;
+  font-weight: 400;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-confirmar {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.btn-cancelar {
+  background-color: #d32f2f;
+  color: white;
+  margin-right: 8px;
+}

@@ -13,10 +13,9 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./senha.component.css'],
 })
 export class SenhaComponent implements OnInit {
+
   alterarPerfil!: FormGroup;
-  logging: boolean = true;
   isSubmitting: boolean = false;
-  error: Error | null = null;
   user: any;
 
   constructor(
@@ -24,79 +23,89 @@ export class SenhaComponent implements OnInit {
     private snackBarService: SnackBarService,
     private servidorService: ServidorService,
     private authenticationService: AuthenticationService,
-    private dialog: MatDialogRef<SenhaComponent>,
+    private dialogRef: MatDialogRef<SenhaComponent>
   ) {}
 
   ngOnInit(): void {
     this.alterarPerfil = new FormGroup({
       senhaAtual: new FormControl('', [Validators.required]),
-      novaSenha: new FormControl('', [Validators.required]),
+      novaSenha: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmarSenha: new FormControl('', [Validators.required]),
     });
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+
+    const userStorage = localStorage.getItem('user');
+    this.user = userStorage ? JSON.parse(userStorage) : null;
   }
 
   async submit() {
+
     if (this.alterarPerfil.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
+      this.snackBarService.open('Preencha todos os campos!');
+      this.alterarPerfil.markAllAsTouched();
       return;
-    } else {
+    }
 
-      const senhaAtual = this.alterarPerfil.get('senhaAtual')!.value;
-      this.logging = await this.authenticationService.login({
+    if (this.novaSenha !== this.confirmarSenha) {
+      this.snackBarService.open('As senhas não coincidem!');
+      return;
+    }
+
+    const loginValido = await this.authenticationService.login({
+      prontuario: this.user.prontuario,
+      senha: this.senhaAtual,
+    });
+
+    if (!loginValido) {
+      this.snackBarService.open('Senha atual incorreta!');
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    try {
+      await this.servidorService.alterarPerfil({
+        idservidor: this.user.idservidor,
+        email: this.user.email,
+        senha: this.novaSenha,
+        tiposervidor: this.user.tiposervidor,
+        nome: this.user.nome,
         prontuario: this.user.prontuario,
-        senha: senhaAtual,
       });
-      console.log(this.logging);
 
-      if (this.logging) {
-        this.isSubmitting = true;
-      try {
-        await this.servidorService.alterarPerfil({
-          idservidor: this.user.idservidor,
-          email: this.user.email,
-          senha: this.novaSenha,
-          tiposervidor: this.user.tiposervidor,
-          nome: this.user.nome,
-          prontuario: this.user.prontuario,
-        });
-        this.snackBarService.open('Perfil alterado com sucesso!!');
-        this.dialog.close();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          // Verifica se o erro é devido a um prontuário duplicado
-          if (errorMessage.includes('prontuario')) {
-            this.snackBarService.open(`Prontuário duplicado`);
-          } else {
-            this.snackBarService.open(`Falha ao alterar perfil: ${errorMessage}`);
-          }
-        } else {
-          this.snackBarService.open('Falha ao alterar perfil');
-        }
-      }
-        this.snackBarService.open('Senha alterada!');
+      this.snackBarService.open('Senha alterada com sucesso!');
 
-          this.authenticationService.logout();
-          this.router.navigate(['/login']); // redireciona o usuário para a página de login após o logout
+      this.dialogRef.close(); // ✅ fecha modal
 
+      this.authenticationService.logout();
+      this.router.navigate(['/login']);
+
+    } catch (error: any) {
+
+      if (error?.error?.data) {
+        this.snackBarService.open(`Erro: ${error.error.data}`);
       } else {
-        this.snackBarService.open('Senha incorreta!');
+        this.snackBarService.open('Erro ao alterar senha');
       }
 
+    } finally {
+      this.isSubmitting = false;
     }
   }
 
+  // ✅ CANCELAR CORRETO (SEM BUG)
+  cancelar(): void {
+    this.dialogRef.close(); // 🔥 SÓ ISSO!
+  }
+
   get senhaAtual() {
-    return this.alterarPerfil.get('senhaAtual')!.value;
+    return this.alterarPerfil.get('senhaAtual')?.value;
   }
 
   get novaSenha() {
-    return this.alterarPerfil.get('novaSenha')!.value;
+    return this.alterarPerfil.get('novaSenha')?.value;
   }
 
   get confirmarSenha() {
-    return this.alterarPerfil.get('confirmarSenha')!.value;
+    return this.alterarPerfil.get('confirmarSenha')?.value;
   }
 }

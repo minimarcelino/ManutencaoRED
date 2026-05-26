@@ -10,7 +10,11 @@ const servidorcontroller = new servidorController();
 
 router.get('/', authentication.validate, disciplinacontroller.getDisciplinas);
 router.get('/all', authentication.validate, disciplinacontroller.getAll);
+
 router.post('/create', authentication.validate, disciplinacontroller.Create);
+
+router.post('/import', authentication.validate, disciplinacontroller.Import);
+
 router.put('/update/:id', authentication.validate, disciplinacontroller.Update);
 router.delete('/delete/:id', authentication.validate, disciplinacontroller.Delete);
 

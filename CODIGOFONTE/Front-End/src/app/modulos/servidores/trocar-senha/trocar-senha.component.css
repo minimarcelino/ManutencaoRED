@@ -1,63 +1,82 @@
-.container{
+.body {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    background: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
     width: 100%;
     max-width: 30rem;
-    height: auto;
-    padding: 2rem;
+    padding: 10px 20px;
     background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.linha {
+    border: none;
+    height: 2px;
+    background-color: #d32f2f;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 mat-form-field {
     width: 100%;
-    margin-bottom: 0;
 }
 
-.body {
+/* BOTÕES */
+.botoes {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 89vh;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    font-family: Arial, sans-serif;
-    border-radius: 10px;
+    justify-content: space-between;
+    margin-top: 15px;
 }
 
-.fields{
-    display: grid;
-    align-items: center;
-    width: 18rem;
-    gap: 1rem;
+/* CONFIRMAR */
+.btn-confirmar {
+    background-color: #198754; /* verde IFSP */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-
-
-h1 {
-    color: rgb(245, 42, 42);
-    text-align: center;
-    margin-bottom: 1rem;
-    font-weight: bold;
+.btn-confirmar:hover {
+    background-color: #157347;
 }
 
-/* Estilos para telas com largura menor que 600px */
+/* RESPONSIVO */
 @media (max-width: 600px) {
     .container {
         width: 90%;
-        padding: 1rem;
+        padding: 1.5rem;
     }
+}
 
-    .fields {
-        gap: 0.5rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
 }

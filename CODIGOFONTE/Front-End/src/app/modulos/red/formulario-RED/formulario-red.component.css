@@ -1,15 +1,162 @@
-input[disabled] {
-  cursor: not-allowed; /* Cursor do mouse */
+/* ===== CONTAINER PRINCIPAL ===== */
+.container-red {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #e4e6eb;
 }
 
-.formulario .direito-3-button {
-  margin-left: 1%;
+/* ===== TÍTULO ===== */
+.container-red h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
-.topo-direita {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-top: 10px;
-  margin-right: 10px;
+/* ===== INFO DO ALUNO ===== */
+.info-aluno {
+  font-size: 18px;
+  font-weight: 500;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444;
 }
+
+/* ===== TABELA ===== */
+.tabela-container {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #2b2b2b;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* ===== ESTILO DA TABELA ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+/* ===== CABEÇALHO ===== */
+th {
+  background-color: #3a3a3a;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px;
+  text-align: center;
+}
+
+/* ===== LINHAS ===== */
+td {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ===== PRIMEIRA COLUNA ===== */
+td:first-child,
+th:first-child {
+  text-align: left;
+}
+
+/* ===== LINHAS ALTERNADAS ===== */
+tr:nth-child(even) {
+  background-color: #2f2f2f;
+}
+
+tr:nth-child(odd) {
+  background-color: #262626;
+}
+
+/* ===== HOVER ===== */
+tr:hover {
+  background-color: #3f3f3f;
+  transition: 0.2s;
+}
+
+/* =========================
+   🔘 BOTÕES (CORRIGIDO)
+========================= */
+.botoes {
+  display: flex;
+  justify-content: flex-end; /* 🔥 joga pra direita */
+  gap: 16px; /* 🔥 espaçamento entre botões */
+  margin-top: 20px;
+}
+
+/* ===== BOTÃO VOLTAR ===== */
+.btn-voltar {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #bb2d3b;
+}
+
+/* ===== BOTÃO IMPRIMIR (VERDE IFSP) ===== */
+.btn-imprimir {
+  background-color: #0b5e20; /* 🔥 verde IFSP */
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-imprimir:hover {
+  background-color: #157347;
+}
+
+button {
+  margin-bottom: 20px;
+}
+
+.acoes {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .container-red {
+    padding: 16px;
+  }
+
+  th, td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .info-aluno {
+    font-size: 16px;
+  }
+
+  .botoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Remove setas do input number no Chrome, Edge e Safari */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove setas no Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+

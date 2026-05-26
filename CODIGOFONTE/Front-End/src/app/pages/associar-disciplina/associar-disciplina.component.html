@@ -1,0 +1,102 @@
+<div class="corpo" translate="no">
+
+  <div class="title listagem" translate="no">
+    <h1>Associação de Disciplina</h1>
+    <h2>{{ this.apresentarAluno() }}</h2>
+    <hr class="linha" />
+  </div>
+
+  <div class="formulario">
+    <form [formGroup]="associarDisciplina" #formDir="ngForm">
+
+      <mat-form-field>
+        <mat-label>Pesquisar Disciplina</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Banco de Dados 1 | PEPBDD1">
+      </mat-form-field>
+
+      <div class="titulo-container">
+        <hr class="linha" />
+        <h3 class="titulo-centralizado">Disciplinas disponíveis</h3>
+
+        <div id="tabela">
+          <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+            <ng-container matColumnDef="Sigla">
+              <th mat-header-cell *matHeaderCellDef> Sigla </th>
+              <td mat-cell *matCellDef="let a"> {{a.sigla}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="NomeDisciplina">
+              <th mat-header-cell *matHeaderCellDef> Nome </th>
+              <td mat-cell *matCellDef="let a"> {{a.nomeDisciplina}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Acoes">
+              <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+              <td class="actionsColumns" mat-cell *matCellDef="let a">
+                <button mat-raised-button color="primary" (click)="selecionarDisciplina(a)" id="cadastrar">
+                  <mat-icon>playlist_add</mat-icon>
+                  Associar
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          </table>
+<mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+      >
+      </mat-paginator>        </div>
+      </div>
+
+
+      <div class="titulo-container">
+        <hr class="linha" />
+        <h3 class="titulo-centralizado">Disciplinas associadas</h3>
+
+        <div id="tabela">
+          <table appearance="outline" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" matSort>
+
+            <ng-container matColumnDef="Sigla">
+              <th mat-header-cell *matHeaderCellDef> Sigla </th>
+              <td mat-cell *matCellDef="let a"> {{a.sigla}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="NomeDisciplina">
+              <th mat-header-cell *matHeaderCellDef> Nome </th>
+              <td mat-cell *matCellDef="let a"> {{a.nomeDisciplina}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Acoes">
+              <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
+              <td class="actionsColumns" mat-cell *matCellDef="let a">
+                <button mat-raised-button color="primary" (click)="removerDisciplina(a)" id="remover">
+                  <mat-icon>playlist_remove</mat-icon>
+                  Remover
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+<mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+      >
+      </mat-paginator>        </div>
+      </div>
+
+      <div>
+        <button autofocus mat-raised-button color="primary" (click)="cadastrar()" id="cadastrar" class="button">
+          Associar Disciplinas Selecionadas
+        </button>
+        <button mat-raised-button color="warn" (click)="cancelar()" id="cadastrar" class="button">Cancelar</button>
+      </div>
+    </form>
+  </div>

@@ -1,6 +1,28 @@
 <h1 mat-dialog-title>{{ data.title }}</h1>
-<mat-dialog-content [innerHTML]="data.message"></mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data.buttonClose">{{ data.buttonClose }}</button>
-  <button mat-button [mat-dialog-close]="data.buttonConfirm" cdkFocusInitial>{{ data.buttonConfirm }}</button>
-</mat-dialog-actions>
+
+<div mat-dialog-content>
+<div [innerHTML]="data.message"></div></div>
+
+<div mat-dialog-actions align="end">
+
+  <!-- CANCELAR -->
+  <button
+    mat-raised-button
+    class="btn-cancelar"
+    [mat-dialog-close]="data.buttonClose">
+
+    {{ data.buttonClose || 'Cancelar' }}
+
+  </button>
+
+  <!-- CONFIRMAR -->
+  <button 
+    mat-raised-button
+    class="btn-confirmar"
+    [mat-dialog-close]="data.buttonConfirm">
+
+    {{ data.buttonConfirm || 'Confirmar' }}
+
+  </button>
+
+</div>

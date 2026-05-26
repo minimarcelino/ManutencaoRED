@@ -48,7 +48,7 @@ export class ListarPEEComponent implements OnInit {
     private peeService: PeeService,
     private dialog: MatDialog,
     private customPaginatorIntlService: CustomPaginatorIntlService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.findAll();
@@ -74,6 +74,10 @@ export class ListarPEEComponent implements OnInit {
 
   abonarFalta(pee: any) {
     const editar = this.dialog.open(AbonarFaltaComponent, {
+  width: '700px',
+  maxHeight: '90vh',
+  autoFocus: false,
+
       data: {
         idpee: pee.idpee,
         RED_idRED: pee.RED_idRED,
@@ -96,6 +100,7 @@ export class ListarPEEComponent implements OnInit {
         observacao: pee.observacao,
       },
     });
+
     this.handleDialogConfirm(editar);
   }
 
@@ -111,7 +116,7 @@ export class ListarPEEComponent implements OnInit {
         visualizar: visualizar
       },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`],navigationExtras);
+    this.router.navigate([`/${this.user.tiposervidor}/formularioPEE`], navigationExtras);
   }
 
   aplicarFiltros() {
@@ -143,11 +148,11 @@ export class ListarPEEComponent implements OnInit {
     return pee.situacao === 'Enviado para o aluno';
   }
 
-  isPreencher(pee: any){
+  isPreencher(pee: any) {
     return pee.situacao === 'Aguardando Preenchimento';
   }
 
-  apresentarAbono(abono: number){
+  apresentarAbono(abono: number) {
     return abono < 0 ? "Não avaliado" : `${abono} %`;
   }
 }

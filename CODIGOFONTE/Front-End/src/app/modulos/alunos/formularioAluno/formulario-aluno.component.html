@@ -1,90 +1,127 @@
 <div class="corpo">
 
   <div class="title listagem">
-    <h1>{{ this.titulo() }}</h1>
+    <h1>{{ titulo() }}</h1>
     <hr class="linha" />
   </div>
 
   <div class="formulario">
-    <form [formGroup]="formularioAluno" #formDir="ngForm">
+    <form [formGroup]="formularioAluno">
 
-      <mat-form-field appearance="fill" class="lado-esquerdo">
+      <!-- PRONTUÁRIO -->
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Prontuário</mat-label>
-        <input matInput id="prontuario" name="prontuario" formControlName="prontuario" mask="AA000000A" />
-        <mat-error
-          *ngIf="formularioAluno.get('prontuario')?.errors && (formularioAluno.get('prontuario')?.dirty || formularioAluno.get('prontuario')?.touched)">
-          <span *ngIf="formularioAluno.get('prontuario')?.errors?.['required']">Campo obrigatório</span>
+        <input matInput formControlName="prontuario" placeholder="Ex: PE123456A" mask="AA000000A" />
+
+        <mat-error *ngIf="formularioAluno.get('prontuario')?.errors 
+          && (formularioAluno.get('prontuario')?.dirty || formularioAluno.get('prontuario')?.touched)">
+          <span *ngIf="formularioAluno.get('prontuario')?.errors?.['required']">
+            Campo obrigatório
+          </span>
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="lado-direito">
+      <!-- NOME -->
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Nome</mat-label>
-        <input matInput id="nome" name="nome" formControlName="nome" />
-        <mat-error
-          *ngIf="formularioAluno.get('nome')?.errors && (formularioAluno.get('nome')?.dirty || formularioAluno.get('nome')?.touched)">
-          <span *ngIf="formularioAluno.get('nome')?.errors?.['required']">Campo obrigatório</span>
+        <input matInput formControlName="nome" placeholder="Digite o nome completo" />
+
+        <mat-error *ngIf="formularioAluno.get('nome')?.errors 
+          && (formularioAluno.get('nome')?.dirty || formularioAluno.get('nome')?.touched)">
+          <span *ngIf="formularioAluno.get('nome')?.errors?.['required']">
+            Campo obrigatório
+          </span>
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="lado-esquerdo">
+      <!-- DATA -->
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Data de Nascimento</mat-label>
-        <input matInput [matDatepicker]="picker" id="data" formControlName="data">
+        <input matInput [matDatepicker]="picker" formControlName="data" placeholder="Selecione a data">
+
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error
-          *ngIf="formularioAluno.get('data')?.errors && (formularioAluno.get('data')?.dirty || formularioAluno.get('data')?.touched)">
-          <span *ngIf="formularioAluno.get('data')?.errors?.['required']">Campo obrigatório</span>
+
+        <mat-error *ngIf="formularioAluno.get('data')?.errors 
+          && (formularioAluno.get('data')?.dirty || formularioAluno.get('data')?.touched)">
+          <span *ngIf="formularioAluno.get('data')?.errors?.['required']">
+            Campo obrigatório
+          </span>
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="lado-direito">
+      <!-- TELEFONE -->
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Telefone</mat-label>
-        <input matInput name="telefone" id="telefone" formControlName="telefone" [specialCharacters]="['(', ')', '-']"
-          mask="(00)00000-0000" />
-        <mat-error
-          *ngIf="formularioAluno.get('telefone')?.errors && (formularioAluno.get('telefone')?.dirty || formularioAluno.get('telefone')?.touched)">
-          <span *ngIf="formularioAluno.get('telefone')?.errors?.['required']">Campo obrigatório</span>
+        <input matInput formControlName="telefone" placeholder="(18) 99999-9999"
+          [specialCharacters]="['(', ')', '-']" mask="(00)00000-0000" />
+
+        <mat-error *ngIf="formularioAluno.get('telefone')?.errors 
+          && (formularioAluno.get('telefone')?.dirty || formularioAluno.get('telefone')?.touched)">
+          <span *ngIf="formularioAluno.get('telefone')?.errors?.['required']">
+            Campo obrigatório
+          </span>
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <!-- EMAIL -->
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
-        <input matInput name="email" id="email" formControlName="email" />
-        <mat-error
-          *ngIf="formularioAluno.get('email')?.errors && (formularioAluno.get('email')?.dirty || formularioAluno.get('email')?.touched)">
-          <span *ngIf="formularioAluno.get('email')?.errors?.['required']">Campo obrigatório</span>
-          <span *ngIf="formularioAluno.get('email')?.errors?.['email']">Formato inválido para e-mail</span>
+        <input matInput formControlName="email" placeholder="exemplo@email.com" />
+
+        <mat-error *ngIf="formularioAluno.get('email')?.errors 
+          && (formularioAluno.get('email')?.dirty || formularioAluno.get('email')?.touched)">
+          <span *ngIf="formularioAluno.get('email')?.errors?.['required']">
+            Campo obrigatório
+          </span>
+          <span *ngIf="formularioAluno.get('email')?.errors?.['email']">
+            Formato inválido para e-mail
+          </span>
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
-        <input formControlName="curso" id="curso" type="text" placeholder="Selecione um Curso" matInput
+      <!-- CURSO -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Curso</mat-label>
+        <input matInput formControlName="curso" placeholder="Digite ou selecione um curso"
           [matAutocomplete]="auto">
-        <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let c of filteredCursos | async" [value]="c">
-            {{c.nomeCurso}}
+            {{ c.nomeCurso }}
           </mat-option>
         </mat-autocomplete>
-        <mat-error
-          *ngIf="formularioAluno.get('curso')?.errors && (formularioAluno.get('curso')?.dirty || formularioAluno.get('curso')?.touched)">
-          <span *ngIf="formularioAluno.get('curso')?.errors?.['required']">Campo obrigatório</span>
-          <span *ngIf="formularioAluno.get('curso')?.errors?.['cursoInvalido']">Curso inválido. Selecione um curso da lista.</span>
+
+        <mat-error *ngIf="formularioAluno.get('curso')?.errors 
+          && (formularioAluno.get('curso')?.dirty || formularioAluno.get('curso')?.touched)">
+          <span *ngIf="formularioAluno.get('curso')?.errors?.['required']">
+            Campo obrigatório
+          </span>
+          <span *ngIf="formularioAluno.get('curso')?.errors?.['cursoInvalido']">
+            Curso inválido. Selecione da lista.
+          </span>
         </mat-error>
       </mat-form-field>
 
-
-      <div *ngIf="!this.desabilitado">
-
-        <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
-        <button mat-raised-button color="primary" class="button" (click)="submit()">
-          {{ this.editando ? 'Salvar' : 'Cadastrar'}}
+      <!-- BOTÃO CADASTRAR CURSO (linha de cima) -->
+      <div class="acoes-curso">
+        <button mat-raised-button class="btn-secundario" type="button" (click)="CadastrarCurso()">
+          <mat-icon>add</mat-icon>
+          Cadastrar Curso
         </button>
       </div>
 
-      <div *ngIf="this.desabilitado">
+      <!-- BOTÕES PRINCIPAIS (linha de baixo) -->
+      <div *ngIf="!desabilitado" class="acoes-principais">
+        <button mat-raised-button class="btn-cancelar" type="button" (click)="retornarParaLista()">
+          Cancelar
+        </button>
 
-        <button mat-raised-button color="primary" class="button" (click)="retornarParaLista()">Voltar</button>
+        <button mat-raised-button class="btn-cadastrar" type="button" (click)="submit()">
+          {{ editando ? 'Salvar' : 'Cadastrar' }}
+        </button>
       </div>
+
     </form>
   </div>
 </div>

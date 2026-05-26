@@ -30,7 +30,7 @@ export class UsuarioNaoAutenticadoComponent implements OnInit {
 
   formatData(data: Date): string {
     if (data) {
-      return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
+      return formatDate(data, 'dd/MM/yyyy', 'pt-BR', 'UTC');
     } else {
       return '';
     }

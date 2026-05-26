@@ -1,0 +1,19 @@
+.dashboard {
+  height: calc(100vh - 64px); /* desconta o toolbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.dashboard-content {
+  max-width: 600px;
+  transform: translateY(40px); /* 👈 empurra pra baixo */
+}
+
+.manual-button {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}

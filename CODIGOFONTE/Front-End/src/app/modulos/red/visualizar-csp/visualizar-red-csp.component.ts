@@ -65,15 +65,15 @@ export class CSPVisualizarREDComponent implements OnInit {
 
   formatData(Data: Date): string {
     if (Data) {
-      return formatDate(Data, 'dd/MM/yyyy', 'en-US', 'UTC');
+      return formatDate(Data, 'dd/MM/yyyy', 'pt-BR', 'UTC');
     } else {
       return '';
     }
   }
 
   apresentarAluno() {
-    return `Aluno ${this.aluno.nome} - ${this.aluno.prontuario}`;
-  }
+  return this.aluno?.nome || '';
+}
 
   voltar() {
     this.location.back();

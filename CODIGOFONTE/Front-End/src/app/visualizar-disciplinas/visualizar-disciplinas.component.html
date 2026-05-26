@@ -1,0 +1,67 @@
+<div class="corpo">
+  <div class="title">
+    <h1>Disciplinas</h1>
+    <hr class="linha" />
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+
+        <!-- Professor -->
+        <ng-container matColumnDef="professor">
+          <th mat-header-cell *matHeaderCellDef> Professor </th>
+          <td mat-cell *matCellDef="let d"> {{d.professor}} </td>
+        </ng-container>
+
+        <!-- Sigla -->
+        <ng-container matColumnDef="sigla">
+          <th mat-header-cell *matHeaderCellDef> Sigla </th>
+          <td mat-cell *matCellDef="let d"> {{d.sigla}} </td>
+        </ng-container>
+
+        <!-- Nome -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let d"> {{d.nome}} </td>
+        </ng-container>
+
+        <!-- Situação -->
+        <ng-container matColumnDef="situacao">
+          <th mat-header-cell *matHeaderCellDef> Situação </th>
+          <td mat-cell *matCellDef="let d"> {{d.situacao}} </td>
+        </ng-container>
+
+        <!-- Ações
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef> Ações </th>
+          <td mat-cell *matCellDef="let d">
+            <button mat-icon-button>
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container> 
+      -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+    </div>
+
+<mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    <button mat-raised-button color="accent" (click)="voltar()" class="button">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar
+    </button>
+
+  </div>
+</div>

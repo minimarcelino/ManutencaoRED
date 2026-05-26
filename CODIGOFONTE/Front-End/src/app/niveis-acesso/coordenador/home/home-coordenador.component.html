@@ -1,238 +1,197 @@
 <div class="corpo">
-  <div class="title listagem" translate="no">
 
-  </div>
+  <div class="title listagem" translate="no"></div>
 
+  <!-- 🔔 ALERTA PEE -->
   <div *ngIf="preencherAvaliarPEE()" class="pees">
     <mat-icon style="margin-left: 1%;">notifications</mat-icon>
     <h1>Existem PEEs aguardando preenchimento e/ou avaliação</h1>
     <div id="buttons">
-      <button mat-raised-button color="primary" (click)="listarPEEs()" class="button">Visualizar</button>
+      <button mat-raised-button color="primary" (click)="listarPEEs()" class="button">
+        Visualizar
+      </button>
     </div>
     <hr class="linha" />
   </div>
 
-  <div class="title listagem" translate="no">
+  <!-- ========================= -->
+  <!-- 🔥 REDs esperando confirmação -->
+  <!-- ========================= -->
+
+  <div class="title listagem">
     <h1>REDs esperando confirmação</h1>
     <hr class="linha" />
   </div>
 
-  <div class="listagem" *ngIf="esperandoConfirmacao.length>0">
-    <div class="tabela">
+  <div *ngIf="esperandoConfirmacao && esperandoConfirmacao.length > 0; else semRedConfirmacao">
+    <table mat-table [dataSource]="dataSourceRed" class="mat-elevation-z8">
 
-      <table appearence="outline" mat-table [dataSource]="dataSourceRed" class="mat-elevation-z8 table">
+      <ng-container matColumnDef="NomeRED">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="NomeRED">
-          <th mat-header-cell *matHeaderCellDef> Nome </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-        </ng-container>
+      <ng-container matColumnDef="ProntuarioRED">
+        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+        <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="ProntuarioRED">
-          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-        </ng-container>
+      <ng-container matColumnDef="CursoRED">
+        <th mat-header-cell *matHeaderCellDef> Curso </th>
+        <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="CursoRED">
-          <th mat-header-cell *matHeaderCellDef> Curso </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-        </ng-container>
+      <ng-container matColumnDef="InicioRED">
+        <th mat-header-cell *matHeaderCellDef> Início </th>
+        <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Inicio-RED">
-          <th mat-header-cell *matHeaderCellDef> Início RED </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-        </ng-container>
+      <ng-container matColumnDef="TempoAfastamentoRED">
+        <th mat-header-cell *matHeaderCellDef> Tempo </th>
+        <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
+      </ng-container>
 
-        <ng-container matColumnDef="Tempo-AfastamentoRED">
-          <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
-          <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-        </ng-container>
+      <ng-container matColumnDef="TerminoRED">
+        <th mat-header-cell *matHeaderCellDef> Término </th>
+        <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="TerminoRED">
-          <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
-          </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-        </ng-container>
+      <ng-container matColumnDef="SituacaoRED">
+        <th mat-header-cell *matHeaderCellDef> Situação </th>
+        <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Situacao-RED">
-          <th mat-header-cell *matHeaderCellDef> Situação do RED </th>
-          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-        </ng-container>
+      <ng-container matColumnDef="SituacaoPEE">
+        <th mat-header-cell *matHeaderCellDef> Situação PEE </th>
+        <td mat-cell *matCellDef="let a"> {{ situacaoPEEs(a.pee) }} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Situacao-PEE">
-          <th mat-header-cell *matHeaderCellDef> Situação dos PEEs </th>
-          <td mat-cell *matCellDef="let a">
-            {{ this.situacaoPEEs(a.pee) }}
-          </td>
-        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
 
-        <ng-container matColumnDef="AcoesRED">
-          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-          <td class="actionsColumns" mat-cell *matCellDef="let a">
-
-            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
-              <mat-icon>visibility</mat-icon>
-            </button>
-
-            <button *ngIf="(a.pee && a.pee.length > 0)" mat-icon-button matTooltip="Visualizar RED"
-              (click)="VisualizarRED_CSP(a)">
-              <mat-icon>description</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons #paginatorRed></mat-paginator>
-
-    </div>
+    </table>
   </div>
 
-  <div class="title listagem" translate="no">
+  <ng-template #semRedConfirmacao>
+    <div class="empty-message">
+      Nenhuma RED aguardando confirmação.
+    </div>
+  </ng-template>
+
+  <!-- ========================= -->
+  <!-- 🔥 PEEs aguardando professor -->
+  <!-- ========================= -->
+
+  <div class="title listagem">
     <h1>PEEs Aguardando Associação de Professor</h1>
     <hr class="linha" />
   </div>
 
-  <div class="listagem" *ngIf="aguardandoProfessor.length>0">
-    <div class="tabela">
+  <div *ngIf="aguardandoProfessor && aguardandoProfessor.length > 0; else semPeeProfessor">
 
-      <table appearance="outline" mat-table [dataSource]="dataSourceAguardando" class="mat-elevation-z8" matSort>
+    <table mat-table [dataSource]="dataSourceAguardando" class="mat-elevation-z8">
 
-        <!-- disciplinaColumn -->
-        <ng-container matColumnDef="Disciplina">
-          <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-          <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
-        </ng-container>
+      <ng-container matColumnDef="Disciplina">
+        <th mat-header-cell *matHeaderCellDef> Disciplina </th>
+        <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
+      </ng-container>
 
-        <!-- NomeColumn -->
-        <ng-container matColumnDef="Nome">
-          <th mat-header-cell *matHeaderCellDef> Nome </th>
-          <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
-        </ng-container>
+      <ng-container matColumnDef="Nome">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
+      </ng-container>
 
-        <!-- ProntuarioColumn -->
-        <ng-container matColumnDef="Prontuario">
-          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-          <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
-        </ng-container>
+      <ng-container matColumnDef="Prontuario">
+        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+        <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
+      </ng-container>
 
-        <!-- EmailColumn -->
-        <ng-container matColumnDef="Email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
-        </ng-container>
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Situacao">
-          <th mat-header-cell *matHeaderCellDef> Situação </th>
-          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-        </ng-container>
+      <ng-container matColumnDef="Situacao">
+        <th mat-header-cell *matHeaderCellDef> Situação </th>
+        <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
+      </ng-container>
 
-        <!-- Outras colunas aqui, se necessário -->
-        <ng-container matColumnDef="Acoes">
-          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-          <td class="actionsColumns" mat-cell *matCellDef="let a">
-
-            <button mat-icon-button matTooltip="Associar Professor" (click)="associarProfessor(a)">
+      <ng-container matColumnDef="Acoes">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let a">
+          <button mat-icon-button matTooltip="Associar Professor" (click)="associarProfessor(a)">
               <mat-icon>person_add_alt</mat-icon>
             </button>
-          </td>
-        </ng-container>
+        </td>
+      </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsPEE"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsPEE;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorAguardando></mat-paginator>
-    </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsPEE"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsPEE;"></tr>
+
+    </table>
+
   </div>
 
-  <div class="title listagem" translate="no">
+  <ng-template #semPeeProfessor>
+    <div class="empty-message">
+      Nenhum PEE aguardando associação de professor.
+    </div>
+  </ng-template>
+
+  <!-- ========================= -->
+  <!-- 🔥 REDs ativos -->
+  <!-- ========================= -->
+
+  <div class="title listagem">
     <h1>REDs ativos</h1>
     <hr class="linha" />
   </div>
 
-  <div class="listagem" *ngIf="ativos.length>0">
-    <div class="tabela">
+  <div *ngIf="ativos && ativos.length > 0; else semRedAtivos">
 
-      <table appearence="outline" mat-table [dataSource]="dataSourceRedAtivos" class="mat-elevation-z8 table">
+    <table mat-table [dataSource]="dataSourceRedAtivos" class="mat-elevation-z8">
 
-        <ng-container matColumnDef="NomeRED">
-          <th mat-header-cell *matHeaderCellDef> Nome </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-        </ng-container>
+      <ng-container matColumnDef="NomeRED">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="ProntuarioRED">
-          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-        </ng-container>
+      <ng-container matColumnDef="ProntuarioRED">
+        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
+        <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="CursoRED">
-          <th mat-header-cell *matHeaderCellDef> Curso </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-        </ng-container>
+      <ng-container matColumnDef="CursoRED">
+        <th mat-header-cell *matHeaderCellDef> Curso </th>
+        <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Inicio-RED">
-          <th mat-header-cell *matHeaderCellDef> Início RED </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-        </ng-container>
+      <ng-container matColumnDef="InicioRED">
+        <th mat-header-cell *matHeaderCellDef> Início </th>
+        <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Tempo-AfastamentoRED">
-          <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
-          <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-        </ng-container>
+      <ng-container matColumnDef="TempoAfastamentoRED">
+        <th mat-header-cell *matHeaderCellDef> Tempo </th>
+        <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
+      </ng-container>
 
-        <ng-container matColumnDef="TerminoRED">
-          <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
-          </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-        </ng-container>
+      <ng-container matColumnDef="TerminoRED">
+        <th mat-header-cell *matHeaderCellDef> Término </th>
+        <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="Situacao-RED">
-          <th mat-header-cell *matHeaderCellDef> Situação do RED </th>
-          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsREDAtivos"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsREDAtivos;"></tr>
 
-        <ng-container matColumnDef="Situacao-PEE">
-          <th mat-header-cell *matHeaderCellDef> Situação dos PEEs </th>
-          <td mat-cell *matCellDef="let a">
-            {{ this.situacaoPEEs(a.pee) }}
-          </td>
-        </ng-container>
+    </table>
 
-
-        <ng-container matColumnDef="AcoesRED">
-          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-          <td class="actionsColumns" mat-cell *matCellDef="let a">
-
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
-              (click)="VisualizarRED_CSP(a)">
-              <mat-icon>description</mat-icon>
-            </button>
-
-            <button
-              *ngIf="(a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')"
-              mat-icon-button matTooltip="Visualizar Disciplinas" (click)="visualizarDisciplina(a)">
-              <mat-icon>library_books</mat-icon>
-            </button>
-
-            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
-              <mat-icon>visibility</mat-icon>
-            </button>
-
-            <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee)" mat-icon-button
-              matTooltip="Finalizar RED" (click)="finalizarRED(a)">
-              <mat-icon>task_alt</mat-icon>
-            </button>
-
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons #paginatorRedAtivos></mat-paginator>
-
-    </div>
   </div>
+
+  <ng-template #semRedAtivos>
+    <div class="empty-message">
+      Nenhuma RED ativa.
+    </div>
+  </ng-template>
 
 </div>

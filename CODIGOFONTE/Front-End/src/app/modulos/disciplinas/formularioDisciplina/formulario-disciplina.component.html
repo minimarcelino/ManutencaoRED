@@ -9,7 +9,7 @@
     <div class="formulario">
       <form [formGroup]="formularioDisciplina" #formDir="ngForm">
 
-        <mat-form-field appearance="fill" class="lado-esquerdo">
+        <mat-form-field appearance="outline" class="lado-esquerdo">
           <mat-label>Sigla</mat-label>
           <input matInput id="sigla" name="sigla" formControlName="sigla" />
           <mat-error
@@ -18,7 +18,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="lado-direito" >
+        <mat-form-field appearance="outline" class="lado-direito" >
           <mat-label>Nome</mat-label>
           <input matInput id="nome" name="nomeDisciplina" formControlName="nomeDisciplina" />
           <mat-error
@@ -27,7 +27,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Curso</mat-label>
           <input formControlName="Curso" id="curso" type="text" placeholder="Selecione um curso" matInput [matAutocomplete]="auto">
           <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">

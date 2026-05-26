@@ -17,7 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-//
+import { MatDialogModule } from '@angular/material/dialog';
 import { AbonarFaltaComponent } from 'src/app/modulos/pee/abonar-faltas/abonar-faltas.component';
 import { FormularioPEEComponent } from 'src/app/modulos/pee/formulario-PEE/formulario-pee.component';
 import { GerenciarPEEComponent } from 'src/app/modulos/pee/gerenciar/gerenciar-pee.component';
@@ -54,7 +54,8 @@ import { HomeProfessorComponent } from './home/home-professor.component';
       NgxMaskDirective,
       MatCheckboxModule,
       MatTooltipModule,
-      MatDatepickerModule
+      MatDatepickerModule,
+      MatDialogModule
     ],
     providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

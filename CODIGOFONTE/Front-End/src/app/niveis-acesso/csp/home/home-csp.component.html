@@ -1,4 +1,6 @@
 <div class="corpo">
+
+  <!-- REDs aguardando associação -->
   <div class="title listagem">
     <h1>REDs aguardando associação</h1>
     <hr class="linha" />
@@ -7,178 +9,268 @@
   <div class="listagem">
     <div id="tabela" *ngIf="existeAssociacao; else noDataAssociacao">
 
-      <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8 table">
 
-        <!-- Coluna NOME -->
-        <ng-container matColumnDef="Nome">
-          <th mat-header-cell *matHeaderCellDef> Nome </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-        </ng-container>
-
-        <!-- Coluna PRONTUÁRIO -->
-        <ng-container matColumnDef="Prontuario">
-          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-        </ng-container>
-
-        <!-- Coluna CURSO -->
-        <ng-container matColumnDef="Curso">
-          <th mat-header-cell *matHeaderCellDef> Curso </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-        </ng-container>
-
-        <!-- Coluna INÍCIO RED -->
-        <ng-container matColumnDef="Inicio-RED">
-          <th mat-header-cell *matHeaderCellDef> Início RED </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-        </ng-container>
-
-        <!-- Coluna TEMPO AFASTAMENTO -->
-        <ng-container matColumnDef="Tempo-Afastamento">
-          <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
-          <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-        </ng-container>
-
-        <!-- Coluna TÉRMINO -->
-        <ng-container matColumnDef="Termino">
-          <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
+        <!-- PRONTUARIO -->
+        <ng-container matColumnDef="prontuario">
+          <th mat-header-cell *matHeaderCellDef>
+            Prontuário
           </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-        </ng-container>
 
-        <!-- Coluna SITUAÇÃO -->
-        <ng-container matColumnDef="Situacao-RED">
-          <th mat-header-cell *matHeaderCellDef> Situação do RED </th>
-          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-        </ng-container>
-
-        <!-- Coluna ASSOCIAÇÃO DE DISCIPLINAS -->
-        <ng-container matColumnDef="Situacao-PEE">
-          <th mat-header-cell *matHeaderCellDef> Situação dos PEEs </th>
           <td mat-cell *matCellDef="let a">
-            {{ this.situacaoPEEs(a.pee) }}
+            {{ a.aluno?.prontuario }}
           </td>
         </ng-container>
 
-        <!-- Coluna de AÇÕES do usuário -->
-        <ng-container matColumnDef="Acoes">
-          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-          <td class="actionsColumns" mat-cell *matCellDef="let a">
+        <!-- NOME -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>
+            Nome
+          </th>
 
+          <td mat-cell *matCellDef="let a">
+            {{ a.aluno?.nome }}
+          </td>
+        </ng-container>
+
+        <!-- CURSO -->
+        <ng-container matColumnDef="curso">
+          <th mat-header-cell *matHeaderCellDef>
+            Curso
+          </th>
+
+          <td mat-cell *matCellDef="let a">
+            {{ a.aluno?.curso?.sigla }}
+          </td>
+        </ng-container>
+
+        <!-- AÇÕES -->
+        <ng-container matColumnDef="acoes">
+
+          <th
+            class="actionsColumns"
+            mat-header-cell
+            *matHeaderCellDef>
+
+            Ações
+
+          </th>
+
+          <td
+            class="actionsColumns"
+            mat-cell
+            *matCellDef="let a">
+
+            <!-- Associar disciplina -->
             <button
               *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
-              mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
+              mat-icon-button
+              matTooltip="Associar disciplinas"
+              (click)="associarDisciplina(a)">
+
               <mat-icon>book</mat-icon>
+
             </button>
 
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+            <!-- Acompanhar PEE -->
+            <button
+              *ngIf="existePEEs(a)"
+              mat-icon-button
+              matTooltip="Acompanhar PEEs"
               (click)="VisualizarRED_CSP(a)">
+
               <mat-icon>description</mat-icon>
+
             </button>
 
+            <!-- Visualizar RED -->
+            <button
+              mat-icon-button
+              matTooltip="Visualizar RED"
+              (click)="formularioRED(true, a)">
 
-            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
+
             </button>
 
           </td>
+
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- HEADER -->
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns">
+        </tr>
+
+        <!-- ROW -->
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons></mat-paginator>
+
+      <!-- PAGINATOR 1 -->
+      <mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+
     </div>
 
     <ng-template #noDataAssociacao>
-      <p class="p-sem-conteudo">Não há REDs aguardando associação de disciplinas</p>
+      <p class="p-sem-conteudo">
+        Não há REDs aguardando associação de disciplinas
+      </p>
     </ng-template>
+
   </div>
 
+  <!-- REDs ativos -->
   <div class="title listagem">
     <h1>REDs ativos</h1>
     <hr class="linha" />
   </div>
 
   <div class="listagem">
+
     <div id="tabela" *ngIf="existeAtivas; else noDataAtivas">
 
-      <table appearence="outline" mat-table [dataSource]="dataSourceRedAtivos" class="mat-elevation-z8 table">
+      <table
+        mat-table
+        [dataSource]="dataSourceRedAtivos"
+        class="mat-elevation-z8 table">
 
-        <ng-container matColumnDef="NomeRED">
-          <th mat-header-cell *matHeaderCellDef> Nome </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-        </ng-container>
+        <!-- PRONTUARIO -->
+        <ng-container matColumnDef="prontuarioRed">
 
-        <ng-container matColumnDef="ProntuarioRED">
-          <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="CursoRED">
-          <th mat-header-cell *matHeaderCellDef> Curso </th>
-          <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Inicio-RED">
-          <th mat-header-cell *matHeaderCellDef> Início RED </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Tempo-AfastamentoRED">
-          <th mat-header-cell *matHeaderCellDef> Tempo Afastamento </th>
-          <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-        </ng-container>
-
-        <ng-container matColumnDef="TerminoRED">
-          <th mat-header-cell *matHeaderCellDef matTooltip="Data de término ou de previsão de término"> Data de Término
+          <th mat-header-cell *matHeaderCellDef>
+            Prontuário
           </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-        </ng-container>
 
-        <ng-container matColumnDef="Situacao-RED">
-          <th mat-header-cell *matHeaderCellDef> Situação do RED </th>
-          <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Situacao-PEE">
-          <th mat-header-cell *matHeaderCellDef> Situação dos PEEs </th>
           <td mat-cell *matCellDef="let a">
-            {{ this.situacaoPEEs(a.pee) }}
+            {{ a.aluno?.prontuario }}
           </td>
+
         </ng-container>
 
-        <ng-container matColumnDef="AcoesRED">
-          <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-          <td class="actionsColumns" mat-cell *matCellDef="let a">
+        <!-- NOME -->
+        <ng-container matColumnDef="nomeRed">
 
+          <th mat-header-cell *matHeaderCellDef>
+            Nome
+          </th>
+
+          <td mat-cell *matCellDef="let a">
+            {{ a.aluno?.nome }}
+          </td>
+
+        </ng-container>
+
+        <!-- CURSO -->
+        <ng-container matColumnDef="cursoRed">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Curso
+          </th>
+
+          <td mat-cell *matCellDef="let a">
+            {{ a.aluno?.curso?.sigla }}
+          </td>
+
+        </ng-container>
+
+        <!-- AÇÕES -->
+        <ng-container matColumnDef="acoesRed">
+
+          <th
+            class="actionsColumns"
+            mat-header-cell
+            *matHeaderCellDef>
+
+            Ações
+
+          </th>
+
+          <td
+            class="actionsColumns"
+            mat-cell
+            *matCellDef="let a">
+
+            <!-- Associar disciplina -->
             <button
               *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
-              mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
+              mat-icon-button
+              matTooltip="Associar disciplinas"
+              (click)="associarDisciplina(a)">
+
               <mat-icon>book</mat-icon>
+
             </button>
 
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+            <!-- Acompanhar PEE -->
+            <button
+              *ngIf="existePEEs(a)"
+              mat-icon-button
+              matTooltip="Acompanhar PEEs"
               (click)="VisualizarRED_CSP(a)">
+
               <mat-icon>description</mat-icon>
+
             </button>
 
+            <!-- Visualizar RED -->
+            <button
+              mat-icon-button
+              matTooltip="Visualizar RED"
+              (click)="formularioRED(true, a)">
 
-            <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
               <mat-icon>visibility</mat-icon>
+
             </button>
+
           </td>
+
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
+        <!-- HEADER -->
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumnsRED">
+        </tr>
+
+        <!-- ROW -->
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumnsRED;">
+        </tr>
+
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons #paginatorRedAtivos></mat-paginator>
+
+      <!-- PAGINATOR 2 -->
+      <mat-paginator
+        #paginatorAtivos
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons>
+      </mat-paginator>
+
     </div>
 
     <ng-template #noDataAtivas>
-      <p class="p-sem-conteudo">Sem REDs ativas no momento.</p>
+
+      <p class="p-sem-conteudo">
+        Sem REDs ativas no momento.
+      </p>
+
     </ng-template>
 
   </div>
+
 </div>

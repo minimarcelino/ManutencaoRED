@@ -1,0 +1,100 @@
+.manual-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+}
+
+/* CAPA */
+.manual-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.manual-header h1 {
+  font-size: 34px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.manual-header h2 {
+  font-size: 20px;
+  color: #555;
+}
+
+.manual-header p {
+  font-size: 16px;
+  color: #777;
+}
+
+/* SEÇÕES */
+.manual-section {
+  margin-bottom: 35px;
+}
+
+.manual-section h3 {
+  border-left: 5px solid #1976d2;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  color: #1976d2;
+}
+
+/* CARDS */
+.manual-card {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: 0.2s;
+}
+
+.manual-card:hover {
+  background: #e3f2fd;
+  transform: translateY(-2px);
+}
+
+.manual-card h4 {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.manual-card p {
+  color: #555;
+}
+
+/* FLUXO */
+.fluxo-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fluxo-step {
+  background: #f1f1f1;
+  color: #333; /* 👈 TEXTO ESCURO */
+  padding: 14px;
+  border-left: 5px solid #1976d2;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.fluxo-step:hover {
+  background: #e3f2fd;
+  color: #000; /* 👈 MAIS CONTRASTE NO HOVER */
+  transform: translateX(5px);
+}
+
+.fluxo-step.destaque {
+  background: #e8f5e9;
+  border-left: 5px solid #2e7d32;
+  color: #1b5e20; /* 👈 VERDE ESCURO LEGÍVEL */
+  font-weight: bold;
+}
+
+.manual-footer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}

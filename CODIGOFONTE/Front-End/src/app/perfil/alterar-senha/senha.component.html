@@ -1,40 +1,58 @@
-<div>
-    <div class="tittle listagem">
-        <h1>Alterar senha</h1>
-        <hr class="linha">
-    </div>
-    <div class="formulario">
-        <form [formGroup]="alterarPerfil" #formDir="ngForm">
-            <mat-form-field appearance="fill" >
-                <mat-label>Senha Atual</mat-label>
-                <input type="password" matInput name="senhaAtual" formControlName="senhaAtual"/>
-                <div *ngIf="alterarPerfil.get('senhaAtual')?.invalid && formDir.submitted" class="validation">
-                    <p>Senha atual obrigatória!</p>
-                </div>
-            </mat-form-field>
+<h2 mat-dialog-title>Alterar senha</h2>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Nova Senha</mat-label>
-                <input type="password" matInput name="novaSenha" formControlName="novaSenha"/>
-                <div *ngIf="alterarPerfil.get('novaSenha')?.invalid && formDir.submitted" class="validation">
-                    <p>Nova senha obrigatória!</p>
-                </div>
-            </mat-form-field>
+<form [formGroup]="alterarPerfil" (ngSubmit)="submit()">
 
-            <mat-form-field appearance="fill">
-                <mat-label>Confirmar Nova Senha</mat-label>
-                <input type="password" matInput name="confirmarSenha" formControlName="confirmarSenha"/>
-                <div *ngIf="alterarPerfil.get('confirmarSenha')?.invalid && formDir.submitted" class="validation">
-                    <p>Confirmação da nova senha obrigatória!</p>
-                </div>
-                <div *ngIf="novaSenha !== confirmarSenha" class="validation">
-                    <p>As senhas não correspondem!</p>
-                </div>
-            </mat-form-field>
+  <mat-dialog-content>
 
-            <div>
-                <button mat-raised-button color="primary" (click)="submit()" class="button">Alterar</button>
-            </div>
-        </form>
-    </div>
-</div>
+    <!-- SENHA ATUAL -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Senha Atual</mat-label>
+      <input type="password" matInput formControlName="senhaAtual" />
+
+      <div *ngIf="alterarPerfil.get('senhaAtual')?.invalid && alterarPerfil.get('senhaAtual')?.touched" class="validation">
+        <p>Senha atual obrigatória!</p>
+      </div>
+    </mat-form-field>
+
+    <!-- NOVA SENHA -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Nova Senha</mat-label>
+      <input type="password" matInput formControlName="novaSenha" />
+
+      <div *ngIf="alterarPerfil.get('novaSenha')?.invalid && alterarPerfil.get('novaSenha')?.touched" class="validation">
+        <p>Nova senha obrigatória!</p>
+      </div>
+    </mat-form-field>
+
+    <!-- CONFIRMAR SENHA -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Confirmar Nova Senha</mat-label>
+      <input type="password" matInput formControlName="confirmarSenha" />
+
+      <div *ngIf="alterarPerfil.get('confirmarSenha')?.invalid && alterarPerfil.get('confirmarSenha')?.touched" class="validation">
+        <p>Confirmação obrigatória!</p>
+      </div>
+
+      <div *ngIf="alterarPerfil.get('confirmarSenha')?.touched && novaSenha !== confirmarSenha" class="validation">
+        <p>As senhas não correspondem!</p>
+      </div>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <!-- BOTÕES -->
+  <mat-dialog-actions align="end" class="botoes">
+
+    <!-- CANCELAR -->
+    <button mat-button type="button" (click)="cancelar()" class="btn-cancelar">
+      Cancelar
+    </button>
+
+    <!-- CONFIRMAR -->
+    <button mat-raised-button color="primary" type="submit" class="btn-confirmar">
+      Confirmar
+    </button>
+
+  </mat-dialog-actions>
+
+</form>

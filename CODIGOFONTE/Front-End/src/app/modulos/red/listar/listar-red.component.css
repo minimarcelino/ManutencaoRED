@@ -1,0 +1,62 @@
+.btn-aceitar {
+  color: #2e7d32; /* verde bonito (Material Green 800) */
+}
+
+.mat-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button.mat-icon-button {
+  width: 30px;
+  height: 30px;
+}
+
+.table {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.actionsButtons {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: nowrap; /* impede quebrar linha */
+}
+
+.btn-aceitar {
+  color: #4CAF50; /* verde bonito */
+}
+
+.filtros {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
+.filtros mat-form-field {
+  flex: 1;
+}
+
+.actionsColumns {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.icon-aprovar {
+  color: #2e7d32; /* verde */
+}
+
+.icon-recusar {
+  color: #d32f2f; /* vermelho */
+}
+
+.icon-finalizar {
+  color: #2e7d32;
+}
+
+.icon-nao-finalizar {
+  color: #d32f2f;
+}

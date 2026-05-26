@@ -1,15 +1,81 @@
+/* CONTAINER PRINCIPAL */
 :host {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  max-height: 90vh;
+  width: 100%;
 }
 
+/* SCROLL DO DIALOG */
 .mat-dialog-content {
   flex: 1;
-  overflow-y: auto; /* Permite rolagem vertical */
-  overflow-x: hidden; /* Esconde a rolagem horizontal, se houver */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
 }
 
+/* RODAPÉ FIXO */
 .mat-dialog-actions {
   flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 12px;
+  border-top: 1px solid #ddd;
+  z-index: 10;
+}
+
+/* LAYOUT GERAL */
+.corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* FORM */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* INPUT FULL */
+.full-width {
+  width: 100%;
+}
+
+/* TÍTULOS */
+.titulo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.titulo-centralizado {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* TABELAS COM SCROLL */
+.tabela-container {
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+/* TABELA */
+table {
+  width: 100%;
+}
+
+/* BOTÕES */
+button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* LINHA */
+.linha {
+  margin: 10px 0;
 }

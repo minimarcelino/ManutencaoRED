@@ -34,7 +34,7 @@ export class FormularioREDComponent implements OnInit {
     private coordenadorService: CoordenadorService,
     private entityUpdateService: EntityUpdateService,
     private location: Location
-  ) {}
+  ) { }
 
   alunos: any[] = [];
   cursos: any[] = [];
@@ -120,7 +120,12 @@ export class FormularioREDComponent implements OnInit {
           value: this.data ? this.data.semestreOuAnoAluno : '',
           disabled: this.desabilitar,
         },
-        [Validators.required, Validators.min(1), Validators.max(24)]
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(24),
+          Validators.pattern('^[0-9]+$')
+        ]
       ),
       motivoRecusa: new FormControl('', [
         //Validators.required,
@@ -134,6 +139,14 @@ export class FormularioREDComponent implements OnInit {
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+  }
+
+  bloquearCaracteresInvalidos(event: KeyboardEvent): void {
+    const teclasBloqueadas = ['e', 'E', '+', '-', '.', ','];
+
+    if (teclasBloqueadas.includes(event.key)) {
+      event.preventDefault();
+    }
   }
 
   async loadAttachedFiles(idRED: number) {
@@ -366,8 +379,10 @@ export class FormularioREDComponent implements OnInit {
       data: {
         idRED: this.data.idRED,
         pee: this.data.pee,
+        red: this.data.red
       },
     });
+
     this.handleDialogConfirm(visualizar);
   }
 
@@ -399,7 +414,7 @@ export class FormularioREDComponent implements OnInit {
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe(() => {});
+    dialog.afterClosed().subscribe(() => { });
   }
 
   get aluno() {

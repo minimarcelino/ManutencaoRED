@@ -1,55 +1,103 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { LoginComponent } from './login/login.component';
-import { authorizationService } from '../app/services/authorization.service'
+import { VisualizarDisciplinasComponent } from './visualizar-disciplinas/visualizar-disciplinas.component';
+import { ManualComponent } from './pages/manual/manual.component';
+import { authorizationService } from '../app/services/authorization.service';
+import { HomeComponent } from './home/home.component';
+
 
 const routes: Routes = [
+
+  // REDIRECIONAMENTO INICIAL
   {
-    path: '', redirectTo: '/login', pathMatch: 'full'
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
   },
-  //login
+
+  // LOGIN
   {
-    path: 'login', component: LoginComponent
+    path: 'login',
+    component: LoginComponent
   },
-  //csp
+
+  // MANUAL DO SISTEMA
+  {
+    path: 'manual',
+    component: ManualComponent
+  },
+
+  // VISUALIZAR DISCIPLINAS
+  {
+    path: 'visualizar-disciplinas/:id',
+    component: VisualizarDisciplinasComponent
+  },
+
+  // CSP
   {
     path: 'csp',
-    loadChildren: () => import('./niveis-acesso/csp/csp-routing.module').then((module) => module.CspRoutingModule),
+    loadChildren: () =>
+      import('./niveis-acesso/csp/csp-routing.module')
+        .then((module) => module.CspRoutingModule),
+
     canActivate: [authorizationService]
   },
-  //cra
+
+  // CRA
   {
     path: 'cra',
-    loadChildren: () => import('./niveis-acesso/cra/cra-routing.module').then((module) => module.CraRoutingModule),
+    loadChildren: () =>
+      import('./niveis-acesso/cra/cra-routing.module')
+        .then((module) => module.CraRoutingModule),
+
     canActivate: [authorizationService]
   },
-  //coordenador
+
+  // COORDENADOR
   {
     path: 'coordenador',
-    loadChildren: () => import('./niveis-acesso/coordenador/coordenador-routing.module').then((module) => module.CoordenadorRoutingModule),
+    loadChildren: () =>
+      import('./niveis-acesso/coordenador/coordenador-routing.module')
+        .then((module) => module.CoordenadorRoutingModule),
+
     canActivate: [authorizationService]
   },
-  //professor
+
+  // PROFESSOR
   {
     path: 'professor',
-    loadChildren: () => import('./niveis-acesso/professor/professor-routing.module').then((module) => module.ProfessorRoutingModule),
+    loadChildren: () =>
+      import('./niveis-acesso/professor/professor-routing.module')
+        .then((module) => module.ProfessorRoutingModule),
+
     canActivate: [authorizationService]
   },
-  //usuarioNaoAutenticado
+
+  // USUÁRIO NÃO AUTENTICADO
   {
     path: 'usuario',
-    loadChildren: () => import('./usuario-nao-autenticado/usuario-routing.module').then((module) => module.UsuarioRoutingModule)
+    loadChildren: () =>
+      import('./usuario-nao-autenticado/usuario-routing.module')
+        .then((module) => module.UsuarioRoutingModule)
   },
-  //administrador
+
+  // ADMINISTRADOR
   {
     path: 'administrador',
-    loadChildren: () => import('./niveis-acesso/administrador/admin-routing.module').then((module) => module.AdministradorRoutingModule),
+    loadChildren: () =>
+      import('./niveis-acesso/administrador/admin-routing.module')
+        .then((module) => module.AdministradorRoutingModule),
+
     canActivate: [authorizationService]
-  },
+  }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

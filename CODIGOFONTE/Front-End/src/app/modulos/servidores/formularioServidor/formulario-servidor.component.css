@@ -1,0 +1,92 @@
+/* =========================
+   CONTAINER
+========================= */
+.formulario {
+  padding: 30px 40px;
+}
+
+/* =========================
+   FORMULÁRIO GRID
+========================= */
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* CAMPOS 100% */
+.full-width {
+  grid-column: span 2;
+}
+
+/* =========================
+   FORM FIELD
+========================= */
+mat-form-field {
+  width: 100%;
+  margin: 0;
+}
+
+/* REMOVE BUG DE DESALINHAMENTO */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* =========================
+   INPUT (FUNDO)
+========================= */
+::ng-deep .mat-mdc-text-field-wrapper {
+  border-radius: 8px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+
+/* =========================
+   LABEL
+========================= */
+::ng-deep .mdc-floating-label {
+  font-weight: 500;
+}
+
+/* =========================
+   INPUT TEXTO
+========================= */
+::ng-deep .mat-mdc-input-element {
+  font-size: 14px;
+}
+
+/* ÍCONE DATE */
+::ng-deep .mat-datepicker-toggle-default-icon {
+  color: #bdbdbd;
+}
+
+/* AUTOCOMPLETE */
+::ng-deep .mat-mdc-autocomplete-panel {
+  color: #fff;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  color: #fff;
+}
+
+/* =========================
+   BOTÕES PADRÃO
+========================= */
+.button {
+  margin: 10px 10px 0 0;
+  min-width: 140px;
+  padding: 10px 20px;      /* 👈 PADRÃO */
+  font-weight: 400;        /* 👈 PADRÃO */
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  text-transform: none;
+}
+
+/* DESABILITADO */
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}

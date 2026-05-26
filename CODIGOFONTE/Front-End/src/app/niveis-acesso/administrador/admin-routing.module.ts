@@ -32,6 +32,11 @@ const routes: Routes = [
     component: AdministradorComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
         path: 'perfil',
         component: PerfilComponent,
       },
@@ -50,8 +55,12 @@ const routes: Routes = [
         component: FormularioDisciplinaComponent,
       },
       {
-        path: 'associarDisciplinas',
+        path: 'associar-disciplinas',
         component: AssociarDisciplinaComponent,
+      },
+      {
+        path: 'visualizar-disciplina',
+        component: CSPVisualizarREDComponent,
       },
 
       //Rotas dos Docentes
@@ -95,8 +104,8 @@ const routes: Routes = [
       },
       // Rotas dos PEE
       {
-        path:'formularioPEE',
-        component:FormularioPEEComponent,
+        path: 'formularioPEE',
+        component: FormularioPEEComponent,
       },
       {
         path: 'gerenciarPEEs',
@@ -114,4 +123,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AdministradorRoutingModule {}
+export class AdministradorRoutingModule { }

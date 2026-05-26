@@ -2,6 +2,7 @@ import e, { Request, Response } from 'express';
 import { servidorService } from '../service/servidorService';
 import { StatusCodes } from 'http-status-codes';
 import { JwtPayload } from 'jsonwebtoken';
+import { log } from 'console';
 
 const servidorservice = new servidorService();
 const jwt = require('jsonwebtoken');
@@ -109,7 +110,7 @@ export class servidorController {
         data: response.data,
       });
     }
-    return res
+        return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: 'Login Falho!!' });
   }

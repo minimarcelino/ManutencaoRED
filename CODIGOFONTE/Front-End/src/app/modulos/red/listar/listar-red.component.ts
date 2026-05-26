@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
@@ -90,6 +91,7 @@ export class ListarREDComponent implements OnInit {
     private peeService: PeeService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
     private entityUpdateService: EntityUpdateService,
+    private snackBar: MatSnackBar,
   ) {
     this.filteredReds = [];
 
@@ -100,8 +102,8 @@ export class ListarREDComponent implements OnInit {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
 
-     // Assine para receber notificações de atualização de REDs
-     this.entityUpdateService.getUpdateNotifier('RED').subscribe(() => {
+    // Assine para receber notificações de atualização de REDs
+    this.entityUpdateService.getUpdateNotifier('RED').subscribe(() => {
       this.findAll();
     });
   }
@@ -123,7 +125,7 @@ export class ListarREDComponent implements OnInit {
     return this.peeService.situacaoPEEs(pee);
   }
 
-  disciplinas(red: any){
+  disciplinas(red: any) {
     return (this.situacaoPEEs(red.pee) !== 'Em Associação de Disciplina');
   }
 
@@ -138,7 +140,7 @@ export class ListarREDComponent implements OnInit {
     // Se usuário for coordenador, apresentar apenas as RED de sua coordenação
     if (this.user.tiposervidor === 'coordenador') {
       this.reds = this.reds.filter((red) =>
-      red.coordenador == this.user.idservidor)
+        red.coordenador == this.user.idservidor)
     }
 
     // Consolidação das REDs a serem apresentadas
@@ -195,6 +197,33 @@ export class ListarREDComponent implements OnInit {
       await this.finalizarProcessoPermanent(red);
     }
   }
+
+  async naoFinalizarRED(red: any) {
+
+  try {
+
+    let response = await this.redService.updateSituacaoRED({
+      idRED: red.idRED,
+      situacao: 'Não finalizado',
+    });
+
+    if (response) {
+      this.snackBarService.open('RED marcado como não finalizado!');
+      this.findAll();
+    }
+
+  } catch (error: any) {
+
+    if (error && error.error && error.error.data) {
+      const errorMessage = error.error.data;
+      this.snackBarService.open(`Falha: ${errorMessage}`);
+    } else {
+      this.snackBarService.open('Falha ao atualizar RED');
+    }
+
+  }
+
+}
 
   formularioRED(visualizar: boolean, red: any = null) {
     const navigationExtras: NavigationExtras = {
@@ -338,7 +367,7 @@ export class ListarREDComponent implements OnInit {
    * Responsável por coletar todos os cursos presentes nas REDs e adicionar ao filtro
    *
    */
-  private listarCursosFiltro(){
+  private listarCursosFiltro() {
     // Cria um conjunto para armazenar cursos únicos
     const uniqueCursos = new Set<number>();
 
@@ -359,4 +388,59 @@ export class ListarREDComponent implements OnInit {
     // Log para depuração
     //console.log('Cursos:', this.cursos);
   }
+
+  todosPeesComAbono(pees: any[]): boolean {
+    return pees.every(p => p.abono === true);
+  }
+
+  async aprovarRED(red: any) {
+    try {
+
+      let response = await this.redService.updateSituacaoRED({
+        idRED: red.idRED,
+        situacao: 'Esperando associação de disciplina',
+      });
+
+      if (response) {
+        this.snackBarService.open('RED aprovado com sucesso!');
+        this.findAll();
+      }
+
+    } catch (error: any) {
+
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao aprovar RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao aprovar RED');
+      }
+
+    }
+  }
+
+  async recusarRED(red: any) {
+    try {
+
+      let response = await this.redService.updateSituacaoRED({
+        idRED: red.idRED,
+        situacao: 'Recusado',
+      });
+
+      if (response) {
+        this.snackBarService.open('RED recusado com sucesso!');
+        this.findAll();
+      }
+
+    } catch (error: any) {
+
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha ao recusar RED: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao recusar RED');
+      }
+
+    }
+  }
+
 }

@@ -8,7 +8,7 @@
   <div class="formulario">
     <form [formGroup]="formularioCurso" #formDir="ngForm">
 
-      <mat-form-field appearance="fill" class="lado-esquerdo">
+      <mat-form-field appearance="outline" class="lado-esquerdo">
         <mat-label>Sigla</mat-label>
         <input matInput id="sigla" name="sigla" formControlName="sigla" />
         <mat-error
@@ -17,7 +17,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="lado-direito">
+      <mat-form-field appearance="outline" class="lado-direito">
         <mat-label>Nome do Curso</mat-label>
         <input matInput id="nome" name="nomeCurso" formControlName="nomeCurso" />
         <mat-error
@@ -26,7 +26,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Coordenador</mat-label>
         <mat-select formControlName="Coordenador" placeholder="Selecione um coordenador" [compareWith]="compareFn">
           <mat-option *ngFor="let c of coordenadores" [value]="c">

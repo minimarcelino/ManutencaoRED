@@ -13,3 +13,63 @@
 .mat-dialog-actions {
   flex-shrink: 0;
 }
+
+/* ===== CONTAINER ===== */
+.corpo {
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ===== TÍTULOS ===== */
+.title h1 {
+  margin-bottom: 8px;
+}
+
+.title h2 {
+  margin-bottom: 16px;
+}
+
+.linha {
+  margin: 16px 0 20px 0;
+}
+
+/* ===== FORM ===== */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* ===== SEÇÕES ===== */
+h3 {
+  margin: 20px 0 10px 0;
+}
+
+/* ===== TABELA ===== */
+table {
+  width: 100%;
+}
+
+/* 🔥 evita estourar horizontal */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* ===== PAGINATOR ===== */
+mat-paginator {
+  margin-bottom: 16px;
+}
+
+/* ===== BOTÕES ===== */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* ===== BOTÕES TAMANHO ===== */
+button {
+  min-width: 110px;
+}

@@ -11,7 +11,7 @@ export class DisciplinaService {
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService,
-  ) {}
+  ) { }
 
   async getDisciplina(): Promise<any> {
     try {
@@ -71,18 +71,25 @@ export class DisciplinaService {
     }
   }
 
-  async exportDisciplina(Disciplina: any): Promise<any> {
+  async exportDisciplina(disciplina: any): Promise<any> {
     try {
+
+      console.log(disciplina);
+
       const response = await this.http
         .post(
-          `${environment.API}disciplina/create`,
-          Disciplina,
+          `${environment.API}disciplina/import`,
+          disciplina,
           this.authenticationService.getHttpOptions()
         )
         .toPromise();
+
       return response;
+
     } catch (error) {
+
       this.authenticationService.tratarErro(error);
+
     }
   }
 }

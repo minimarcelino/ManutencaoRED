@@ -1,6 +1,12 @@
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,7 +15,6 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { PeeService } from 'src/app/services/pee.service';
-import { AssociarDisciplinaComponent } from '../../../modulos/associacoes/associar-disciplina/associar-disciplina.component';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 export interface aluno {
@@ -46,16 +51,23 @@ export interface red {
   templateUrl: './home-csp.component.html',
   styleUrls: ['./home-csp.component.css'],
 })
-export class HomeCSPComponent implements OnInit {
+
+export class HomeCSPComponent implements OnInit, AfterViewInit {
+
   user: any;
+
   alunos: any[] = [];
   reds: any[] = [];
   filteredReds: any[] = [];
   cursos: curso[] = [];
-  dataSource: any;
+
+  dataSource!: MatTableDataSource<any>;
+  dataSourceRedAtivos!: MatTableDataSource<any>;
+
   selectedCurso = 'todos';
   situacaoSelecionada = 'todos';
   associacaoSelecionada = 'todos';
+
   situacao = [
     'Esperando confirmação',
     'Esperando associação de disciplina',
@@ -63,36 +75,34 @@ export class HomeCSPComponent implements OnInit {
     'Finalizado',
     'Arquivado',
   ];
-  associacoes = ['Concluída', 'Não Concluída'];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatPaginator) paginatorRedAtivos!: MatPaginator;
+
+  associacoes = [
+    'Concluída',
+    'Não Concluída'
+  ];
+
+  @ViewChild('paginatorAssociacao')
+  paginator!: MatPaginator;
+
+  @ViewChild('paginatorAtivos')
+  paginatorRedAtivos!: MatPaginator;
+
   private existeREDAssociacao: boolean = false;
   private existeREDAtivas: boolean = false;
 
-  displayedColumnsRED = [
-    'ProntuarioRED',
-    'NomeRED',
-    'CursoRED',
-    'Inicio-RED',
-    'Tempo-AfastamentoRED',
-    'TerminoRED',
-    'Situacao-RED',
-    'Situacao-PEE',
-    'AcoesRED',
+  displayedColumns = [
+    'prontuario',
+    'nome',
+    'curso',
+    'acoes',
   ];
 
-  displayedColumns = [
-    'Prontuario',
-    'Nome',
-    'Curso',
-    'Inicio-RED',
-    'Tempo-Afastamento',
-    'Termino',
-    'Situacao-RED',
-    'Situacao-PEE',
-    'Acoes',
+  displayedColumnsRED = [
+    'prontuarioRed',
+    'nomeRed',
+    'cursoRed',
+    'acoesRed',
   ];
-  dataSourceRedAtivos: any;
 
   constructor(
     private router: Router,
@@ -106,19 +116,57 @@ export class HomeCSPComponent implements OnInit {
     this.filteredReds = [];
   }
 
-  ngOnInit(): void {
-    this.findAll();
+  async ngOnInit(): Promise<void> {
+
     this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+
+    if (this.user) {
+      this.user = JSON.parse(this.user);
+    }
+
+    await this.findAll();
   }
 
-  ngAfterViewInit() {
-    this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
+  ngAfterViewInit(): void {
+
+    setTimeout(() => {
+
+      // PAGINATOR 1
+      if (this.paginator) {
+
+        this.paginator._intl =
+          this.customPaginatorIntlService.paginatorIntl;
+
+        if (this.dataSource) {
+          this.dataSource.paginator = this.paginator;
+        }
+      }
+
+      // PAGINATOR 2
+      if (this.paginatorRedAtivos) {
+
+        this.paginatorRedAtivos._intl =
+          this.customPaginatorIntlService.paginatorIntl;
+
+        if (this.dataSourceRedAtivos) {
+          this.dataSourceRedAtivos.paginator =
+            this.paginatorRedAtivos;
+        }
+      }
+
+    });
+
   }
 
-  applyFilter(data: Event) {
-    const value = (data.target as HTMLInputElement).value;
-    this.dataSource.filter = value;
+  applyFilter(data: Event): void {
+
+    const value =
+      (data.target as HTMLInputElement).value;
+
+    if (this.dataSource) {
+      this.dataSource.filter =
+        value.trim().toLowerCase();
+    }
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
@@ -129,97 +177,204 @@ export class HomeCSPComponent implements OnInit {
     return this.peeService.situacaoPEEs(pee);
   }
 
-  async findAll() {
-    const response = await this.redService.getRed();
-    this.reds = response.data.reds;
+  async findAll(): Promise<void> {
 
-    // Selecionando as redes que precisam associar disciplinas
-    const esperaAssociacao = this.reds.filter((red) => red.situacao === 'Esperando associação de disciplina');
-    this.dataSource = new MatTableDataSource<any>(esperaAssociacao);
-    this.dataSource.paginator = this.paginator;
-    this.existeREDAssociacao = esperaAssociacao.length > 0;
+    try {
 
-    const ativos = this.reds.filter((red) => (red.situacao === 'Em andamento') );
-    this.dataSourceRedAtivos = new MatTableDataSource<any>(ativos);
-    this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
-    this.existeREDAtivas = ativos.length > 0;
+      const response = await this.redService.getRed();
+
+      this.reds = response.data.reds;
+
+      // REDs aguardando associação
+      const esperaAssociacao = this.reds.filter(
+        (red) =>
+          red.situacao ===
+          'Esperando associação de disciplina'
+      );
+
+      this.dataSource =
+        new MatTableDataSource<any>(esperaAssociacao);
+
+      this.existeREDAssociacao =
+        esperaAssociacao.length > 0;
+
+      // REDs ativas
+      const ativos = this.reds.filter(
+        (red) => red.situacao === 'Em andamento'
+      );
+
+      this.dataSourceRedAtivos =
+        new MatTableDataSource<any>(ativos);
+
+      this.existeREDAtivas =
+        ativos.length > 0;
+
+      // Vincular paginator após renderização
+      setTimeout(() => {
+
+        if (this.paginator) {
+          this.dataSource.paginator =
+            this.paginator;
+        }
+
+        if (this.paginatorRedAtivos) {
+          this.dataSourceRedAtivos.paginator =
+            this.paginatorRedAtivos;
+        }
+
+      });
+
+    } catch (error) {
+
+      this.snackBarService.open(
+        'Erro ao carregar REDs'
+      );
+
+      console.error(error);
+    }
   }
 
-  get existeAssociacao(){
+  get existeAssociacao(): boolean {
     return this.existeREDAssociacao;
   }
 
-  get existeAtivas(){
+  get existeAtivas(): boolean {
     return this.existeREDAtivas;
   }
 
   formatData(data: Date): string {
+
     if (data) {
-      return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
-    } else {
-      return '';
+      return formatDate(
+        data,
+        'dd/MM/yyyy',
+        'pt-BR',
+        'UTC'
+      );
     }
+
+    return '';
   }
 
   async finalizarProcessoPermanent(red: any) {
+
     try {
-      let response = await this.redService.updateSituacaoRED({
-        idRED: red.idRED,
-        situacao: 'Finalizado',
-      });
+
+      let response =
+        await this.redService.updateSituacaoRED({
+          idRED: red.idRED,
+          situacao: 'Finalizado',
+        });
+
       if (response) {
-        this.snackBarService.open('RED finalizado com sucesso!!');
+
+        this.snackBarService.open(
+          'RED finalizado com sucesso!!'
+        );
+
         this.findAll();
       }
+
     } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao finalizar RED: ${errorMessage}`);
+
+      if (
+        error &&
+        error.error &&
+        error.error.data
+      ) {
+
+        const errorMessage =
+          error.error.data;
+
+        this.snackBarService.open(
+          `Falha ao finalizar RED: ${errorMessage}`
+        );
+
       } else {
-        this.snackBarService.open('Falha ao finalizar RED');
+
+        this.snackBarService.open(
+          'Falha ao finalizar RED'
+        );
       }
     }
   }
 
   async finalizarRED(red: any) {
+
     let res = false;
-    res = await this.dialogQuestionService.openDialogConfirmDone('red');
+
+    res =
+      await this.dialogQuestionService
+        .openDialogConfirmDone('red');
+
     if (res) {
       await this.finalizarProcessoPermanent(red);
     }
   }
 
-  formularioRED(visualizar: boolean, red: any = null) {
+  formularioRED(
+    visualizar: boolean,
+    red: any = null
+  ) {
+
     const navigationExtras: NavigationExtras = {
       state: {
         red: red,
         visualizar: visualizar
       },
     };
-    this.router.navigate([`/${this.user.tiposervidor}/formularioRED`],navigationExtras);
+
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/formularioRED`],
+      navigationExtras
+    );
   }
 
   async arquivarRED(red: any) {
+
     try {
-      let response = await this.redService.updateSituacaoRED({
-        idRED: red.idRED,
-        situacao: 'Arquivado',
-      });
+
+      let response =
+        await this.redService.updateSituacaoRED({
+          idRED: red.idRED,
+          situacao: 'Arquivado',
+        });
+
       if (response) {
-        this.snackBarService.open('RED arquivada com sucesso!');
+
+        this.snackBarService.open(
+          'RED arquivada com sucesso!'
+        );
+
         this.findAll();
       }
+
     } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao aquivar RED: ${errorMessage}`);
+
+      if (
+        error &&
+        error.error &&
+        error.error.data
+      ) {
+
+        const errorMessage =
+          error.error.data;
+
+        this.snackBarService.open(
+          `Falha ao arquivar RED: ${errorMessage}`
+        );
+
       } else {
-        this.snackBarService.open('Falha ao arquivar RED');
+
+        this.snackBarService.open(
+          'Falha ao arquivar RED'
+        );
       }
     }
   }
 
-  VisualizarRED_CSP(red: any) {
+  VisualizarRED_CSP(red: any): void {
+
     const navigationExtras: NavigationExtras = {
       state: {
         idRED: red.idRED,
@@ -229,68 +384,104 @@ export class HomeCSPComponent implements OnInit {
         }
       }
     };
-    this.router.navigate([`/${this.user.tiposervidor}/visualizarREDCSP`], navigationExtras);
+
+    this.router.navigate(
+      [`/${this.user.tiposervidor}/visualizarREDCSP`],
+      navigationExtras
+    );
   }
 
-  associarDisciplina(red: red) {
-    const editar = this.dialog.open(AssociarDisciplinaComponent, {
-      data: {
-        idRED: red.idRED,
-        servidor_idservidor: red.coordenador,
-        red: red,
-      },
-    });
-    this.handleDialogConfirm(editar);
+  associarDisciplina(red: red): void {
+
+    this.router.navigate(
+      ['/administrador/associarDisciplinas'],
+      {
+        state: {
+          idRED: red.idRED,
+          servidor_idservidor: red.coordenador,
+          red: red,
+        }
+      }
+    );
   }
 
-  async afterAssociarDisciplina(red: any){
+  async afterAssociarDisciplina(red: any) {
+
     try {
-      let response = await this.redService.updateSituacaoRED({
-        idRED: red.idRED,
-        situacao: 'Aguardando professores',
-      });
+
+      let response =
+        await this.redService.updateSituacaoRED({
+          idRED: red.idRED,
+          situacao: 'Aguardando professores',
+        });
+
       if (response) {
-        this.snackBarService.open('Associação de professores concluida');
+
+        this.snackBarService.open(
+          'Associação de professores concluída'
+        );
+
         this.findAll();
       }
+
     } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao aquivar RED: ${errorMessage}`);
+
+      if (
+        error &&
+        error.error &&
+        error.error.data
+      ) {
+
+        const errorMessage =
+          error.error.data;
+
+        this.snackBarService.open(
+          `Falha ao atualizar RED: ${errorMessage}`
+        );
+
       } else {
-        this.snackBarService.open('Falha ao arquivar RED');
+
+        this.snackBarService.open(
+          'Falha ao atualizar RED'
+        );
       }
     }
   }
 
-  handleDialogConfirm(dialog: any) {
+  handleDialogConfirm(dialog: any): void {
+
     dialog.afterClosed().subscribe(() => {
       this.findAll();
     });
   }
 
-  isCOORD() {
+  isCOORD(): boolean {
+
     return (
       this.user.tiposervidor === 'coordenador' ||
       this.user.tiposervidor === 'administrador'
     );
   }
 
-  isCRA() {
+  isCRA(): boolean {
+
     return (
       this.user.tiposervidor === 'cra' ||
       this.user.tiposervidor === 'administrador'
     );
   }
 
-  isCSP() {
+  isCSP(): boolean {
+
     return (
       this.user.tiposervidor === 'csp' ||
       this.user.tiposervidor === 'administrador'
     );
   }
 
-  existePEEs(red: any): boolean{
-    return red.pee.length > 0 ? true : false;
+  existePEEs(red: any): boolean {
+
+    return red.pee &&
+      red.pee.length > 0;
   }
 }

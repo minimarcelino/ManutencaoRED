@@ -88,19 +88,60 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()" mat-icon-button matTooltip="Associar disciplinas"
-              (click)="associarDisciplina(a)">
+            <button
+              *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
+              mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
             </button>
 
             <!-- Falta mostrar o abono das faltas -->
-            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+              (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
             </button>
 
-            <button *ngIf="isCOORD() && (a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')" mat-icon-button matTooltip="Visualizar Disciplinas"
-              (click)="visualizarDisciplina(a)">
+            <button
+              *ngIf="isCOORD() && (a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')"
+              mat-icon-button matTooltip="Visualizar Disciplinas" (click)="visualizarDisciplina(a)">
               <mat-icon>library_books</mat-icon>
+            </button>
+
+            <!-- Aprovar RED -->
+            <button *ngIf="a.situacao?.trim()?.toLowerCase() === 'esperando confirmação' && isCOORD()" mat-icon-button
+              matTooltip="Aprovar RED" (click)="aprovarRED(a)">
+
+              <mat-icon class="icon-aprovar">check_circle</mat-icon>
+
+            </button>
+
+            <!-- Recusar RED -->
+            <button *ngIf="a.situacao?.trim()?.toLowerCase() === 'esperando confirmação' && isCOORD()" mat-icon-button
+              matTooltip="Recusar RED" (click)="recusarRED(a)">
+
+              <mat-icon class="icon-recusar">cancel</mat-icon>
+
+            </button>
+
+            <!-- Finalizar RED -->
+            <button *ngIf="
+              a.situacao?.trim()?.toLowerCase() === 'em andamento'
+              && isCSP()
+              && situacaoPEEs(a.pee)?.trim()?.toLowerCase() === 'avaliado'
+            " mat-icon-button matTooltip="Finalizar RED" (click)="finalizarRED(a)">
+
+              <mat-icon class="icon-finalizar">task_alt</mat-icon>
+
+            </button>
+
+            <!-- Não finalizar RED -->
+            <button *ngIf="
+            a.situacao?.trim()?.toLowerCase() === 'em andamento'
+            && isCSP()
+            && situacaoPEEs(a.pee)?.trim()?.toLowerCase() === 'avaliado'
+          " mat-icon-button matTooltip="Não finalizar RED" (click)="naoFinalizarRED(a)">
+
+              <mat-icon class="icon-nao-finalizar">cancel</mat-icon>
+
             </button>
 
             <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isCRA()" mat-icon-button
@@ -129,10 +170,11 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50 ]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50 ]" showFirstLastButtons></mat-paginator>
 
     </div>
-    <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="formularioRED(false)" id="cadastrarRED" class="button">
+    <button *ngIf="isCRA()" mat-raised-button color="primary" (click)="formularioRED(false)" id="cadastrarRED"
+      class="button">
       <mat-icon>add</mat-icon>
       Cadastrar RED
     </button>

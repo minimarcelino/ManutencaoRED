@@ -1,24 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
-//
 import { pee } from 'src/app/modelo/pee';
-import { messageDialog } from 'src/app/services/messageDialog.service';
 import { PeeService } from 'src/app/services/pee.service';
 import { RedService } from 'src/app/services/red.service';
-import { formatDate } from '@angular/common';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { AssociarProfessoresComponent } from 'src/app/modulos/associacoes/associar-professores/associar-professores.component';
-import { VisualizarDisciplinaComponent } from 'src/app/modulos/red/visualizar-disciplina/visualizar-disciplina.component';
-import { SnackBarService } from 'src/app/services/snackbar.service';
-import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 
 export interface curso {
   idcurso: number;
   sigla: string;
 }
+
 export interface red {
   idRED: number;
   dataInicioProcesso: Date;
@@ -39,22 +33,44 @@ export interface red {
   styleUrls: ['./home-coordenador.component.css'],
 })
 export class HomeCoordenadorComponent implements OnInit {
-  peesProfessor: pee[] = [];
+
+  user: any = '';
+
+  // 🔵 PEE
   pees: pee[] = [];
+  peesProfessor: pee[] = [];
+  aguardandoProfessor: any[] = [];
+
+  // 🔴 RED
   reds: any[] = [];
   esperandoConfirmacao: any[] = [];
-  aguardandoProfessor: any[] = [];
   ativos: any[] = [];
-  alunos: any[] = [];
-  cursos: curso[] = [];
-  user: any = '';
-  dataSourceAguardando: any;
-  dataSourceRed: any;
-  dataSourceRedAtivos: any;
-  @ViewChild('paginatorAguardando') paginatorAguardando!: MatPaginator;
-  @ViewChild('paginatorEnviada') paginatorEnviada!: MatPaginator;
-  @ViewChild('paginatorRed') paginatorRed!: MatPaginator;
-  @ViewChild('paginatorRedAtivos') paginatorRedAtivos!: MatPaginator;
+
+  // 🔢 DATASOURCE
+  dataSourceRed!: MatTableDataSource<any>;
+  dataSourceRedAtivos!: MatTableDataSource<any>;
+  dataSourceAguardando!: MatTableDataSource<any>;
+
+  // 📊 COLUNAS
+  displayedColumnsRED = [
+    'NomeRED',
+    'ProntuarioRED',
+    'CursoRED',
+    'InicioRED',
+    'TempoAfastamentoRED',
+    'TerminoRED',
+    'SituacaoRED',
+    'SituacaoPEE',
+  ];
+
+  displayedColumnsREDAtivos = [
+    'NomeRED',
+    'ProntuarioRED',
+    'CursoRED',
+    'InicioRED',
+    'TempoAfastamentoRED',
+    'TerminoRED',
+  ];
 
   displayedColumnsPEE = [
     'Disciplina',
@@ -64,39 +80,23 @@ export class HomeCoordenadorComponent implements OnInit {
     'Situacao',
     'Acoes',
   ];
-  displayedColumnsRED = [
-    'ProntuarioRED',
-    'NomeRED',
-    'CursoRED',
-    'Inicio-RED',
-    'Tempo-AfastamentoRED',
-    'TerminoRED',
-    'Situacao-RED',
-    'Situacao-PEE',
-    'AcoesRED',
-  ];
 
   constructor(
-    public dialogQuestionService: messageDialog,
-    private snackBarService: SnackBarService,
-    private peeService: PeeService,
     private redService: RedService,
+    private peeService: PeeService,
     private router: Router,
     private dialog: MatDialog,
-    private customPaginatorIntlService: CustomPaginatorIntlService
   ) {}
 
   ngOnInit(): void {
-    this.findAllPEE();
+    this.user = JSON.parse(localStorage.getItem('user')!);
     this.findAllRED();
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+    this.findAllPEE();
   }
 
-  ngAfterViewInit() {
-    this.paginatorAguardando._intl =
-      this.customPaginatorIntlService.paginatorIntl;
-  }
+  // =========================
+  // RED
+  // =========================
 
   async findAllRED() {
     const response = await this.redService.getRed();
@@ -107,176 +107,105 @@ export class HomeCoordenadorComponent implements OnInit {
         red.situacao === 'Esperando confirmação' &&
         red.coordenador == this.user.idservidor
     );
-    this.dataSourceRed = new MatTableDataSource<any>(this.esperandoConfirmacao);
-    this.dataSourceRed.paginator = this.paginatorRed;
-    // console.log('REDs Aguardando confirmaçãp\n', this.reds);
 
     this.ativos = this.reds.filter(
       (red) =>
         red.coordenador == this.user.idservidor &&
-        (red.situacao === 'Em andamento' ||
-          red.situacao === 'Esperando associação de disciplina')
+        red.situacao === 'Em andamento'
     );
-    this.dataSourceRedAtivos = new MatTableDataSource<any>(this.ativos);
-    this.dataSourceRedAtivos.paginator = this.paginatorRedAtivos;
-    // console.log('REDs Ativas\n', this.reds);
+
+    this.dataSourceRed = new MatTableDataSource(this.esperandoConfirmacao);
+    this.dataSourceRedAtivos = new MatTableDataSource(this.ativos);
   }
 
-  formatData(data: Date): string {
-    if (data) {
-      return formatDate(data, 'dd/MM/yyyy', 'en-US', 'UTC');
-    } else {
-      return '';
-    }
-  }
+  // =========================
+  // PEE
+  // =========================
 
   async findAllPEE() {
     const response = await this.peeService.getPee();
-    this.peesProfessor = response.data.pees;
+    this.pees = response.data.pees;
 
-    this.peesProfessor = this.peesProfessor.filter(
+    // 🔔 PEEs para alerta
+    this.peesProfessor = this.pees.filter(
       (pee: any) =>
+        pee.pee_servidor &&
         pee.pee_servidor.some(
-          (item: any) => item.servidorId === this.user.idservidor) &&
+          (item: any) => item.servidorId === this.user.idservidor
+        ) &&
         pee.percentualabono == -1.0 &&
         (pee.situacao === 'Enviado para o aluno' ||
           pee.situacao === 'Aguardando Preenchimento')
     );
 
-    this.pees = response.data.pees;
-
+    // 👨‍🏫 PEEs aguardando professor
     this.aguardandoProfessor = this.pees.filter(
       (pee) => pee.situacao === 'Aguardando Associação de Professor'
     );
-    this.dataSourceAguardando = new MatTableDataSource<pee>(
+
+    this.dataSourceAguardando = new MatTableDataSource(
       this.aguardandoProfessor
     );
-    this.dataSourceAguardando.paginator = this.paginatorAguardando;
   }
 
-  listarPEEs() {
+  // =========================
+  // UTIL
+  // =========================
+
+  formatData(data: Date): string {
+    return data ? new Date(data).toLocaleDateString('pt-BR') : '';
+  }
+
+  situacaoPEEs(pee: any[]): string {
+    if (!pee || pee.length === 0) return 'Sem PEE';
+    return 'Com PEE';
+  }
+
+  // =========================
+  // AÇÕES
+  // =========================
+
+  formularioRED(visualizar: boolean, red: any) {
+    console.log(red);
+  }
+
+  preencherAvaliarPEE(): boolean {
+    return this.peesProfessor && this.peesProfessor.length > 0;
+  }
+
+  listarPEEs(): void {
     this.router.navigate([`/${this.user.tiposervidor}/listarPEEs`]);
   }
 
-  preencherAvaliarPEE() {
-    return this.peesProfessor.length > 0 ? true : false;
-  }
+  // ✅ MÉTODO QUE FALTAVA (corrige erro do botão)
+  associarProfessor(pee: pee): void {
 
-  associarProfessor(pee: pee) {
-    const editar = this.dialog.open(AssociarProfessoresComponent, {
+  const dialogRef = this.dialog.open(
+    AssociarProfessoresComponent,
+    {
+      width: '1000px',
+      autoFocus: false,
+      disableClose: true,
+
       data: {
         idRED: pee.RED_idRED,
         idPEE: pee.idpee,
         servidor_idservidor: pee.servidor_idservidor,
-        //disciplina: pee.pee.disciplinas,
-        pee: pee,
-      },
-    });
-    this.handleDialogConfirm(editar);
-  }
-
-  async finalizarProcessoPermanent(red: any) {
-    try {
-      let response = await this.redService.updateSituacaoRED({
-        idRED: red.idRED,
-        situacao: 'Finalizado',
-      });
-      if (response) {
-        this.snackBarService.open('RED finalizado com sucesso!!');
-        this.findAllRED();
-      }
-    } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao finalizar RED: ${errorMessage}`);
-      } else {
-        this.snackBarService.open('Falha ao finalizar RED');
+        pee: pee
       }
     }
-  }
+  );
 
-  async finalizarRED(red: any) {
-    let res = false;
-    res = await this.dialogQuestionService.openDialogConfirmDone('red');
-    if (res) {
-      await this.finalizarProcessoPermanent(red);
-    }
-  }
+  dialogRef.afterClosed().subscribe((result: any) => {
 
-  existePEEs(red: any): boolean {
-    return red.pee.length > 0 ? true : false;
-  }
+    console.log('Dialog fechado');
 
-  todosPeesPreenchidos(pee: any[]): boolean {
-    return this.peeService.todosPeesPreenchidos(pee);
-  }
+    this.findAllRED();
+    this.findAllPEE();
 
-  async visualizarDisciplina(red: any) {
-    const visualizar = this.dialog.open(VisualizarDisciplinaComponent, {
-      data: {
-        idRED: red.idRED,
-        pee: red.pee,
-      },
-    });
-    this.handleDialogConfirm(visualizar);
-  }
+  });
 
-  formularioPEE(pee: any, visualizar: boolean) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        pee: pee,
-        visualizar: visualizar,
-      },
-    };
-    this.router.navigate(
-      [`/${this.user.tiposervidor}/formularioPEE`],
-      navigationExtras
-    );
-  }
-
-  formularioRED(visualizar: boolean, red: any = null) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        red: red,
-        visualizar: visualizar,
-      },
-    };
-    this.router.navigate(
-      [`/${this.user.tiposervidor}/formularioRED`],
-      navigationExtras
-    );
-  }
-
-  isCSP() {
-    return (
-      this.user.tiposervidor === 'csp' ||
-      this.user.tiposervidor === 'administrador'
-    );
-  }
-
-  VisualizarRED_CSP(red: any) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        idRED: red.idRED,
-        aluno: {
-          nome: red.aluno.nome,
-          prontuario: red.aluno.prontuario,
-        },
-      },
-    };
-    this.router.navigate(
-      [`/${this.user.tiposervidor}/visualizarREDCSP`],
-      navigationExtras
-    );
-  }
-
-  situacaoPEEs(pee: any[]): string {
-    return this.peeService.situacaoPEEs(pee);
-  }
-
-  isPreencher(pee: any) {
-    return pee.situacao === 'Aguardando Preenchimento';
-  }
+}
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {

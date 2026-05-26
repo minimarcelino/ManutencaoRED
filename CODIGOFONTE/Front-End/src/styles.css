@@ -1,5 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+/* =======================
+   PALETA DE CORES IFSP
+======================= */
+:root {
+  --verde-principal: #0b5e20;
+  --verde-secundario: #1faa59;
+  --verde-hover: #157347;
 
+  --cinza-escuro: #505050;
+  --cinza-medio: #797979;
+  --cinza-claro: #ffffff;
+
+  --branco: #ffffff;
+
+  --texto-claro: #ffffff;
+  --texto-escuro: #ffffff;
+
+  --amarelo-destaque: #f4b400;
+}
+
+/* =======================
+   RESET GLOBAL
+======================= */
 html,
 body {
   height: 100%;
@@ -8,9 +29,14 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #2f2f2f;
+  color: var(--texto-escuro);
 }
 
-/* Formatação do menu lateral */
+/* =======================
+   LAYOUT GERAL
+======================= */
+
 mat-sidenav-container {
   min-height: 94vh;
   min-width: 100%;
@@ -23,28 +49,20 @@ mat-sidenav-content {
   min-height: 100%;
 }
 
+/* =======================
+   MENU LATERAL
+======================= */
 mat-sidenav {
-  background: linear-gradient(to right, #505050, #797979);
+  background: linear-gradient(to bottom, var(--verde-principal), var(--verde-secundario));
   padding: 16px;
   padding-right: 1%;
   padding-left: 0.5%;
   width: 15%;
-  /* min-height: max-content; */
   padding-bottom: 50px;
   margin: 16px;
   text-align: left;
-}
-
-.spacer {
-  flex: 0.95 1 auto;
-}
-
-.content {
-  margin: 16px;
-  margin-left: 32px;
   border-radius: 10px;
-  font-size: 2rem;
-  color: lightgray;
+  color: var(--texto-claro);
 }
 
 .menu-button {
@@ -53,26 +71,62 @@ mat-sidenav {
   align-items: center;
   justify-content: flex-start;
   font-size: 1rem;
-
-  mat-icon {
-    margin-right: 8px;
-  }
+  color: var(--texto-claro);
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
+.menu-button:hover {
+  background-color: var(--verde-hover);
+}
+
+.menu-button mat-icon {
+  margin-right: 8px;
+}
 
 #itensText {
   display: inline-block;
   margin-left: 0.5rem;
-  color: #eee;
+  color: var(--texto-claro);
 }
 
 #red {
   margin-left: 10px;
 }
 
-/* Formatação das telas de listagem de dados */
-.listagem, .formulario{
-  margin: 15px;
+/* =======================
+   CONTEÚDO PRINCIPAL
+======================= */
+.content {
+  margin: 0;
+  padding: 20px;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  font-size: 1.2rem;
+  color: var(--texto-escuro);
+}
+
+.spacer {
+  flex: 0.95 1 auto;
+}
+
+/* =======================
+   TEXTOS E TÍTULOS
+======================= */
+h1, h2, h3 {
+  padding-top: 10px;
+  color: var(--verde-secundario);
+}
+
+p {
+  padding-top: 10px;
+  color: var(--texto-escuro);
+}
+
+.p-sem-conteudo {
+  font-size: medium;
+  color: var(--cinza-medio);
 }
 
 div .titulo-container {
@@ -84,120 +138,182 @@ h3 .titulo-centralizado {
   font-weight: bold;
 }
 
-h1, h2, h3, p{
-  padding-top: 10px;
-  padding-bottom: 0px;
-  color: lightgray;
-}
-
-.p-sem-conteudo{
-  font-size: medium;
+/* =======================
+   LISTAGEM E FORMULÁRIO
+======================= */
+.listagem,
+.formulario {
+  margin: 15px;
 }
 
 .corpo {
   margin: 5px;
   width: 100%;
-  /* height: 100%; */
   padding-bottom: 5px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
-
 }
 
-.tabela{
+/* =======================
+   TABELAS
+======================= */
+.tabela {
   max-width: 100rem;
 }
 
-.button
-{
-  margin-top: 15px;
-  margin-bottom: 15px;
+.table {
   margin-right: 10px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.campo-pesquisa, .campo-curso, .campo-situacao {
-  width: calc(50% - 40px); /* 50% do tamanho total menos espaçamento */
-  margin-right: 20px; /* Espaçamento entre os campos */
-}
-
-.campo-curso, .campo-situacao, .campo-tiposervidor, .campo-professor {
-  width: calc(25% - 10px); /* 25% do tamanho total menos espaçamento */
-}
-
-.table{
-  margin-right: 10px;
-  /* overflow-y: auto; */
-}
-
-#tabela{
+#tabela {
   max-width: 100rem;
 }
 
-.mat-column-Acoes{
+.mat-column-Acoes {
   max-width: 20rem;
   margin: 0;
   padding: 0;
 }
 
-/* Formatação das telas de cadastros */
-/* Apresentação de erro */
+/* =======================
+   BOTÕES
+======================= */
+.button {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  background-color: var(--verde-secundario);
+  color: var(--texto-claro);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--verde-hover);
+}
+
+/* =======================
+   CAMPOS
+======================= */
+.campo-pesquisa,
+.campo-curso,
+.campo-situacao {
+  width: calc(50% - 40px);
+  margin-right: 20px;
+}
+
+.campo-curso,
+.campo-situacao,
+.campo-tiposervidor,
+.campo-professor {
+  width: calc(25% - 10px);
+}
+
+/* =======================
+   FORMULÁRIOS (ANGULAR)
+======================= */
+.formulario mat-form-field {
+  min-width: 100%;
+  max-width: 100%;
+  align-items: center;
+  border-radius: 5px;
+}
+
+mat-label {
+  color: var(--verde-secundario);
+  font-weight: 500;
+}
+
 mat-error {
   position: absolute;
   right: 2%;
   bottom: 1%;
   font-weight: bold;
+  color: red;
 }
 
 mat-hint {
   position: absolute;
   left: 4%;
   bottom: 1%;
+  color: var(--cinza-medio);
 }
 
-mat-label {
-  font-weight: 100;
-}
-
-/* campos */
 .hint-inside {
   position: absolute;
   right: 2%;
   bottom: 1%;
 }
 
-.formulario mat-form-field {
-  min-width: 100%;
-  max-width: 100%;
-  align-items: center;
-}
-
+/* =======================
+   GRID FORMULÁRIO
+======================= */
 .formulario .lado-esquerdo {
   min-width: 34%;
-  max-width: 100%;
 }
 
 .formulario .lado-direito {
   margin-left: 1%;
   min-width: 65%;
-  max-width: 100%;
 }
 
 .formulario .esquerdo-3 {
   min-width: 30%;
-  max-width: 100%;
 }
 
 .formulario .centro-3 {
   min-width: 30%;
-  max-width: 100%;
   margin-left: 5%;
 }
 
 .formulario .direito-3 {
   min-width: 30%;
-  max-width: 100%;
   margin-left: 5%;
 }
 
+/* =======================
+   CONTAINER PRINCIPAL
+======================= */
+.main-container {
+  position: relative;
+  height: 100%;
+}
+
+/* =======================
+   DASHBOARD CENTRALIZADO
+======================= */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: calc(100vh - 70px);
+  width: calc(100% - 250px);
+  margin-left: 250px;
+
+  transform: translateX(-80px);
+}
+
+/* TEXTO VISÍVEL */
+.dashboard h1 {
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.dashboard p {
+  color: #dcdcdc;
+  font-size: 1.2rem;
+}
+
+.title {
+  margin-left: 24px;
+  margin-right: 24px;
+}

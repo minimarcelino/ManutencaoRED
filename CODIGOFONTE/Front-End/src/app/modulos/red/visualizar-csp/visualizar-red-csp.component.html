@@ -2,7 +2,7 @@
   <div class="impressao">
     <div class="title">
       <h1>Acompanhamento RED</h1>
-      <h2>{{ this.apresentarAluno() }}</h2>
+      <h2>{{ apresentarAluno() }}</h2>
       <hr class="linha" />
     </div>
 
@@ -81,11 +81,10 @@
       </table>
 
     </div>
-<!-- boto~es -->
+    <!-- boto~es -->
   </div>
 </div>
 <div class="botao-impressao">
   <button mat-raised-button color="primary" (click)="voltar()" class="button">Voltar</button>
   <button mat-raised-button color="primary" (click)="imprimir()" class="button" id="imprimir">Imprimir</button>
 </div>
-

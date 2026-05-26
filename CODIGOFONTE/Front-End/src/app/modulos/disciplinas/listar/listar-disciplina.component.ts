@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NavigationExtras, Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 import { DisciplinaService } from 'src/app/services/disciplina.service';
 import { messageDialog } from 'src/app/services/messageDialog.service';
@@ -50,14 +51,130 @@ export class ListarDisciplinasComponent implements OnInit {
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
 
-     // Assine para receber notificações de atualização de disciplinas
-     this.entityUpdateService.getUpdateNotifier('disciplina').subscribe(() => {
+    // Assine para receber notificações de atualização de disciplinas
+    this.entityUpdateService.getUpdateNotifier('disciplina').subscribe(() => {
       this.findAll();
     });
   }
 
   ngAfterViewInit() {
     this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
+  }
+
+  async importacaoRapidaDisciplinas(event: any) {
+
+    let resposta = false;
+
+    resposta = await this.dialogQuestionService.openDialogConfirmDisciplina();
+
+    if (resposta) {
+
+      const input = document.createElement('input');
+
+      input.type = 'file';
+      input.accept = '.xlsx,.xls';
+      input.style.display = 'none';
+
+      input.addEventListener('change', (event: any) => {
+
+        this.cadastroDisciplinaLote(event);
+
+      });
+
+      document.body.appendChild(input);
+
+      input.click();
+    }
+  }
+
+  private cadastroDisciplinaLote(event: any) {
+
+    const target: DataTransfer = <DataTransfer>event.target;
+
+    if (target.files.length !== 1) {
+      throw new Error('Cannot use multiple files');
+    }
+
+    const reader: FileReader = new FileReader();
+
+    reader.readAsBinaryString(target.files[0]);
+
+    reader.onload = async (e: any) => {
+
+      const binarystr: string = e.target.result;
+
+      const wb: XLSX.WorkBook = XLSX.read(binarystr, {
+        type: 'binary',
+      });
+
+      const wsname: string = wb.SheetNames[0];
+
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      const data = XLSX.utils.sheet_to_json(ws);
+
+      this.dataToImport = data;
+
+      console.log('Dados importados:', this.dataToImport);
+
+      try {
+
+        const importPromises = this.dataToImport.map(async (item: any) => {
+
+          return await this.disciplinaService.exportDisciplina({
+            sigla: item.Sigla,
+            nomeDisciplina: item['Componente'],
+            curso_idcurso: Number(item['CH Componente']),
+          });
+
+        });
+
+        const responses = await Promise.all(importPromises);
+
+        const hasError = responses.some(
+          (response: any) => response?.ok === false
+        );
+
+        if (hasError) {
+
+          this.snackBarService.open(
+            'Erro na importação. Verifique os dados da planilha.'
+          );
+
+        } else {
+
+          this.snackBarService.open(
+            'Importação das disciplinas realizada com sucesso!'
+          );
+
+        }
+
+      } catch (error: any) {
+
+        console.log(error);
+
+        if (error && error.error && error.error.data) {
+
+          const errorMessage = error.error.data;
+
+          this.snackBarService.open(
+            `Erro na importação de disciplinas: ${errorMessage}`
+          );
+
+        } else {
+
+          this.snackBarService.open(
+            'Erro na importação de disciplinas'
+          );
+
+        }
+
+      } finally {
+
+        this.findAll();
+
+      }
+    };
   }
 
   formularioDisciplina(visualizar: boolean, disciplina: any = null) {
@@ -88,7 +205,7 @@ export class ListarDisciplinasComponent implements OnInit {
     this.mapearCursos();
   }
 
-  private mapearCursos(){
+  private mapearCursos() {
     const uniqueCursos = new Set<string>();
 
     this.disciplinas.forEach((disciplina) => {

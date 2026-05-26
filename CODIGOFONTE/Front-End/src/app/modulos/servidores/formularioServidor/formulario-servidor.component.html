@@ -16,7 +16,7 @@
     <form [formGroup]="formularioServidor" #formDir="ngForm">
 
       <!-- PRONTUÁRIO -->
-      <mat-form-field appearance="fill" class="lado-esquerdo">
+      <mat-form-field appearance="outline" class="lado-esquerdo">
         <mat-label>Prontuário</mat-label>
         <input matInput name="prontuario" id="prontuario" formControlName="prontuario" mask="AA000000A" />
         <mat-error
@@ -26,7 +26,7 @@
       </mat-form-field>
 
       <!-- NOME -->
-      <mat-form-field appearance="fill" class="lado-direito">
+      <mat-form-field appearance="outline" class="lado-direito">
         <mat-label>Nome</mat-label>
         <input matInput name="nome" id="nome" formControlName="nome" />
         <mat-error
@@ -36,7 +36,7 @@
       </mat-form-field>
 
       <!-- EMAIL -->
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput name="email" id="email" formControlName="email" />
         <mat-error
@@ -65,8 +65,11 @@
 
       <div *ngIf="!this.desabilitado">
 
-        <button mat-raised-button color="warn" class="button" (click)="retornarParaLista()">Cancelar</button>
-        <button mat-raised-button color="primary" class="button" (click)="submit()">
+        <button mat-raised-button class="button btn-cancelar" (click)="retornarParaLista()">
+          Cancelar
+        </button>
+
+        <button mat-raised-button class="button btn-confirmar" (click)="submit()">
           {{ this.editando ? 'Salvar' : 'Cadastrar'}}
         </button>
       </div>

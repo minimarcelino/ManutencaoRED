@@ -8,117 +8,160 @@ import { AuthenticationService } from './authentication.service';
   providedIn: 'root',
 })
 export class RedService {
+
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService
-  ) {}
+  ) { }
 
+  // 📎 BUSCAR ARQUIVOS
   async getAttachedFiles(id: number): Promise<any> {
     try {
-      const response = await this.http
-        .get(
-          `${environment.API}red/files/${id}`,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
+      const response = await this.http.get(
+        `${environment.API}red/files/${id}`,
+        this.authenticationService.getHttpOptions()
+      ).toPromise();
+
+      return response || null;
+
     } catch (error) {
       this.authenticationService.tratarErro(error);
+      return null;
     }
-
   }
 
+  // 📄 BUSCAR REDS
   async getRed(): Promise<any> {
     try {
-      const response = await this.http
-        .get(
-          `${environment.API}red/all`,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
+      const response = await this.http.get(
+        `${environment.API}red/all`,
+        this.authenticationService.getHttpOptions()
+      ).toPromise();
+
+      return response || { data: { reds: [] } };
+
     } catch (error) {
       this.authenticationService.tratarErro(error);
+
+      // 🔥 EVITA QUEBRA NO COMPONENTE
+      return { data: { reds: [] } };
     }
   }
 
+  // ➕ CRIAR RED
   async createRed(red: any, arquivos: File[]): Promise<any> {
     try {
       const formData = new FormData();
       formData.append('red', JSON.stringify(red));
-      for (let i = 0; i < arquivos.length; i++) {
-        formData.append('arquivos', arquivos[i]);
-      }
-      console.log(formData);
-      const response = await this.http
-        .post(
-          `${environment.API}red/create`,
-          formData,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
+
+      arquivos.forEach(file => {
+        formData.append('arquivos', file);
+      });
+
+      const response = await this.http.post(
+        `${environment.API}red/create`,
+        formData,
+        this.authenticationService.getHttpOptions()
+      ).toPromise();
+
+      return response || null;
+
     } catch (error) {
       this.authenticationService.tratarErro(error);
+      return null;
     }
   }
 
-async updateRed(red: any, arquivos: File[]): Promise<any> {
+  // ✏️ ATUALIZAR RED
+  async updateRed(red: any, arquivos: File[]): Promise<any> {
     try {
-        const formData = new FormData();
-        formData.append('red', JSON.stringify(red));
-        for (let i = 0; i < arquivos.length; i++) {
-            formData.append('arquivos', arquivos[i]);
-        }
-        console.log(formData);
-        console.log(red.idRED);
-        const response = await this.http
-            .post(
-                `${environment.API}red/update/${red.idRED}`,
-                formData,
-                this.authenticationService.getHttpOptions()
-            )
-            .toPromise();
-        return response;
+      const formData = new FormData();
+      formData.append('red', JSON.stringify(red));
+
+      arquivos.forEach(file => {
+        formData.append('arquivos', file);
+      });
+
+      const response = await this.http.post(
+        `${environment.API}red/update/${red.idRED}`,
+        formData,
+        this.authenticationService.getHttpOptions()
+      ).toPromise();
+
+      return response || null;
+
     } catch (error) {
-        this.authenticationService.tratarErro(error);
+      this.authenticationService.tratarErro(error);
+      return null;
     }
-}
+  }
 
-
+  // 🔄 ATUALIZAR SITUAÇÃO
   async updateSituacaoRED(red: any): Promise<any> {
     try {
-      console.log(red);
-      const response = await this.http
-        .put(
-          `${environment.API}red/update/situacao/${red.idRED}`,
-          red,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
+      const response = await this.http.put(
+        `${environment.API}red/update/situacao/${red.idRED}`,
+        red,
+        this.authenticationService.getHttpOptions()
+      ).toPromise();
+
+      return response || null;
+
     } catch (error) {
       this.authenticationService.tratarErro(error);
+      return null;
     }
   }
 
+  // 🗑️ DELETAR RED
   async deleteRed(id: number): Promise<any> {
     try {
-      const response = await this.http
-        .delete(
-          `${environment.API}red/delete/${id}`,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
+      const response = await this.http.delete(
+        `${environment.API}red/delete/${id}`,
+        this.authenticationService.getHttpOptions()
+      ).toPromise();
+
+      return response || null;
+
     } catch (error) {
       this.authenticationService.tratarErro(error);
+      return null;
     }
   }
 
-  deleteFile(idFile: number): Observable<any> {
-    console.log("idFile:", idFile)
-    return this.http.delete(`${environment.API}arquivos/${idFile}`);
+  // 🔍 BUSCAR RED POR ID
+  async getRedById(id: number): Promise<any> {
+
+    try {
+
+      const response = await this.http.get(
+
+        `${environment.API}red/${id}`,
+
+        this.authenticationService.getHttpOptions()
+
+      ).toPromise();
+
+      return response || null;
+
+    } catch (error) {
+
+      this.authenticationService.tratarErro(error);
+
+      return null;
+
+    }
+
   }
+
+  // 🗑️ DELETAR ARQUIVO (OBSERVABLE)
+  deleteFile(idFile: number): Observable<any> {
+    return this.http.delete(
+      `${environment.API}arquivos/${idFile}`,
+      this.authenticationService.getHttpOptions()
+    );
+  }
+
+  
+
 }
-Promise

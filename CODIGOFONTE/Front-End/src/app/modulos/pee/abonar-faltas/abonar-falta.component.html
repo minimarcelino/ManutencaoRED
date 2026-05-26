@@ -1,95 +1,106 @@
-<div class="corpo">
-  <div>
-    <h1 class="title listagem">Avaliação do PEE</h1>
-    <hr class="linha">
-  </div>
+<h1 mat-dialog-title>Avaliação do PEE</h1>
 
-  <div class="formulario">
-    <form [formGroup]="abonarFaltaPEE" #formDir="ngForm">
+<mat-dialog-content>
 
-      <mat-form-field>
-        <mat-label>Avaliação da atividade</mat-label>
-        <textarea matInput name="avaliacaoAtividade" id="avaliacaoAtividade" formControlName="avaliacaoAtividade"></textarea>
-        <mat-error
-          *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors && (abonarFaltaPEE.get('avaliacaoAtividade')?.dirty || abonarFaltaPEE.get('avaliacaoAtividade')?.touched)">
-          <span *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors?.['required']">Avaliação da atividade é obrigatória</span>
-        </mat-error>
-      </mat-form-field>
+  <form [formGroup]="abonarFaltaPEE">
 
-      <mat-form-field>
-        <mat-label>Data de entrega do aluno</mat-label>
-        <input matInput [matDatepicker]="picker" id="data" formControlName="entregaAluno">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error
-          *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors && (abonarFaltaPEE.get('entregaAluno')?.dirty || abonarFaltaPEE.get('entregaAluno')?.touched)">
-          <span *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors?.['required']">Data de entrega obrigatória</span>
-        </mat-error>
-      </mat-form-field>
+    <!-- Avaliação -->
+    <mat-form-field class="full-width">
+      <mat-label>Avaliação da atividade</mat-label>
+      <textarea matInput formControlName="avaliacaoAtividade"></textarea>
+      <mat-error *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors && 
+                        (abonarFaltaPEE.get('avaliacaoAtividade')?.dirty || 
+                         abonarFaltaPEE.get('avaliacaoAtividade')?.touched)">
+        <span *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors?.['required']">
+          Avaliação da atividade é obrigatória
+        </span>
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <p>Aluno cumpriu com as atividades</p>
-        <mat-radio-group formControlName="cumprimento" id="cumprimento">
-          <mat-radio-button value="Sim">Sim</mat-radio-button>
-          <mat-radio-button value="Não">Não</mat-radio-button>
-        </mat-radio-group>
-        <mat-error
-          *ngIf="abonarFaltaPEE.get('cumprimento')?.errors && (abonarFaltaPEE.get('cumprimento')?.dirty || abonarFaltaPEE.get('cumprimento')?.touched)">
-          <span *ngIf="abonarFaltaPEE.get('cumprimento')?.errors?.['required']">Opção obrigatória</span>
-        </mat-error>
-      </div>
+    <!-- Data entrega -->
+    <mat-form-field class="full-width">
+      <mat-label>Data de entrega do aluno</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="entregaAluno">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors && 
+                        (abonarFaltaPEE.get('entregaAluno')?.dirty || 
+                         abonarFaltaPEE.get('entregaAluno')?.touched)">
+        <span *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors?.['required']">
+          Data de entrega obrigatória
+        </span>
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <p>Houve alguma nova atividade</p>
-        <mat-radio-group formControlName="novaAtividade" id="novaAtividade">
-          <mat-radio-button value="Sim">Sim</mat-radio-button>
-          <mat-radio-button value="Não">Não</mat-radio-button>
-        </mat-radio-group>
-        <mat-error
-          *ngIf="abonarFaltaPEE.get('novaAtividade')?.errors && (abonarFaltaPEE.get('novaAtividade')?.dirty || abonarFaltaPEE.get('novaAtividade')?.touched)">
-          <span *ngIf="abonarFaltaPEE.get('novaAtividade')?.errors?.['required']">Opção obrigatória</span>
-        </mat-error>
-      </div>
+    <!-- Cumprimento -->
+    <div class="grupo">
+      <p>Aluno cumpriu com as atividades</p>
+      <mat-radio-group formControlName="cumprimento">
+        <mat-radio-button value="Sim">Sim</mat-radio-button>
+        <mat-radio-button value="Não">Não</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
-      <mat-form-field>
-        <mat-label>Percentual de abono</mat-label>
-        <input type="number" id="percentualAbono" matInput name="percentualAbono" formControlName="percentualAbono" />
-        <mat-error
-          *ngIf="abonarFaltaPEE.get('percentualAbono')?.errors && (abonarFaltaPEE.get('percentualAbono')?.dirty || abonarFaltaPEE.get('percentualAbono')?.touched)">
-          <span *ngIf="abonarFaltaPEE.get('percentualAbono')?.errors?.['required']">Percentual de abono
-            obrigatória</span>
-        </mat-error>
-      </mat-form-field>
+    <!-- Nova atividade -->
+    <div class="grupo">
+      <p>Houve alguma nova atividade</p>
+      <mat-radio-group formControlName="novaAtividade">
+        <mat-radio-button value="Sim">Sim</mat-radio-button>
+        <mat-radio-button value="Não">Não</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
-      <div>
-        <p>Houve avaliação</p>
-        <mat-radio-group formControlName="avaliacao">
-          <mat-radio-button value="Sim">Sim</mat-radio-button>
-          <mat-radio-button value="Não">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
+    <!-- Percentual -->
+    <mat-form-field class="full-width">
+      <mat-label>Percentual de abono</mat-label>
+      <input type="number" matInput formControlName="percentualAbono" />
+      <mat-error *ngIf="abonarFaltaPEE.get('percentualAbono')?.errors && 
+                        (abonarFaltaPEE.get('percentualAbono')?.dirty || 
+                         abonarFaltaPEE.get('percentualAbono')?.touched)">
+        <span *ngIf="abonarFaltaPEE.get('percentualAbono')?.errors?.['required']">
+          Percentual de abono obrigatório
+        </span>
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <p>Caso tenha, ja foi realizada ?</p>
-        <mat-radio-group formControlName="avaliacaoRealizada">
-          <mat-radio-button value="Sim">Sim</mat-radio-button>
-          <mat-radio-button value="Não">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
+    <!-- Houve avaliação -->
+    <div class="grupo">
+      <p>Houve avaliação</p>
+      <mat-radio-group formControlName="avaliacao">
+        <mat-radio-button value="Sim">Sim</mat-radio-button>
+        <mat-radio-button value="Não">Não</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
-      <mat-form-field>
-        <mat-label>Data da nova avalição caso teve</mat-label>
-        <input matInput [matDatepicker]="picker2" formControlName="dataAvaliacao">
-        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
+    <!-- Avaliação realizada -->
+    <div class="grupo">
+      <p>Caso tenha, já foi realizada?</p>
+      <mat-radio-group formControlName="avaliacaoRealizada">
+        <mat-radio-button value="Sim">Sim</mat-radio-button>
+        <mat-radio-button value="Não">Não</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
+    <!-- Data avaliação -->
+    <mat-form-field class="full-width">
+      <mat-label>Data da nova avaliação caso tenha</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="dataAvaliacao">
+      <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
 
-      <div id="buttons">
-        <button mat-raised-button color="warn" (click)="cancelar()" class="button">Cancelar</button>
-        <button mat-raised-button color="primary" (click)="submit()" class="button">Abonar
-          faltas</button>
-      </div>
-    </form>
-  </div>
-</div>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-raised-button color="warn" type="button" (click)="cancelar()">
+    Cancelar
+  </button>
+
+  <button mat-raised-button color="primary" type="button" (click)="submit()">
+    Abonar faltas
+  </button>
+
+</mat-dialog-actions>

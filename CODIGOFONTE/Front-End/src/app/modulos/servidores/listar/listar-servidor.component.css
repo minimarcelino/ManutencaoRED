@@ -1,0 +1,21 @@
+/* BASE */
+.button {
+  margin: 10px;
+  min-width: 140px;
+  height: 42px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* CANCELAR */
+.btn-cancelar {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.btn-cancelar:hover {
+  background-color: #b02a37;
+}
