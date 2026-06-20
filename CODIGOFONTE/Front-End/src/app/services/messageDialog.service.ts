@@ -8,7 +8,53 @@ import { firstValueFrom } from 'rxjs';
 })
 export class messageDialog {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+  public dialog: MatDialog
+) {}
+
+  // ✅ APROVAR RED
+async openDialogConfirmAprovarRED() {
+  const dialogRef = this.dialog.open(MessageDialogComponent, {
+    width: '400px',
+    autoFocus: false,
+    data: {
+      title: 'Aprovar RED',
+      message: 'Tem certeza que deseja aprovar este RED?',
+      buttonClose: 'Cancelar',
+      buttonConfirm: 'Aprovar',
+    }
+  });
+
+  try {
+    const result = await firstValueFrom(dialogRef.afterClosed());
+    return result === 'Aprovar';
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+// ❌ RECUSAR RED
+async openDialogConfirmRecusarRED() {
+  const dialogRef = this.dialog.open(MessageDialogComponent, {
+    width: '400px',
+    autoFocus: false,
+    data: {
+      title: 'Recusar RED',
+      message: 'Tem certeza que deseja recusar este RED?',
+      buttonClose: 'Cancelar',
+      buttonConfirm: 'Recusar',
+    }
+  });
+
+  try {
+    const result = await firstValueFrom(dialogRef.afterClosed());
+    return result === 'Recusar';
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
 
   // 🔴 EXCLUIR
   async openDialogConfirmDelete(nomeTabela: string) {

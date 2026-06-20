@@ -37,17 +37,20 @@ export class alunoService {
             if (existingAluno) {
                 return { ok: false, data: 'aluno com esse prontuário já existe' };
             }
-            const createAluno = await prisma.aluno.create({ data: aluno });
-            return { ok: true, data: createAluno };
+            console.log("DADOS RECEBIDOS NO BACK:", aluno);
+
+            const createAluno = await prisma.aluno.create({
+                data: aluno
+            }); return { ok: true, data: createAluno };
         } catch (error) {
-          if (error instanceof Prisma.PrismaClientKnownRequestError){
-            let errorPrisma = {
-              code: error.code,
-              meta: error.meta
+
+            console.log("ERRO COMPLETO:", error);
+
+            return {
+                ok: false,
+                data: StatusCodes.INTERNAL_SERVER_ERROR,
+                error
             };
-            console.log("alServ: ", error.code);
-            return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR, error  }
-          }
         }
     }
 
@@ -113,4 +116,6 @@ export class alunoService {
             return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR }
         }
     }
+
+
 }

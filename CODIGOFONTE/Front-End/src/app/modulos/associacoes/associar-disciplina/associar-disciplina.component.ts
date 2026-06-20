@@ -61,7 +61,7 @@ export class AssociarDisciplinaComponent implements OnInit {
     private peeService: PeeService,
     private customPaginatorIntlService: CustomPaginatorIntlService,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   async ngOnInit() {
 
@@ -130,8 +130,10 @@ export class AssociarDisciplinaComponent implements OnInit {
     const responseDisciplinas =
       await this.disciplinaservice.getDisciplina();
 
-    this.disciplinas =
-      responseDisciplinas.data.disciplinas;
+    this.disciplinas = responseDisciplinas.data.disciplinas;
+    this.disciplinas.sort(
+      (a: any, b: any) => b.iddisciplinas - a.iddisciplinas
+    );
 
     // PEES ASSOCIADOS
     try {
@@ -153,6 +155,10 @@ export class AssociarDisciplinaComponent implements OnInit {
             disciplina.iddisciplinas
           )
         );
+
+      disciplinasAssociadas.sort(
+        (a: any, b: any) => b.iddisciplinas - a.iddisciplinas
+      );
 
       // TABELA DE BAIXO
       this.dataSource2 =
@@ -191,6 +197,15 @@ export class AssociarDisciplinaComponent implements OnInit {
     this.dataSource.filter = value;
   }
 
+  async selecionarDisciplina(disciplina: any) {
+
+    await this.associarDisciplinaAutomaticamente(
+      disciplina
+    );
+
+  }
+
+  /*
   selecionarDisciplina(disciplina: any) {
 
     const disciplinaExistenteIndex =
@@ -231,6 +246,7 @@ export class AssociarDisciplinaComponent implements OnInit {
       );
     }
   }
+  */
 
   async removerDisciplina(disciplina: any) {
 
@@ -295,7 +311,11 @@ export class AssociarDisciplinaComponent implements OnInit {
           await this.peeService.deletePee(
             peeComDisciplina.idpee
           );
+          this.snackBarService.open(
+            'Disciplina removida com sucesso'
+          );
 
+          this.dialog?.close(true);
           this.dataSource2.data =
             this.dataSource2.data.filter(
               (item: any) =>
@@ -331,14 +351,12 @@ export class AssociarDisciplinaComponent implements OnInit {
           trabalhos: '',
           bibliografia: '',
           criterios: '',
-          prazofinal: new Date(),
+          prazofinal: new Date().toISOString(),
 
-          RED_idRED: this.idRED,
+          RED_idRED: Number(this.idRED),
 
           disciplinas_iddisciplinas:
-            item.iddisciplinas,
-
-          pee_servidor: null,
+          Number(item.iddisciplinas),
 
           percentualabono: -1,
 
@@ -408,6 +426,64 @@ export class AssociarDisciplinaComponent implements OnInit {
       }
     }
   }
+
+  async associarDisciplinaAutomaticamente(
+  disciplina: any
+) {
+  try {
+
+    await this.peeService.createPee({
+      conteudo: '',
+      metodologia: '',
+      trabalhos: '',
+      bibliografia: '',
+      criterios: '',
+      prazofinal: new Date().toISOString(),
+
+      RED_idRED: Number(this.idRED),
+
+      disciplinas_iddisciplinas:
+      Number(disciplina.iddisciplinas),
+
+      percentualabono: -1,
+
+      situacao:
+        'Aguardando Associação de Professor',
+    });
+
+    await this.redService.updateSituacaoRED({
+      idRED: this.idRED,
+      situacao: 'Em andamento',
+    });
+
+    // Move a disciplina para a tabela de associadas
+    this.dataSource2.data = [
+      ...this.dataSource2.data,
+      disciplina,
+    ];
+
+    // Remove da tabela de disponíveis
+    this.disciplinas = this.disciplinas.filter(
+      (item) =>
+        item.iddisciplinas !==
+        disciplina.iddisciplinas
+    );
+
+    this.dataSource.data = [...this.disciplinas];
+
+    this.snackBarService.open(
+      'Disciplina associada com sucesso'
+    );
+
+  } catch (error) {
+
+    this.snackBarService.open(
+      'Erro ao associar disciplina'
+    );
+
+    console.error(error);
+  }
+}
 
   cancelar() {
     this.dialog?.close();

@@ -95,7 +95,7 @@ export class FormularioCursoComponent implements OnInit {
 
   if (this.formularioCurso.invalid || this.isSubmitting) {
 
-    this.snackBarService.open('Campos Obrigatórios');
+    this.mostrarErrosFormulario();
 
     const fields = Object.keys(this.formularioCurso.controls);
 
@@ -116,6 +116,7 @@ export class FormularioCursoComponent implements OnInit {
     return;
   }
 
+
   if (this.sigla.trim() === '') {
 
     this.snackBarService.open(
@@ -124,6 +125,7 @@ export class FormularioCursoComponent implements OnInit {
 
     return;
   }
+
 
   if (this.nomeCurso.trim() === '') {
 
@@ -134,11 +136,12 @@ export class FormularioCursoComponent implements OnInit {
     return;
   }
 
+
   try {
 
     this.isSubmitting = true;
 
-    // 🔥 ESPERA SALVAR
+
     if (this.editar) {
 
       await this.updateCurso();
@@ -149,8 +152,9 @@ export class FormularioCursoComponent implements OnInit {
 
     }
 
-    // 🔥 SÓ VOLTA DEPOIS DE SALVAR
+
     this.retornarParaLista();
+
 
   } catch (error: any) {
 
@@ -158,12 +162,11 @@ export class FormularioCursoComponent implements OnInit {
 
     this.isSubmitting = false;
 
-    if (error && error.error && error.error.data) {
 
-      const errorMessage = error.error.data;
+    if (error?.error?.data) {
 
       this.snackBarService.open(
-        `Falha ao cadastrar curso: ${errorMessage}`
+        `Falha ao cadastrar curso: ${error.error.data}`
       );
 
     } else {
@@ -178,14 +181,71 @@ export class FormularioCursoComponent implements OnInit {
 
 }
 
-  private async createCurso() {
-    await this.cursoService.createCurso({
-      sigla: this.sigla.toUpperCase(),
-      nomeCurso: this.nomeCurso,
-      coordenador: this.idcordenador,
-    });
-    this.snackBarService.open('Curso cadastrado com sucesso!!');
+private mostrarErrosFormulario() {
+
+  const campos = this.formularioCurso.controls;
+
+
+  if (campos['sigla']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A sigla do curso é obrigatória'
+    );
+
+    return;
   }
+
+
+  if (campos['sigla']?.hasError('minlength')) {
+
+    this.snackBarService.open(
+      'A sigla deve ter pelo menos 2 caracteres'
+    );
+
+    return;
+  }
+
+
+  if (campos['nomeCurso']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O nome do curso é obrigatório'
+    );
+
+    return;
+  }
+
+
+  if (campos['nomeCurso']?.hasError('minlength')) {
+
+    this.snackBarService.open(
+      'O nome do curso deve ter pelo menos 3 caracteres'
+    );
+
+    return;
+  }
+
+
+  this.snackBarService.open(
+    'Verifique os campos preenchidos'
+  );
+
+}
+
+
+  private async createCurso() {
+
+  const payload = {
+    sigla: this.sigla.toUpperCase(),
+    nomeCurso: this.nomeCurso,
+    coordenador: this.idcordenador,
+  };
+
+  console.log('PAYLOAD CURSO:', payload);
+
+  await this.cursoService.createCurso(payload);
+
+}
 
   private async updateCurso() {
     let idCurso;

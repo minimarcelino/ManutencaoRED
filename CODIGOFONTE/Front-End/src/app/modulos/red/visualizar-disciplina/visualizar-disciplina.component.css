@@ -1,0 +1,28 @@
+.mat-mdc-paginator {
+  width: 100%;
+}
+
+.mat-mdc-paginator {
+  width: 100%;
+}
+
+.mat-mdc-paginator-container {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mat-mdc-paginator-page-size {
+  margin-right: 0;
+}
+
+.mat-mdc-paginator-range-label {
+  margin: 0;
+}
+
+.mat-mdc-paginator-navigation-previous,
+.mat-mdc-paginator-navigation-next,
+.mat-mdc-paginator-navigation-first,
+.mat-mdc-paginator-navigation-last {
+  margin: 0 4px;
+}

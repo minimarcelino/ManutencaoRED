@@ -52,6 +52,7 @@ export class FormularioREDComponent implements OnInit {
   private editar: boolean = false;
   private desabilitar: boolean = false;
   private coordenador: any;
+  private readonly STORAGE_KEY = 'rascunhoRED';
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(() => {
@@ -103,7 +104,9 @@ export class FormularioREDComponent implements OnInit {
       ),
       inicioAfastamento: new FormControl(
         {
-          value: this.data ? this.data.inicioAfastamento : new Date(),
+          value: this.data
+            ? this.formatarData(this.data.inicioAfastamento)
+            : '',
           disabled: this.desabilitar,
         },
         [Validators.required]
@@ -139,6 +142,63 @@ export class FormularioREDComponent implements OnInit {
     this.fetchAlunos();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+    this.recuperarRascunho();
+    this.iniciarAutoSave();
+  }
+
+  private recuperarRascunho(): void {
+    if (this.editar || this.desabilitar) {
+      return;
+    }
+
+    const rascunho = localStorage.getItem(this.STORAGE_KEY);
+
+    if (!rascunho) {
+      return;
+    }
+
+    try {
+      const dados = JSON.parse(rascunho);
+
+      this.formularioRED.patchValue({
+        motivoAfastamento: dados.motivoAfastamento || '',
+        inicioAfastamento: dados.inicioAfastamento || '',
+        tempoAfastamento: dados.tempoAfastamento || '',
+        semestreAluno: dados.semestreAluno || '',
+        observacao: dados.observacao || '',
+        motivoRecusa: dados.motivoRecusa || ''
+      });
+
+    } catch (error) {
+      console.error('Erro ao recuperar rascunho:', error);
+    }
+  }
+
+  private iniciarAutoSave(): void {
+    this.formularioRED.valueChanges.subscribe(() => {
+
+      if (this.editar || this.desabilitar) {
+        return;
+      }
+
+      const dados = this.formularioRED.getRawValue();
+
+      if (
+        dados.inicioAfastamento &&
+        dados.inicioAfastamento.replace(/\D/g, '').length !== 8
+      ) {
+        return;
+      }
+
+      localStorage.setItem(
+        this.STORAGE_KEY,
+        JSON.stringify(dados)
+      );
+    });
+  }
+
+  private limparRascunho(): void {
+    localStorage.removeItem(this.STORAGE_KEY);
   }
 
   bloquearCaracteresInvalidos(event: KeyboardEvent): void {
@@ -167,11 +227,54 @@ export class FormularioREDComponent implements OnInit {
   }
 
   async fetchAlunos() {
-    const response = await this.alunoService.getAluno();
-    this.alunos = response.data.alunos;
-    // Inicializar a lista de alunos filtrados
-    this.filteredAlunos = this.alunos;
+
+  const response = await this.alunoService.getAluno();
+
+
+  this.alunos = [...response.data.alunos];
+
+
+  this.filteredAlunos = [...this.alunos];
+
+
+  const ultimoProntuario = localStorage.getItem(
+    'ultimoAlunoCadastrado'
+  );
+
+
+  if (ultimoProntuario) {
+
+
+    const alunoEncontrado = this.alunos.find(
+      (a) => String(a.prontuario) === String(ultimoProntuario)
+    );
+
+
+    if (alunoEncontrado) {
+
+
+      this.formularioRED.patchValue({
+
+        aluno: alunoEncontrado
+
+      });
+
+
+      this.changeCurso();
+
+
+    }
+
+
+    localStorage.removeItem(
+      'ultimoAlunoCadastrado'
+    );
+
   }
+
+}
+
+
 
   filterAlunos(event: any) {
     const value = event.target.value;
@@ -196,13 +299,39 @@ export class FormularioREDComponent implements OnInit {
     this.isDisable = true;
   }
 
+  private parseData(data: string): Date {
+
+    if (!data) {
+      return new Date();
+    }
+
+    const limpa = data.replace(/\D/g, '');
+
+    if (limpa.length !== 8) {
+      throw new Error(`Data inválida: ${data}`);
+    }
+
+    const dia = Number(limpa.substring(0, 2));
+    const mes = Number(limpa.substring(2, 4)) - 1;
+    const ano = Number(limpa.substring(4, 8));
+
+    return new Date(ano, mes, dia);
+  }
+
   CadastrarAluno() {
+
+    localStorage.setItem(
+      this.STORAGE_KEY,
+      JSON.stringify(this.formularioRED.getRawValue())
+    );
+
     const navigationExtras: NavigationExtras = {
       state: {
         visualizar: false,
         retornoRED: true,
       },
     };
+
     this.router.navigate(
       [`/${this.user.tiposervidor}/formularioAluno`],
       navigationExtras
@@ -210,75 +339,190 @@ export class FormularioREDComponent implements OnInit {
   }
 
   async cadastrar() {
-    if (this.formularioRED.invalid) {
-      this.snackBarService.open('Campos obrigatórios!!');
-      const fields = Object.keys(this.formularioRED.controls);
-      const firstInvalidField = fields.find(
-        (field) => this.formularioRED.get(field)!.invalid
-      );
-      if (firstInvalidField) {
-        const element = document.getElementById(firstInvalidField);
-        if (element) {
-          element.focus();
-        }
-      }
-      return;
-    }
-    // Verifica se o motivo de afastamento não é apenas espaços em branco
-    if (this.motivoAfastamento.trim() === '') {
-      this.snackBarService.open(
-        'Motivo do afastamento deve ser preenchido corretamente.'
-      );
-      const element = document.getElementById('motivo');
+
+  if (this.formularioRED.invalid) {
+
+    this.mostrarErrosFormulario();
+
+    const fields = Object.keys(this.formularioRED.controls);
+
+    const firstInvalidField = fields.find(
+      (field) => this.formularioRED.get(field)!.invalid
+    );
+
+
+    if (firstInvalidField) {
+
+      const element = document.getElementById(firstInvalidField);
+
       if (element) {
         element.focus();
       }
-      return;
-    }
-    if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
-      this.snackBarService.open(
-        'O período de afastamento deve ser entre 15 a 360 dias.'
-      );
-      return;
-    }
-    if (this.semestreAluno <= 0 || this.semestreAluno > 24) {
-      this.snackBarService.open(
-        'O semestre informado deve estar entre 1 e 24.'
-      );
-      return;
-    }
-    if ((await this.verificarConflitoPeriodoRED()) && !this.editar) {
-      this.snackBarService.open(
-        'Já existe um RED para este prontuário no mesmo período! '
-      );
-      return;
-    }
-    if (
-      !this.verificarDataInicioAfastamento(this.inicioAfastamento) &&
-      !this.editar
-    ) {
-      this.snackBarService.open(
-        'O início do afastamento deve ser no máximo 7 dias anterior ou posterior a data de hoje!'
-      );
-      return;
+
     }
 
-    try {
-      if (this.editar) {
-        this.updateRED();
-      } else {
-        this.cadastrarRED();
-      }
-    } catch (error) {
-      console.error('Erro ao cadastrar RED:', error);
-    }
+    return;
   }
+
+
+  if (this.motivoAfastamento.trim() === '') {
+
+    this.snackBarService.open(
+      'O motivo do afastamento deve ser preenchido corretamente.'
+    );
+
+    document.getElementById('motivo')?.focus();
+
+    return;
+  }
+
+
+  if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
+
+    this.snackBarService.open(
+      'O período de afastamento deve estar entre 15 e 360 dias.'
+    );
+
+    document.getElementById('tempoAfastamento')?.focus();
+
+    return;
+  }
+
+
+  if (this.semestreAluno <= 0 || this.semestreAluno > 24) {
+
+    this.snackBarService.open(
+      'O semestre informado deve estar entre 1 e 24.'
+    );
+
+    document.getElementById('semestreAluno')?.focus();
+
+    return;
+  }
+
+
+  if ((await this.verificarConflitoPeriodoRED()) && !this.editar) {
+
+    this.snackBarService.open(
+      'Já existe um RED para este prontuário no mesmo período!'
+    );
+
+    return;
+  }
+
+
+  if (
+    !this.verificarDataInicioAfastamento(this.inicioAfastamento) &&
+    !this.editar
+  ) {
+
+    this.snackBarService.open(
+      'O início do afastamento deve ser no máximo 10 dias anterior ou posterior à data de hoje.'
+    );
+
+    document.getElementById('inicioAfastamento')?.focus();
+
+    return;
+  }
+
+
+  try {
+
+
+    if (this.editar) {
+
+      await this.updateRED();
+
+    } else {
+
+      await this.cadastrarRED();
+
+    }
+
+
+  } catch (error: any) {
+
+
+    console.error('Erro ao cadastrar RED:', error);
+
+
+    const errorData = error?.error?.data;
+
+
+    if (errorData) {
+
+      this.snackBarService.open(
+        `Falha ao cadastrar RED: ${errorData}`
+      );
+
+    } else {
+
+      this.snackBarService.open(
+        'Falha ao cadastrar RED'
+      );
+
+    }
+
+  }
+
+}
+
+private mostrarErrosFormulario() {
+
+  const campos = this.formularioRED.controls;
+
+
+  if (campos['motivo']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O motivo do afastamento é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['tempoAfastamento']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O tempo de afastamento é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['semestreAluno']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O semestre do aluno é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['inicioAfastamento']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A data de início do afastamento é obrigatória.'
+    );
+
+    return;
+  }
+
+
+  this.snackBarService.open(
+    'Verifique os campos preenchidos.'
+  );
+
+}
 
   private async cadastrarRED() {
     await this.redService.createRed(
       {
         motivoAfastamento: this.motivoAfastamento,
-        inicioAfastamento: this.inicioAfastamento,
+        inicioAfastamento: this.parseData(this.inicioAfastamento),
         dataPrevisaoTermino: this.previsaoTerminoRed(),
         dataInicioProcesso: new Date(),
         semestreOuAnoAluno: this.semestreAluno,
@@ -290,15 +534,19 @@ export class FormularioREDComponent implements OnInit {
       },
       this.selectedFiles
     );
+
+    this.limparRascunho();
+
     this.retornarParaLista();
   }
+
 
   private async updateRED() {
     await this.redService.updateRed(
       {
         idRED: this.data.idRED,
         motivoAfastamento: this.motivoAfastamento,
-        inicioAfastamento: this.inicioAfastamento,
+        inicioAfastamento: this.parseData(this.inicioAfastamento),
         dataPrevisaoTermino: this.previsaoTerminoRed(),
         dataInicioProcesso: this.data.dataInicioProcesso,
         semestreOuAnoAluno: this.semestreAluno,
@@ -310,6 +558,7 @@ export class FormularioREDComponent implements OnInit {
       },
       this.selectedFiles
     );
+    this.limparRascunho();
     this.retornarParaLista();
   }
 
@@ -469,20 +718,53 @@ export class FormularioREDComponent implements OnInit {
     return this.data ? this.data.situacao === 'Esperando confirmação' : false;
   }
 
-  private verificarDataInicioAfastamento(dataInicioAfastamento: Date): boolean {
+  private verificarDataInicioAfastamento(dataInicioAfastamento: any): boolean {
     const hoje = new Date();
-    const dataInicio = new Date(dataInicioAfastamento);
+    const dataInicio = this.parseData(dataInicioAfastamento as any);
     const diff = Math.abs(hoje.getTime() - dataInicio.getTime());
     const diffEmDias = Math.floor(diff / (1000 * 60 * 60 * 24));
     return diffEmDias <= 7;
   }
 
-  private dateToString(date: Date): string {
-    return new Date(date).toISOString().split('T')[0];
+  private formatarData(data: any): string {
+
+    const d = new Date(data);
+
+    const dia = String(d.getDate()).padStart(2, '0');
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const ano = d.getFullYear();
+
+    return `${dia}/${mes}/${ano}`;
+  }
+
+  private dateToString(date: any): string {
+
+    if (!date) {
+      return '';
+    }
+
+    // Trata datas vindas do ngx-mask (DDMMYYYY)
+    if (typeof date === 'string' && date.length === 8) {
+
+      const dia = date.substring(0, 2);
+      const mes = date.substring(2, 4);
+      const ano = date.substring(4, 8);
+
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    const data = new Date(date);
+
+    if (isNaN(data.getTime())) {
+      console.error('Data inválida encontrada:', date);
+      return '';
+    }
+
+    return data.toISOString().split('T')[0];
   }
 
   private previsaoTerminoRed(): Date {
-    const dataTerminoRed = new Date(this.inicioAfastamento);
+    const dataTerminoRed = this.parseData(this.inicioAfastamento);
     dataTerminoRed.setDate(dataTerminoRed.getDate() + this.tempoAfastamento);
 
     // Adiciona mais 30 dias ao resultado anterior
@@ -562,4 +844,6 @@ export class FormularioREDComponent implements OnInit {
       }
     );
   }
+
+  
 }

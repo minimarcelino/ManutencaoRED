@@ -1,0 +1,121 @@
+<div class="container">
+
+<h1>Análise de REDs por aluno</h1>
+
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Total de alunos</h3>
+        <p>{{totalAlunos}}</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Alunos recorrentes</h3>
+        <p>{{alunosRecorrentes}}</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Total de REDs</h3>
+        <p>{{totalReds}}</p>
+    </div>
+
+</div>
+
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Aluno</th>
+<th>Quantidade REDs</th>
+<th>Meses</th>
+<th>Último RED</th>
+<th>Ações</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<tr *ngFor="let aluno of alunos">
+
+
+<td class="nome">
+
+{{aluno.nome}}
+
+</td>
+
+
+<td>
+
+{{aluno.quantidade}}
+
+</td>
+
+
+<td>
+
+<span 
+class="mes"
+*ngFor="let mes of aluno.meses">
+
+{{mes}}
+
+</span>
+
+</td>
+
+
+<td>
+
+{{aluno.ultimo}}
+
+</td>
+
+
+<td>
+
+<button 
+class="btn-ver"
+(click)="abrirDetalhes(aluno)">
+
+Ver
+
+</button>
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+
+</div>
+
+
+</div>
+
+
+
+<button 
+class="btn-voltar"
+(click)="voltar()">
+
+← Voltar para tela inicial
+
+</button>

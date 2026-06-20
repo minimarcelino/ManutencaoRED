@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MatMomentDateModule,
@@ -57,7 +58,7 @@ import { HomeCRAComponent } from './home/home-cra.component';
     MatMomentDateModule,
     NgxMaskDirective,
     NgxMaskPipe,
-
+    RouterModule,
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

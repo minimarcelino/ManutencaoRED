@@ -23,107 +23,123 @@
           />
         </mat-form-field>
 
-        <!-- TABELA -->
-        <table
-          mat-table
-          [dataSource]="dataSource"
-          class="mat-elevation-z8"
-          matSort
-        >
+        <!-- CONTAINER COM SCROLL -->
+        <div class="table-container">
 
-          <!-- PROFESSOR -->
-          <ng-container matColumnDef="Professor">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Professor
-            </th>
+          <!-- TABELA -->
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            class="mat-elevation-z8"
+            matSort
+          >
 
-            <td mat-cell *matCellDef="let a">
-              {{ apresentarDocentes(a) }}
-            </td>
-          </ng-container>
+            <!-- PROFESSOR -->
+            <ng-container matColumnDef="Professor">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Professor
+              </th>
 
-          <!-- SIGLA -->
-          <ng-container matColumnDef="Sigla">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Sigla
-            </th>
+              <td mat-cell *matCellDef="let a">
+                {{ apresentarDocentes(a) }}
+              </td>
+            </ng-container>
 
-            <td mat-cell *matCellDef="let a">
-              {{ a.disciplinas?.sigla || '-' }}
-            </td>
-          </ng-container>
+            <!-- SIGLA -->
+            <ng-container matColumnDef="Sigla">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Sigla
+              </th>
 
-          <!-- NOME -->
-          <ng-container matColumnDef="NomeDisciplina">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Nome
-            </th>
+              <td mat-cell *matCellDef="let a">
+                {{ a.disciplinas?.sigla || '-' }}
+              </td>
+            </ng-container>
 
-            <td mat-cell *matCellDef="let a">
-              {{ a.disciplinas?.nomeDisciplina || '-' }}
-            </td>
-          </ng-container>
+            <!-- NOME -->
+            <ng-container matColumnDef="NomeDisciplina">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Nome
+              </th>
 
-          <!-- SITUAÇÃO -->
-          <ng-container matColumnDef="Situacao">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Situação
-            </th>
+              <td mat-cell *matCellDef="let a">
+                {{ a.disciplinas?.nomeDisciplina || '-' }}
+              </td>
+            </ng-container>
 
-            <td mat-cell *matCellDef="let a">
-              {{ a.situacao || '-' }}
-            </td>
-          </ng-container>
+            <!-- SITUAÇÃO -->
+            <ng-container matColumnDef="Situacao">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Situação
+              </th>
 
-          <!-- AÇÕES -->
-          <ng-container matColumnDef="Acoes">
+              <td mat-cell *matCellDef="let a">
+                {{ a.situacao || '-' }}
+              </td>
+            </ng-container>
 
-            <th mat-header-cell *matHeaderCellDef>
-              Ações
-            </th>
+            <!-- AÇÕES -->
+            <ng-container matColumnDef="Acoes">
 
-            <td mat-cell *matCellDef="let a" class="acoes">
+              <th mat-header-cell *matHeaderCellDef>
+                Ações
+              </th>
 
-              <!-- ASSOCIAR PROFESSOR -->
+              <td mat-cell *matCellDef="let a" class="acoes">
 
-              <button mat-raised-button matTooltip="Associar Professor" class="button" color="primary"
-                (click)="associarProfessor(a)" *ngIf="this.peeAguardandoProfessor(a)">
-                <mat-icon>person_add_alt</mat-icon>
-                Associar Professor
-              </button>
+                <!-- ASSOCIAR PROFESSOR -->
+                <button
+                  mat-raised-button
+                  matTooltip="Associar Professor"
+                  class="button"
+                  color="primary"
+                  (click)="associarProfessor(a)"
+                  *ngIf="peeAguardandoProfessor(a)"
+                >
+                  <mat-icon>person_add_alt</mat-icon>
+                  Associar Professor
+                </button>
 
-              <!-- ENVIAR EMAIL -->
-              <button
-                type="button"
-                mat-raised-button
-                color="primary"
-                class="button"
-                matTooltip="Enviar Email"
-                *ngIf="verificarSituacao(a)"
-                (click)="sendEmailProfessor(a)"
-              >
+                <!-- ENVIAR EMAIL -->
+                <button
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  class="button"
+                  matTooltip="Enviar Email"
+                  *ngIf="verificarSituacao(a)"
+                  (click)="sendEmailProfessor(a)"
+                >
                 <mat-icon>mail</mat-icon>
-                Enviar Email
-              </button>
+                  Enviar Email
+                </button>
 
-            </td>
-          </ng-container>
+              </td>
 
-          <!-- HEADER -->
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            </ng-container>
 
-          <!-- ROWS -->
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- HEADER -->
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns">
+            </tr>
 
-        </table>
+            <!-- ROWS -->
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns;">
+            </tr>
 
-        <!-- PAGINADOR -->
-        <mat-paginator
-        [pageSize]="10"
-        [pageSizeOptions]="[10, 25, 50]"
-        showFirstLastButtons
-      >
-      </mat-paginator>
+          </table>
+
+          <!-- PAGINADOR -->
+          <mat-paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[10, 25, 50]"
+            showFirstLastButtons>
+          </mat-paginator>
+
+        </div>
 
       </div>
 
@@ -146,4 +162,5 @@
     </form>
 
   </div>
+
 </div>

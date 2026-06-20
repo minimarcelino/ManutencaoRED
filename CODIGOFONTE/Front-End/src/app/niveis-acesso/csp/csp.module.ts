@@ -8,6 +8,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MatMomentDateModule,
@@ -58,6 +59,7 @@ import { HomeCSPComponent } from './home/home-csp.component';
     NgxMaskPipe,
     NgxMaskDirective,
     MatCheckboxModule,
+    RouterModule,
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

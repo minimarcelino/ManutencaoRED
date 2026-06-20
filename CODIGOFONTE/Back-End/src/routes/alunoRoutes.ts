@@ -7,7 +7,7 @@ const authentication = new AuthenticationService();
 const alunocontroller =  new alunoController();
 
 router.get('/all', authentication.validate ,alunocontroller.getAll);
-router.post('/create', authentication.validate ,alunocontroller.Create);
+router.post('/create',alunocontroller.Create);
 router.put('/update/:id', authentication.validate,  alunocontroller.Update);
 router.delete('/delete/:id', authentication.validate, alunocontroller.Delete);
 

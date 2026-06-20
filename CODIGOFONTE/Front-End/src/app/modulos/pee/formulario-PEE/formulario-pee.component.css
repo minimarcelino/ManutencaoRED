@@ -8,3 +8,18 @@
   min-width: 49%;
   max-width: 100%;
 }
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+}
+
+.formulario mat-form-field {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.campo-data {
+  width: 100%;
+  margin-top: 10px;
+}

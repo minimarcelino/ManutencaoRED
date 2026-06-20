@@ -42,15 +42,15 @@ export class ListarAlunoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.findAll();
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+  this.user = localStorage.getItem('user');
+  this.user = JSON.parse(this.user);
 
-     // Assine para receber notificações de atualização de alunos
-     this.entityUpdateService.getUpdateNotifier('aluno').subscribe(() => {
-      this.findAll();
-    });
-  }
+  this.findAll();
+
+  this.entityUpdateService.getUpdateNotifier('aluno').subscribe(() => {
+    this.findAll();
+  });
+}
 
   ngAfterViewInit() {
     this.paginator._intl = this.customPaginatorIntlService.paginatorIntl;
@@ -72,11 +72,15 @@ export class ListarAlunoComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.alunoservice.getAluno();
-    this.alunos = response.data.alunos;
-    this.dataSource = new MatTableDataSource<aluno>(this.alunos);
-    this.dataSource.paginator = this.paginator;
-  }
+  const response = await this.alunoservice.getAluno();
+  this.alunos = response.data.alunos;
+
+  // Mais recentes primeiro
+  this.alunos.sort((a: any, b: any) => b.id - a.id);
+
+  this.dataSource = new MatTableDataSource<aluno>(this.alunos);
+  this.dataSource.paginator = this.paginator;
+}
 
   formatDataNascimento(dataNascimento: Date): string {
     if (dataNascimento) {
@@ -129,6 +133,7 @@ export class ListarAlunoComponent implements OnInit {
   async deleteAluno(aluno: any) {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
+    this.reds.sort((a, b) => b.idRED - a.idRED);
     this.reds = this.reds.filter((red) => red.aluno_id == aluno.id );
     this.res = false;
     if(this.reds.length>0){

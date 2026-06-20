@@ -28,19 +28,30 @@ export class PeeService {
   }
 
   async createPee(pee: any): Promise<any> {
-    try {
-      const response = await this.http
-        .post(
-          `${environment.API}pee/create`,
-          pee,
-          this.authenticationService.getHttpOptions()
-        )
-        .toPromise();
-      return response;
-    } catch (error) {
-      this.authenticationService.tratarErro(error);
-    }
+  try {
+
+    console.log("ANTES DO POST:", pee);
+
+    const response = await this.http
+      .post(
+        `${environment.API}pee/create`,
+        pee,
+        this.authenticationService.getHttpOptions()
+      )
+      .toPromise();
+
+    console.log("RESPOSTA:", response);
+
+    return response;
+
+  } catch (error) {
+
+    console.error("ERRO POST PEE:", error);
+
+    this.authenticationService.tratarErro(error);
+
   }
+}
 
   async createAtividade(atividade: any): Promise<any> {
     try {

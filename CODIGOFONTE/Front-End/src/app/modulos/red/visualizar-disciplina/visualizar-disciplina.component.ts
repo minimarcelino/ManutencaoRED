@@ -81,14 +81,20 @@ export class VisualizarDisciplinaComponent implements OnInit {
     );
   }
 
-  sendEmailProfessor(pee: any) {
-    pee.pee_servidor.forEach((servidor: any) => {
-      this.notificationService.sendEmailProfessor(
+  async sendEmailProfessor(pee: any) {
+  for (const servidor of pee.pee_servidor) {
+    try {
+      const response = await this.notificationService.sendEmailProfessor(
         servidor.servidorId,
         pee.idpee
       );
-    });
+
+      console.log('Resposta:', response);
+    } catch (error) {
+      console.error('Erro:', error);
+    }
   }
+}
 
   peeAguardandoProfessor(pee: any): boolean {
     return pee.situacao === 'Aguardando Associação de Professor';

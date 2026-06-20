@@ -1,275 +1,49 @@
-<div class="corpo">
+<div class="welcome-container">
 
-  <!-- REDs aguardando associação -->
-  <div class="title listagem">
-    <h1>REDs aguardando associação</h1>
-    <hr class="linha" />
-  </div>
+  <h1>Bem-vindo ao Sistema RED</h1>
 
-  <div class="listagem">
-    <div id="tabela" *ngIf="existeAssociacao; else noDataAssociacao">
+  <div class="welcome-card">
+    <h2>Associação de Disciplinas</h2>
 
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        class="mat-elevation-z8 table">
+    <p>
+      O processo RED já foi analisado e agora é necessário associar as disciplinas envolvidas.
+    </p>
 
-        <!-- PRONTUARIO -->
-        <ng-container matColumnDef="prontuario">
-          <th mat-header-cell *matHeaderCellDef>
-            Prontuário
-          </th>
-
-          <td mat-cell *matCellDef="let a">
-            {{ a.aluno?.prontuario }}
-          </td>
-        </ng-container>
-
-        <!-- NOME -->
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef>
-            Nome
-          </th>
-
-          <td mat-cell *matCellDef="let a">
-            {{ a.aluno?.nome }}
-          </td>
-        </ng-container>
-
-        <!-- CURSO -->
-        <ng-container matColumnDef="curso">
-          <th mat-header-cell *matHeaderCellDef>
-            Curso
-          </th>
-
-          <td mat-cell *matCellDef="let a">
-            {{ a.aluno?.curso?.sigla }}
-          </td>
-        </ng-container>
-
-        <!-- AÇÕES -->
-        <ng-container matColumnDef="acoes">
-
-          <th
-            class="actionsColumns"
-            mat-header-cell
-            *matHeaderCellDef>
-
-            Ações
-
-          </th>
-
-          <td
-            class="actionsColumns"
-            mat-cell
-            *matCellDef="let a">
-
-            <!-- Associar disciplina -->
-            <button
-              *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
-              mat-icon-button
-              matTooltip="Associar disciplinas"
-              (click)="associarDisciplina(a)">
-
-              <mat-icon>book</mat-icon>
-
-            </button>
-
-            <!-- Acompanhar PEE -->
-            <button
-              *ngIf="existePEEs(a)"
-              mat-icon-button
-              matTooltip="Acompanhar PEEs"
-              (click)="VisualizarRED_CSP(a)">
-
-              <mat-icon>description</mat-icon>
-
-            </button>
-
-            <!-- Visualizar RED -->
-            <button
-              mat-icon-button
-              matTooltip="Visualizar RED"
-              (click)="formularioRED(true, a)">
-
-              <mat-icon>visibility</mat-icon>
-
-            </button>
-
-          </td>
-
-        </ng-container>
-
-        <!-- HEADER -->
-        <tr
-          mat-header-row
-          *matHeaderRowDef="displayedColumns">
-        </tr>
-
-        <!-- ROW -->
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumns;">
-        </tr>
-
-      </table>
-
-      <!-- PAGINATOR 1 -->
-      <mat-paginator
-        [pageSize]="10"
-        [pageSizeOptions]="[10, 25, 50]"
-        showFirstLastButtons
-      >
-      </mat-paginator>
-
+    <div class="caminho">
+      Menu Lateral →
+      <a [routerLink]="['/csp/listarREDs']">
+        Processo REDs
+      </a>
     </div>
 
-    <ng-template #noDataAssociacao>
-      <p class="p-sem-conteudo">
-        Não há REDs aguardando associação de disciplinas
+    <p>
+      Localize o RED desejado, associe as disciplinas correspondentes
+    </p>
+
+
+    <div class="welcome-card">
+      <h2>O RED está pronto para finalização</h2>
+
+      <p>
+        Após todas as etapas do processo RED foram concluídas pelos responsáveis dos demais níveis de acesso.
       </p>
-    </ng-template>
 
-  </div>
+      <p>
+        Agora cabe à CSP realizar a etapa final do fluxo.
+      </p>
 
-  <!-- REDs ativos -->
-  <div class="title listagem">
-    <h1>REDs ativos</h1>
-    <hr class="linha" />
-  </div>
+      <div class="caminho">
+        Menu Lateral →
+        <a [routerLink]="['/csp/listarREDs']">
+          Processo REDs
+        </a>
+      </div>
 
-  <div class="listagem">
-
-    <div id="tabela" *ngIf="existeAtivas; else noDataAtivas">
-
-      <table
-        mat-table
-        [dataSource]="dataSourceRedAtivos"
-        class="mat-elevation-z8 table">
-
-        <!-- PRONTUARIO -->
-        <ng-container matColumnDef="prontuarioRed">
-
-          <th mat-header-cell *matHeaderCellDef>
-            Prontuário
-          </th>
-
-          <td mat-cell *matCellDef="let a">
-            {{ a.aluno?.prontuario }}
-          </td>
-
-        </ng-container>
-
-        <!-- NOME -->
-        <ng-container matColumnDef="nomeRed">
-
-          <th mat-header-cell *matHeaderCellDef>
-            Nome
-          </th>
-
-          <td mat-cell *matCellDef="let a">
-            {{ a.aluno?.nome }}
-          </td>
-
-        </ng-container>
-
-        <!-- CURSO -->
-        <ng-container matColumnDef="cursoRed">
-
-          <th mat-header-cell *matHeaderCellDef>
-            Curso
-          </th>
-
-          <td mat-cell *matCellDef="let a">
-            {{ a.aluno?.curso?.sigla }}
-          </td>
-
-        </ng-container>
-
-        <!-- AÇÕES -->
-        <ng-container matColumnDef="acoesRed">
-
-          <th
-            class="actionsColumns"
-            mat-header-cell
-            *matHeaderCellDef>
-
-            Ações
-
-          </th>
-
-          <td
-            class="actionsColumns"
-            mat-cell
-            *matCellDef="let a">
-
-            <!-- Associar disciplina -->
-            <button
-              *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
-              mat-icon-button
-              matTooltip="Associar disciplinas"
-              (click)="associarDisciplina(a)">
-
-              <mat-icon>book</mat-icon>
-
-            </button>
-
-            <!-- Acompanhar PEE -->
-            <button
-              *ngIf="existePEEs(a)"
-              mat-icon-button
-              matTooltip="Acompanhar PEEs"
-              (click)="VisualizarRED_CSP(a)">
-
-              <mat-icon>description</mat-icon>
-
-            </button>
-
-            <!-- Visualizar RED -->
-            <button
-              mat-icon-button
-              matTooltip="Visualizar RED"
-              (click)="formularioRED(true, a)">
-
-              <mat-icon>visibility</mat-icon>
-
-            </button>
-
-          </td>
-
-        </ng-container>
-
-        <!-- HEADER -->
-        <tr
-          mat-header-row
-          *matHeaderRowDef="displayedColumnsRED">
-        </tr>
-
-        <!-- ROW -->
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumnsRED;">
-        </tr>
-
-      </table>
-
-      <!-- PAGINATOR 2 -->
-      <mat-paginator
-        #paginatorAtivos
-        [pageSize]="10"
-        [pageSizeOptions]="[10, 25, 50]"
-        showFirstLastButtons>
-      </mat-paginator>
+      <p>
+        Acesse a listagem, localize o RED desejado e clique em <strong>Finalizar RED</strong>.
+      </p>
 
     </div>
-
-    <ng-template #noDataAtivas>
-
-      <p class="p-sem-conteudo">
-        Sem REDs ativas no momento.
-      </p>
-
-    </ng-template>
 
   </div>
 

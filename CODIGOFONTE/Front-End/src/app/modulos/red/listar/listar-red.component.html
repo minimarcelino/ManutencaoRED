@@ -7,26 +7,34 @@
   <div class="listagem">
     <div id="tabela">
 
-      <mat-form-field class="campo-pesquisa">
-        <mat-label>Pesquisar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000000">
-      </mat-form-field>
+      <div class="filtros">
 
-      <mat-form-field class="campo-curso">
-        <mat-label>Curso</mat-label>
-        <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
-          <mat-option value="todos">Todos os cursos</mat-option>
-          <mat-option *ngFor="let a of cursos" [value]="a.sigla">{{a.sigla}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <mat-form-field class="campo-pesquisa" appearance="outline">
+    <mat-label>Pesquisar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000000">
+  </mat-form-field>
 
-      <mat-form-field class="campo-situacao">
-        <mat-label>Situação RED</mat-label>
-        <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
-          <mat-option value="todos">Apresentar todos</mat-option>
-          <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <mat-form-field class="campo-curso" appearance="outline">
+    <mat-label>Curso</mat-label>
+    <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
+      <mat-option value="todos">Todos os cursos</mat-option>
+      <mat-option *ngFor="let a of cursos" [value]="a.sigla">
+        {{a.sigla}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="campo-situacao" appearance="outline">
+    <mat-label>Situação RED</mat-label>
+    <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
+      <mat-option value="todos">Apresentar todos</mat-option>
+      <mat-option *ngFor="let a of situacao" [value]="a">
+        {{a}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
 
       <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
@@ -102,7 +110,7 @@
 
             <button
               *ngIf="isCOORD() && (a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')"
-              mat-icon-button matTooltip="Visualizar Disciplinas" (click)="visualizarDisciplina(a)">
+              mat-icon-button matTooltip="Associar Professores" (click)="visualizarDisciplina(a)">
               <mat-icon>library_books</mat-icon>
             </button>
 

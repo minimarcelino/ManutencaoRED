@@ -123,11 +123,17 @@ export class HomeCRAComponent
   }
 
   ngAfterViewInit(): void {
+
+  if (this.paginator) {
+
     this.paginator._intl =
       this.customPaginatorIntlService.paginatorIntl;
 
     this.dataSource.paginator = this.paginator;
+
   }
+
+}
 
   ngOnDestroy(): void {
     if (this.updateSubscription) {
@@ -154,6 +160,7 @@ export class HomeCRAComponent
       const response = await this.redService.getRed();
 
       this.reds = response.data.reds;
+      this.reds.sort((a, b) => b.idRED - a.idRED);
 
       const finalizados = this.reds.filter(
         (red) => red.situacao === 'Finalizado'

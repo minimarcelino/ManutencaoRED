@@ -121,4 +121,24 @@ export class redController {
     const response = await redservice.findById(id);
     return response;
   }
+
+    async analiseRED(req: Request, res: Response) {
+    try {
+
+      const response = await redservice.analiseRED();
+
+      return res.status(StatusCodes.OK).send(response);
+
+    } catch (error) {
+
+      console.error("Erro na análise de REDs:", error);
+
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({
+          message: "Erro ao buscar análise de REDs"
+        });
+
+    }
+  }
 }

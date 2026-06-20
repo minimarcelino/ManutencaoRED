@@ -172,4 +172,56 @@ export class redService {
     }
   }
 
+  async analiseRED() {
+  const reds = await prisma.red.findMany({
+    include: {
+      aluno: true},
+    orderBy: {
+      dataInicioProcesso: 'asc'
+    }
+  });
+
+  const alunos:any = {};
+
+  reds.forEach((red)=>{
+    const idAluno = red.aluno.id;
+    if(!alunos[idAluno]){
+      alunos[idAluno] = {
+        id: idAluno,
+        nome: red.aluno.nome,
+        quantidade: 0,
+        meses: [],
+        reds: [],
+        ultimoRED: null
+      }
+    }
+
+    alunos[idAluno].quantidade++;
+    const mes = 
+      new Date(red.dataInicioProcesso)
+      .getMonth() + 1;
+    alunos[idAluno].meses.push(mes);
+    alunos[idAluno].reds.push({
+      id: red.idRED,
+      data: red.dataInicioProcesso,
+      motivo: red.motivoAfastamento,
+      situacao: red.situacao
+    });
+    alunos[idAluno].ultimoRED = red.dataInicioProcesso;
+  });
+
+  const listaAlunos = Object.values(alunos);
+  return {
+    totalAlunos: listaAlunos.length,
+    totalReds: reds.length,
+    alunosRecorrentes:
+      listaAlunos.filter(
+        (aluno:any)=> aluno.quantidade >= 3
+      ).length,
+    alunos: listaAlunos
+  };
+}
+
+
+
 }

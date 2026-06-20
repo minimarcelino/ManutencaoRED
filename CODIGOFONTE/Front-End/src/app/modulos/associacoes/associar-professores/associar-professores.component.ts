@@ -95,7 +95,75 @@ export class AssociarProfessoresComponent implements OnInit {
     }
   }
 
+  async selecionarProfessor(docente: any) {
 
+  try {
+
+    const professoresAtualizados = [
+      ...this.data.pee.pee_servidor.map(
+        (item: any) => item.servidor
+      ),
+      docente
+    ];
+
+    await this.peeService.updatePee({
+
+      idpee: this.data.idPEE,
+
+      conteudo: '',
+      metodologia: '',
+      trabalhos: '',
+      bibliografia: '',
+      criterios: '',
+
+      prazofinal: this.data.pee.prazofinal,
+
+      RED_idRED: this.data.idRED,
+
+      pee_servidor: professoresAtualizados,
+
+      percentualabono:
+        this.data.pee.percentualabono,
+
+      situacao: 'Aguardando Preenchimento',
+    });
+
+    // Adiciona na tabela de associados
+    this.dataSource2.data = [
+      ...this.dataSource2.data,
+      docente
+    ];
+
+    // Remove da tabela de disponíveis
+    this.professores = this.professores.filter(
+      (item) =>
+        item.idservidor !== docente.idservidor
+    );
+
+    this.dataSource.data = [
+      ...this.professores
+    ];
+
+    // Atualiza os dados locais do dialog
+    this.data.pee.pee_servidor.push({
+      servidorId: docente.idservidor,
+      servidor: docente
+    });
+
+    this.snackBarService.open(
+      'Professor associado com sucesso!'
+    );
+
+  } catch (error: any) {
+
+    console.error(error);
+
+    this.snackBarService.open(
+      'Falha ao associar professor'
+    );
+  }
+}
+  /* 
   selecionarProfessor(docente: any) {
     // Verifica se o professor já foi selecionado
     const professorExistenteIndex = this.professoresSelecionados.findIndex(
@@ -124,7 +192,72 @@ export class AssociarProfessoresComponent implements OnInit {
       this.snackBarService.open('Este professor já foi selecionado');
     }
   }
+    */
 
+  async removerProfessor(docente: any) {
+
+  const confirmar =
+    await this.dialogQuestionService
+      .openDialogRemoveProfessor();
+
+  if (!confirmar) {
+    return;
+  }
+
+  try {
+
+    const professoresAtualizados =
+      this.data.pee.pee_servidor
+        .filter(
+          (item: any) =>
+            item.servidorId !== docente.idservidor
+        )
+        .map(
+          (item: any) => item.servidor
+        );
+
+    await this.peeService.updatePee({
+
+      idpee: this.data.idPEE,
+
+      conteudo: '',
+      metodologia: '',
+      trabalhos: '',
+      bibliografia: '',
+      criterios: '',
+
+      prazofinal: this.data.pee.prazofinal,
+
+      RED_idRED: this.data.idRED,
+
+      pee_servidor: professoresAtualizados,
+
+      percentualabono:
+        this.data.pee.percentualabono,
+
+      situacao:
+        professoresAtualizados.length > 0
+          ? 'Aguardando Preenchimento'
+          : 'Aguardando Associação de Professor',
+    });
+
+    this.snackBarService.open(
+      'Professor removido com sucesso!'
+    );
+
+    this.dialog.close(true);
+
+  } catch (error: any) {
+
+    console.error(error);
+
+    this.snackBarService.open(
+      'Falha ao remover professor'
+    );
+  }
+}
+
+  /*
   async removerProfessor(docente: any) {
     const professorExistenteIndex = this.professoresSelecionados.findIndex(
       (professor) => professor.idservidor === docente.idservidor
@@ -167,6 +300,7 @@ export class AssociarProfessoresComponent implements OnInit {
       }
     }
   }
+    */
 
   async cadastrar() {
     try {

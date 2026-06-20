@@ -134,3 +134,31 @@ mat-form-field {
 button:disabled {
   cursor: not-allowed;
 }
+
+/* =========================
+   BOTÕES PRINCIPAIS
+========================= */
+
+.btn-cancelar {
+  background-color: #ff5a4f;
+  color: white;
+  border-radius: 6px;
+  font-weight: 400;
+  padding: 8px 24px;
+}
+
+.btn-cancelar:hover {
+  background-color: #f04b40;
+}
+
+.btn-cadastrar {
+  background-color: #c2186a;
+  color: white;
+  border-radius: 6px;
+  font-weight: 400;
+  padding: 8px 24px;
+}
+
+.btn-cadastrar:hover {
+  background-color: #aa145d;
+}

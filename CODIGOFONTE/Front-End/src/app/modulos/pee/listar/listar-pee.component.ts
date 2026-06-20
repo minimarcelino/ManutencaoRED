@@ -51,9 +51,9 @@ export class ListarPEEComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
+    this.findAll();
   }
 
   ngAfterViewInit() {

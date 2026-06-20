@@ -38,6 +38,7 @@ app.use('/servidor/usuario', usuarioNaoAutenticado); // Verificar, da acesso a a
 app.use('/servidor/login', loginRoutes);
 app.use('/servidor/coordenador', coordenadorRoutes);
 app.use('/servidor/arquivos', express.static(path.join(__dirname, "..", "uploads")));
+app.use('/red', redRoutes);
 app.delete('/servidor/arquivos/:idFile', async (req, res) => {
     const { idFile } = req.params;
   

@@ -1,0 +1,169 @@
+<div class="container">
+
+
+<h1>
+    Detalhes dos REDs do aluno
+</h1>
+
+
+
+<div class="card-aluno">
+
+
+    <div>
+
+        <h3>Aluno</h3>
+
+        <p>
+            {{aluno?.nome}}
+        </p>
+
+    </div>
+
+
+
+    <div>
+
+        <h3>Total de REDs</h3>
+
+        <p>
+            {{aluno?.quantidade}}
+        </p>
+
+    </div>
+
+
+
+    <div>
+
+        <h3>Meses</h3>
+
+        <p>
+
+            <span 
+            class="mes"
+            *ngFor="let mes of aluno?.meses || []">
+
+                {{mes}}
+
+            </span>
+
+        </p>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="table-container">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>RED</th>
+
+<th>Data</th>
+
+<th>Disciplina</th>
+
+<th>Servidor</th>
+
+<th>Status</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+<tbody>
+
+
+<tr *ngFor="let red of reds || []">
+
+
+<td>
+
+{{red?.idRED}}
+
+</td>
+
+
+
+<td>
+
+{{red?.dataInicioProcesso | date:'dd/MM/yyyy'}}
+
+</td>
+
+
+
+<td>
+
+{{red?.pee?.[0]?.disciplinas?.nomeDisciplina || 'Não informado'}}
+
+</td>
+
+
+
+<td>
+
+{{red?.pee?.[0]?.pee_servidor?.[0]?.servidor?.nome || 'Não informado'}}
+
+</td>
+
+
+
+<td>
+
+<span class="status">
+
+{{red?.situacao}}
+
+</span>
+
+</td>
+
+
+</tr>
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+<button 
+class="btn-voltar"
+(click)="voltar()">
+
+
+← Voltar
+
+
+</button>
+
+
+
+</div>

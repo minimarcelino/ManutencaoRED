@@ -111,78 +111,141 @@ export class FormularioDisciplinaComponent implements OnInit {
   }
 
   async submit() {
-    // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.sigla.trim() === '') {
-      this.snackBarService.open('Campos devem ser preenchidos corretamente.');
-      const element = document.getElementById('sigla');
-      if (element) {
-        element.focus();
-      }
-      return;
-    }
 
-    if (this.nomeDisciplina.trim() === '') {
-      this.snackBarService.open('Campos devem ser preenchidos corretamente.');
-      const element = document.getElementById('nome');
-      if (element) {
-        element.focus();
-      }
-      return;
-    }
+  let modo = '';
 
-    if (this.formularioDisciplina.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      // Encontra o primeiro campo inválido e coloca o foco nele
-      const fields = Object.keys(this.formularioDisciplina.controls);
-      const firstInvalidField = fields.find(
-        (field) => this.formularioDisciplina.get(field)!.invalid
-      );
-      if (firstInvalidField) {
-        const element = document.getElementById(firstInvalidField);
-        if (element) {
-          element.focus();
-        }
-      }
-      return;
+  try {
+
+    this.isSubmitting = true;
+
+
+    if (this.editar) {
+
+      modo = 'editar';
+
+      await this.updateDiscipina();
+
     } else {
-      this.isSubmitting = true;
-      let modo = '';
-      try {
-        if (this.editar) {
-          this.updateDiscipina();
-          modo = 'editar';
-        } else {
-          this.createDisciplina();
-          modo = 'cadastrar';
-        }
-        this.retornarParaLista();
-      } catch (error: any) {
-        const errorData = error.error.data;
-        const errorPrisma = error.error.error;
 
-        if (errorPrisma) {
-          const campoErro = errorPrisma.meta['target'].split('_')[0];
-          if (errorPrisma.code === 'P2002') {
-            this.snackBarService.open(
-              `Falha ao ${modo} disciplina: Campo ${campoErro} já existente`,
-              '',
-              7000
-            );
-          } else {
-            this.snackBarService.open(
-              `Falha ao ${modo} disciplina: Erro ${errorPrisma.code}`
-            );
-          }
-        } else if (errorData) {
-          this.snackBarService.open(
-            `Falha ao ${modo} disciplina: ${errorData}`
-          );
-        } else {
-          this.snackBarService.open('Falha ao ${modo} disciplina');
-        }
-      }
+      modo = 'cadastrar';
+
+      await this.createDisciplina();
+
     }
+
+
+    this.retornarParaLista();
+
+
+  } catch (error: any) {
+
+    console.error(error);
+
+    this.isSubmitting = false;
+
+
+    const errorData = error?.error?.data;
+    const errorPrisma = error?.error?.error;
+
+
+    if (errorPrisma) {
+
+
+      if (errorPrisma.code === 'P2002') {
+
+        const campoErro = errorPrisma.meta['target'][0];
+
+
+        this.snackBarService.open(
+          `Falha ao ${modo} disciplina: Campo ${campoErro} já existente`,
+          '',
+          7000
+        );
+
+
+      } else {
+
+
+        this.snackBarService.open(
+          `Falha ao ${modo} disciplina: Erro ${errorPrisma.code}`
+        );
+
+
+      }
+
+
+    } else if (errorData) {
+
+
+      this.snackBarService.open(
+        `Falha ao ${modo} disciplina: ${errorData}`
+      );
+
+
+    } else {
+
+
+      this.snackBarService.open(
+        `Falha ao ${modo} disciplina`
+      );
+
+
+    }
+
   }
+
+}
+
+private mostrarErrosFormulario() {
+
+  const campos = this.formularioDisciplina.controls;
+
+
+  if (campos['sigla']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A sigla da disciplina é obrigatória'
+    );
+
+    return;
+  }
+
+
+  if (campos['sigla']?.hasError('minlength')) {
+
+    this.snackBarService.open(
+      'A sigla deve ter pelo menos 2 caracteres'
+    );
+
+    return;
+  }
+
+
+  if (campos['nome']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O nome da disciplina é obrigatório'
+    );
+
+    return;
+  }
+
+
+  if (campos['nome']?.hasError('minlength')) {
+
+    this.snackBarService.open(
+      'O nome da disciplina deve ter pelo menos 3 caracteres'
+    );
+
+    return;
+  }
+
+
+  this.snackBarService.open(
+    'Verifique os campos preenchidos'
+  );
+
+}
 
   private async createDisciplina() {
     console.log(this.curso_idcurso);

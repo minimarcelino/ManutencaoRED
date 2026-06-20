@@ -13,13 +13,7 @@
 
       <mat-form-field>
         <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
-        <textarea
-          matInput
-          name="conteudo"
-          id="conteudo"
-          formControlName="conteudo"
-          maxlength="4000"
-          rows="5"
+        <textarea matInput name="conteudo" id="conteudo" formControlName="conteudo" maxlength="4000" rows="5"
           spellcheck="true"
           [placeholder]="'O docente deve identificar os conteúdos que serão desenvolvidos em aula durante o período de afastamento do aluno amparado pelo Regime de Exercícios Domiciliares - RED.'">
         </textarea>
@@ -33,7 +27,7 @@
                            formularioPEE.get('conteudo')?.touched)">
 
           <span *ngIf="formularioPEE.get('conteudo')?.errors?.['required']">
-            Sigla obrigatório
+            Sigla obrigatória!
           </span>
 
           <span *ngIf="formularioPEE.get('conteudo')?.errors?.['maxlength']">
@@ -46,13 +40,7 @@
       <mat-form-field>
         <mat-label>A METODOLOGIA A SER UTILIZADA</mat-label>
 
-        <textarea
-          matInput
-          name="metodologia"
-          id="metodologia"
-          formControlName="metodologia"
-          maxlength="4000"
-          rows="5"
+        <textarea matInput name="metodologia" id="metodologia" formControlName="metodologia" maxlength="4000" rows="5"
           spellcheck="true"
           [placeholder]="'* Informar a metodologia a ser utilizada para realização do Regime de Exercícios Domiciliares.\n* A metodologia deve ser condizente com o conteúdo e objetivos do aprendizado.'">
         </textarea>
@@ -66,7 +54,8 @@
                            formularioPEE.get('metodologia')?.touched)">
 
           <span *ngIf="formularioPEE.get('metodologia')?.errors?.['required']">
-            Metodologia obrigatória
+            Metodologia obrigatória! Informe a metodologia a ser utilizada para realização do Regime de Exercícios
+            Domiciliares, que deve ser condizente com o conteúdo e objetivos do aprendizado.
           </span>
 
           <span *ngIf="formularioPEE.get('metodologia')?.errors?.['maxlength']">
@@ -79,13 +68,7 @@
       <mat-form-field>
         <mat-label>TRABALHOS A SEREM CUMPRIDOS</mat-label>
 
-        <textarea
-          matInput
-          name="trabalhos"
-          id="trabalhos"
-          formControlName="trabalhos"
-          maxlength="2000"
-          rows="5"
+        <textarea matInput name="trabalhos" id="trabalhos" formControlName="trabalhos" maxlength="2000" rows="5"
           spellcheck="true"
           [placeholder]="'* Especificar a atividade que o aluno deverá realizar como comprovação de seus estudos.\n* A atividade é de livre escolha do docente, porém deve ser condizente com o conteúdo a ser estudado, o objetivo proposto na disciplina e a metodologia proposta, bem como as condições do aluno para sua realização (acesso aos conteúdos, programas informáticos etc.)\n* Importante destacar orientações claras e objetivas para a realização da atividade.\n* Deixar destacado que o aluno poderá entrar em contato com o docente para esclarecer dúvidas neste período.\n* A atividade desenvolvida pelo aluno, em retorno ao seu estudo domiciliar, não terá caráter avaliativo. Seu cumprimento propiciará o abono das faltas deste período.\n* Caso alguma atividade avaliativa seja realizada durante o período de afastamento do aluno amparado pelo Regime de Exercícios Domiciliares, esta será realizada com o aluno dentro dos 30 dias subsequentes ao fim do período de afastamento, quando deverá ter regularizada todas as pendências ocorridas no período de afastamento.'">
         </textarea>
@@ -99,7 +82,7 @@
                            formularioPEE.get('trabalhos')?.touched)">
 
           <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['required']">
-            Trabalhos obrigatório
+            Trabalhos obrigatório! Especificar a atividade que o aluno deverá realizar como comprovação de seus estudos.
           </span>
 
           <span *ngIf="formularioPEE.get('trabalhos')?.errors?.['maxlength']">
@@ -112,14 +95,8 @@
       <mat-form-field>
         <mat-label>INDICAÇÕES BIBLIOGRÁFICAS</mat-label>
 
-        <textarea
-          matInput
-          name="bibliografia"
-          id="bibliografia"
-          formControlName="bibliografia"
-          maxlength="2000"
-          rows="5"
-          spellcheck="true"
+        <textarea matInput name="bibliografia" id="bibliografia" formControlName="bibliografia" maxlength="2000"
+          rows="5" spellcheck="true"
           [placeholder]="'* Informar a bibliografia de consulta pelo aluno para realização do RED, que deve ser concernente ao conteúdo a ser estudado.\n* Informar onde encontrar o referido material, devendo ser de fácil acesso ao aluno.'">
         </textarea>
 
@@ -132,7 +109,9 @@
                            formularioPEE.get('bibliografia')?.touched)">
 
           <span *ngIf="formularioPEE.get('bibliografia')?.errors?.['required']">
-            Indicações bibliográficas obrigatória
+            Indicações bibliográficas obrigatória! Informar a bibliografia de consulta pelo aluno para realização do
+            RED, que deve ser concernente ao conteúdo a ser estudado, e onde encontrar o referido material, devendo ser
+            de fácil acesso ao aluno.
           </span>
 
           <span *ngIf="formularioPEE.get('bibliografia')?.errors?.['maxlength']">
@@ -145,13 +124,7 @@
       <mat-form-field>
         <mat-label>CRITÉRIOS DE EXIGÊNCIA</mat-label>
 
-        <textarea
-          matInput
-          name="exigencia"
-          id="exigencia"
-          formControlName="exigencia"
-          maxlength="2000"
-          rows="5"
+        <textarea matInput name="exigencia" id="exigencia" formControlName="exigencia" maxlength="2000" rows="5"
           spellcheck="true"
           [placeholder]="'* Informar como o aluno deverá realizar a entrega de sua atividade. Instruímos que as entregas sejam comunicadas ao Coordenador do Curso e por ele acompanhadas.\nO abono das faltas está condicionado à entrega das atividades pelo aluno e sua análise e aprovação pelo professor, quando atendidos os critérios da atividade apresentada ao aluno.\n Atividades avaliativas ocorridas durante o período de afastamento deverão ser reagendadas com o professor, para realização posterior ao retorno do afastamento e dentro do prazo de 30 dias.'">
         </textarea>
@@ -165,7 +138,7 @@
                            formularioPEE.get('exigencia')?.touched)">
 
           <span *ngIf="formularioPEE.get('exigencia')?.errors?.['required']">
-            Critérios de exigência obrigatório
+            Critérios de exigência obrigatórios! Informar como o aluno deverá realizar a entrega de sua atividade.
           </span>
 
           <span *ngIf="formularioPEE.get('exigencia')?.errors?.['maxlength']">
@@ -180,16 +153,9 @@
       <mat-form-field>
         <mat-label>PRAZO PARA EXECUÇÃO</mat-label>
 
-        <input
-          matInput
-          [matDatepicker]="pickerPrazo"
-          id="prazo"
-          formControlName="prazo"
-          [min]="minDate">
+        <input matInput [matDatepicker]="pickerPrazo" id="prazo" formControlName="prazo" [min]="minDate">
 
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="pickerPrazo">
+        <mat-datepicker-toggle matIconSuffix [for]="pickerPrazo">
         </mat-datepicker-toggle>
 
         <mat-datepicker #pickerPrazo></mat-datepicker>
@@ -199,7 +165,8 @@
                            formularioPEE.get('prazo')?.touched)">
 
           <span *ngIf="formularioPEE.get('prazo')?.errors?.['required']">
-            Prazo de execução obrigatório
+            Prazo de execução obrigatório! Informe a data limite para execução do Regime de Exercícios Domiciliares, que
+            deve ser condizente com a previsão de retorno do aluno às atividades presenciais.
           </span>
 
           <span *ngIf="formularioPEE.get('prazo')?.errors?.['matDatepickerMin']">
@@ -212,28 +179,18 @@
       <mat-form-field>
         <mat-label>Canal de comunicação e Contato</mat-label>
 
-        <input
-          matInput
-          name="comunicacao"
-          formControlName="comunicacao" />
+        <input matInput name="comunicacao" formControlName="comunicacao"
+          [placeholder]="'Informe o canal de comunicação e o contato utilizado para acompanhamento do aluno (e-mail, telefone, WhatsApp, Google Meet, entre outros).'" />
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Observações</mat-label>
 
-        <textarea
-          matInput
-          name="observacao"
-          id="observacao"
-          formControlName="observacao"
-          maxlength="4000"
-          rows="3"
+        <textarea matInput name="observacao" id="observacao" formControlName="observacao" maxlength="4000" rows="3"
           spellcheck="true">
         </textarea>
 
-        <mat-hint *ngIf="this.desabilitado"
-                  align="end"
-                  class="hint-inside">
+        <mat-hint *ngIf="this.desabilitado" align="end" class="hint-inside">
 
           {{ updateCharacterCount(observacao, 4000) }}
           caracteres restantes
@@ -243,7 +200,7 @@
 
       <!-- Seção se avaliado -->
 
-      <div *ngIf="avaliado">
+      <div *ngIf="editando || this.avaliado">
 
         <h2>Avaliação do PEE</h2>
         <hr class="linha">
@@ -251,68 +208,55 @@
         <mat-form-field>
           <mat-label>Descrição da Avaliação</mat-label>
 
-          <textarea
-            matInput
-            name="avaliacaoAtividade"
-            id="avaliacaoAtividade"
-            formControlName="avaliacaoAtividade">
+          <textarea matInput name="avaliacaoAtividade" id="avaliacaoAtividade" formControlName="avaliacaoAtividade">
           </textarea>
         </mat-form-field>
 
         <mat-form-field class="lado-esquerdo">
           <mat-label>Percentual de abono</mat-label>
 
-          <input
-            type="number"
-            id="percentualAbono"
-            matInput
-            name="percentualAbono"
-            formControlName="percentualAbono" />
+          <input type="number" id="percentualAbono" matInput name="percentualAbono" formControlName="percentualAbono"
+            min="0" max="100" />
+
+          <mat-error *ngIf="formularioPEE.get('percentualAbono')?.hasError('required')">
+            Percentual de abono obrigatório! Informe um valor entre 0 e 100.
+          </mat-error>
+
+          <mat-error *ngIf="formularioPEE.get('percentualAbono')?.hasError('min')">
+            O percentual deve ser maior ou igual a 0
+          </mat-error>
+
+          <mat-error *ngIf="formularioPEE.get('percentualAbono')?.hasError('max')">
+            O percentual deve ser menor ou igual a 100
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="lado-direito">
-          <mat-label matTooltip="Data de entrega das atividades pelo aluno">
+        <mat-form-field appearance="outline" class="lado-direito campo-data">
+
+          <mat-label>
             Data de entrega da atividade
           </mat-label>
 
-          <input
-            matInput
-            [matDatepicker]="pickerDataEntrega"
-            id="dataEntrega"
-            formControlName="dataEntrega"
-            name="dataEntrega">
+          <input matInput id="dataEntrega" name="dataEntrega" formControlName="dataEntrega" placeholder="DD/MM/AAAA"
+            mask="00/00/0000">
 
-          <mat-datepicker #pickerDataEntrega></mat-datepicker>
         </mat-form-field>
 
       </div>
 
       <div id="buttons" *ngIf="!this.desabilitado">
-        <button
-          mat-raised-button
-          color="warn"
-          (click)="retornarParaLista()"
-          class="button">
+        <button mat-raised-button color="warn" (click)="retornarParaLista()" class="button">
 
           Cancelar
         </button>
 
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="submit()"
-          class="button">
+        <button mat-raised-button color="primary" (click)="submit()" class="button">
 
-          {{ this.editando ? 'Salvar' : 'Cadastrar' }}
-        </button>
+          {{ this.avaliado || this.editando ? 'Salvar Avaliação' : 'Cadastrar' }} </button>
       </div>
 
       <div id="buttons" *ngIf="this.desabilitado">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="retornarParaLista()"
-          class="button">
+        <button mat-raised-button color="primary" (click)="retornarParaLista()" class="button">
 
           Voltar
         </button>

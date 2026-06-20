@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 /* 🔥 LOCALE (CORREÇÃO DO ERRO) */
 import { registerLocaleData } from '@angular/common';
@@ -52,6 +52,9 @@ import { CspModule } from './niveis-acesso/csp/csp.module';
 import { ProfessorModule } from './niveis-acesso/professor/professor.module';
 import { CoordenadorModule } from './niveis-acesso/coordenador/coordenador.module';
 import { ManualComponent } from './pages/manual/manual.component';
+import { AnaliseRedsComponent } from './pages/analise-reds/analise-reds.component';
+import { DetalhesRedComponent } from './pages/detalhes-red/detalhes-red.component';
+import { CommonModule } from '@angular/common';
 
 /* 🔥 REGISTRA O LOCALE */
 registerLocaleData(localePt);
@@ -73,7 +76,9 @@ registerLocaleData(localePt);
     HeaderComponent,
     VisualizarDisciplinasComponent,
     AssociarDisciplinaComponent,
-    ManualComponent
+    ManualComponent,
+    AnaliseRedsComponent,
+    DetalhesRedComponent
   ],
   imports: [
     BrowserModule,
@@ -101,8 +106,10 @@ registerLocaleData(localePt);
     CspModule,
     ProfessorModule,
     CoordenadorModule,
+    CommonModule,
   ],
   providers: [
+    provideNgxMask(),
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
 

@@ -184,6 +184,7 @@ export class HomeCSPComponent implements OnInit, AfterViewInit {
       const response = await this.redService.getRed();
 
       this.reds = response.data.reds;
+      this.reds.sort((a, b) => b.idRED - a.idRED);
 
       // REDs aguardando associação
       const esperaAssociacao = this.reds.filter(

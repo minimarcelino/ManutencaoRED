@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { VisualizarDisciplinasComponent } from './visualizar-disciplinas/visualizar-disciplinas.component';
+import { ListarDisciplinasComponent } from './modulos/disciplinas/listar/listar-disciplina.component';
 import { ManualComponent } from './pages/manual/manual.component';
 import { authorizationService } from '../app/services/authorization.service';
 import { HomeComponent } from './home/home.component';
-
+import { AnaliseRedsComponent } from './pages/analise-reds/analise-reds.component';
+import { ListarPEEComponent } from './modulos/pee/listar/listar-pee.component';
+import { DetalhesRedComponent } from './pages/detalhes-red/detalhes-red.component';
 
 const routes: Routes = [
 
@@ -34,7 +37,18 @@ const routes: Routes = [
     path: 'visualizar-disciplinas/:id',
     component: VisualizarDisciplinasComponent
   },
-
+  {
+    path: 'reds/analise',
+    component: AnaliseRedsComponent
+  },
+  {
+    path: 'detalhes-red/:id',
+    component: DetalhesRedComponent
+  },
+  {
+    path: 'listarDisciplinas',
+    component: ListarDisciplinasComponent
+  },
   // CSP
   {
     path: 'csp',
@@ -91,7 +105,7 @@ const routes: Routes = [
         .then((module) => module.AdministradorRoutingModule),
 
     canActivate: [authorizationService]
-  }
+  },
 
 ];
 

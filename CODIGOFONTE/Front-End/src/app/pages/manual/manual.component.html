@@ -2,7 +2,7 @@
 
   <!-- CAPA -->
   <div class="manual-header">
-    <h1>MANUAL DO SISTEMA</h1>
+    <h1>MANUAL DO USUÁRIO</h1>
     <h2>IFSP – Campus Presidente Epitácio</h2>
     <p>Sistema de Gerenciamento de REDs</p>
   </div>
@@ -75,6 +75,95 @@
 
 
     </div>
+  </section>
+  <!-- REGRAS DE NEGÓCIO -->
+  <section class="manual-section">
+    <h3>4. Regras de Negócio</h3>
+
+    <p>
+      O sistema segue regras específicas para cada perfil de usuário, garantindo que
+      o fluxo do processo RED ocorra de forma correta e segura.
+    </p>
+
+    <!-- CRA -->
+    <div class="manual-card">
+      <h4>4.1 CRA – Coordenadoria de Registros Acadêmicos</h4>
+      <ul>
+        <li>É o único perfil autorizado a abrir um processo RED.</li>
+        <li>Ao criar o processo, o sistema envia automaticamente um e-mail de notificação ao Coordenador.</li>
+        <li>Pode indicar um aluno já cadastrado ou registrar um novo aluno durante a abertura do processo.</li>
+        <li>É responsável pela manutenção dos dados dos alunos (cadastro, edição e desativação).</li>
+        <li>Pode gerar o relatório de abono de faltas somente após a finalização do processo RED.</li>
+        <li>Pode pesquisar processos pelo nome do aluno.</li>
+      </ul>
+    </div>
+
+    <!-- CSP -->
+    <div class="manual-card">
+      <h4>4.2 CSP – Coordenadoria Sócio-Pedagógica</h4>
+      <ul>
+        <li>Pode apenas visualizar o processo RED; não é permitido alterá-lo diretamente.</li>
+        <li>É responsável por associar uma ou mais disciplinas ao processo do aluno, respeitando sua grade curricular.
+        </li>
+        <li>A associação de disciplinas pode ser revisada ou modificada somente até o envio ao Coordenador — após isso,
+          não é mais permitido fazer alterações.</li>
+        <li>Não pode realizar alterações nos PEEs, apenas associar disciplinas ao processo.</li>
+        <li>Mantém o cadastro de cursos, servidores e docentes, incluindo importação de dados do SUAP.</li>
+        <li>Pode gerar relatório de faltas que serão ou não abonadas.</li>
+      </ul>
+    </div>
+
+    <!-- COORDENADOR -->
+    <div class="manual-card">
+      <h4>4.3 Coordenador</h4>
+      <ul>
+        <li>Recebe notificação por e-mail sempre que um processo RED for aberto pela CRA.</li>
+        <li>Pode confirmar ou rejeitar o processo aberto pela CRA.</li>
+        <li>Caso o processo seja confirmado, a CSP é automaticamente notificada para dar continuidade.</li>
+        <li>Indica o(s) professor(es) responsável(is) por cada disciplina associada ao RED do aluno.</li>
+        <li>Ao indicar os professores, o sistema envia notificação por e-mail solicitando o preenchimento dos PEEs.</li>
+        <li>Visualiza todos os processos RED relacionados ao seu curso, com status, prazos e PEEs.</li>
+        <li>Mantém o cadastro de docentes e pode importar dados de sistemas externos.</li>
+      </ul>
+    </div>
+
+    <!-- PROFESSOR -->
+    <div class="manual-card">
+      <h4>4.4 Professor</h4>
+      <ul>
+        <li>Visualiza apenas os PEEs sob sua própria responsabilidade.</li>
+        <li>Preenche o PEE com as atividades a serem desenvolvidas pelo aluno e envia por e-mail após finalizar.</li>
+        <li>Após receber as atividades realizadas pelo aluno, avalia o PEE e define o percentual de abono de faltas.
+        </li>
+        <li>A finalização do PEE dispara automaticamente uma notificação por e-mail ao Coordenador.</li>
+      </ul>
+    </div>
+
+    <!-- PEE -->
+    <div class="manual-card">
+      <h4>4.5 Plano Especial de Estudos (PEE)</h4>
+      <ul>
+        <li>Cada disciplina associada ao RED de um aluno gera um PEE individual.</li>
+        <li>Somente o professor responsável pela disciplina pode preencher e avaliar o PEE.</li>
+        <li>O percentual de abono de faltas é determinado pelo professor com base nas atividades entregues pelo aluno.
+        </li>
+        <li>Após finalizado, o PEE segue para o Coordenador e não pode ser reaberto.</li>
+      </ul>
+    </div>
+
+    <!-- NOTIFICAÇÕES -->
+    <div class="manual-card">
+      <h4>4.6 Notificações Automáticas por E-mail</h4>
+      <p>O sistema dispara e-mails automáticos nos seguintes momentos:</p>
+      <ul>
+        <li><strong>Abertura do RED:</strong> CRA notifica o Coordenador.</li>
+        <li><strong>Confirmação do RED:</strong> Coordenador notifica a CSP.</li>
+        <li><strong>Associação de disciplinas:</strong> CSP notifica o Coordenador.</li>
+        <li><strong>Atribuição do PEE:</strong> Coordenador notifica o(s) Professor(es).</li>
+        <li><strong>Finalização do PEE:</strong> Professor notifica o Aluno e o Coordenador.</li>
+      </ul>
+    </div>
+
   </section>
 
   <!-- BOTÃO VOLTAR -->

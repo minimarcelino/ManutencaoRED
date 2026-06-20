@@ -24,9 +24,10 @@ export class AbonarFaltaComponent implements OnInit {
     private adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private locale: string,
     private peeService: PeeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+
     // Locale do datepicker
     this.locale = 'pt-BR';
     this.adapter.setLocale(this.locale);
@@ -37,10 +38,51 @@ export class AbonarFaltaComponent implements OnInit {
       entregaAluno: new FormControl('', [Validators.required]),
       cumprimento: new FormControl('', [Validators.required]),
       novaAtividade: new FormControl('', [Validators.required]),
-      percentualAbono: new FormControl('', [Validators.required]),
-      avaliacao: new FormControl(null),
+      percentualAbono: new FormControl('', [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100)
+      ]),
+
+      avaliacao: new FormControl('', [Validators.required]),
+
       avaliacaoRealizada: new FormControl(null),
       dataAvaliacao: new FormControl(null),
+    });
+
+    // Controle da pergunta "Houve avaliação?"
+    this.abonarFaltaPEE.get('avaliacao')?.valueChanges.subscribe(valor => {
+
+      const avaliacaoRealizada =
+        this.abonarFaltaPEE.get('avaliacaoRealizada');
+
+      const dataAvaliacao =
+        this.abonarFaltaPEE.get('dataAvaliacao');
+
+      if (valor === 'Sim') {
+
+        avaliacaoRealizada?.setValidators([
+          Validators.required
+        ]);
+
+        dataAvaliacao?.setValidators([
+          Validators.required
+        ]);
+
+      } else {
+
+        avaliacaoRealizada?.clearValidators();
+        dataAvaliacao?.clearValidators();
+
+        avaliacaoRealizada?.setValue(null);
+        dataAvaliacao?.setValue(null);
+
+        avaliacaoRealizada?.markAsUntouched();
+        dataAvaliacao?.markAsUntouched();
+      }
+
+      avaliacaoRealizada?.updateValueAndValidity();
+      dataAvaliacao?.updateValueAndValidity();
     });
 
     // Usuário
@@ -48,54 +90,199 @@ export class AbonarFaltaComponent implements OnInit {
     this.user = userStorage ? JSON.parse(userStorage) : null;
   }
 
-  async submit() {
-    if (this.abonarFaltaPEE.invalid || this.isSubmitting) {
-      this.snackBarService.open('Preencha todos os campos obrigatórios!');
-      this.abonarFaltaPEE.markAllAsTouched();
-      return;
+  limitarPercentual(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let valor = Number(input.value);
+
+    if (valor > 100) {
+      valor = 100;
     }
 
-    // Validação extra
-    if (!this.avaliacaoAtividade.trim()) {
-      this.snackBarService.open('Avaliação da atividade não pode estar vazia.');
-      return;
+    if (valor < 0) {
+      valor = 0;
     }
 
-    if (this.percentualAbono < 0 || this.percentualAbono > 100) {
-      this.snackBarService.open('O percentual deve ser entre 0 e 100.');
-      return;
-    }
+    input.value = valor.toString();
 
-    this.isSubmitting = true;
-
-    try {
-      await this.peeService.updatePee({
-        editando: true,
-        idpee: this.data.idpee,
-        situacao: "Avaliado",
-
-        avaliacaoAtividade: this.avaliacaoAtividade,
-        prazoEntregaAtividade: this.data.prazofinal,
-        dataEntregaAtividade: this.entregaAluno,
-
-        cumpriuAtividade: this.cumprimento,
-        houveAvaliacao: this.avaliacao,
-        avaliacoesRealizadas: this.avaliacaoRealizada,
-        dataAvaliacao: this.dataAvaliacao,
-
-        percentualabono: this.percentualAbono,
-      });
-
-      this.snackBarService.open('Faltas abonadas com sucesso!');
-      this.dialog.close(true);
-
-    } catch (error: any) {
-      const msg = error?.error?.data || 'Falha ao abonar as faltas';
-      this.snackBarService.open(msg);
-    } finally {
-      this.isSubmitting = false;
-    }
+    this.abonarFaltaPEE.get('percentualAbono')?.setValue(valor, {
+      emitEvent: false
+    });
   }
+
+  async submit() {
+
+  if (this.abonarFaltaPEE.invalid || this.isSubmitting) {
+
+    this.mostrarErrosFormulario();
+
+    this.abonarFaltaPEE.markAllAsTouched();
+
+    const fields = Object.keys(this.abonarFaltaPEE.controls);
+
+    const firstInvalidField = fields.find(
+      (field) => this.abonarFaltaPEE.get(field)!.invalid
+    );
+
+
+    if (firstInvalidField) {
+
+      const element = document.getElementById(firstInvalidField);
+
+      if (element) {
+        element.focus();
+      }
+
+    }
+
+    return;
+  }
+
+
+  if (!this.avaliacaoAtividade.trim()) {
+
+    this.snackBarService.open(
+      'A avaliação da atividade não pode estar vazia.'
+    );
+
+    const element = document.getElementById('avaliacaoAtividade');
+
+    if (element) {
+      element.focus();
+    }
+
+    return;
+  }
+
+
+  if (this.percentualAbono < 0 || this.percentualAbono > 100) {
+
+    this.snackBarService.open(
+      'O percentual de abono deve estar entre 0 e 100.'
+    );
+
+    const element = document.getElementById('percentualAbono');
+
+    if (element) {
+      element.focus();
+    }
+
+    return;
+  }
+
+
+  this.isSubmitting = true;
+
+
+  try {
+
+
+    await this.peeService.updatePee({
+
+      editando: true,
+
+      idpee: this.data.idpee,
+
+      situacao: "Avaliado",
+
+
+      avaliacaoAtividade: this.avaliacaoAtividade,
+
+      prazoEntregaAtividade: this.data.prazofinal,
+
+      dataEntregaAtividade: this.entregaAluno,
+
+
+      cumpriuAtividade: this.cumprimento,
+
+      houveAvaliacao: this.avaliacao,
+
+      avaliacoesRealizadas: this.avaliacaoRealizada,
+
+      dataAvaliacao: this.dataAvaliacao,
+
+
+      percentualabono: this.percentualAbono,
+
+    });
+
+
+    this.snackBarService.open(
+      'Faltas abonadas com sucesso!'
+    );
+
+
+    this.dialog.close(true);
+
+
+  } catch (error: any) {
+
+
+    const msg = error?.error?.data 
+      || 'Falha ao abonar as faltas';
+
+
+    this.snackBarService.open(msg);
+
+
+  } finally {
+
+    this.isSubmitting = false;
+
+  }
+
+}
+
+
+private mostrarErrosFormulario() {
+
+  const campos = this.abonarFaltaPEE.controls;
+
+
+  if (campos['avaliacaoAtividade']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A avaliação da atividade é obrigatória.'
+    );
+
+    return;
+  }
+
+
+  if (campos['entregaAluno']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A data de entrega da atividade é obrigatória.'
+    );
+
+    return;
+  }
+
+
+  if (campos['dataAvaliacao']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A data da avaliação é obrigatória.'
+    );
+
+    return;
+  }
+
+
+  if (campos['percentualAbono']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O percentual de abono é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  this.snackBarService.open(
+    'Verifique os campos preenchidos.'
+  );
+
+}
 
   cancelar() {
     this.dialog.close(false);

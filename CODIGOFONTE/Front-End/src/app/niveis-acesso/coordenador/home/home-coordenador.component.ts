@@ -101,6 +101,7 @@ export class HomeCoordenadorComponent implements OnInit {
   async findAllRED() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
+    this.reds.sort((a, b) => b.idRED - a.idRED);
 
     this.esperandoConfirmacao = this.reds.filter(
       (red) =>

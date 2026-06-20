@@ -1,0 +1,265 @@
+.container {
+
+    min-height: 100vh;
+
+    background:#292929;
+
+    padding:40px;
+
+    color:white;
+
+}
+
+
+/* TITULO */
+
+h1 {
+
+    color:#00b050;
+
+    font-size:32px;
+
+    margin-bottom:35px;
+
+}
+
+
+
+/* CARDS */
+
+.cards {
+
+    display:flex;
+
+    gap:25px;
+
+    margin-bottom:45px;
+
+}
+
+
+
+.card {
+
+    background:#ffffff;
+
+    width:230px;
+
+    height:130px;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.5);
+
+}
+
+
+
+.card h3 {
+
+    color:#00a651;
+
+    font-size:18px;
+
+    margin:0 0 20px;
+
+}
+
+
+
+.card p {
+
+    color:#333;
+
+    font-size:38px;
+
+    font-weight:bold;
+
+    margin:0;
+
+}
+
+
+
+/* TABELA */
+
+.table-container {
+
+    background:#222;
+
+    border-radius:15px;
+
+    padding:15px;
+
+    overflow:hidden;
+
+}
+
+
+
+table {
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+thead {
+
+    background:#00a651;
+
+}
+
+
+
+th {
+
+    padding:18px;
+
+    color:white;
+
+    font-size:16px;
+
+}
+
+
+
+td {
+
+    padding:18px;
+
+    text-align:center;
+
+    color:#eee;
+
+    border-bottom:1px solid #444;
+
+}
+
+
+
+tbody tr:hover {
+
+    background:#333;
+
+}
+
+
+
+.nome {
+
+    text-align:left;
+
+    font-weight:500;
+
+}
+
+
+
+/* MESES */
+
+.mes {
+
+    margin:0 4px;
+
+    background:#064d31;
+
+    padding:5px 10px;
+
+    border-radius:15px;
+
+    font-size:13px;
+
+}
+
+
+
+/* BOTÃO VER */
+
+.btn-ver {
+
+
+    background:transparent;
+
+    color:#00a651;
+
+    border:1px solid #00a651;
+
+    padding:10px 22px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+
+.btn-ver:hover {
+
+
+    background:#00a651;
+
+    color:white;
+
+}
+
+
+
+/* BOTÃO FIXO */
+
+.btn-voltar {
+
+
+    position:fixed;
+
+
+    bottom:25px;
+
+
+    left:40px;
+
+
+    background:#00a651;
+
+
+    color:white;
+
+
+    border:none;
+
+
+    padding:15px 30px;
+
+
+    border-radius:30px;
+
+
+    font-size:16px;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    box-shadow:0 5px 15px rgba(0,0,0,.5);
+
+
+}
+
+
+
+.btn-voltar:hover {
+
+    background:#008c44;
+
+}

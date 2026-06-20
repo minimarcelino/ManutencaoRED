@@ -13,7 +13,7 @@
         <input matInput id="sigla" name="sigla" formControlName="sigla" />
         <mat-error
           *ngIf="formularioCurso.get('sigla')?.errors && (formularioCurso.get('sigla')?.dirty || formularioCurso.get('sigla')?.touched)">
-          <span *ngIf="formularioCurso.get('sigla')?.errors?.['required']">Sigla obrigatório</span>
+          <span *ngIf="formularioCurso.get('sigla')?.errors?.['required']">Sigla obrigatório! Só é aceito letras e números.</span>
         </mat-error>
       </mat-form-field>
 
@@ -22,7 +22,7 @@
         <input matInput id="nome" name="nomeCurso" formControlName="nomeCurso" />
         <mat-error
           *ngIf="formularioCurso.get('nomeCurso')?.errors && (formularioCurso.get('nomeCurso')?.dirty || formularioCurso.get('nomeCurso')?.touched)">
-          <span *ngIf="formularioCurso.get('nomeCurso')?.errors?.['required']">Curso obrigatório</span>
+          <span *ngIf="formularioCurso.get('nomeCurso')?.errors?.['required']">Curso obrigatório! Só é aceito letras e espaços.</span>
         </mat-error>
       </mat-form-field>
 
@@ -35,7 +35,7 @@
         </mat-select>
         <mat-error
           *ngIf="formularioCurso.get('idcordenador')?.errors && (formularioCurso.get('idcordenador')?.dirty || formularioCurso.get('idcordenador')?.touched)">
-          <span *ngIf="formularioCurso.get('idcordenador')?.errors?.['required']">Coordenador obrigatório</span>
+          <span *ngIf="formularioCurso.get('idcordenador')?.errors?.['required']">Coordenador obrigatório! Selecione um coordenador da lista.</span>
         </mat-error>
       </mat-form-field>
 

@@ -21,7 +21,7 @@
         <input matInput name="prontuario" id="prontuario" formControlName="prontuario" mask="AA000000A" />
         <mat-error
           *ngIf="formularioServidor.get('prontuario')?.errors && (formularioServidor.get('prontuario')?.dirty || formularioServidor.get('prontuario')?.touched)">
-          <span *ngIf="formularioServidor.get('prontuario')?.errors?.['required']">Prontuário obrigatório</span>
+          <span *ngIf="formularioServidor.get('prontuario')?.errors?.['required']">Prontuário obrigatório! Só é aceito letras e números.</span>
         </mat-error>
       </mat-form-field>
 
@@ -31,7 +31,7 @@
         <input matInput name="nome" id="nome" formControlName="nome" />
         <mat-error
           *ngIf="formularioServidor.get('nome')?.errors && (formularioServidor.get('nome')?.dirty || formularioServidor.get('nome')?.touched)">
-          <span *ngIf="formularioServidor.get('nome')?.errors?.['required']">Nome obrigatório</span>
+          <span *ngIf="formularioServidor.get('nome')?.errors?.['required']">Nome obrigatório! Só é aceito letras e espaços.</span>
         </mat-error>
       </mat-form-field>
 
@@ -41,7 +41,7 @@
         <input matInput name="email" id="email" formControlName="email" />
         <mat-error
           *ngIf="formularioServidor.get('email')?.errors && (formularioServidor.get('email')?.dirty || formularioServidor.get('email')?.touched)">
-          <span *ngIf="formularioServidor.get('email')?.errors?.['required']">E-mail obrigatório</span>
+          <span *ngIf="formularioServidor.get('email')?.errors?.['required']">E-mail obrigatório! Só é aceito um formato de e-mail válido.</span>
           <span *ngIf="formularioServidor.get('email')?.errors?.['email']">Formato inválido para e-mail</span>
         </mat-error>
       </mat-form-field>
@@ -57,8 +57,7 @@
           </mat-select>
           <mat-error
             *ngIf="formularioServidor.get('tiposervidor')?.errors && (formularioServidor.get('tiposervidor')?.dirty || formularioServidor.get('tiposervidor')?.touched)">
-            <span *ngIf="formularioServidor.get('tiposervidor')?.errors?.['required']">Tipo do servidor
-              obrigatório</span>
+            <span *ngIf="formularioServidor.get('tiposervidor')?.errors?.['required']">Tipo do servidor obrigatório! </span>
           </mat-error>
         </mat-form-field>
       </div>

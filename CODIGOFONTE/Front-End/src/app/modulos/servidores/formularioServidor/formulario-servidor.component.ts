@@ -108,60 +108,183 @@ export class FormularioServidoresComponent implements OnInit {
   }
 
   async submit() {
-    // Verifica se algum campo obrigatório é apenas espaços em branco
-    if (this.nome.trim() === '') {
-      this.snackBarService.open('Nome deve ser preenchido corretamente.');
-      const element = document.getElementById('nome');
+
+  if (this.formularioServidor.invalid || this.isSubmitting) {
+
+    this.mostrarErrosFormulario();
+
+    const fields = Object.keys(this.formularioServidor.controls);
+
+    const firstInvalidField = fields.find(
+      (field) => this.formularioServidor.get(field)!.invalid
+    );
+
+
+    if (firstInvalidField) {
+
+      const element = document.getElementById(firstInvalidField);
+
       if (element) {
         element.focus();
       }
-      return;
+
     }
 
-    if (this.email.trim() === '') {
-      this.snackBarService.open('E-mail deve ser preenchido corretamente.');
-      const element = document.getElementById('email');
-      if (element) {
-        element.focus();
-      }
-      return;
-    }
-
-    if (this.formularioServidor.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos Obrigatórios');
-      const fields = Object.keys(this.formularioServidor.controls);
-      const firstInvalidField = fields.find(
-        (field) => this.formularioServidor.get(field)!.invalid
-      );
-      if (firstInvalidField) {
-        const element = document.getElementById(firstInvalidField);
-        if (element) {
-          element.focus();
-        }
-      }
-      return;
-    } else {
-      this.isSubmitting = true;
-      try {
-        if (this.editar) {
-          this.updateServidor();
-        } else {
-          this.createServidor();
-        }
-        this.retornarParaLista();
-        this.isSubmitting = true;
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.snackBarService.open(
-            `Falha ao cadastrar Servidor: ${errorMessage}`
-          );
-        } else {
-          this.snackBarService.open(`Falha ao cadastrar Servidor`);
-        }
-      }
-    }
+    return;
   }
+
+
+  if (this.nome.trim() === '') {
+
+    this.snackBarService.open(
+      'O nome deve ser preenchido corretamente.'
+    );
+
+    document.getElementById('nome')?.focus();
+
+    return;
+  }
+
+
+  if (this.email.trim() === '') {
+
+    this.snackBarService.open(
+      'O e-mail deve ser preenchido corretamente.'
+    );
+
+    document.getElementById('email')?.focus();
+
+    return;
+  }
+
+
+  try {
+
+    this.isSubmitting = true;
+
+
+    if (this.editar) {
+
+      await this.updateServidor();
+
+    } else {
+
+      await this.createServidor();
+
+    }
+
+
+    this.retornarParaLista();
+
+
+  } catch (error: any) {
+
+
+    console.error(error);
+
+
+    const errorData = error?.error?.data;
+    const errorPrisma = error?.error?.error;
+
+
+    if (errorPrisma?.code === 'P2002') {
+
+
+      const campoErro = errorPrisma.meta['target'][0];
+
+
+      const mensagensDuplicadas: any = {
+
+        email: 'Este e-mail já está cadastrado',
+
+        cpf: 'Este CPF já está cadastrado'
+
+      };
+
+
+      this.snackBarService.open(
+        mensagensDuplicadas[campoErro] 
+        || `Campo ${campoErro} já cadastrado`
+      );
+
+
+    } else if (errorData) {
+
+
+      this.snackBarService.open(
+        `Falha ao cadastrar servidor: ${errorData}`
+      );
+
+
+    } else {
+
+
+      this.snackBarService.open(
+        'Falha ao cadastrar servidor'
+      );
+
+
+    }
+
+
+  } finally {
+
+    this.isSubmitting = false;
+
+  }
+
+}
+
+private mostrarErrosFormulario() {
+
+  const campos = this.formularioServidor.controls;
+
+
+  if (campos['nome']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O nome do servidor é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['nome']?.hasError('minlength')) {
+
+    this.snackBarService.open(
+      'O nome deve ter pelo menos 3 caracteres.'
+    );
+
+    return;
+  }
+
+
+  if (campos['email']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O e-mail do servidor é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['email']?.hasError('email')) {
+
+    this.snackBarService.open(
+      'Digite um e-mail válido.'
+    );
+
+    return;
+  }
+
+
+  this.snackBarService.open(
+    'Verifique os campos preenchidos.'
+  );
+
+}
 
   private async createServidor() {
     await this.servidorService.createServidor({

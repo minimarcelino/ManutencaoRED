@@ -20,8 +20,8 @@ export class HomeProfessorComponent implements OnInit {
   user: any = '';
   dataSourceAguardando: any;
   dataSourceEnviada: any;
-  @ViewChild('paginatorAguardando') paginatorAguardando!: MatPaginator;
-  @ViewChild('paginatorEnviada') paginatorEnviada!: MatPaginator;
+  @ViewChild('paginatorAguardando') paginatorAguardando?: MatPaginator;
+  @ViewChild('paginatorEnviada') paginatorEnviada?: MatPaginator;
   private existePEEaPreencher: boolean = false;
   private existePEEaAvaliar: boolean = false;
 
@@ -43,13 +43,23 @@ export class HomeProfessorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.findAll();
     this.user = localStorage.getItem('user');
     this.user = JSON.parse(this.user);
   }
 
   ngAfterViewInit() {
-    this.paginatorAguardando._intl = this.customPaginatorIntlService.paginatorIntl;
+
+  if (this.paginatorAguardando) {
+    this.paginatorAguardando._intl =
+      this.customPaginatorIntlService.paginatorIntl;
+  }
+
+  if (this.paginatorEnviada) {
+    this.paginatorEnviada._intl =
+      this.customPaginatorIntlService.paginatorIntl;
+  }
+
+  this.findAll();
   }
 
   async findAll() {

@@ -199,30 +199,49 @@ h3 .titulo-centralizado {
 }
 
 /* =======================
-   CAMPOS
+   FORMULÁRIOS (ANGULAR)
 ======================= */
-.campo-pesquisa,
-.campo-curso,
-.campo-situacao {
-  width: calc(50% - 40px);
-  margin-right: 20px;
-}
-
-.campo-curso,
-.campo-situacao,
-.campo-tiposervidor,
-.campo-professor {
-  width: calc(25% - 10px);
+.formulario .campo-pesquisa,
+.formulario .campo-curso,
+.formulario .campo-situacao {
+  width: 100%;
 }
 
 /* =======================
-   FORMULÁRIOS (ANGULAR)
+   CAMPOS
 ======================= */
-.formulario mat-form-field {
-  min-width: 100%;
-  max-width: 100%;
-  align-items: center;
-  border-radius: 5px;
+
+.campo-pesquisa,
+.campo-curso,
+.campo-situacao {
+  width: 100%;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.campo-tiposervidor,
+.campo-professor {
+  width: 100%;
+}
+
+/* =======================
+   ANGULAR MATERIAL
+======================= */
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+  min-height: 56px;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 56px;
 }
 
 mat-label {
@@ -230,25 +249,28 @@ mat-label {
   font-weight: 500;
 }
 
-mat-error {
-  position: absolute;
-  right: 2%;
-  bottom: 1%;
-  font-weight: bold;
-  color: red;
-}
-
-mat-hint {
-  position: absolute;
-  left: 4%;
-  bottom: 1%;
-  color: var(--cinza-medio);
-}
-
+/* REMOVER posicionamento absoluto */
+mat-error,
+mat-hint,
 .hint-inside {
-  position: absolute;
-  right: 2%;
-  bottom: 1%;
+  position: static;
+}
+
+.filtros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+  margin-bottom: 20px;
+}
+
+.campo-pesquisa {
+  grid-column: 1 / 3;
+  width: 100%;
+}
+
+.campo-curso,
+.campo-situacao {
+  width: 100%;
 }
 
 /* =======================

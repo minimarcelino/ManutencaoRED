@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,7 +29,6 @@ import { HomeProfessorComponent } from './home/home-professor.component';
 @NgModule({
     declarations: [
       ListarPEEComponent,
-      FormularioPEEComponent,
       AbonarFaltaComponent,
       FormularioPEEComponent,
       GerenciarPEEComponent,
@@ -55,7 +55,8 @@ import { HomeProfessorComponent } from './home/home-professor.component';
       MatCheckboxModule,
       MatTooltipModule,
       MatDatepickerModule,
-      MatDialogModule
+      MatDialogModule,
+      RouterModule
     ],
     providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

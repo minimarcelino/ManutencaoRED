@@ -1,7 +1,17 @@
 import { prisma } from '../../prisma/client';
 import { StatusCodes } from 'http-status-codes';
-import { pee } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { emailController } from '../controller/emailController';
+
+type PeeCreate = Prisma.peeCreateInput & {
+  RED_idRED: number;
+
+  disciplinas_iddisciplinas: number;
+
+  pee_servidor?: {
+    idservidor: number;
+  }[];
+};
 
 const emailcontroller = new emailController();
 export class peeService {
@@ -10,6 +20,7 @@ export class peeService {
     page: number,
     perPage: number,
     orderBy: string
+
   ) {
     try {
       let skip: number = (Number(page) - 1) * Number(perPage);
@@ -46,6 +57,8 @@ export class peeService {
       return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
     }
   }
+
+
 
   async findAll() {
     try {
@@ -111,171 +124,306 @@ export class peeService {
     }
   }
 
-  async create(pee: pee) {
+  async create(pee: PeeCreate) {
     try {
-      const createPEE = await prisma.pee.create({
-        data: {
-          conteudo: pee.conteudo,
-          metodologia: pee.metodologia,
-          trabalhos: pee.trabalhos,
-          bibliografia: pee.bibliografia,
-          criterios: pee.criterios,
-          prazofinal: pee.prazofinal,
-          RED_idRED: pee.RED_idRED,
-          disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
-          //pee_servidor: pee.pee_servidor,
-          percentualabono: pee.percentualabono,
-          situacao: pee.situacao,
-          canalComunicacao: pee.canalComunicacao,
-          observacoes: pee.observacoes,
-          dataEnvioProposta: pee.dataEnvioProposta,
-          hash: pee.hash,
-          avaliacaoAtividade: pee.avaliacaoAtividade,
-          prazoEntregaAtividade: pee.prazoEntregaAtividade,
-          dataEntregaAtividade: pee.dataEntregaAtividade,
-          cumpriuAtividade: pee.cumpriuAtividade,
-          houveAvaliacao: pee.houveAvaliacao,
-          avaliacoesRealizadas: pee.avaliacoesRealizadas,
-          dataAvaliacao: pee.dataAvaliacao,
-        },
-      });
-      this.updateHashPEE(createPEE.idpee);
 
-      return { ok: true, data: createPEE };
+      const createPEE = await prisma.pee.create({
+
+        data: {
+
+          conteudo: pee.conteudo,
+
+          metodologia: pee.metodologia,
+
+          trabalhos: pee.trabalhos,
+
+          bibliografia: pee.bibliografia,
+
+          criterios: pee.criterios,
+
+          prazofinal: pee.prazofinal,
+
+          red: {
+            connect: {
+              idRED: pee.RED_idRED
+            }
+          },
+
+          disciplinas: {
+            connect: {
+              iddisciplinas: pee.disciplinas_iddisciplinas
+            }
+          },
+
+          percentualabono:
+            pee.percentualabono,
+
+          situacao:
+            pee.situacao,
+
+          canalComunicacao:
+            pee.canalComunicacao,
+
+          observacoes:
+            pee.observacoes,
+
+          dataEnvioProposta:
+            pee.dataEnvioProposta,
+
+          hash:
+            pee.hash,
+
+          avaliacaoAtividade:
+            pee.avaliacaoAtividade,
+
+          prazoEntregaAtividade:
+            pee.prazoEntregaAtividade,
+
+          dataEntregaAtividade:
+            pee.dataEntregaAtividade,
+
+          cumpriuAtividade:
+            pee.cumpriuAtividade,
+
+          houveAvaliacao:
+            pee.houveAvaliacao,
+
+          avaliacoesRealizadas:
+            pee.avaliacoesRealizadas,
+
+          dataAvaliacao:
+            pee.dataAvaliacao,
+
+
+          pee_servidor: pee.pee_servidor
+
+        },
+
+
+        include: {
+
+          pee_servidor: {
+
+            include: {
+
+              servidor: true
+
+            }
+
+          }
+
+        }
+
+      });
+
+
+      await this.updateHashPEE(createPEE.idpee);
+
+
+      return {
+
+        ok: true,
+
+        data: createPEE
+
+      };
+
+
     } catch (error) {
+
       console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+
+      return {
+
+        ok: false,
+
+        data: StatusCodes.INTERNAL_SERVER_ERROR
+
+      };
+
     }
   }
 
+
   async update(pee: any, id: number) {
-    if ('editando' in pee) {
-      try {
-        const updatePEE = await prisma.pee.update({
-          where: {
-            idpee: id,
-          },
-          data: {
-            conteudo: pee.conteudo,
-            metodologia: pee.metodologia,
-            trabalhos: pee.trabalhos,
-            bibliografia: pee.bibliografia,
-            criterios: pee.criterios,
-            prazofinal: pee.prazofinal,
-            RED_idRED: pee.RED_idRED,
-            percentualabono: pee.percentualabono,
-            dataEnvioProposta: pee.dataEnvioProposta,
-            canalComunicacao: pee.canalComunicacao,
-            houveAvaliacao: pee.houveAvaliacao,
-            avaliacoesRealizadas: pee.avaliacoesRealizadas,
-            dataAvaliacao: pee.dataAvaliacao,
-            observacoes: pee.observacoes,
-            situacao: pee.situacao,
-            cumpriuAtividade: pee.cumpriuAtividade,
-            dataEntregaAtividade: pee.dataEntregaAtividade,
-            prazoEntregaAtividade: pee.prazoEntregaAtividade,
-            avaliacaoAtividade: pee.avaliacaoAtividade,
-          },
-        });
-        return { ok: true, data: updatePEE };
-      } catch (error) {
-        console.log(error);
-        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
-      }
-    } else {
-      try {
-        // Obter todos os IDs de servidores associados com o ID específico de pee
-        const servidoresAssociados = await prisma.pee_servidor.findMany({
-          where: {
-            pee: {
-              idpee: id,
-            },
-          },
-          select: {
-            servidorId: true,
-          },
-        });
+    try {
 
-        // Extrair os IDs dos servidores associados
-        const idsServidoresAssociados = servidoresAssociados.map(
-          (associacao) => associacao.servidorId
-        );
-        // Filtrar os servidores que não estão na lista de servidores associados
-        const professoresData = pee.pee_servidor
-          .filter(
-            (professor: any) =>
-              !idsServidoresAssociados.includes(professor.idservidor)
-          )
-          .map((professor: any) => ({
+      console.log('========== UPDATE PEE ==========');
+      console.log('ID:', id);
+      console.log('BODY RECEBIDO:', pee);
+
+      console.log("SITUAÇÃO RECEBIDA:", pee.situacao);
+      console.log("HOUVE AVALIAÇÃO:", pee.houveAvaliacao);
+
+
+      const servidoresAssociados = await prisma.pee_servidor.findMany({
+        where: {
+          peeId: id,
+        },
+        select: {
+          servidorId: true,
+        },
+      });
+
+
+      const idsServidoresAssociados = servidoresAssociados.map(
+        (associacao) => associacao.servidorId
+      );
+
+
+      const servidoresRecebidos = pee.pee_servidor || [];
+
+
+      const professoresData = servidoresRecebidos
+        .filter(
+          (professor: any) =>
+            !idsServidoresAssociados.includes(professor.idservidor)
+        )
+        .map(
+          (professor: any) => ({
             servidorId: professor.idservidor,
-          }));
-
-        // Verificar associações a serem removidas
-        const idsRemover: number[] = idsServidoresAssociados.filter(
-          (servidorId) =>
-            !pee.pee_servidor.some(
-              (professor: any) => professor.idservidor === servidorId
-            )
+          })
         );
-                  // Envio de e-mail para os servidores sendo removidos
-          for (const servidorId of idsRemover) {
-            const servidor = await prisma.servidor.findUnique({
-              where: { idservidor: servidorId },
-              select: { email: true },
-            });
 
-            if (servidor) {
-              console.log("Email Enviado Removendo PEE" + "\n" + pee + "\n" + servidor);
-              await emailcontroller.SendEmailProfessorDesassociadoPEE(pee, servidor.email);
-            }
-          }
 
-        // Remover associações não desejadas
-        if (idsRemover.length > 0) {
-          await prisma.pee_servidor.deleteMany({
-            where: {
-              peeId: pee.id,
-              servidorId: {
-                in: idsRemover,
-              },
-            },
-          });
-        }
-        const updatePEE = await prisma.pee.update({
+      const idsRemover = idsServidoresAssociados.filter(
+        (servidorId) =>
+          !servidoresRecebidos.some(
+            (professor: any) =>
+              professor.idservidor === servidorId
+          )
+      );
+
+
+      if (idsRemover.length > 0) {
+
+        await prisma.pee_servidor.deleteMany({
           where: {
-            idpee: id,
-          },
-          data: {
-            conteudo: pee.conteudo,
-            metodologia: pee.metodologia,
-            trabalhos: pee.trabalhos,
-            bibliografia: pee.bibliografia,
-            criterios: pee.criterios,
-            prazofinal: pee.prazofinal,
-            RED_idRED: pee.RED_idRED,
-            percentualabono: pee.percentualabono,
-            dataEnvioProposta: pee.dataEnvioProposta,
-            canalComunicacao: pee.canalComunicacao,
-            houveAvaliacao: pee.houveAvaliacao,
-            avaliacoesRealizadas: pee.avaliacoesRealizadas,
-            dataAvaliacao: pee.dataAvaliacao,
-            observacoes: pee.observacoes,
-            situacao: pee.situacao,
-            cumpriuAtividade: pee.cumpriuAtividade,
-            dataEntregaAtividade: pee.dataEntregaAtividade,
-            prazoEntregaAtividade: pee.prazoEntregaAtividade,
-            pee_servidor: {
-              createMany: {
-                data: professoresData,
-              },
+            peeId: id,
+
+            servidorId: {
+              in: idsRemover,
             },
           },
         });
-        return { ok: true, data: updatePEE };
-      } catch (error) {
-        console.log(error);
-        return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+
       }
+
+
+      const updatePEE = await prisma.pee.update({
+
+        where: {
+          idpee: id,
+        },
+
+        data: {
+
+          conteudo: pee.conteudo,
+
+          metodologia: pee.metodologia,
+
+          trabalhos: pee.trabalhos,
+
+          bibliografia: pee.bibliografia,
+
+          criterios: pee.criterios,
+
+          prazofinal: pee.prazofinal,
+
+
+          RED_idRED: pee.RED_idRED,
+
+
+          percentualabono:
+            pee.percentualabono,
+
+
+          canalComunicacao:
+            pee.canalComunicacao ?? pee.comunicacao,
+
+
+          observacoes:
+            pee.observacoes ?? pee.observacao,
+
+
+          situacao:
+            pee.situacao,
+
+
+          houveAvaliacao:
+          pee.houveAvaliacao,
+
+
+          avaliacoesRealizadas:
+            pee.avaliacoesRealizadas,
+
+
+          dataAvaliacao:
+            pee.dataAvaliacao,
+
+
+          dataEntregaAtividade:
+            pee.dataEntregaAtividade,
+
+
+          prazoEntregaAtividade:
+            pee.prazoEntregaAtividade,
+
+
+          pee_servidor: {
+
+            createMany: {
+
+              data: professoresData,
+
+              skipDuplicates: true,
+
+            },
+
+          },
+
+        },
+
+        include: {
+
+          pee_servidor: true,
+
+        },
+
+      });
+
+
+      console.log(
+        "UPDATE FINALIZADO:",
+        updatePEE
+      );
+
+
+      return {
+
+        ok: true,
+
+        data: updatePEE,
+
+      };
+
+
+    } catch (error) {
+
+      console.log(
+        "ERRO NO UPDATE:",
+        error
+      );
+
+
+      return {
+
+        ok: false,
+
+        data: StatusCodes.INTERNAL_SERVER_ERROR
+
+      };
+
     }
   }
 

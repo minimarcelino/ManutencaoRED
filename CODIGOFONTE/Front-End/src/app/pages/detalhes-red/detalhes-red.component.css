@@ -1,0 +1,106 @@
+.container {
+    min-height: 100vh;
+    background: #292929;
+    padding: 40px;
+    color: white;
+}
+
+h1 {
+    color: #00b050;
+    margin-bottom: 35px;
+}
+
+/* CARD DO ALUNO */
+.card-aluno {
+    display: flex;
+    gap: 25px;
+    background: #222;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+.card-aluno div {
+    background: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 12px;
+    width: 250px;
+}
+
+.card-aluno h3 {
+    color: #00a651;
+    margin: 0 0 15px;
+}
+
+.card-aluno p {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* MESES */
+.mes {
+    background: #064d31;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+/* TABELA */
+.table-container {
+    background: #222;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #00a651;
+}
+
+th {
+    padding: 18px;
+}
+
+
+td {
+    padding: 18px;
+    text-align: center;
+    border-bottom: 1px solid #444;
+}
+
+tr:hover {
+    background: #333;
+}
+
+.status {
+    background: #00a651;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* BOTÃO VOLTAR */
+.btn-voltar {
+    position: fixed;
+    bottom: 25px;
+    left: 40px;
+    background: #00a651;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-voltar:hover {
+    background: #008c44;
+}

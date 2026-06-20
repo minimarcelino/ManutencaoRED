@@ -30,7 +30,7 @@ export class FormularioPEEComponent implements OnInit {
     private peeService: PeeService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user = localStorage.getItem('user');
@@ -87,7 +87,9 @@ export class FormularioPEEComponent implements OnInit {
         disabled: this.desabilitar,
       }),
       dataEntrega: new FormControl({
-        value: this.data.dataEntregaAtividade || '',
+        value: this.data.dataEntregaAtividade
+          ? this.formatData(this.data.dataEntregaAtividade)
+          : '',
         disabled: this.desabilitar,
       }),
       cumpriuAtividade: new FormControl({
@@ -115,117 +117,289 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   async submit() {
+
     if (this.formularioPEE.invalid || this.isSubmitting) {
-      this.snackBarService.open('Campos obrigatórios!!');
+
+      this.mostrarErrosFormulario();
+
       const fields = Object.keys(this.formularioPEE.controls);
+
       const firstInvalidField = fields.find(
         (field) => this.formularioPEE.get(field)!.invalid
       );
+
+
       if (firstInvalidField) {
+
         const element = document.getElementById(firstInvalidField);
+
         if (element) {
           element.focus();
         }
+
       }
+
       return;
     }
 
-    // Verifica se algum campo obrigatório é apenas espaços em branco
+
     if (this.conteudo.trim() === '') {
-      this.snackBarService.open('Conteúdos deve ser preenchido corretamente.');
-      const element = document.getElementById('conteudo');
-      if (element) {
-        element.focus();
-      }
+
+      this.snackBarService.open(
+        'O conteúdo deve ser preenchido corretamente.'
+      );
+
+      document.getElementById('conteudo')?.focus();
+
       return;
     }
+
 
     if (this.metodologia.trim() === '') {
+
       this.snackBarService.open(
-        'Metodologia deve ser preenchido corretamente.'
+        'A metodologia deve ser preenchida corretamente.'
       );
-      const element = document.getElementById('metododlogia');
-      if (element) {
-        element.focus();
-      }
+
+      document.getElementById('metodologia')?.focus();
+
       return;
     }
+
 
     if (this.trabalhos.trim() === '') {
-      this.snackBarService.open('Trabalhos deve ser preenchido corretamente.');
-      const element = document.getElementById('trabalhos');
-      if (element) {
-        element.focus();
-      }
+
+      this.snackBarService.open(
+        'Os trabalhos devem ser preenchidos corretamente.'
+      );
+
+      document.getElementById('trabalhos')?.focus();
+
       return;
     }
+
 
     if (this.bibliografia.trim() === '') {
+
       this.snackBarService.open(
-        'Indicações bibliográficas deve ser preenchido corretamente.'
+        'As indicações bibliográficas devem ser preenchidas corretamente.'
       );
-      const element = document.getElementById('bibliografia');
-      if (element) {
-        element.focus();
-      }
+
+      document.getElementById('bibliografia')?.focus();
+
       return;
     }
+
 
     if (this.exigencia.trim() === '') {
+
       this.snackBarService.open(
-        'Critérios de exigência deve ser preenchido corretamente.'
+        'Os critérios de exigência devem ser preenchidos corretamente.'
       );
-      const element = document.getElementById('exigencia');
-      if (element) {
-        element.focus();
-      }
+
+      document.getElementById('exigencia')?.focus();
+
       return;
     }
+
 
     const dataAtual = new Date();
+
     const prazoSelecionado = new Date(this.prazo);
 
+
     if (prazoSelecionado < dataAtual) {
-      this.snackBarService.open('A data deve ser posterior à data atual');
+
+      this.snackBarService.open(
+        'A data deve ser posterior à data atual.'
+      );
+
+      document.getElementById('prazo')?.focus();
+
       return;
-    } else {
-      this.isSubmitting = true;
-      const peeServidorIds = this.data.pee_servidor.map((item: any) => ({
-        idservidor: item.servidorId,
-      }));
-
-      try {
-        const res = await this.peeService.updateWithEmail({
-          idpee: this.data.idpee,
-          conteudo: this.conteudo,
-          metodologia: this.metodologia,
-          trabalhos: this.trabalhos,
-          bibliografia: this.bibliografia,
-          criterios: this.exigencia,
-          prazofinal: this.prazo,
-          RED_idRED: this.data.RED_idRED,
-          disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
-          pee_servidor: peeServidorIds,
-          percentualabono: this.data.percentualabono,
-          dataEnvioProposta: new Date(),
-          canalComunicacao: this.comunicacao,
-          observacoes: this.observacao,
-          editando: true,
-          situacao: 'Enviado para o aluno',
-        });
-        this.snackBarService.open('PEE cadastrado com sucesso!!');
-        console.log('Após edição', res);
-
-        this.retornarParaLista();
-      } catch (error: any) {
-        if (error && error.error && error.error.data) {
-          const errorMessage = error.error.data;
-          this.snackBarService.open(`Falha ao cadastrar PEE: ${errorMessage}`);
-        } else {
-          this.snackBarService.open('Falha ao cadastrar Pee');
-        }
-      }
     }
+
+
+    this.isSubmitting = true;
+
+
+    const peeServidorIds = this.data.pee_servidor.map((item: any) => ({
+
+      idservidor: item.servidorId
+
+    }));
+
+
+    try {
+
+
+      const res = await this.peeService.updateWithEmail({
+
+        idpee: this.data.idpee,
+
+        conteudo: this.conteudo,
+
+        metodologia: this.metodologia,
+
+        trabalhos: this.trabalhos,
+
+        bibliografia: this.bibliografia,
+
+        criterios: this.exigencia,
+
+        prazofinal: this.prazo,
+
+        RED_idRED: this.data.RED_idRED,
+
+        disciplinas_iddisciplinas: this.data.disciplinas_iddisciplinas,
+
+        pee_servidor: peeServidorIds,
+
+        dataEnvioProposta: new Date(),
+
+        canalComunicacao: this.comunicacao,
+
+        observacoes: this.observacao,
+
+
+        situacao: this.avaliado
+          ? 'Avaliado'
+          : 'Enviado para o aluno',
+
+
+        avaliacaoAtividade: this.formularioPEE.get('avaliacaoAtividade')?.value || null,
+
+
+        percentualabono: this.formularioPEE.get('percentualAbono')?.value || -1,
+
+
+        dataEntregaAtividade: this.formularioPEE.get('dataEntrega')?.value || null,
+
+
+        houveAvaliacao: this.formularioPEE.get('houveAvaliacao')?.value || null,
+
+
+        avaliacoesRealizadas: this.formularioPEE.get('avaliacoesRealizadas')?.value || null,
+
+
+        dataAvaliacao: this.formularioPEE.get('dataAvaliacao')?.value || null,
+
+      });
+
+
+      this.snackBarService.open(
+        'PEE cadastrado com sucesso!!'
+      );
+
+
+      console.log('Após edição', res);
+
+
+      this.retornarParaLista();
+
+
+    } catch (error: any) {
+
+
+      console.error(error);
+
+
+      const errorData = error?.error?.data;
+
+
+      if (errorData) {
+
+        this.snackBarService.open(
+          `Falha ao cadastrar PEE: ${errorData}`
+        );
+
+
+      } else {
+
+        this.snackBarService.open(
+          'Falha ao cadastrar PEE'
+        );
+
+      }
+
+
+    } finally {
+
+      this.isSubmitting = false;
+
+    }
+
+  }
+
+  private mostrarErrosFormulario() {
+
+    const campos = this.formularioPEE.controls;
+
+
+    if (campos['conteudo']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O conteúdo é obrigatório.'
+      );
+
+      return;
+    }
+
+
+    if (campos['metodologia']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'A metodologia é obrigatória.'
+      );
+
+      return;
+    }
+
+
+    if (campos['trabalhos']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'Os trabalhos são obrigatórios.'
+      );
+
+      return;
+    }
+
+
+    if (campos['bibliografia']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'A bibliografia é obrigatória.'
+      );
+
+      return;
+    }
+
+
+    if (campos['exigencia']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'Os critérios de exigência são obrigatórios.'
+      );
+
+      return;
+    }
+
+
+    if (campos['prazo']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O prazo final é obrigatório.'
+      );
+
+      return;
+    }
+
+
+    this.snackBarService.open(
+      'Verifique os campos preenchidos.'
+    );
+
   }
 
   retornarParaLista() {
@@ -289,18 +463,20 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   get avaliado(): boolean {
-    return this.data.situacao === 'Avaliado';
+  return (
+    this.data.situacao === 'Avaliado' ||
+    this.data.situacao === 'Enviado para o aluno'
+  );
   }
 
   cabecalho() {
     const situacao = this.data.situacao;
-    const docentes = `Docente(s): ${
-      this.data.pee_servidor.length > 0
-        ? this.data.pee_servidor
-            .map((docente: any) => docente.servidor.nome)
-            .join(', ')
-        : ' - '
-    }`;
+    const docentes = `Docente(s): ${this.data.pee_servidor.length > 0
+      ? this.data.pee_servidor
+        .map((docente: any) => docente.servidor.nome)
+        .join(', ')
+      : ' - '
+      }`;
     const disciplina = `Disciplina: ${this.data.disciplinas.nomeDisciplina}`;
     const aluno = `Aluno: ${this.data.red.aluno.nome} - ${this.data.red.aluno.prontuario}`;
     let titulo;
@@ -328,5 +504,9 @@ export class FormularioPEEComponent implements OnInit {
 
   apresentarAbono(abono: number) {
     return abono < 0 ? 'Não avaliado' : `${abono} %`;
+  }
+
+  get avaliacoesRealizadas() {
+    return this.formularioPEE.get('avaliacoesRealizadas')!.value || null;
   }
 }

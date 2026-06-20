@@ -1,197 +1,28 @@
-<div class="corpo">
+<div class="welcome-container">
 
-  <div class="title listagem" translate="no"></div>
+  <h1>Bem-vindo ao Sistema RED</h1>
 
-  <!-- 🔔 ALERTA PEE -->
-  <div *ngIf="preencherAvaliarPEE()" class="pees">
-    <mat-icon style="margin-left: 1%;">notifications</mat-icon>
-    <h1>Existem PEEs aguardando preenchimento e/ou avaliação</h1>
-    <div id="buttons">
-      <button mat-raised-button color="primary" (click)="listarPEEs()" class="button">
-        Visualizar
-      </button>
+  <div class="welcome-card">
+    <h2>Ação Pendente</h2>
+
+    <p>
+      Existem processos RED aguardando análise.
+    </p>
+
+    <p>
+      Agora você deve aceitar ou recusar o RED acessando o menu abaixo:
+    </p>
+
+    <div class="caminho">
+      Menu Lateral →
+      <a [routerLink]="['/coordenador/listarREDs']">
+        Processo REDs
+      </a>
     </div>
-    <hr class="linha" />
+
+    <p>
+      Localize o RED desejado e utilize as opções de aprovação ou recusa disponíveis na listagem.
+    </p>
   </div>
-
-  <!-- ========================= -->
-  <!-- 🔥 REDs esperando confirmação -->
-  <!-- ========================= -->
-
-  <div class="title listagem">
-    <h1>REDs esperando confirmação</h1>
-    <hr class="linha" />
-  </div>
-
-  <div *ngIf="esperandoConfirmacao && esperandoConfirmacao.length > 0; else semRedConfirmacao">
-    <table mat-table [dataSource]="dataSourceRed" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="NomeRED">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="ProntuarioRED">
-        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="CursoRED">
-        <th mat-header-cell *matHeaderCellDef> Curso </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="InicioRED">
-        <th mat-header-cell *matHeaderCellDef> Início </th>
-        <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="TempoAfastamentoRED">
-        <th mat-header-cell *matHeaderCellDef> Tempo </th>
-        <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-      </ng-container>
-
-      <ng-container matColumnDef="TerminoRED">
-        <th mat-header-cell *matHeaderCellDef> Término </th>
-        <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="SituacaoRED">
-        <th mat-header-cell *matHeaderCellDef> Situação </th>
-        <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="SituacaoPEE">
-        <th mat-header-cell *matHeaderCellDef> Situação PEE </th>
-        <td mat-cell *matCellDef="let a"> {{ situacaoPEEs(a.pee) }} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsRED"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsRED;"></tr>
-
-    </table>
-  </div>
-
-  <ng-template #semRedConfirmacao>
-    <div class="empty-message">
-      Nenhuma RED aguardando confirmação.
-    </div>
-  </ng-template>
-
-  <!-- ========================= -->
-  <!-- 🔥 PEEs aguardando professor -->
-  <!-- ========================= -->
-
-  <div class="title listagem">
-    <h1>PEEs Aguardando Associação de Professor</h1>
-    <hr class="linha" />
-  </div>
-
-  <div *ngIf="aguardandoProfessor && aguardandoProfessor.length > 0; else semPeeProfessor">
-
-    <table mat-table [dataSource]="dataSourceAguardando" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="Disciplina">
-        <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-        <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Nome">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Prontuario">
-        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-        <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Situacao">
-        <th mat-header-cell *matHeaderCellDef> Situação </th>
-        <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Acoes">
-        <th mat-header-cell *matHeaderCellDef> Ações </th>
-        <td mat-cell *matCellDef="let a">
-          <button mat-icon-button matTooltip="Associar Professor" (click)="associarProfessor(a)">
-              <mat-icon>person_add_alt</mat-icon>
-            </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsPEE"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsPEE;"></tr>
-
-    </table>
-
-  </div>
-
-  <ng-template #semPeeProfessor>
-    <div class="empty-message">
-      Nenhum PEE aguardando associação de professor.
-    </div>
-  </ng-template>
-
-  <!-- ========================= -->
-  <!-- 🔥 REDs ativos -->
-  <!-- ========================= -->
-
-  <div class="title listagem">
-    <h1>REDs ativos</h1>
-    <hr class="linha" />
-  </div>
-
-  <div *ngIf="ativos && ativos.length > 0; else semRedAtivos">
-
-    <table mat-table [dataSource]="dataSourceRedAtivos" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="NomeRED">
-        <th mat-header-cell *matHeaderCellDef> Nome </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.nome}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="ProntuarioRED">
-        <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.prontuario}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="CursoRED">
-        <th mat-header-cell *matHeaderCellDef> Curso </th>
-        <td mat-cell *matCellDef="let a"> {{a.aluno.curso.sigla}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="InicioRED">
-        <th mat-header-cell *matHeaderCellDef> Início </th>
-        <td mat-cell *matCellDef="let a"> {{formatData(a.inicioAfastamento)}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="TempoAfastamentoRED">
-        <th mat-header-cell *matHeaderCellDef> Tempo </th>
-        <td mat-cell *matCellDef="let a"> {{a.tempoAfastamento}} dias</td>
-      </ng-container>
-
-      <ng-container matColumnDef="TerminoRED">
-        <th mat-header-cell *matHeaderCellDef> Término </th>
-        <td mat-cell *matCellDef="let a"> {{formatData(a.dataPrevisaoTermino)}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsREDAtivos"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsREDAtivos;"></tr>
-
-    </table>
-
-  </div>
-
-  <ng-template #semRedAtivos>
-    <div class="empty-message">
-      Nenhuma RED ativa.
-    </div>
-  </ng-template>
 
 </div>

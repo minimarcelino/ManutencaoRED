@@ -7,23 +7,14 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-
-import {
-  ActivatedRoute,
-  NavigationExtras,
-  Router,
-  NavigationEnd
-} from '@angular/router';
-
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-
+import { Location } from '@angular/common';
 import { Observable, startWith, map } from 'rxjs';
 
 import { AlunoService } from 'src/app/services/alunos.service';
 import { CursoService } from 'src/app/services/cursos.service';
-
 import { curso } from 'src/app/modelo/curso';
-
 import { SnackBarService } from 'src/app/services/snackbar.service';
 import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 
@@ -31,32 +22,24 @@ import { EntityUpdateService } from 'src/app/services/entityUpdate.service';
 // ✅ VALIDATOR PRONTUÁRIO
 function prontuarioValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-
     const value = control.value;
-
     if (!value) return null;
 
     const regex = /^[A-Za-z]{2}\d{6}[A-Za-z0-9]$/;
-
-    return regex.test(value)
-      ? null
-      : { prontuarioInvalido: true };
+    return regex.test(value) ? null : { prontuarioInvalido: true };
   };
 }
 
 // ✅ VALIDATOR CURSO
 function cursoValidoValidator(cursos: any[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-
     if (!control.value) return null;
 
     const isValid = cursos.some(
       (curso) => curso.nomeCurso === control.value.nomeCurso
     );
 
-    return isValid
-      ? null
-      : { cursoInvalido: true };
+    return isValid ? null : { cursoInvalido: true };
   };
 }
 
@@ -65,31 +48,21 @@ function cursoValidoValidator(cursos: any[]): ValidatorFn {
   templateUrl: './formulario-aluno.component.html',
   styleUrls: ['./formulario-aluno.component.css'],
 })
-
 export class FormularioAlunoComponent implements OnInit {
-
   formularioAluno!: FormGroup;
-
   cursos: curso[] = [];
-
   isSubmitting: boolean = false;
-
   user: any;
 
   alunos: any[] = [];
-
   aluno: any;
 
   filteredCursos!: Observable<any[]>;
 
   private data: any;
-
   private editar: boolean = false;
-
   private desabilitar: boolean = false;
-
   private retornoRED: boolean = false;
-
   private cadastrar: boolean = false;
 
   constructor(
@@ -101,58 +74,29 @@ export class FormularioAlunoComponent implements OnInit {
     private entityUpdateService: EntityUpdateService,
     private _adapter: DateAdapter<any>,
     @Inject(MAT_DATE_LOCALE) private _locale: string,
-  ) {
-
-    // 🔥 Atualiza cursos automaticamente
-    this.router.events.subscribe(event => {
-
-      if (event instanceof NavigationEnd) {
-
-        if (event.url.includes('formularioAluno')) {
-
-          if (this.formularioAluno) {
-
-            this.buscarCursos();
-
-          }
-
-        }
-
-      }
-
-    });
-
-  }
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
-
     this._adapter.setLocale('pt-BR');
 
     this.user = JSON.parse(localStorage.getItem('user')!);
 
     this.activatedRoute.paramMap.subscribe(() => {
-
       if (window.history.state) {
-
         this.data = window.history.state.aluno;
-
         this.desabilitar = window.history.state.visualizar;
-
         this.retornoRED = window.history.state.retornoRED;
-
       }
-
     });
 
     this.editar = !!this.data;
-
     this.cadastrar = !this.data;
 
     const desabilitarControle = this.desabilitar || this.editar;
 
     // ✅ FORMULÁRIO
     this.formularioAluno = new FormGroup({
-
       prontuario: new FormControl(
         {
           value: this.data?.prontuario || '',
@@ -160,7 +104,6 @@ export class FormularioAlunoComponent implements OnInit {
         },
         [Validators.required, prontuarioValidator()]
       ),
-
       nome: new FormControl(
         {
           value: this.data?.nome || '',
@@ -168,7 +111,6 @@ export class FormularioAlunoComponent implements OnInit {
         },
         [Validators.required]
       ),
-
       data: new FormControl(
         {
           value: this.data?.dataNascimento || '',
@@ -176,7 +118,6 @@ export class FormularioAlunoComponent implements OnInit {
         },
         [Validators.required]
       ),
-
       telefone: new FormControl(
         {
           value: this.data?.telefone || '',
@@ -184,7 +125,6 @@ export class FormularioAlunoComponent implements OnInit {
         },
         [Validators.required]
       ),
-
       email: new FormControl(
         {
           value: this.data?.email || '',
@@ -192,7 +132,6 @@ export class FormularioAlunoComponent implements OnInit {
         },
         [Validators.required, Validators.email]
       ),
-
       curso: new FormControl(
         {
           value: this.data?.curso || '',
@@ -200,83 +139,80 @@ export class FormularioAlunoComponent implements OnInit {
         },
         [Validators.required]
       ),
-
     });
 
     // ✅ UPPERCASE AUTOMÁTICO
     this.formularioAluno.get('prontuario')!.valueChanges.subscribe((value) => {
-
       if (value) {
-
         this.formularioAluno
           .get('prontuario')!
           .setValue(value.toUpperCase(), { emitEvent: false });
-
       }
-
     });
 
-    // ✅ BUSCAR CURSOS
+    // ✅ BUSCAS
     this.buscarCursos();
 
-    // 🔥 Atualiza ao voltar da tela de curso
-    if (window.history.state?.atualizarCursos) {
-
-      this.buscarCursos();
-
-    }
-
     if (this.cadastrar) {
-
       this.buscarAlunos();
-
       this.verificarProntuario();
+    }
+  }
 
+  private mostrarErrosFormulario() {
+
+    const campos = this.formularioAluno.controls;
+
+    if (campos['nome']?.hasError('required')) {
+      this.snackBarService.open('O nome do aluno é obrigatório');
+      return;
     }
 
+    if (campos['nome']?.hasError('minlength')) {
+      this.snackBarService.open('O nome deve ter pelo menos 3 caracteres');
+      return;
+    }
+
+    if (campos['email']?.hasError('required')) {
+      this.snackBarService.open('O e-mail é obrigatório');
+      return;
+    }
+
+    if (campos['email']?.hasError('email')) {
+      this.snackBarService.open('Digite um e-mail válido');
+      return;
+    }
+
+    this.snackBarService.open('Verifique os campos preenchidos');
   }
 
   async submit() {
-
     if (this.formularioAluno.invalid || this.isSubmitting) {
 
-      this.snackBarService.open('Campos obrigatórios');
+      this.mostrarErrosFormulario();
 
       const firstInvalidField = Object.keys(this.formularioAluno.controls)
         .find((field) => this.formularioAluno.get(field)!.invalid);
 
       if (firstInvalidField) {
-
         document.getElementById(firstInvalidField)?.focus();
-
       }
 
       return;
     }
 
     if (this.nome.trim() === '' || this.email.trim() === '') {
-
       this.snackBarService.open('Preencha os campos corretamente');
-
       return;
     }
 
     try {
-
       this.isSubmitting = true;
 
       if (this.editar) {
-
         await this.updateAluno();
-
-        this.snackBarService.open('Aluno atualizado com sucesso');
-
       } else {
-
         await this.createAluno();
-
-        this.snackBarService.open('Aluno cadastrado com sucesso');
-
       }
 
       this.retornarParaLista();
@@ -286,14 +222,21 @@ export class FormularioAlunoComponent implements OnInit {
       this.isSubmitting = false;
 
       const errorData = error?.error?.data;
-
       const errorPrisma = error?.error?.error;
 
       if (errorPrisma?.code === 'P2002') {
 
         const campoErro = errorPrisma.meta['target'][0];
 
-        this.snackBarService.open(`Campo ${campoErro} já cadastrado`);
+        const mensagensDuplicadas: any = {
+          email: 'Este e-mail já está cadastrado',
+          cpf: 'Este CPF já está cadastrado',
+          matricula: 'Esta matrícula já está cadastrada'
+        };
+
+        this.snackBarService.open(
+          mensagensDuplicadas[campoErro] || `Campo ${campoErro} já cadastrado`
+        );
 
       } else if (errorData) {
 
@@ -304,14 +247,10 @@ export class FormularioAlunoComponent implements OnInit {
         this.snackBarService.open('Erro ao cadastrar aluno');
 
       }
-
     }
-
   }
 
-  // 🔥 ABRIR FORMULÁRIO CURSO
   CadastrarCurso() {
-
     const navigationExtras: NavigationExtras = {
       state: {
         visualizar: false,
@@ -323,285 +262,197 @@ export class FormularioAlunoComponent implements OnInit {
       [`/${this.user.tiposervidor}/formularioCurso`],
       navigationExtras
     );
-
   }
 
   private async createAluno() {
 
-    await this.alunoService.createAluno({
+  const alunoEnviar = {
+    prontuario: this.prontuario.toUpperCase(),
+    nome: this.nome.trim(),
+    dataNascimento: this.converterData(this.data_nascimento),
+    telefone: this.telefone,
+    email: this.email.trim(),
+    curso_idcurso: this.idcurso,
+  };
 
-      prontuario: this.prontuario.toUpperCase(),
+  console.log("ENVIANDO PARA API:", alunoEnviar);
 
-      nome: this.nome.trim(),
+  await this.alunoService.createAluno(alunoEnviar);
 
-      dataNascimento: this.data_nascimento,
+  localStorage.setItem(
+    'ultimoAlunoCadastrado',
+    this.prontuario.toUpperCase()
+  );
 
-      telefone: this.telefone,
+  this.snackBarService.open('Aluno cadastrado com sucesso!');
+}
 
-      email: this.email.trim(),
+  private converterData(data: string): string {
 
-      curso_idcurso: this.idcurso,
+  if (!data) return '';
 
-    });
+  let dataFormatada = '';
 
-    this.snackBarService.open('Aluno cadastrado com sucesso!');
-
+  // caso venha 20022000
+  if (data.length === 8 && !data.includes('/')) {
+    dataFormatada = `${data.substring(4,8)}-${data.substring(2,4)}-${data.substring(0,2)}`;
   }
+
+  // caso venha 20/02/2000
+  else if (data.includes('/')) {
+    const partes = data.split('/');
+
+    dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
+  }
+
+  else {
+    dataFormatada = data;
+  }
+
+
+  return `${dataFormatada}T00:00:00.000Z`;
+}
 
   private async updateAluno() {
 
-    const idAluno = this.cadastrar
-      ? this.aluno?.id
-      : this.data?.id;
+    if (!this.idcurso) {
+      this.snackBarService.open('Selecione um curso válido');
+      return;
+    }
+
+    const idAluno = this.data?.id;
 
     await this.alunoService.updateAluno({
-
       id: idAluno,
-
       prontuario: this.prontuario.toUpperCase(),
-
-      nome: this.nome,
-
-      dataNascimento: this.data_nascimento,
-
+      nome: this.nome.trim(),
+      dataNascimento: this.converterData(this.data_nascimento),
       telefone: this.telefone,
-
-      email: this.email,
-
+      email: this.email.trim(),
       curso_idcurso: this.idcurso,
-
     });
 
     this.snackBarService.open('Aluno atualizado com sucesso!');
-
   }
 
-  // 🔥 BUSCAR CURSOS
   async buscarCursos() {
-
     const response = await this.cursoService.getCursos();
-
     this.cursos = response.data.cursos;
 
     this.formularioAluno
       .get('curso')!
-      .setValidators([
-        Validators.required,
-        cursoValidoValidator(this.cursos)
-      ]);
+      .setValidators([Validators.required, cursoValidoValidator(this.cursos)]);
 
-    this.formularioAluno
-      .get('curso')!
-      .updateValueAndValidity();
+    this.formularioAluno.get('curso')!.updateValueAndValidity();
 
     this.filterCurso();
-
   }
 
-  // 🔥 AUTOCOMPLETE
   filterCurso() {
-
-    this.filteredCursos =
-      this.formularioAluno.get('curso')!.valueChanges.pipe(
-
-        startWith(''),
-
-        map((value) =>
-          typeof value === 'string'
-            ? value
-            : value?.nomeCurso
-        ),
-
-        map((nome) =>
-          nome
-            ? this._filterCursos(nome)
-            : this.cursos.slice()
-        )
-
-      );
-
+    this.filteredCursos = this.formularioAluno.get('curso')!.valueChanges.pipe(
+      startWith(''),
+      map((value) => typeof value === 'string' ? value : value?.nomeCurso),
+      map((nome) => nome ? this._filterCursos(nome) : this.cursos.slice())
+    );
   }
 
   private _filterCursos(nome: string): any[] {
-
     const filterValue = nome.toLowerCase();
-
     return this.cursos.filter(c =>
       c.nomeCurso.toLowerCase().includes(filterValue)
     );
-
   }
 
   displayFn(curso: curso): string {
-
     return curso?.nomeCurso || '';
-
   }
 
-  // 🔥 RETORNAR PARA TELA COM ATUALIZAÇÃO
   retornarParaLista() {
-
     this.entityUpdateService.notifyUpdate('aluno');
 
-    // 🔥 se veio do RED
     if (this.retornoRED) {
-
-      this.router.navigate(
-        [`/${this.user.tiposervidor}/formularioRED`],
-        {
-          state: {
-            atualizarCursos: true
-          }
-        }
-      );
-
-      return;
+      this.router.navigate([`/${this.user.tiposervidor}/formularioRED`]);
     }
 
-    // 🔥 volta para listagem normal
-    this.router.navigate(
-      [`/${this.user.tiposervidor}/listarAlunos`]
-    );
-
+    this.location.back();
   }
 
   async buscarAlunos() {
-
     const response = await this.alunoService.getAluno();
-
     this.alunos = Object.values(response);
-
   }
 
   preencherFormulario(alunoData: any) {
-
     this.formularioAluno.patchValue({
-
       nome: alunoData.nome,
-
       data: alunoData.dataNascimento,
-
       telefone: alunoData.telefone,
-
       email: alunoData.email,
-
       curso: alunoData.curso,
-
     });
-
   }
 
   esvaziarFormulario() {
-
     this.formularioAluno.patchValue({
-
       nome: '',
-
       data: '',
-
       telefone: '',
-
       email: '',
-
       curso: '',
-
     });
-
   }
 
   async verificarProntuarioCadastrada(prontuario: string) {
-
     const lista = this.alunos[1]?.alunos || [];
-
-    return lista.some((a: any) =>
-      a.prontuario === prontuario
-    );
-
+    return lista.some((a: any) => a.prontuario === prontuario);
   }
 
   async verificarProntuario() {
+    this.formularioAluno.get('prontuario')!.valueChanges.subscribe(async (value) => {
+      if (!value) return;
 
-    this.formularioAluno.get('prontuario')!
-      .valueChanges.subscribe(async (value) => {
+      const existe = await this.verificarProntuarioCadastrada(value);
 
-        if (!value) return;
+      if (existe) {
+        this.editar = true;
 
-        const existe =
-          await this.verificarProntuarioCadastrada(value);
+        const lista = this.alunos[1]?.alunos || [];
+        this.aluno = lista.find((a: any) => a.prontuario === value);
 
-        if (existe) {
-
-          this.editar = true;
-
-          const lista = this.alunos[1]?.alunos || [];
-
-          this.aluno = lista.find(
-            (a: any) => a.prontuario === value
-          );
-
-          this.preencherFormulario(this.aluno);
-
-        } else if (this.editar) {
-
-          this.editar = false;
-
-          this.aluno = null;
-
-          this.esvaziarFormulario();
-
-        }
-
-      });
-
+        this.preencherFormulario(this.aluno);
+      } else if (this.editar) {
+        this.editar = false;
+        this.aluno = null;
+        this.esvaziarFormulario();
+      }
+    });
   }
 
-  // ✅ GETTERS
-  get prontuario() {
-    return this.formularioAluno.get('prontuario')!.value;
-  }
+  
 
-  get nome() {
-    return this.formularioAluno.get('nome')!.value;
-  }
-
-  get data_nascimento() {
-    return this.formularioAluno.get('data')!.value;
-  }
-
-  get telefone() {
-    return this.formularioAluno.get('telefone')!.value;
-  }
-
-  get email() {
-    return this.formularioAluno.get('email')!.value;
-  }
+  // GETTERS
+  get prontuario() { return this.formularioAluno.get('prontuario')!.value; }
+  get nome() { return this.formularioAluno.get('nome')!.value; }
+  get data_nascimento() { return this.formularioAluno.get('data')!.value; }
+  get telefone() { return this.formularioAluno.get('telefone')!.value; }
+  get email() { return this.formularioAluno.get('email')!.value; }
 
   get idcurso() {
 
-    const curso = this.formularioAluno.get('curso')!.value;
+    const cursoSelecionado = this.formularioAluno.get('curso')!.value;
 
-    return curso?.idcurso || null;
-
-  }
-
-  get editando() {
-    return this.editar;
-  }
-
-  get desabilitado() {
-    return this.desabilitar;
-  }
-
-  titulo() {
-
-    if (this.desabilitar) {
-      return 'Visualização de Aluno';
+    if (!cursoSelecionado) {
+      return null;
     }
 
-    return this.editar
-      ? 'Edição de Aluno'
-      : 'Cadastro de Aluno';
-
+    return cursoSelecionado.idcurso ?? null;
   }
 
+  get editando() { return this.editar; }
+  get desabilitado() { return this.desabilitar; }
+
+  titulo() {
+    if (this.desabilitar) return 'Visualização de Aluno';
+    return this.editar ? 'Edição de Aluno' : 'Cadastro de Aluno';
+  }
 }

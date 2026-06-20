@@ -201,24 +201,62 @@ export class emailController {
 
 
    async sendEmailProfessorPreencherPEE(req: Request, res: Response) {
-      const idProfessor = req.body.idProfessor;
-      const idPee = req.body.idPee;
+      try {
+         const idProfessor = req.body.idProfessor;
+         const idPee = req.body.idPee;
 
-      const professorResponse = await servidorservice.findByid(idProfessor);
-      if (typeof professorResponse.data === 'object' && 'email' in professorResponse.data) {
-         const emailProfessor = professorResponse.data.email;
-         const texto = `
-                          <html>
-                            <body>
-                              <p>Porfavor, <a href="${EMAIL_URL}login">clique aqui</a> para acessar o sistema e preencher ou avaliar a PEE com ID = ${idPee}.</p>
+         const professorResponse = await servidorservice.findByid(idProfessor);
 
-                              <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
-                            </body>
-                          </html>
-        `;
-         console.log(texto)
-         sendEmail(emailProfessor, 'Sistema RED - Pendências PEE', texto);
-         console.log("Email enviado Preencher PEE");
+         if (
+            typeof professorResponse.data === 'object' &&
+            'email' in professorResponse.data
+         ) {
+            const emailProfessor = professorResponse.data.email;
+            console.log('Email destino:', emailProfessor);
+
+            const texto = `
+           <html>
+             <body>
+               <p>
+                 Por favor,
+                 <a href="${EMAIL_URL}login">clique aqui</a>
+                 para acessar o sistema e preencher ou avaliar a PEE com ID = ${idPee}.
+               </p>
+
+               <p>
+                 Atenciosamente,<br />
+                 Equipe de suporte do RED.
+               </p>
+             </body>
+           </html>
+         `;
+
+            await sendEmail(
+               emailProfessor,
+               'Sistema RED - Pendências PEE',
+               texto
+            );
+
+            console.log("Email enviado Preencher PEE");
+
+            return res.status(200).json({
+               success: true,
+               message: 'Email enviado com sucesso'
+            });
+         }
+
+         return res.status(404).json({
+            success: false,
+            message: 'Professor não encontrado'
+         });
+
+      } catch (error) {
+         console.error(error);
+
+         return res.status(500).json({
+            success: false,
+            message: 'Erro ao enviar email'
+         });
       }
    }
 

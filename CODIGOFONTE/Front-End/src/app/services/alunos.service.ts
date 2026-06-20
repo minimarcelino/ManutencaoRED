@@ -27,6 +27,7 @@ export class AlunoService {
     }
   }
 
+  
   async createAluno(aluno: any): Promise<any> {
     try {
       const response = await this.http
@@ -70,4 +71,5 @@ export class AlunoService {
       this.authenticationService.tratarErro(error);
     }
   }
+
 }

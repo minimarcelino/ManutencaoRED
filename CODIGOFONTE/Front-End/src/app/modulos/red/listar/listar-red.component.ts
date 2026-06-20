@@ -92,6 +92,7 @@ export class ListarREDComponent implements OnInit {
     private customPaginatorIntlService: CustomPaginatorIntlService,
     private entityUpdateService: EntityUpdateService,
     private snackBar: MatSnackBar,
+    private messageDialog: messageDialog,
   ) {
     this.filteredReds = [];
 
@@ -136,6 +137,7 @@ export class ListarREDComponent implements OnInit {
   async findAll() {
     const response = await this.redService.getRed();
     this.reds = response.data.reds;
+    this.reds.sort((a, b) => b.idRED - a.idRED);
 
     // Se usuário for coordenador, apresentar apenas as RED de sua coordenação
     if (this.user.tiposervidor === 'coordenador') {
@@ -200,30 +202,30 @@ export class ListarREDComponent implements OnInit {
 
   async naoFinalizarRED(red: any) {
 
-  try {
+    try {
 
-    let response = await this.redService.updateSituacaoRED({
-      idRED: red.idRED,
-      situacao: 'Não finalizado',
-    });
+      let response = await this.redService.updateSituacaoRED({
+        idRED: red.idRED,
+        situacao: 'Não finalizado',
+      });
 
-    if (response) {
-      this.snackBarService.open('RED marcado como não finalizado!');
-      this.findAll();
-    }
+      if (response) {
+        this.snackBarService.open('RED marcado como não finalizado!');
+        this.findAll();
+      }
 
-  } catch (error: any) {
+    } catch (error: any) {
 
-    if (error && error.error && error.error.data) {
-      const errorMessage = error.error.data;
-      this.snackBarService.open(`Falha: ${errorMessage}`);
-    } else {
-      this.snackBarService.open('Falha ao atualizar RED');
+      if (error && error.error && error.error.data) {
+        const errorMessage = error.error.data;
+        this.snackBarService.open(`Falha: ${errorMessage}`);
+      } else {
+        this.snackBarService.open('Falha ao atualizar RED');
+      }
+
     }
 
   }
-
-}
 
   formularioRED(visualizar: boolean, red: any = null) {
     const navigationExtras: NavigationExtras = {
@@ -276,8 +278,9 @@ export class ListarREDComponent implements OnInit {
 
   associarDisciplina(red: red) {
     const editar = this.dialog.open(AssociarDisciplinaComponent, {
-      width: '100%',
-      height: '95%',
+      width: '90vw',
+      maxWidth: '1200px',
+      maxHeight: '95vh',
       data: {
         idRED: red.idRED,
         situacao: red.situacao,
@@ -394,9 +397,16 @@ export class ListarREDComponent implements OnInit {
   }
 
   async aprovarRED(red: any) {
+
+    const confirmou = await this.messageDialog.openDialogConfirmAprovarRED();
+
+    if (!confirmou) {
+      return;
+    }
+
     try {
 
-      let response = await this.redService.updateSituacaoRED({
+      const response = await this.redService.updateSituacaoRED({
         idRED: red.idRED,
         situacao: 'Esperando associação de disciplina',
       });
@@ -408,9 +418,10 @@ export class ListarREDComponent implements OnInit {
 
     } catch (error: any) {
 
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao aprovar RED: ${errorMessage}`);
+      if (error?.error?.data) {
+        this.snackBarService.open(
+          `Falha ao aprovar RED: ${error.error.data}`
+        );
       } else {
         this.snackBarService.open('Falha ao aprovar RED');
       }
@@ -419,9 +430,16 @@ export class ListarREDComponent implements OnInit {
   }
 
   async recusarRED(red: any) {
+
+    const confirmou = await this.messageDialog.openDialogConfirmRecusarRED();
+
+    if (!confirmou) {
+      return;
+    }
+
     try {
 
-      let response = await this.redService.updateSituacaoRED({
+      const response = await this.redService.updateSituacaoRED({
         idRED: red.idRED,
         situacao: 'Recusado',
       });
@@ -433,9 +451,10 @@ export class ListarREDComponent implements OnInit {
 
     } catch (error: any) {
 
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(`Falha ao recusar RED: ${errorMessage}`);
+      if (error?.error?.data) {
+        this.snackBarService.open(
+          `Falha ao recusar RED: ${error.error.data}`
+        );
       } else {
         this.snackBarService.open('Falha ao recusar RED');
       }
