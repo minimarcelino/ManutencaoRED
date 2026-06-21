@@ -97,6 +97,21 @@ export class GerenciarPEEComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource<any>(this.pees);
 
+      this.dataSource.filterPredicate = (data: any, filter: string) => {
+
+        const dadosPEE = `
+    ${data.red?.aluno?.nome}
+    ${data.red?.aluno?.prontuario}
+    ${data.red?.aluno?.email}
+    ${data.disciplinas?.sigla}
+    ${data.situacao}
+    ${this.apresentarDocentes(data)}
+  `.toLowerCase();
+
+        return dadosPEE.includes(filter);
+
+      };
+
       this.dataSource.paginator = this.paginator;
 
       // 🔥 LISTA DE PROFESSORES ÚNICOS
@@ -224,11 +239,15 @@ export class GerenciarPEEComponent implements OnInit {
 
   pesquisar(event: Event): void {
 
-    const value =
-      (event.target as HTMLInputElement).value;
+    const value = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
 
-    this.dataSource.filter =
-      value.trim().toLowerCase();
+    this.dataSource.filter = value;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   handleDialogConfirm(dialog: any): void {

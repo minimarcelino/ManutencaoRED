@@ -114,8 +114,15 @@ export class ListarREDComponent implements OnInit {
   }
 
   applyFilter(data: Event) {
-    const value = (data.target as HTMLInputElement).value;
+    const value = (data.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+
     this.dataSource.filter = value;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   todosPeesPreenchidos(pee: any[]): boolean {
@@ -147,6 +154,20 @@ export class ListarREDComponent implements OnInit {
 
     // Consolidação das REDs a serem apresentadas
     this.dataSource = new MatTableDataSource<any>(this.reds);
+
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+
+      const dadosRED = `
+    ${data.aluno.nome}
+    ${data.aluno.prontuario}
+    ${data.aluno.email}
+    ${data.aluno.curso.sigla}
+    ${data.situacao}
+  `.toLowerCase();
+
+      return dadosRED.includes(filter);
+
+    };
     this.dataSource.paginator = this.paginator;
     // console.log('REDs atuais\n', this.reds);
 
