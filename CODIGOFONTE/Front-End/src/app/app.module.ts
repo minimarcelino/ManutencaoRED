@@ -55,6 +55,8 @@ import { ManualComponent } from './pages/manual/manual.component';
 import { AnaliseRedsComponent } from './pages/analise-reds/analise-reds.component';
 import { DetalhesRedComponent } from './pages/detalhes-red/detalhes-red.component';
 import { CommonModule } from '@angular/common';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 /* 🔥 REGISTRA O LOCALE */
 registerLocaleData(localePt);
@@ -100,6 +102,8 @@ registerLocaleData(localePt);
     MatSidenavModule,
     MatToolbarModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
     /* Feature Modules */
     UsuarioModule,

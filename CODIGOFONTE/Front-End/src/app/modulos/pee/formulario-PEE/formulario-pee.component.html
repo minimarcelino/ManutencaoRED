@@ -179,7 +179,7 @@
       <mat-form-field>
         <mat-label>Canal de comunicação e Contato</mat-label>
 
-        <input matInput name="comunicacao" formControlName="comunicacao"
+        <input matInput name="comunicacao" formControlName="comunicacao" autocomplete="off"
           [placeholder]="'Informe o canal de comunicação e o contato utilizado para acompanhamento do aluno (e-mail, telefone, WhatsApp, Google Meet, entre outros).'" />
       </mat-form-field>
 
@@ -200,7 +200,7 @@
 
       <!-- Seção se avaliado -->
 
-      <div *ngIf="editando || this.avaliado">
+      <div *ngIf="this.avaliado">
 
         <h2>Avaliação do PEE</h2>
         <hr class="linha">

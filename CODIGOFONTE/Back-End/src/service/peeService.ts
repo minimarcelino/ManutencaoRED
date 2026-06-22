@@ -246,6 +246,18 @@ export class peeService {
 
 
   async update(pee: any, id: number) {
+
+    console.log(
+      "JSON RECEBIDO:",
+      JSON.stringify(pee, null, 2)
+    );
+
+    console.log("========== DADOS UPDATE ==========");
+    console.log("ID:", id);
+    console.log("RED:", pee.RED_idRED);
+    console.log("DISCIPLINA:", pee.disciplinas_iddisciplinas);
+    console.log("PERCENTUAL:", pee.percentualabono);
+    console.log("BODY COMPLETO:", pee);
     try {
 
       console.log('========== UPDATE PEE ==========');
@@ -281,8 +293,15 @@ export class peeService {
         )
         .map(
           (professor: any) => ({
-            servidorId: professor.idservidor,
+
+            servidorId:
+              professor.idservidor ??
+              professor.servidor?.idservidor
+
           })
+        )
+        .filter(
+          (professor: any) => professor.servidorId
         );
 
 
@@ -309,7 +328,15 @@ export class peeService {
 
       }
 
-
+      console.log("DADOS ENVIADOS PARA O PRISMA:");
+      console.log({
+        conteudo: pee.conteudo,
+        metodologia: pee.metodologia,
+        trabalhos: pee.trabalhos,
+        situacao: pee.situacao,
+        avaliacoesRealizadas: pee.avaliacoesRealizadas,
+        dataAvaliacao: pee.dataAvaliacao
+      });
       const updatePEE = await prisma.pee.update({
 
         where: {
@@ -318,56 +345,56 @@ export class peeService {
 
         data: {
 
-          conteudo: pee.conteudo,
-
-          metodologia: pee.metodologia,
-
-          trabalhos: pee.trabalhos,
-
-          bibliografia: pee.bibliografia,
-
-          criterios: pee.criterios,
-
-          prazofinal: pee.prazofinal,
+          conteudo: pee.conteudo ?? undefined,
+          metodologia: pee.metodologia ?? undefined,
+          trabalhos: pee.trabalhos ?? undefined,
+          bibliografia: pee.bibliografia ?? undefined,
+          criterios: pee.criterios ?? undefined,
+          prazofinal: pee.prazofinal ?? undefined,
 
 
-          RED_idRED: pee.RED_idRED,
-
+          RED_idRED: pee.RED_idRED ?? undefined,
 
           percentualabono:
-            pee.percentualabono,
+            pee.percentualabono ?? undefined,
 
 
           canalComunicacao:
-            pee.canalComunicacao ?? pee.comunicacao,
+            pee.canalComunicacao ?? pee.comunicacao ?? undefined,
 
 
           observacoes:
-            pee.observacoes ?? pee.observacao,
+            pee.observacoes ?? pee.observacao ?? undefined,
 
 
           situacao:
-            pee.situacao,
+            pee.situacao ?? undefined,
 
 
           houveAvaliacao:
-          pee.houveAvaliacao,
+            pee.houveAvaliacao ?? undefined,
 
 
           avaliacoesRealizadas:
-            pee.avaliacoesRealizadas,
-
+            pee.avaliacoesRealizadas ?? undefined,
 
           dataAvaliacao:
-            pee.dataAvaliacao,
-
+            pee.dataAvaliacao &&
+              !isNaN(new Date(pee.dataAvaliacao).getTime())
+              ? new Date(pee.dataAvaliacao)
+              : undefined,
 
           dataEntregaAtividade:
-            pee.dataEntregaAtividade,
-
+            pee.dataEntregaAtividade &&
+              !isNaN(new Date(pee.dataEntregaAtividade).getTime())
+              ? new Date(pee.dataEntregaAtividade)
+              : undefined,
 
           prazoEntregaAtividade:
-            pee.prazoEntregaAtividade,
+            pee.prazoEntregaAtividade &&
+              !isNaN(new Date(pee.prazoEntregaAtividade).getTime())
+              ? new Date(pee.prazoEntregaAtividade)
+              : undefined,
 
 
           pee_servidor: {
@@ -408,20 +435,13 @@ export class peeService {
       };
 
 
-    } catch (error) {
+    } catch (error: any) {
 
-      console.log(
-        "ERRO NO UPDATE:",
-        error
-      );
-
+      console.log("ERRO COMPLETO UPDATE:", error);
 
       return {
-
         ok: false,
-
-        data: StatusCodes.INTERNAL_SERVER_ERROR
-
+        data: error
       };
 
     }

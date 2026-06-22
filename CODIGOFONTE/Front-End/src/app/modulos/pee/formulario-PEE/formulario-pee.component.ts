@@ -79,15 +79,17 @@ export class FormularioPEEComponent implements OnInit {
         [Validators.maxLength(4000)]
       ),
       avaliacaoAtividade: new FormControl({
-        value: this.data.avaliacaoAtividade || '',
+        value: this.data.houveAvaliacao ? this.data.avaliacaoAtividade : '',
         disabled: this.desabilitar,
       }),
+
       percentualAbono: new FormControl({
-        value: this.data.percentualabono || '',
+        value: this.data.houveAvaliacao ? this.data.percentualabono : '',
         disabled: this.desabilitar,
       }),
+
       dataEntrega: new FormControl({
-        value: this.data.dataEntregaAtividade
+        value: this.data.houveAvaliacao && this.data.dataEntregaAtividade
           ? this.formatData(this.data.dataEntregaAtividade)
           : '',
         disabled: this.desabilitar,
@@ -270,7 +272,7 @@ export class FormularioPEEComponent implements OnInit {
         avaliacaoAtividade: this.formularioPEE.get('avaliacaoAtividade')?.value || null,
 
 
-        percentualabono: this.formularioPEE.get('percentualAbono')?.value || -1,
+        percentualabono: this.formularioPEE.get('percentualAbono')?.value || null,
 
 
         dataEntregaAtividade: this.formularioPEE.get('dataEntrega')?.value || null,
@@ -463,10 +465,7 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   get avaliado(): boolean {
-  return (
-    this.data.situacao === 'Avaliado' ||
-    this.data.situacao === 'Enviado para o aluno'
-  );
+    return this.data.situacao === 'Avaliado';
   }
 
   cabecalho() {
