@@ -57,12 +57,17 @@ export class CSPVisualizarREDComponent implements OnInit {
   }
 
   async findAll() {
-    const pees = await this.peeService.getPeeByIdRED(this.idRED);
-    this.pee = pees.data.pees;
-    console.log(this.pee);
-    this.dataSource = new MatTableDataSource<any>(this.pee);
-    this.dataSource.paginator = this.paginator;
-  }
+  const pees = await this.peeService.getPeeByIdRED(this.idRED);
+
+  console.log("RESPOSTA COMPLETA:", pees);
+
+  this.pee = pees.data.pees;
+
+  console.log("PEES QUE VÃO PARA A TABELA:", this.pee);
+
+  this.dataSource = new MatTableDataSource<any>(this.pee);
+  this.dataSource.paginator = this.paginator;
+}
 
   formatData(Data: Date): string {
     if (Data) {

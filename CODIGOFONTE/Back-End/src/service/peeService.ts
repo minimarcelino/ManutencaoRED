@@ -258,6 +258,17 @@ export class peeService {
     console.log("DISCIPLINA:", pee.disciplinas_iddisciplinas);
     console.log("PERCENTUAL:", pee.percentualabono);
     console.log("BODY COMPLETO:", pee);
+    console.log(
+  "CAMPOS DE ACOMPANHAMENTO:",
+  {
+    dataEnvioProposta: pee.dataEnvioProposta,
+    dataEntregaAtividade: pee.dataEntregaAtividade,
+    cumpriuAtividade: pee.cumpriuAtividade,
+    houveAvaliacao: pee.houveAvaliacao,
+    avaliacoesRealizadas: pee.avaliacoesRealizadas,
+    dataAvaliacao: pee.dataAvaliacao
+  }
+);
     try {
 
       console.log('========== UPDATE PEE ==========');
@@ -339,85 +350,35 @@ export class peeService {
       });
       const updatePEE = await prisma.pee.update({
 
-        where: {
-          idpee: id,
-        },
+where:{
+ idpee:id
+},
 
-        data: {
-
-          conteudo: pee.conteudo ?? undefined,
-          metodologia: pee.metodologia ?? undefined,
-          trabalhos: pee.trabalhos ?? undefined,
-          bibliografia: pee.bibliografia ?? undefined,
-          criterios: pee.criterios ?? undefined,
-          prazofinal: pee.prazofinal ?? undefined,
+data:{
 
 
-          RED_idRED: pee.RED_idRED ?? undefined,
+conteudo: pee.conteudo ?? undefined,
 
-          percentualabono:
-            pee.percentualabono ?? undefined,
+metodologia: pee.metodologia ?? undefined,
 
-
-          canalComunicacao:
-            pee.canalComunicacao ?? pee.comunicacao ?? undefined,
+trabalhos: pee.trabalhos ?? undefined,
 
 
-          observacoes:
-            pee.observacoes ?? pee.observacao ?? undefined,
+situacao: pee.situacao ?? undefined,
 
 
-          situacao:
-            pee.situacao ?? undefined,
+pee_servidor:{
+ create: professoresData
+}
 
 
-          houveAvaliacao:
-            pee.houveAvaliacao ?? undefined,
+},
 
+include:{
+ pee_servidor:true
+}
 
-          avaliacoesRealizadas:
-            pee.avaliacoesRealizadas ?? undefined,
-
-          dataAvaliacao:
-            pee.dataAvaliacao &&
-              !isNaN(new Date(pee.dataAvaliacao).getTime())
-              ? new Date(pee.dataAvaliacao)
-              : undefined,
-
-          dataEntregaAtividade:
-            pee.dataEntregaAtividade &&
-              !isNaN(new Date(pee.dataEntregaAtividade).getTime())
-              ? new Date(pee.dataEntregaAtividade)
-              : undefined,
-
-          prazoEntregaAtividade:
-            pee.prazoEntregaAtividade &&
-              !isNaN(new Date(pee.prazoEntregaAtividade).getTime())
-              ? new Date(pee.prazoEntregaAtividade)
-              : undefined,
-
-
-          pee_servidor: {
-
-            createMany: {
-
-              data: professoresData,
-
-              skipDuplicates: true,
-
-            },
-
-          },
-
-        },
-
-        include: {
-
-          pee_servidor: true,
-
-        },
-
-      });
+});
 
 
       console.log(

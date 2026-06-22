@@ -95,73 +95,69 @@ export class AssociarProfessoresComponent implements OnInit {
     }
   }
 
-  async selecionarProfessor(docente: any) {
+  async selecionarProfessor(docente:any){
 
-  try {
+try{
 
-    const professoresAtualizados = [
-      ...this.data.pee.pee_servidor.map(
-        (item: any) => item.servidor
-      ),
-      docente
-    ];
+const professoresAtualizados = [
 
-    await this.peeService.updatePee({
+...this.data.pee.pee_servidor.map(
+(item:any)=>({
+ idservidor:item.servidorId
+})
+),
 
-      idpee: this.data.idPEE,
+{
+ idservidor:docente.idservidor
+}
 
-      conteudo: '',
-      metodologia: '',
-      trabalhos: '',
-      bibliografia: '',
-      criterios: '',
+];
 
-      prazofinal: this.data.pee.prazofinal,
 
-      RED_idRED: this.data.idRED,
+await this.peeService.updatePee({
 
-      pee_servidor: professoresAtualizados,
+idpee:this.data.idPEE,
 
-      percentualabono:
-        this.data.pee.percentualabono,
+pee_servidor:professoresAtualizados,
 
-      situacao: 'Aguardando Preenchimento',
-    });
+situacao:'Aguardando Preenchimento'
 
-    // Adiciona na tabela de associados
-    this.dataSource2.data = [
-      ...this.dataSource2.data,
-      docente
-    ];
+});
 
-    // Remove da tabela de disponíveis
-    this.professores = this.professores.filter(
-      (item) =>
-        item.idservidor !== docente.idservidor
-    );
 
-    this.dataSource.data = [
-      ...this.professores
-    ];
+this.dataSource2.data=[
+...this.dataSource2.data,
+docente
+];
 
-    // Atualiza os dados locais do dialog
-    this.data.pee.pee_servidor.push({
-      servidorId: docente.idservidor,
-      servidor: docente
-    });
 
-    this.snackBarService.open(
-      'Professor associado com sucesso!'
-    );
+this.professores =
+this.professores.filter(
+(item)=>
+item.idservidor !== docente.idservidor
+);
 
-  } catch (error: any) {
 
-    console.error(error);
+this.dataSource.data=[
+...this.professores
+];
 
-    this.snackBarService.open(
-      'Falha ao associar professor'
-    );
-  }
+
+this.snackBarService.open(
+'Professor associado com sucesso!'
+);
+
+
+}catch(error){
+
+console.error(error);
+
+this.snackBarService.open(
+'Falha ao associar professor'
+);
+
+}
+
 }
   /* 
   selecionarProfessor(docente: any) {

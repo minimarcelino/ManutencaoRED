@@ -33,88 +33,26 @@ export class FormularioPEEComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
+
+    this.user = JSON.parse(localStorage.getItem('user')!);
+
+
     this.activatedRoute.paramMap.subscribe(() => {
-      if (window.history.state) {
-        this.data = window.history.state.pee;
-        this.desabilitar = window.history.state.visualizar;
-      }
+
+      this.data = window.history.state.pee;
+      this.desabilitar = window.history.state.visualizar;
+
+
+      console.log("PEE RECEBIDA:", this.data);
+
+
+      this.criarFormulario();
+
     });
+
 
     this._locale = 'pt-BR';
     this._adapter.setLocale(this._locale);
-
-    this.formularioPEE = new FormGroup({
-      conteudo: new FormControl(
-        { value: this.data.conteudo || '', disabled: this.desabilitar },
-        [Validators.required, Validators.maxLength(4000)]
-      ),
-      metodologia: new FormControl(
-        { value: this.data.metodologia || '', disabled: this.desabilitar },
-        [Validators.required, Validators.maxLength(4000)]
-      ),
-      trabalhos: new FormControl(
-        { value: this.data.trabalhos || '', disabled: this.desabilitar },
-        [Validators.required, Validators.maxLength(2000)]
-      ),
-      bibliografia: new FormControl(
-        { value: this.data.bibliografia || '', disabled: this.desabilitar },
-        [Validators.required, Validators.maxLength(2000)]
-      ),
-      exigencia: new FormControl(
-        { value: this.data.criterios || '', disabled: this.desabilitar },
-        [Validators.required, Validators.maxLength(2000)]
-      ),
-      prazo: new FormControl(
-        { value: this.data.prazofinal || '', disabled: this.desabilitar },
-        [Validators.required]
-      ),
-      comunicacao: new FormControl({
-        value: this.data.canalComunicacao || '',
-        disabled: this.desabilitar,
-      }),
-      observacao: new FormControl(
-        { value: this.data.observacoes || '', disabled: this.desabilitar },
-        [Validators.maxLength(4000)]
-      ),
-      avaliacaoAtividade: new FormControl({
-        value: this.data.houveAvaliacao ? this.data.avaliacaoAtividade : '',
-        disabled: this.desabilitar,
-      }),
-
-      percentualAbono: new FormControl({
-        value: this.data.houveAvaliacao ? this.data.percentualabono : '',
-        disabled: this.desabilitar,
-      }),
-
-      dataEntrega: new FormControl({
-        value: this.data.houveAvaliacao && this.data.dataEntregaAtividade
-          ? this.formatData(this.data.dataEntregaAtividade)
-          : '',
-        disabled: this.desabilitar,
-      }),
-      cumpriuAtividade: new FormControl({
-        value: this.data.cumpriuAtividade || '',
-        disabled: this.desabilitar,
-      }),
-      houveAvaliacao: new FormControl({
-        value: this.data.houveAvaliacao || '',
-        disabled: this.desabilitar,
-      }),
-      avaliacoesRealizadas: new FormControl({
-        value: this.data.avaliacoesRealizadas || '',
-        disabled: this.desabilitar,
-      }),
-      dataAvaliacao: new FormControl({
-        value: this.data.dataAvaliacao || '',
-        disabled: this.desabilitar,
-      })
-    });
-
-    this.user = localStorage.getItem('user');
-    this.user = JSON.parse(this.user);
-    console.log("Dados da PEE que vai ser apresentada\n", this.data);
 
   }
 
@@ -227,13 +165,29 @@ export class FormularioPEEComponent implements OnInit {
 
     const peeServidorIds = this.data.pee_servidor.map((item: any) => ({
 
-      idservidor: item.servidorId
+      idservidor:
+        item.servidorId ??
+        item.servidor?.idservidor
 
     }));
 
 
     try {
 
+
+      console.log("VALORES FORM ANTES DO UPDATE:",
+        this.formularioPEE.value
+      );
+
+
+      console.log("GETTERS:",
+        {
+          conteudo: this.conteudo,
+          metodologia: this.metodologia,
+          trabalhos: this.trabalhos,
+          bibliografia: this.bibliografia,
+          exigencia: this.exigencia
+        });
 
       const res = await this.peeService.updateWithEmail({
 
@@ -508,4 +462,155 @@ export class FormularioPEEComponent implements OnInit {
   get avaliacoesRealizadas() {
     return this.formularioPEE.get('avaliacoesRealizadas')!.value || null;
   }
+
+  criarFormulario() {
+
+    this.formularioPEE = new FormGroup({
+
+      conteudo: new FormControl(
+        {
+          value: this.data?.conteudo || '',
+          disabled: this.desabilitar
+        },
+        [
+          Validators.required,
+          Validators.maxLength(4000)
+        ]
+      ),
+
+
+      metodologia: new FormControl(
+        {
+          value: this.data?.metodologia || '',
+          disabled: this.desabilitar
+        },
+        [
+          Validators.required,
+          Validators.maxLength(4000)
+        ]
+      ),
+
+
+      trabalhos: new FormControl(
+        {
+          value: this.data?.trabalhos || '',
+          disabled: this.desabilitar
+        },
+        [
+          Validators.required,
+          Validators.maxLength(2000)
+        ]
+      ),
+
+
+      bibliografia: new FormControl(
+        {
+          value: this.data?.bibliografia || '',
+          disabled: this.desabilitar
+        },
+        [
+          Validators.required,
+          Validators.maxLength(2000)
+        ]
+      ),
+
+
+      exigencia: new FormControl(
+        {
+          value: this.data?.criterios || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      prazo: new FormControl(
+        {
+          value: this.data?.prazofinal || '',
+          disabled: this.desabilitar
+        },
+        Validators.required
+      ),
+
+
+      comunicacao: new FormControl(
+        {
+          value: this.data?.canalComunicacao || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      observacao: new FormControl(
+        {
+          value: this.data?.observacoes || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      avaliacaoAtividade: new FormControl(
+        {
+          value: this.data?.avaliacaoAtividade || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      percentualAbono: new FormControl(
+        {
+          value: this.data?.percentualabono ?? '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      dataEntrega: new FormControl(
+        {
+          value: this.data?.dataEntregaAtividade || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      cumpriuAtividade: new FormControl(
+        {
+          value: this.data?.cumpriuAtividade || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      houveAvaliacao: new FormControl(
+        {
+          value: this.data?.houveAvaliacao || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      avaliacoesRealizadas: new FormControl(
+        {
+          value: this.data?.avaliacoesRealizadas || '',
+          disabled: this.desabilitar
+        }
+      ),
+
+
+      dataAvaliacao: new FormControl(
+        {
+          value: this.data?.dataAvaliacao || '',
+          disabled: this.desabilitar
+        }
+      )
+
+    });
+
+
+    console.log(
+      "FORMULÁRIO CRIADO:",
+      this.formularioPEE.value
+    );
+
+  }
+
 }
