@@ -357,19 +357,126 @@ where:{
 data:{
 
 
-conteudo: pee.conteudo ?? undefined,
-
-metodologia: pee.metodologia ?? undefined,
-
-trabalhos: pee.trabalhos ?? undefined,
+conteudo:
+ pee.conteudo ?? undefined,
 
 
-situacao: pee.situacao ?? undefined,
+metodologia:
+ pee.metodologia ?? undefined,
 
 
-pee_servidor:{
+trabalhos:
+ pee.trabalhos ?? undefined,
+
+
+bibliografia:
+ pee.bibliografia ?? undefined,
+
+
+criterios:
+ pee.criterios ?? undefined,
+
+
+prazofinal:
+ pee.prazofinal
+ ? new Date(pee.prazofinal)
+ : undefined,
+
+
+situacao:
+ pee.situacao ?? undefined,
+
+
+canalComunicacao:
+ pee.canalComunicacao ?? undefined,
+
+
+observacoes:
+ pee.observacoes ?? undefined,
+
+
+avaliacaoAtividade:
+ pee.avaliacaoAtividade ?? undefined,
+
+
+prazoEntregaAtividade:
+ pee.prazoEntregaAtividade ?? undefined,
+
+
+dataEntregaAtividade:
+  pee.dataEntregaAtividade
+    ? (() => {
+
+        const data = pee.dataEntregaAtividade;
+
+        // formato recebido: 25062026
+        if (/^\d{8}$/.test(data)) {
+
+          const dia = data.substring(0,2);
+          const mes = data.substring(2,4);
+          const ano = data.substring(4,8);
+
+          return new Date(`${ano}-${mes}-${dia}`);
+
+        }
+
+        // formato ISO: 2026-06-29T00:00:00.000Z
+        const dataNormal = new Date(data);
+
+        return isNaN(dataNormal.getTime())
+          ? undefined
+          : dataNormal;
+
+      })()
+    : undefined,
+
+
+cumpriuAtividade:
+ pee.cumpriuAtividade ?? undefined,
+
+
+houveAvaliacao:
+ pee.houveAvaliacao ?? undefined,
+
+
+avaliacoesRealizadas:
+ pee.avaliacoesRealizadas,
+
+
+dataAvaliacao:
+  pee.dataAvaliacao
+    ? (() => {
+
+        const data = pee.dataAvaliacao;
+
+        if (/^\d{8}$/.test(data)) {
+
+          const dia = data.substring(0,2);
+          const mes = data.substring(2,4);
+          const ano = data.substring(4,8);
+
+          return new Date(`${ano}-${mes}-${dia}`);
+
+        }
+
+        const dataNormal = new Date(data);
+
+        return isNaN(dataNormal.getTime())
+          ? null
+          : dataNormal;
+
+      })()
+    : null,
+
+
+pee_servidor:
+professoresData.length > 0
+?
+{
  create: professoresData
 }
+:
+undefined
 
 
 },
