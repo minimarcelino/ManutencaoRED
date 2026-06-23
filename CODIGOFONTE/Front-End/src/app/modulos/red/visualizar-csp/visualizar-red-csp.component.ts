@@ -23,18 +23,18 @@ export class CSPVisualizarREDComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = [
-    'Disciplina',
-    'Professor',
-    'Comunicacao',
-    'DataEnvio',
-    'DataLimite',
-    'Abono',
-    'DataEntrega',
-    'Cumprimento',
-    'AtividadeAvaliativa',
-    'AtividadeAvaliativaRealizadas',
-    'DataAvaliacao',
-  ];
+  'Disciplina',
+  'Comunicacao',
+  'Conteudo',
+  'Metodologia',
+  'Trabalhos',
+  'Prazo',
+  'Entrega',
+  'Cumpriu',
+  'Avaliacao',
+  'Realizou',
+  'Abono'
+];
 
   constructor(
     private router: Router,
@@ -57,16 +57,29 @@ export class CSPVisualizarREDComponent implements OnInit {
   }
 
   async findAll() {
+
   const pees = await this.peeService.getPeeByIdRED(this.idRED);
 
   console.log("RESPOSTA COMPLETA:", pees);
 
-  this.pee = pees.data.pees;
+  console.log("DATA:", pees.data);
 
-  console.log("PEES QUE VÃO PARA A TABELA:", this.pee);
+  console.log("PEES:", pees.data?.pees);
+
+
+  this.pee = pees.data?.pees ?? [];
+
+
+  console.log("ARRAY FINAL:", this.pee);
+
+  console.log("PRIMEIRO PEE:", this.pee[0]);
+
 
   this.dataSource = new MatTableDataSource<any>(this.pee);
+
   this.dataSource.paginator = this.paginator;
+
+  console.log(JSON.stringify(this.pee[0], null, 2));
 }
 
   formatData(Data: Date): string {

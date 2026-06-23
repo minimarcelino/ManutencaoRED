@@ -1,91 +1,396 @@
 <div class="corpo">
+
   <div class="impressao">
+
     <div class="title">
+
       <h1>Acompanhamento RED</h1>
+
       <h2>{{ apresentarAluno() }}</h2>
+
       <hr class="linha" />
+
     </div>
+
 
     <div class="listagem">
-      <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <!-- Informação das disciplinas com PEE para a RED visualizada -->
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+
+        <!-- Disciplina -->
         <ng-container matColumnDef="Disciplina">
-          <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-          <td mat-cell *matCellDef="let a"> {{a.disciplinas.nomeDisciplina}} ({{ a.disciplinas.sigla }})</td>
-        </ng-container>
 
-        <ng-container matColumnDef="Professor">
-          <th mat-header-cell *matHeaderCellDef>Professor</th>
-          <td mat-cell *matCellDef="let a"> {{ this.apresentarDocentes(a) }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Comunicacao">
-          <th mat-header-cell *matHeaderCellDef>Comunicação</th>
-          <td mat-cell *matCellDef="let a"> {{a.canalComunicacao}} </td>
-        </ng-container>
-
-        <!-- Informações do progresso dos PEEs -->
-        <ng-container matColumnDef="DataEnvio">
-          <th mat-header-cell *matHeaderCellDef matTooltip="Data do envio do PEE preenchido ao Aluno">Data de Envio PEE
+          <th mat-header-cell *matHeaderCellDef>
+            Disciplina
           </th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.dataEnvioProposta)}} </td>
-        </ng-container>
 
-        <ng-container matColumnDef="DataLimite">
-          <th mat-header-cell *matHeaderCellDef
-            matTooltip="Data limite para o encaminhamento do PEE preenchido para o aluno">Prazo encaminhamento PEE</th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.prazofinal)}} </td>
-        </ng-container>
-
-        <!-- Informações da entrega das atividades e avaliação do PEEs -->
-
-        <ng-container matColumnDef="Abono">
-          <th mat-header-cell *matHeaderCellDef> Percentual de abono </th>
-          <td mat-cell *matCellDef="let a"> {{ this.apresentarAbono(a.percentualabono) }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="DataEntrega">
-          <th mat-header-cell *matHeaderCellDef matTooltip="Data de entrega das atividades pelo aluno">Data de entrega
-          </th>
           <td mat-cell *matCellDef="let a">
-            {{ (a.dataEntregaAtividade) ? formatData(a.dataEntregaAtividade) : '' }}
+
+            {{a.disciplinas.nomeDisciplina}}
+            ({{a.disciplinas.sigla}})
+
           </td>
+
         </ng-container>
 
-        <ng-container matColumnDef="Cumprimento">
-          <th mat-header-cell *matHeaderCellDef>Aluno cumpriu as atividade</th>
-          <td mat-cell *matCellDef="let a"> {{(a.cumpriuAtividade) ? a.cumpriuAtividade : '' }} </td>
+
+
+
+
+        <!-- Comunicação -->
+        <ng-container matColumnDef="Comunicacao">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Comunicação
+          </th>
+
+          <td mat-cell *matCellDef="let a">
+
+            {{a.canalComunicacao || 'Não informado'}}
+
+          </td>
+
         </ng-container>
 
-        <ng-container matColumnDef="AtividadeAvaliativa">
+
+
+
+
+        <!-- Conteúdo -->
+        <ng-container matColumnDef="Conteudo">
+
+          <th mat-header-cell *matHeaderCellDef>
+            Conteúdo
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+            {{a.conteudo || 'Não informado'}}
+
+          </td>
+
+
+        </ng-container>
+
+
+
+
+
+        <!-- Metodologia -->
+        <ng-container matColumnDef="Metodologia">
+
+
+          <th mat-header-cell *matHeaderCellDef>
+
+            Metodologia
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+            {{a.metodologia || 'Não informado'}}
+
+          </td>
+
+
+        </ng-container>
+
+
+
+
+
+
+
+        <!-- Trabalhos -->
+        <ng-container matColumnDef="Trabalhos">
+
+
+          <th mat-header-cell *matHeaderCellDef>
+
+            Trabalhos
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+            {{a.trabalhos || 'Não informado'}}
+
+          </td>
+
+
+        </ng-container>
+
+
+
+
+
+
+
+
+        <!-- Prazo Final -->
+        <ng-container matColumnDef="Prazo">
+
+
+          <th mat-header-cell *matHeaderCellDef>
+
+            Prazo final
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+            {{formatData(a.prazofinal)}}
+
+          </td>
+
+
+        </ng-container>
+
+
+
+
+
+
+
+
+        <!-- Entrega da atividade -->
+        <ng-container matColumnDef="Entrega">
+
+
           <th mat-header-cell *matHeaderCellDef
-            matTooltip="Houve atividade avaliativa durante o periodo de afastamento do aluno?"> Houve atividade
-            avaliativa?</th>
-          <td mat-cell *matCellDef="let a"> {{a.houveAvaliacao}} </td>
+          matTooltip="Data de entrega das atividades pelo aluno">
+
+            Entrega atividade
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+
+            {{a.dataEntregaAtividade 
+              ? formatData(a.dataEntregaAtividade) 
+              : 'Não informado'}}
+
+
+          </td>
+
+
         </ng-container>
 
-        <ng-container matColumnDef="AtividadeAvaliativaRealizadas">
+
+
+
+
+
+
+
+
+
+        <!-- Cumprimento -->
+        <ng-container matColumnDef="Cumpriu">
+
+
+          <th mat-header-cell *matHeaderCellDef>
+
+            Cumpriu atividade
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+
+            {{a.cumpriuAtividade || 'Não informado'}}
+
+
+          </td>
+
+
+        </ng-container>
+
+
+
+
+
+
+
+
+
+
+        <!-- Houve avaliação -->
+        <ng-container matColumnDef="Avaliacao">
+
+
           <th mat-header-cell *matHeaderCellDef
-            matTooltip="Aluno realizou as atividades avaliativas durante o afastamento?"> Realizou avaliações? </th>
-          <td mat-cell *matCellDef="let a"> {{a.avaliacoesRealizadas}} </td>
+          matTooltip="Houve atividade avaliativa durante o RED?">
+
+
+            Houve avaliação?
+
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+
+            {{a.houveAvaliacao || 'Não informado'}}
+
+
+          </td>
+
+
         </ng-container>
 
-        <ng-container matColumnDef="DataAvaliacao">
-          <th mat-header-cell *matHeaderCellDef>Data da avaliação</th>
-          <td mat-cell *matCellDef="let a"> {{formatData(a.dataAvaliacao)}} </td>
+
+
+
+
+
+
+
+
+
+        <!-- Avaliações realizadas -->
+        <ng-container matColumnDef="Realizou">
+
+
+          <th mat-header-cell *matHeaderCellDef>
+
+
+            Avaliações realizadas
+
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+
+            {{a.avaliacoesRealizadas || 'Não realizado'}}
+
+
+          </td>
+
+
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+
+
+
+
+
+
+        <!-- Percentual abono -->
+        <ng-container matColumnDef="Abono">
+
+
+          <th mat-header-cell *matHeaderCellDef>
+
+            Percentual abono
+
+          </th>
+
+
+          <td mat-cell *matCellDef="let a">
+
+
+            {{apresentarAbono(a.percentualabono)}}
+
+
+          </td>
+
+
+        </ng-container>
+
+
+
+
+
+
+
+
+
+        <!-- Linhas -->
+        <tr 
+          mat-header-row 
+          *matHeaderRowDef="displayedColumns">
+        </tr>
+
+
+        <tr 
+          mat-row 
+          *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+
+
       </table>
 
+
     </div>
-    <!-- boto~es -->
+
+
   </div>
+
+
 </div>
+
+
+
+
+
 <div class="botao-impressao">
-  <button mat-raised-button color="primary" (click)="voltar()" class="button">Voltar</button>
-  <button mat-raised-button color="primary" (click)="imprimir()" class="button" id="imprimir">Imprimir</button>
-  <button mat-raised-button color="primary" (click)="exportarExcel()" class="button">Exportar Excel</button>
+
+
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="voltar()" 
+    class="button">
+
+    Voltar
+
+  </button>
+
+
+
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="imprimir()" 
+    class="button"
+    id="imprimir">
+
+
+    Imprimir
+
+  </button>
+
+
+
+
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="exportarExcel()" 
+    class="button">
+
+
+    Exportar Excel
+
+
+  </button>
+
+
+
 </div>

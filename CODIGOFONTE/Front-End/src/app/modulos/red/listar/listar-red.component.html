@@ -9,32 +9,32 @@
 
       <div class="filtros">
 
-        <mat-form-field class="campo-pesquisa" appearance="outline">
-          <mat-label>Pesquisar</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000000">
-        </mat-form-field>
+  <mat-form-field class="campo-pesquisa" appearance="outline">
+    <mat-label>Pesquisar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Carlos | PE0000000">
+  </mat-form-field>
 
-        <mat-form-field class="campo-curso" appearance="outline">
-          <mat-label>Curso</mat-label>
-          <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
-            <mat-option value="todos">Todos os cursos</mat-option>
-            <mat-option *ngFor="let a of cursos" [value]="a.sigla">
-              {{a.sigla}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+  <mat-form-field class="campo-curso" appearance="outline">
+    <mat-label>Curso</mat-label>
+    <mat-select [(value)]="selectedCurso" (selectionChange)="filroPorCurso($event)">
+      <mat-option value="todos">Todos os cursos</mat-option>
+      <mat-option *ngFor="let a of cursos" [value]="a.sigla">
+        {{a.sigla}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-        <mat-form-field class="campo-situacao" appearance="outline">
-          <mat-label>Situação RED</mat-label>
-          <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
-            <mat-option value="todos">Apresentar todos</mat-option>
-            <mat-option *ngFor="let a of situacao" [value]="a">
-              {{a}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+  <mat-form-field class="campo-situacao" appearance="outline">
+    <mat-label>Situação RED</mat-label>
+    <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
+      <mat-option value="todos">Apresentar todos</mat-option>
+      <mat-option *ngFor="let a of situacao" [value]="a">
+        {{a}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-      </div>
+</div>
 
       <table appearence="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
@@ -92,158 +92,86 @@
         <!-- Outras colunas aqui, se necessário -->
 
         <!-- Coluna de AÇÕES do usuário -->
-        <!-- Coluna de AÇÕES do usuário -->
         <ng-container matColumnDef="Acoes">
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-
-            <!-- ASSOCIAR DISCIPLINAS -->
-            <button *ngIf="
-        (a.situacao === 'Em andamento' || 
-        a.situacao === 'Esperando associação de disciplina')
-        && isCSP()
-        && situacaoPEEs(a.pee)?.trim()?.toLowerCase() !== 'avaliado'
-      " mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
-
+            <button
+              *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
+              mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
               <mat-icon>book</mat-icon>
-
             </button>
 
-
-
-            <!-- ACOMPANHAR PEEs -->
-            <button *ngIf="
-        this.existePEEs(a)
-        && situacaoPEEs(a.pee)?.trim()?.toLowerCase() !== 'avaliado'
-      " mat-icon-button matTooltip="Acompanhar PEEs" (click)="VisualizarRED_CSP(a)">
-
+            <!-- Falta mostrar o abono das faltas -->
+            <button *ngIf="this.existePEEs(a)" mat-icon-button matTooltip="Acompanhar PEEs"
+              (click)="VisualizarRED_CSP(a)">
               <mat-icon>description</mat-icon>
-
             </button>
 
-
-
-            <!-- ASSOCIAR PROFESSORES -->
-            <button *ngIf="
-        isCOORD()
-        && a.situacao !== 'Esperando associação de disciplina'
-        && a.situacao !== 'Esperando confirmação'
-        && situacaoPEEs(a.pee)?.trim()?.toLowerCase() !== 'avaliado'
-      " mat-icon-button matTooltip="Associar Professores" (click)="visualizarDisciplina(a)">
-
+            <button
+              *ngIf="isCOORD() && (a.situacao !== 'Esperando associação de disciplina' && a.situacao !== 'Esperando confirmação')"
+              mat-icon-button matTooltip="Associar Professores" (click)="visualizarDisciplina(a)">
               <mat-icon>library_books</mat-icon>
+            </button>
+
+            <!-- Aprovar RED -->
+            <button *ngIf="a.situacao?.trim()?.toLowerCase() === 'esperando confirmação' && isCOORD()" mat-icon-button
+              matTooltip="Aprovar RED" (click)="aprovarRED(a)">
+
+              <mat-icon class="icon-aprovar">check_circle</mat-icon>
 
             </button>
 
+            <!-- Recusar RED -->
+            <button *ngIf="a.situacao?.trim()?.toLowerCase() === 'esperando confirmação' && isCOORD()" mat-icon-button
+              matTooltip="Recusar RED" (click)="recusarRED(a)">
 
+              <mat-icon class="icon-recusar">cancel</mat-icon>
 
-            <!-- APROVAR RED -->
+            </button>
+
+            <!-- Finalizar RED -->
             <button *ngIf="
-        a.situacao?.trim()?.toLowerCase() === 'esperando confirmação'
-        && isCOORD()
-      " mat-icon-button matTooltip="Aprovar RED" (click)="aprovarRED(a)">
+              a.situacao?.trim()?.toLowerCase() === 'em andamento'
+              && isCSP()
+              && situacaoPEEs(a.pee)?.trim()?.toLowerCase() === 'avaliado'
+            " mat-icon-button matTooltip="Finalizar RED" (click)="finalizarRED(a)">
 
-              <mat-icon class="icon-aprovar">
-                check_circle
-              </mat-icon>
+              <mat-icon class="icon-finalizar">task_alt</mat-icon>
 
             </button>
 
-
-
-            <!-- RECUSAR RED -->
+            <!-- Não finalizar RED -->
             <button *ngIf="
-        a.situacao?.trim()?.toLowerCase() === 'esperando confirmação'
-        && isCOORD()
-      " mat-icon-button matTooltip="Recusar RED" (click)="recusarRED(a)">
+            a.situacao?.trim()?.toLowerCase() === 'em andamento'
+            && isCSP()
+            && situacaoPEEs(a.pee)?.trim()?.toLowerCase() === 'avaliado'
+          " mat-icon-button matTooltip="Não finalizar RED" (click)="naoFinalizarRED(a)">
 
-              <mat-icon class="icon-recusar">
-                cancel
-              </mat-icon>
-
-            </button>
-
-
-
-            <!-- EDITAR RED -->
-            <button *ngIf="
-        a.situacao !== 'Finalizado'
-        && a.situacao !== 'Recusado'
-        && isCRA()
-      " mat-icon-button matTooltip="Editar RED" (click)="formularioRED(false, a)">
-
-              <mat-icon>
-                edit
-              </mat-icon>
+              <mat-icon class="icon-nao-finalizar">cancel</mat-icon>
 
             </button>
 
+            <button *ngIf="(a.situacao !== 'Finalizado' && a.situacao !== 'Recusado')  && isCRA()" mat-icon-button
+              matTooltip="Editar RED" (click)="formularioRED(false, a)">
+              <mat-icon>edit</mat-icon>
+            </button>
 
-
-
-            <!-- VISUALIZAR RED -->
             <button mat-icon-button matTooltip="Visualizar RED" (click)="formularioRED(true, a)">
-
-              <mat-icon>
-                visibility
-              </mat-icon>
-
+              <mat-icon>visibility</mat-icon>
             </button>
 
-
-
-
-            <!-- FINALIZAR RED -->
-            <button *ngIf="
-        a.situacao?.trim()?.toLowerCase() === 'em andamento'
-        && situacaoPEEs(a.pee)?.trim()?.toLowerCase() === 'avaliado'
-        && isCSP()
-      " mat-icon-button matTooltip="Finalizar RED" (click)="finalizarRED(a)">
-
-              <mat-icon class="icon-finalizar">
-                task_alt
-              </mat-icon>
-
+            <button *ngIf="(a.situacao === 'Finalizado' || a.situacao === 'Recusado') && isCRA()" mat-icon-button
+              matTooltip="Arquivar RED" (click)="arquivarRED(a)">
+              <mat-icon>inventory_2</mat-icon>
             </button>
 
-
-
-
-            <!-- NÃO FINALIZAR RED -->
-            <button *ngIf="
-        a.situacao?.trim()?.toLowerCase() === 'em andamento'
-        && situacaoPEEs(a.pee)?.trim()?.toLowerCase() === 'avaliado'
-        && isCSP()
-      " mat-icon-button matTooltip="Não finalizar RED" (click)="naoFinalizarRED(a)">
-
-              <mat-icon class="icon-nao-finalizar">
-                cancel
-              </mat-icon>
-
+            <button *ngIf="a.situacao === 'Em andamento' && todosPeesPreenchidos(a.pee) && isCOORD()" mat-icon-button
+              matTooltip="Finalizar RED" (click)="finalizarRED(a)">
+              <mat-icon>task_alt</mat-icon>
             </button>
-
-
-
-
-            <!-- ARQUIVAR RED -->
-            <button *ngIf="
-        (a.situacao === 'Finalizado'
-        || a.situacao === 'Recusado')
-        && isCRA()
-      " mat-icon-button matTooltip="Arquivar RED" (click)="arquivarRED(a)">
-
-              <mat-icon>
-                inventory_2
-              </mat-icon>
-
-            </button>
-
-
 
           </td>
-
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
