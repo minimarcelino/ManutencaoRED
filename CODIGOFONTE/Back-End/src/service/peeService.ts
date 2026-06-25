@@ -103,24 +103,58 @@ export class peeService {
 
   async findById(id: number) {
     try {
-      const [pees] = await Promise.all([
-        prisma.pee.findUnique({
-          where: {
-            idpee: +id,
+
+      const pees = await prisma.pee.findUnique({
+
+        where: {
+          idpee: +id,
+        },
+
+        include: {
+
+          pee_servidor: {
+            include: {
+              servidor: true
+            }
           },
-          include: {
-            // servidor: true,
+
+          red: {
+            include: {
+              aluno: true
+            }
           },
-        }),
-      ]);
+
+          disciplinas: {
+            include: {
+              curso: true
+            }
+          }
+
+        },
+
+      });
+
 
       const data = {
         pees,
       };
-      return { ok: true, data: data };
+
+
+      return {
+        ok: true,
+        data: data
+      };
+
+
     } catch (error) {
+
       console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+
+      return {
+        ok: false,
+        data: StatusCodes.INTERNAL_SERVER_ERROR
+      };
+
     }
   }
 
@@ -259,16 +293,16 @@ export class peeService {
     console.log("PERCENTUAL:", pee.percentualabono);
     console.log("BODY COMPLETO:", pee);
     console.log(
-  "CAMPOS DE ACOMPANHAMENTO:",
-  {
-    dataEnvioProposta: pee.dataEnvioProposta,
-    dataEntregaAtividade: pee.dataEntregaAtividade,
-    cumpriuAtividade: pee.cumpriuAtividade,
-    houveAvaliacao: pee.houveAvaliacao,
-    avaliacoesRealizadas: pee.avaliacoesRealizadas,
-    dataAvaliacao: pee.dataAvaliacao
-  }
-);
+      "CAMPOS DE ACOMPANHAMENTO:",
+      {
+        dataEnvioProposta: pee.dataEnvioProposta,
+        dataEntregaAtividade: pee.dataEntregaAtividade,
+        cumpriuAtividade: pee.cumpriuAtividade,
+        houveAvaliacao: pee.houveAvaliacao,
+        avaliacoesRealizadas: pee.avaliacoesRealizadas,
+        dataAvaliacao: pee.dataAvaliacao
+      }
+    );
     try {
 
       console.log('========== UPDATE PEE ==========');
@@ -293,36 +327,34 @@ export class peeService {
         (associacao) => associacao.servidorId
       );
 
-
+      console.log("SERVIDORES RECEBIDOS:", pee.pee_servidor);
       const servidoresRecebidos = pee.pee_servidor || [];
 
 
       const professoresData = servidoresRecebidos
-        .filter(
-          (professor: any) =>
-            !idsServidoresAssociados.includes(professor.idservidor)
-        )
-        .map(
-          (professor: any) => ({
+        .map((professor: any) => ({
 
-            servidorId:
-              professor.idservidor ??
-              professor.servidor?.idservidor
+          servidorId:
+            professor.idservidor ??
+            professor.servidorId ??
+            professor.servidor?.idservidor
 
-          })
-        )
-        .filter(
-          (professor: any) => professor.servidorId
-        );
+        }))
+        .filter((professor: any) => professor.servidorId);
+
 
 
       const idsRemover = idsServidoresAssociados.filter(
-        (servidorId) =>
-          !servidoresRecebidos.some(
-            (professor: any) =>
-              professor.idservidor === servidorId
-          )
-      );
+  (servidorId)=>
+    !servidoresRecebidos.some(
+      (professor:any)=>
+        (
+          professor.idservidor ??
+          professor.servidorId ??
+          professor.servidor?.idservidor
+        ) === servidorId
+    )
+);
 
 
       if (idsRemover.length > 0) {
@@ -350,142 +382,142 @@ export class peeService {
       });
       const updatePEE = await prisma.pee.update({
 
-where:{
- idpee:id
-},
+        where: {
+          idpee: id
+        },
 
-data:{
-
-
-conteudo:
- pee.conteudo ?? undefined,
+        data: {
 
 
-metodologia:
- pee.metodologia ?? undefined,
+          conteudo:
+            pee.conteudo ?? undefined,
 
 
-trabalhos:
- pee.trabalhos ?? undefined,
+          metodologia:
+            pee.metodologia ?? undefined,
 
 
-bibliografia:
- pee.bibliografia ?? undefined,
+          trabalhos:
+            pee.trabalhos ?? undefined,
 
 
-criterios:
- pee.criterios ?? undefined,
+          bibliografia:
+            pee.bibliografia ?? undefined,
 
 
-prazofinal:
- pee.prazofinal
- ? new Date(pee.prazofinal)
- : undefined,
+          criterios:
+            pee.criterios ?? undefined,
 
 
-situacao:
- pee.situacao ?? undefined,
+          prazofinal:
+            pee.prazofinal
+              ? new Date(pee.prazofinal)
+              : undefined,
 
 
-canalComunicacao:
- pee.canalComunicacao ?? undefined,
+          situacao:
+            pee.situacao ?? undefined,
 
 
-observacoes:
- pee.observacoes ?? undefined,
+          canalComunicacao:
+            pee.canalComunicacao ?? undefined,
 
 
-avaliacaoAtividade:
- pee.avaliacaoAtividade ?? undefined,
+          observacoes:
+            pee.observacoes ?? undefined,
 
 
-prazoEntregaAtividade:
- pee.prazoEntregaAtividade ?? undefined,
+          avaliacaoAtividade:
+            pee.avaliacaoAtividade ?? undefined,
 
 
-dataEntregaAtividade:
-  pee.dataEntregaAtividade
-    ? (() => {
+          prazoEntregaAtividade:
+            pee.prazoEntregaAtividade ?? undefined,
 
-        const data = pee.dataEntregaAtividade;
 
-        // formato recebido: 25062026
-        if (/^\d{8}$/.test(data)) {
+          dataEntregaAtividade:
+            pee.dataEntregaAtividade
+              ? (() => {
 
-          const dia = data.substring(0,2);
-          const mes = data.substring(2,4);
-          const ano = data.substring(4,8);
+                const data = pee.dataEntregaAtividade;
 
-          return new Date(`${ano}-${mes}-${dia}`);
+                // formato recebido: 25062026
+                if (/^\d{8}$/.test(data)) {
 
+                  const dia = data.substring(0, 2);
+                  const mes = data.substring(2, 4);
+                  const ano = data.substring(4, 8);
+
+                  return new Date(`${ano}-${mes}-${dia}`);
+
+                }
+
+                // formato ISO: 2026-06-29T00:00:00.000Z
+                const dataNormal = new Date(data);
+
+                return isNaN(dataNormal.getTime())
+                  ? undefined
+                  : dataNormal;
+
+              })()
+              : undefined,
+
+
+          cumpriuAtividade:
+            pee.cumpriuAtividade ?? undefined,
+
+
+          houveAvaliacao:
+            pee.houveAvaliacao ?? undefined,
+
+
+          avaliacoesRealizadas:
+            pee.avaliacoesRealizadas,
+
+
+          dataAvaliacao:
+            pee.dataAvaliacao
+              ? (() => {
+
+                const data = pee.dataAvaliacao;
+
+                if (/^\d{8}$/.test(data)) {
+
+                  const dia = data.substring(0, 2);
+                  const mes = data.substring(2, 4);
+                  const ano = data.substring(4, 8);
+
+                  return new Date(`${ano}-${mes}-${dia}`);
+
+                }
+
+                const dataNormal = new Date(data);
+
+                return isNaN(dataNormal.getTime())
+                  ? null
+                  : dataNormal;
+
+              })()
+              : null,
+
+
+          pee_servidor:
+            professoresData.length > 0
+              ?
+              {
+                create: professoresData
+              }
+              :
+              undefined
+
+
+        },
+
+        include: {
+          pee_servidor: true
         }
 
-        // formato ISO: 2026-06-29T00:00:00.000Z
-        const dataNormal = new Date(data);
-
-        return isNaN(dataNormal.getTime())
-          ? undefined
-          : dataNormal;
-
-      })()
-    : undefined,
-
-
-cumpriuAtividade:
- pee.cumpriuAtividade ?? undefined,
-
-
-houveAvaliacao:
- pee.houveAvaliacao ?? undefined,
-
-
-avaliacoesRealizadas:
- pee.avaliacoesRealizadas,
-
-
-dataAvaliacao:
-  pee.dataAvaliacao
-    ? (() => {
-
-        const data = pee.dataAvaliacao;
-
-        if (/^\d{8}$/.test(data)) {
-
-          const dia = data.substring(0,2);
-          const mes = data.substring(2,4);
-          const ano = data.substring(4,8);
-
-          return new Date(`${ano}-${mes}-${dia}`);
-
-        }
-
-        const dataNormal = new Date(data);
-
-        return isNaN(dataNormal.getTime())
-          ? null
-          : dataNormal;
-
-      })()
-    : null,
-
-
-pee_servidor:
-professoresData.length > 0
-?
-{
- create: professoresData
-}
-:
-undefined
-
-
-},
-
-include:{
- pee_servidor:true
-}
-
-});
+      });
 
 
       console.log(

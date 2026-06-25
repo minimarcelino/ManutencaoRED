@@ -68,29 +68,15 @@ export class ListarPEEComponent implements OnInit {
 
     //this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
     this.dataSource = new MatTableDataSource<pee>(this.pees);
-
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-
-      const dadosAluno = `
-    ${data.red.aluno.nome}
-    ${data.red.aluno.prontuario}
-    ${data.red.aluno.email}
-    ${data.disciplinas.sigla}
-    ${data.situacao}
-  `.toLowerCase();
-
-      return dadosAluno.includes(filter);
-
-    };
     this.dataSource.paginator = this.paginator;
     console.log(this.pees);
   }
 
   abonarFalta(pee: any) {
     const editar = this.dialog.open(AbonarFaltaComponent, {
-      width: '700px',
-      maxHeight: '90vh',
-      autoFocus: false,
+  width: '700px',
+  maxHeight: '90vh',
+  autoFocus: false,
 
       data: {
         idpee: pee.idpee,
@@ -119,15 +105,8 @@ export class ListarPEEComponent implements OnInit {
   }
 
   applyFilter(data: Event) {
-    const value = (data.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
-
+    const value = (data.target as HTMLInputElement).value;
     this.dataSource.filter = value;
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   formularioPEE(pee: any, visualizar: boolean) {

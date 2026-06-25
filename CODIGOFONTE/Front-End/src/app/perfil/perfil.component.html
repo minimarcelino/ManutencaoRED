@@ -1,30 +1,61 @@
 <div class="corpo">
+
     <div class="tittle listagem">
         <h1>Seu perfil</h1>
         <hr class="linha">
     </div>
 
     <div class="formulario">
+
         <form [formGroup]="alterarPerfil" #formDir="ngForm">
-          
-            <mat-form-field appearance="outline" class="lado-esquerdo">
-                <mat-label>Prontuário</mat-label>
-                <input matInput name="prontuario" formControlName="prontuario" mask="AA0000000"/>
-            </mat-form-field>
 
-            <mat-form-field appearance="outline" class="lado-direito">
-                <mat-label>Nome</mat-label>
-                <input matInput name="nome" formControlName="nome"/>
-            </mat-form-field>
+            <div class="campo-formulario">
 
-            <mat-form-field appearance="outline" >
-                <mat-label>Email</mat-label>
-                <input matInput name="email" formControlName="email"/>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Prontuário</mat-label>
+                    <input 
+                        matInput 
+                        name="prontuario" 
+                        formControlName="prontuario" 
+                        mask="AA0000000"
+                    />
+                </mat-form-field>
 
-            <div>
-                <button mat-raised-button color="primary" (click)="alterarSenha()" class="button">Alterar senha</button>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nome</mat-label>
+                    <input 
+                        matInput 
+                        name="nome" 
+                        formControlName="nome"
+                    />
+                </mat-form-field>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input 
+                        matInput 
+                        name="email" 
+                        formControlName="email"
+                    />
+                </mat-form-field>
+
+
+                <div>
+                    <button 
+                        mat-raised-button 
+                        color="primary" 
+                        (click)="alterarSenha()" 
+                        class="button">
+                        Alterar senha
+                    </button>
+                </div>
+
             </div>
+
         </form>
+
     </div>
+
 </div>

@@ -42,13 +42,16 @@ export class AuthenticationService {
   }
 
   getHttpOptions() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + this.token,
-      }),
-    };
-    return httpOptions;
-  }
+
+  const token = localStorage.getItem(this.tokenKey);
+
+  return {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    }),
+  };
+
+}
 
   private reloadTokenFromStorage() {
     const storedToken = localStorage.getItem(this.tokenKey);
@@ -75,7 +78,7 @@ export class AuthenticationService {
       const resultado: any = await this.http
         .post<boolean>(`${environment.API}login`, usuario)
         .toPromise();
-      this.saveTokenToStorage(resultado.token);
+      await this.saveTokenToStorage(resultado.token);
       this.session.setSession(resultado.data);
       await this.getLogUser();
       return true;

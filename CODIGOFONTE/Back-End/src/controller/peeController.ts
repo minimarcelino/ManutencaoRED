@@ -261,13 +261,21 @@ export class PeeController {
           }else{
 
 
-            emailcontroller.SendEmailProfesorIniciandoPEE(
-              req.body
-            );
+  const peeCompleto = await peeservice.findById(
+    Number(req.params.id)
+  );
 
 
-          }
+  if(peeCompleto.ok){
 
+    emailcontroller.SendEmailProfesorIniciandoPEE(
+      peeCompleto.data
+    );
+
+  }
+
+
+}
 
         }
 

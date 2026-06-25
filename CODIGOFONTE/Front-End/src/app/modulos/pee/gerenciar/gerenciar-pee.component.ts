@@ -41,7 +41,7 @@ export class GerenciarPEEComponent implements OnInit {
   situacao = [
     'Aguardando Associação de Professor',
     'Aguardando Preenchimento',
-    'Enviada ao Aluno',
+    'Enviada para o Aluno',
     'Avaliado',
   ];
 
@@ -163,26 +163,29 @@ export class GerenciarPEEComponent implements OnInit {
 
   associarProfessor(pee: any): void {
 
-    console.log('PEE selecionado:', pee);
+  console.log('PEE selecionado:', pee);
 
-    const editar = this.dialog.open(
-      AssociarProfessoresComponent,
-      {
-        width: '1000px',
-        autoFocus: false,
-        disableClose: true,
+  const editar = this.dialog.open(
+    AssociarProfessoresComponent,
+    {
+      width: '1000px',
+      autoFocus: false,
+      disableClose: true,
 
-        data: {
-          idRED: pee?.RED_idRED,
-          idPEE: pee?.idpee,
-          servidor_idservidor: pee?.servidor_idservidor,
-          pee: pee,
-        },
-      }
-    );
+      data: {
+        idRED: pee?.RED_idRED,
+        idPEE: pee?.idpee,
 
-    this.handleDialogConfirm(editar);
-  }
+        // pega os professores já associados
+        servidores: pee?.pee_servidor || [],
+
+        pee: pee,
+      },
+    }
+  );
+
+  this.handleDialogConfirm(editar);
+}
 
   testar(a: any) {
 

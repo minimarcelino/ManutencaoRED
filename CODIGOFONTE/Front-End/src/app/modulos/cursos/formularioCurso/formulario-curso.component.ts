@@ -91,6 +91,14 @@ export class FormularioCursoComponent implements OnInit {
     this.buscarCoordenador();
   }
 
+  retornarParaListaCursos() {
+
+  this.entityUpdateService.notifyUpdate('curso');
+
+  this.router.navigate(['/csp/listarCursos']);
+
+}
+
   async submit() {
 
   if (this.formularioCurso.invalid || this.isSubmitting) {
@@ -146,14 +154,25 @@ export class FormularioCursoComponent implements OnInit {
 
       await this.updateCurso();
 
+      this.snackBarService.open(
+        'Curso editado com sucesso!!'
+      );
+
+
     } else {
 
       await this.createCurso();
 
+      this.snackBarService.open(
+        'Curso cadastrado com sucesso!!'
+      );
+
     }
 
 
-    this.retornarParaLista();
+    this.isSubmitting = false;
+
+    this.retornarParaListaCursos();
 
 
   } catch (error: any) {
@@ -168,6 +187,7 @@ export class FormularioCursoComponent implements OnInit {
       this.snackBarService.open(
         `Falha ao cadastrar curso: ${error.error.data}`
       );
+
 
     } else {
 
@@ -269,7 +289,7 @@ private mostrarErrosFormulario() {
 
   // 🔥 volta atualizando cursos
   this.router.navigate(
-    [`/${this.user.tiposervidor}/formularioAluno`],
+    [`/${this.user.tiposervidor}/listarCursos`],
     {
       state: {
         atualizarCursos: true

@@ -315,7 +315,6 @@ export class AssociarDisciplinaComponent implements OnInit {
             'Disciplina removida com sucesso'
           );
 
-          this.dialog?.close(true);
           this.dataSource2.data =
             this.dataSource2.data.filter(
               (item: any) =>
@@ -400,8 +399,6 @@ export class AssociarDisciplinaComponent implements OnInit {
       this.snackBarService.open(
         'Disciplinas associadas com sucesso!!'
       );
-
-      this.dialog?.close();
 
     } catch (error: any) {
 

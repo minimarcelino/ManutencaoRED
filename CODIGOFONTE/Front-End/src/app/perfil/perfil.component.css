@@ -1,0 +1,14 @@
+.campo-formulario {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.button {
+    margin-top: 10px;
+}

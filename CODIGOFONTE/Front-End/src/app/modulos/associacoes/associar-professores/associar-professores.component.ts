@@ -95,70 +95,74 @@ export class AssociarProfessoresComponent implements OnInit {
     }
   }
 
-  async selecionarProfessor(docente:any){
+  async selecionarProfessor(docente: any) {
 
-try{
+    try {
 
-const professoresAtualizados = [
+      const professoresAtualizados = [
 
-...this.data.pee.pee_servidor.map(
-(item:any)=>({
- idservidor:item.servidorId
-})
-),
+        ...this.data.pee.pee_servidor.map(
+          (item: any) => ({
+            servidorId: item.servidorId
+          })
+        ),
 
-{
- idservidor:docente.idservidor
-}
+        {
+          servidorId: docente.idservidor
+        }
 
-];
+      ];
 
+      console.log("Enviando para API:", {
+        idpee: this.data.idPEE,
+        pee_servidor: professoresAtualizados
+      });
 
-await this.peeService.updatePee({
+      await this.peeService.updatePee({
 
-idpee:this.data.idPEE,
+        idpee: this.data.idPEE,
 
-pee_servidor:professoresAtualizados,
+        pee_servidor: professoresAtualizados,
 
-situacao:'Aguardando Preenchimento'
+        situacao: 'Aguardando Preenchimento'
 
-});
-
-
-this.dataSource2.data=[
-...this.dataSource2.data,
-docente
-];
+      });
 
 
-this.professores =
-this.professores.filter(
-(item)=>
-item.idservidor !== docente.idservidor
-);
+      this.dataSource2.data = [
+        ...this.dataSource2.data,
+        docente
+      ];
 
 
-this.dataSource.data=[
-...this.professores
-];
+      this.professores =
+        this.professores.filter(
+          (item) =>
+            item.idservidor !== docente.idservidor
+        );
 
 
-this.snackBarService.open(
-'Professor associado com sucesso!'
-);
+      this.dataSource.data = [
+        ...this.professores
+      ];
 
 
-}catch(error){
+      this.snackBarService.open(
+        'Professor associado com sucesso!'
+      );
 
-console.error(error);
 
-this.snackBarService.open(
-'Falha ao associar professor'
-);
+    } catch (error) {
 
-}
+      console.error(error);
 
-}
+      this.snackBarService.open(
+        'Falha ao associar professor'
+      );
+
+    }
+
+  }
   /* 
   selecionarProfessor(docente: any) {
     // Verifica se o professor já foi selecionado
@@ -192,66 +196,64 @@ this.snackBarService.open(
 
   async removerProfessor(docente: any) {
 
-  const confirmar =
-    await this.dialogQuestionService
-      .openDialogRemoveProfessor();
+    const confirmar =
+      await this.dialogQuestionService
+        .openDialogRemoveProfessor();
 
-  if (!confirmar) {
-    return;
+    if (!confirmar) {
+      return;
+    }
+
+    try {
+
+      const professoresAtualizados =
+        this.data.pee.pee_servidor
+          .filter(
+            (item: any) =>
+              item.servidorId !== docente.idservidor
+          )
+          .map(
+            (item: any) => item.servidor
+          );
+
+      await this.peeService.updatePee({
+
+        idpee: this.data.idPEE,
+
+        conteudo: '',
+        metodologia: '',
+        trabalhos: '',
+        bibliografia: '',
+        criterios: '',
+
+        prazofinal: this.data.pee.prazofinal,
+
+        RED_idRED: this.data.idRED,
+
+        pee_servidor: professoresAtualizados,
+
+        percentualabono:
+          this.data.pee.percentualabono,
+
+        situacao:
+          professoresAtualizados.length > 0
+            ? 'Aguardando Preenchimento'
+            : 'Aguardando Associação de Professor',
+      });
+
+      this.snackBarService.open(
+        'Professor removido com sucesso!'
+      );
+
+    } catch (error: any) {
+
+      console.error(error);
+
+      this.snackBarService.open(
+        'Falha ao remover professor'
+      );
+    }
   }
-
-  try {
-
-    const professoresAtualizados =
-      this.data.pee.pee_servidor
-        .filter(
-          (item: any) =>
-            item.servidorId !== docente.idservidor
-        )
-        .map(
-          (item: any) => item.servidor
-        );
-
-    await this.peeService.updatePee({
-
-      idpee: this.data.idPEE,
-
-      conteudo: '',
-      metodologia: '',
-      trabalhos: '',
-      bibliografia: '',
-      criterios: '',
-
-      prazofinal: this.data.pee.prazofinal,
-
-      RED_idRED: this.data.idRED,
-
-      pee_servidor: professoresAtualizados,
-
-      percentualabono:
-        this.data.pee.percentualabono,
-
-      situacao:
-        professoresAtualizados.length > 0
-          ? 'Aguardando Preenchimento'
-          : 'Aguardando Associação de Professor',
-    });
-
-    this.snackBarService.open(
-      'Professor removido com sucesso!'
-    );
-
-    this.dialog.close(true);
-
-  } catch (error: any) {
-
-    console.error(error);
-
-    this.snackBarService.open(
-      'Falha ao remover professor'
-    );
-  }
-}
 
   /*
   async removerProfessor(docente: any) {
@@ -299,35 +301,24 @@ this.snackBarService.open(
     */
 
   async cadastrar() {
-    try {
-      console.log("TESTE:",this.professoresSelecionados);
-      await this.peeService.updatePee({
-        idpee: this.data.idPEE,
-        conteudo: '',
-        metodologia: '',
-        trabalhos: '',
-        bibliografia: '',
-        criterios: '',
-        prazofinal: this.data.prazoFinal,
-        RED_idRED: this.data.idRED,
 
-        pee_servidor: this.professoresSelecionados,
-        percentualabono: this.data.percentualabono,
-        situacao: 'Aguardando Preenchimento',
-      });
+    await this.peeService.updatePee({
 
-      this.snackBarService.open('Professores associados com sucesso!!');
-      this.dialog.close();
-    } catch (error: any) {
-      if (error && error.error && error.error.data) {
-        const errorMessage = error.error.data;
-        this.snackBarService.open(
-          `Falha ao associar Professor: ${errorMessage}`
-        );
-      } else {
-        this.snackBarService.open('Falha ao associar Professor');
-      }
-    }
+      idpee: this.data.idPEE,
+
+      RED_idRED: this.data.idRED,
+
+      pee_servidor:
+        this.professoresSelecionados.map(
+          (prof: any) => ({
+            servidorId: prof.idservidor
+          })
+        ),
+
+      situacao: 'Aguardando Preenchimento',
+
+    });
+
   }
 
   cancelar() {

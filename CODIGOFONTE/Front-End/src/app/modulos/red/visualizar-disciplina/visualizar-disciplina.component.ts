@@ -101,31 +101,45 @@ export class VisualizarDisciplinaComponent implements OnInit {
   }
 
   associarProfessor(pee: any) {
-    const associarProfessor = this.dialogProfessor.open(
-      AssociarProfessoresComponent,
-      {
-        width:'100%',
-        height:'95%',
-        data: {
-          idRED: pee.RED_idRED,
-          idPEE: pee.idpee,
-          servidor_idservidor: pee.pee_servidor.servidorId,
-          pee: pee,
-        },
-      }
-    );
-    this.handleDialogConfirm(associarProfessor);
-  }
+
+  const associarProfessor = this.dialogProfessor.open(
+    AssociarProfessoresComponent,
+    {
+      width:'100%',
+      height:'95%',
+      data: {
+        idRED: pee.RED_idRED,
+        idPEE: pee.idpee,
+
+        servidores: pee.pee_servidor || [],
+
+        pee: pee,
+      },
+    }
+  );
+
+  this.handleDialogConfirm(associarProfessor);
+}
 
   apresentarDocentes(pee: any) {
-    return pee.pee_servidor.length > 0
-      ? `${pee.pee_servidor
-          .map((docente: any) => docente.servidor.nome)
-          .join(', ')}`
-      : ' - ';
-  }
+
+  console.log('DADOS DA LINHA:', pee);
+
+  return pee.pee_servidor?.length > 0
+    ? pee.pee_servidor
+        .map((docente:any) => docente.servidor.nome)
+        .join(', ')
+    : '-';
+
+}
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe(() => {});
-  }
+
+  dialog.afterClosed().subscribe(() => {
+
+    window.location.reload();
+
+  });
+
+}
 }

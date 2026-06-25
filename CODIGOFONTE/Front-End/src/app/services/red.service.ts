@@ -165,7 +165,8 @@ export class RedService {
   buscarPorAluno(id:number){
 
   return this.http.get(
-    `http://localhost:3333/red/aluno/${id}`
+    `${environment.API}red/aluno/${id}`,
+    this.authenticationService.getHttpOptions()
   );
 
 }

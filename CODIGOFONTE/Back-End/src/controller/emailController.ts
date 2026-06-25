@@ -128,45 +128,98 @@ export class emailController {
 
    //EMAILS PROFESSOR
    async SendEmailProfesorIniciandoPEE(response: any) {
-      console.log("SendEmailProfesorIniciandoPEE: ", response)
-      const pee_servidor = response.pee_servidor;
-      const id_red = response.RED_idRED;
-      const red: any = await redservice.findById(id_red);
-      const aluno: any = await alunoservice.findById(red.data.aluno_id);
-      const aluno_nome = aluno.data.nome;
-      const aluno_email = aluno.data.email;
-      const aluno_prontuario = aluno.data.prontuario;
-      const aluno_curso = aluno.data.curso_idcurso;
-      const curso: any = await cursoservice.findById(aluno_curso);
-      const nome_curso = curso.data.nomeCurso;
-      for (let servidor of pee_servidor) {
-         console.log("Email servidor:" + servidor.email)
-         if (servidor && servidor.email) {
-            console.log("entrou")
-            const servidorEmail = servidor.email;
-            const servidorNome = servidor.nome;
-            const html = `
-            <html>
-            <head>
-               <title>Início do Processo PEE</title>
-            </head>
-            <body>
-               <p>Prezado(a) Prof. ${servidorNome},</p>
-               <p>Informamos que um novo PEE foi associado a você.</p>
-               <p>Aluno: ${aluno_nome} (${aluno_prontuario})</p>
-               <p>Curso: ${nome_curso}</p>
-               <p>Para acessar o sistema e preencher a PEE, por favor, <a href="${EMAIL_URL}">clique aqui</a>.</p>
-               <p>Se precisar de mais informações sobre o aluno, você pode entrar em contato com ele pelo e-mail: ${aluno_email}.</p>
-               <p>Atenciosamente,</p>
-               <p>Equipe de Suporte do RED</p>
-            </body>
-            </html>`;
-            sendEmail(servidorEmail, "Sistema RED - Início do Processo PEE", html);
-            console.log("Email Enviado Iniciando PEE");
-            console.log(html)
-         }
+
+   console.log("SendEmailProfesorIniciandoPEE: ", response);
+
+   const pee = response.pees;
+
+   const id_red = pee.RED_idRED;
+
+   const pee_servidor = pee.pee_servidor.map(
+      (item:any) => item.servidor
+   );
+
+   const red: any = await redservice.findById(id_red);
+
+   const aluno: any = await alunoservice.findById(
+      red.data.aluno_id
+   );
+
+   const aluno_nome = aluno.data.nome;
+   const aluno_email = aluno.data.email;
+   const aluno_prontuario = aluno.data.prontuario;
+
+   const aluno_curso = aluno.data.curso_idcurso;
+
+   const curso: any = await cursoservice.findById(aluno_curso);
+
+   const nome_curso = curso.data.nomeCurso;
+
+
+   for (let servidor of pee_servidor) {
+
+      console.log("Email servidor:", servidor.email);
+
+      if (servidor && servidor.email) {
+
+         const servidorEmail = servidor.email;
+         const servidorNome = servidor.nome;
+
+
+         const html = `
+         <html>
+         <body>
+
+            <p>Prezado(a) Prof. ${servidorNome},</p>
+
+            <p>
+            Informamos que um novo PEE foi associado a você.
+            </p>
+
+            <p>
+            Aluno: ${aluno_nome} (${aluno_prontuario})
+            </p>
+
+            <p>
+            Curso: ${nome_curso}
+            </p>
+
+            <p>
+            Para acessar o sistema e preencher a PEE:
+            <a href="${EMAIL_URL}">
+            clique aqui
+            </a>
+            </p>
+
+            <p>
+            Se precisar de informações, entre em contato com o aluno:
+            ${aluno_email}
+            </p>
+
+
+            <p>
+            Atenciosamente,<br>
+            Equipe de Suporte do RED
+            </p>
+
+         </body>
+         </html>
+         `;
+
+
+         sendEmail(
+            servidorEmail,
+            "Sistema RED - Início do Processo PEE",
+            html
+         );
+
+
+         console.log(
+            "Email Enviado Iniciando PEE"
+         );
       }
    }
+}
 
    async SendEmailProfessorDesassociadoPEE(pee: any, email: string) {
       const servidorEmail = email;
