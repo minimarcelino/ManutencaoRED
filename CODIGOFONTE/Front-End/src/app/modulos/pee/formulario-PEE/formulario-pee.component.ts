@@ -289,74 +289,235 @@ export class FormularioPEEComponent implements OnInit {
 
   private mostrarErrosFormulario() {
 
-    const campos = this.formularioPEE.controls;
+  const campos = this.formularioPEE.controls;
 
 
-    if (campos['conteudo']?.hasError('required')) {
-
-      this.snackBarService.open(
-        'O conteúdo é obrigatório.'
-      );
-
-      return;
-    }
-
-
-    if (campos['metodologia']?.hasError('required')) {
-
-      this.snackBarService.open(
-        'A metodologia é obrigatória.'
-      );
-
-      return;
-    }
-
-
-    if (campos['trabalhos']?.hasError('required')) {
-
-      this.snackBarService.open(
-        'Os trabalhos são obrigatórios.'
-      );
-
-      return;
-    }
-
-
-    if (campos['bibliografia']?.hasError('required')) {
-
-      this.snackBarService.open(
-        'A bibliografia é obrigatória.'
-      );
-
-      return;
-    }
-
-
-    if (campos['exigencia']?.hasError('required')) {
-
-      this.snackBarService.open(
-        'Os critérios de exigência são obrigatórios.'
-      );
-
-      return;
-    }
-
-
-    if (campos['prazo']?.hasError('required')) {
-
-      this.snackBarService.open(
-        'O prazo final é obrigatório.'
-      );
-
-      return;
-    }
-
+  // CONTEÚDO
+  if (campos['conteudo']?.hasError('required')) {
 
     this.snackBarService.open(
-      'Verifique os campos preenchidos.'
+      'O conteúdo a ser estudado é obrigatório.'
     );
 
+    return;
   }
+
+
+  if (campos['conteudo']?.hasError('maxlength')) {
+
+    this.snackBarService.open(
+      'O conteúdo ultrapassou o limite máximo de caracteres.'
+    );
+
+    return;
+  }
+
+
+
+
+  // METODOLOGIA
+  if (campos['metodologia']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'A metodologia a ser utilizada é obrigatória.'
+    );
+
+    return;
+  }
+
+
+  if (campos['metodologia']?.hasError('maxlength')) {
+
+    this.snackBarService.open(
+      'A metodologia ultrapassou o limite máximo de caracteres.'
+    );
+
+    return;
+  }
+
+
+
+
+  // TRABALHOS
+  if (campos['trabalhos']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'Os trabalhos a serem cumpridos são obrigatórios.'
+    );
+
+    return;
+  }
+
+
+  if (campos['trabalhos']?.hasError('maxlength')) {
+
+    this.snackBarService.open(
+      'Os trabalhos ultrapassaram o limite máximo de caracteres.'
+    );
+
+    return;
+  }
+
+
+
+
+  // BIBLIOGRAFIA
+  if (campos['bibliografia']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'As indicações bibliográficas são obrigatórias.'
+    );
+
+    return;
+  }
+
+
+  if (campos['bibliografia']?.hasError('maxlength')) {
+
+    this.snackBarService.open(
+      'A bibliografia ultrapassou o limite máximo de caracteres.'
+    );
+
+    return;
+  }
+
+
+
+
+  // CRITÉRIOS DE EXIGÊNCIA
+  if (campos['exigencia']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'Os critérios de exigência são obrigatórios.'
+    );
+
+    return;
+  }
+
+
+  if (campos['exigencia']?.hasError('maxlength')) {
+
+    this.snackBarService.open(
+      'Os critérios de exigência ultrapassaram o limite máximo de caracteres.'
+    );
+
+    return;
+  }
+
+
+
+
+  // PRAZO
+  if (campos['prazo']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O prazo para execução é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['prazo']?.hasError('matDatepickerMin')) {
+
+    this.snackBarService.open(
+      'Não é permitido selecionar uma data anterior à data atual.'
+    );
+
+    return;
+  }
+
+
+
+
+  // COMUNICAÇÃO
+  if (campos['comunicacao']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O canal de comunicação e contato são obrigatórios.'
+    );
+
+    return;
+  }
+
+
+
+
+  // OBSERVAÇÃO
+  if (campos['observacao']?.hasError('maxlength')) {
+
+    this.snackBarService.open(
+      'A observação ultrapassou o limite máximo de caracteres.'
+    );
+
+    return;
+  }
+
+
+
+
+  // AVALIAÇÃO (quando avaliado)
+  if (this.avaliado) {
+
+
+    if (campos['avaliacaoAtividade']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'A descrição da avaliação é obrigatória.'
+      );
+
+      return;
+    }
+
+
+    if (campos['percentualAbono']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O percentual de abono é obrigatório.'
+      );
+
+      return;
+    }
+
+
+    if (campos['percentualAbono']?.hasError('min')) {
+
+      this.snackBarService.open(
+        'O percentual de abono deve ser maior ou igual a 0.'
+      );
+
+      return;
+    }
+
+
+    if (campos['percentualAbono']?.hasError('max')) {
+
+      this.snackBarService.open(
+        'O percentual de abono deve ser menor ou igual a 100.'
+      );
+
+      return;
+    }
+
+
+    if (campos['dataEntrega']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'A data de entrega da atividade é obrigatória.'
+      );
+
+      return;
+    }
+
+  }
+
+
+
+  this.snackBarService.open(
+    'Verifique os campos preenchidos.'
+  );
+
+}
 
   retornarParaLista() {
     this.location.back();

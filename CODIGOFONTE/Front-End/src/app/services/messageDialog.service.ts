@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MessageDialogComponent } from '../utils/message-dialog/message-dialog.component';
 import { firstValueFrom } from 'rxjs';
+import { MessageDialogMotivoComponent } from '../utils/message-dialog-motivo/message-dialog-motivo.component';
 
 @Injectable({
   providedIn: 'root'
@@ -120,6 +121,38 @@ async openDialogConfirmRecusarRED() {
       return false;
     }
   }
+
+  async openDialogMotivoRecusaRED() {
+
+  const dialogRef = this.dialog.open(MessageDialogMotivoComponent, {
+
+    width: '500px',
+
+    data: {
+      title: 'Motivo da recusa',
+      message: 'Informe o motivo da recusa do RED'
+    }
+
+  });
+
+
+  try {
+
+    const result = await firstValueFrom(
+      dialogRef.afterClosed()
+    );
+
+    return result;
+
+  } catch(err){
+
+    console.error(err);
+
+    return null;
+
+  }
+
+}
 
   async openDialogConfirmImportacao(tipo: string) {
 

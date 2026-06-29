@@ -33,13 +33,11 @@
 <thead>
 
 <tr>
-
-<th>Aluno</th>
-<th>Quantidade REDs</th>
-<th>Meses</th>
-<th>Último RED</th>
-<th>Ações</th>
-
+    <th>Aluno</th>
+    <th>Quantidade REDs</th>
+    <th>Meses</th>
+    <th>Último RED</th>
+    <th>Ações</th>
 </tr>
 
 </thead>
@@ -51,26 +49,22 @@
 
 
 <td class="nome">
+    {{aluno.nome}}
+</td>
 
-{{aluno.nome}}
 
+<td>
+    {{aluno.quantidade}}
 </td>
 
 
 <td>
 
-{{aluno.quantidade}}
-
-</td>
-
-
-<td>
-
-<span 
+    <span 
 class="mes"
 *ngFor="let mes of aluno.meses">
 
-{{mes}}
+{{mesAbreviado(mes)}}
 
 </span>
 
@@ -78,9 +72,7 @@ class="mes"
 
 
 <td>
-
-{{aluno.ultimo}}
-
+    {{aluno.ultimo}}
 </td>
 
 
@@ -90,7 +82,7 @@ class="mes"
 class="btn-ver"
 (click)="abrirDetalhes(aluno)">
 
-Ver
+    Ver
 
 </button>
 

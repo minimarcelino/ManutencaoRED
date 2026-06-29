@@ -238,6 +238,7 @@ private mostrarErrosFormulario() {
   const campos = this.abonarFaltaPEE.controls;
 
 
+  // AVALIAÇÃO DA ATIVIDADE
   if (campos['avaliacaoAtividade']?.hasError('required')) {
 
     this.snackBarService.open(
@@ -248,6 +249,8 @@ private mostrarErrosFormulario() {
   }
 
 
+
+  // DATA DE ENTREGA
   if (campos['entregaAluno']?.hasError('required')) {
 
     this.snackBarService.open(
@@ -258,7 +261,111 @@ private mostrarErrosFormulario() {
   }
 
 
-  if (campos['dataAvaliacao']?.hasError('required')) {
+  if (campos['entregaAluno']?.hasError('pattern')) {
+
+    this.snackBarService.open(
+      'Data de entrega inválida. Utilize o formato DD/MM/AAAA.'
+    );
+
+    return;
+  }
+
+
+
+
+  // CUMPRIMENTO DA ATIVIDADE
+  if (campos['cumprimento']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'Informe se o aluno cumpriu com as atividades.'
+    );
+
+    return;
+  }
+
+
+
+
+  // NOVA ATIVIDADE
+  if (campos['novaAtividade']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'Informe se houve uma nova atividade.'
+    );
+
+    return;
+  }
+
+
+
+
+  // PERCENTUAL DE ABONO
+  if (campos['percentualAbono']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O percentual de abono é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['percentualAbono']?.hasError('min')) {
+
+    this.snackBarService.open(
+      'O percentual de abono deve ser maior ou igual a 0.'
+    );
+
+    return;
+  }
+
+
+  if (campos['percentualAbono']?.hasError('max')) {
+
+    this.snackBarService.open(
+      'O percentual de abono deve ser menor ou igual a 100.'
+    );
+
+    return;
+  }
+
+
+
+
+  // HOUVE AVALIAÇÃO
+  if (campos['avaliacao']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'Informe se houve avaliação.'
+    );
+
+    return;
+  }
+
+
+
+
+  // AVALIAÇÃO REALIZADA (aparece somente se avaliação = Sim)
+  if (
+    campos['avaliacao']?.value === 'Sim' &&
+    campos['avaliacaoRealizada']?.hasError('required')
+  ) {
+
+    this.snackBarService.open(
+      'Informe se a avaliação já foi realizada.'
+    );
+
+    return;
+  }
+
+
+
+
+  // DATA DA NOVA AVALIAÇÃO (aparece somente se avaliação = Sim)
+  if (
+    campos['avaliacao']?.value === 'Sim' &&
+    campos['dataAvaliacao']?.hasError('required')
+  ) {
 
     this.snackBarService.open(
       'A data da avaliação é obrigatória.'
@@ -268,14 +375,18 @@ private mostrarErrosFormulario() {
   }
 
 
-  if (campos['percentualAbono']?.hasError('required')) {
+  if (
+    campos['avaliacao']?.value === 'Sim' &&
+    campos['dataAvaliacao']?.hasError('pattern')
+  ) {
 
     this.snackBarService.open(
-      'O percentual de abono é obrigatório.'
+      'Data da avaliação inválida. Utilize o formato DD/MM/AAAA.'
     );
 
     return;
   }
+
 
 
   this.snackBarService.open(

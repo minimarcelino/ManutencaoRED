@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlunoService } from 'src/app/services/alunos.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CursoService } from 'src/app/services/cursos.service';
+import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms'; import { CursoService } from 'src/app/services/cursos.service';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
@@ -53,6 +52,59 @@ export class FormularioREDComponent implements OnInit {
   private desabilitar: boolean = false;
   private coordenador: any;
   private readonly STORAGE_KEY = 'rascunhoRED';
+
+  private validarDataRED(control: AbstractControl): ValidationErrors | null {
+
+    if (!control.value) {
+      return null;
+    }
+
+
+    try {
+
+      const dataInformada = this.parseData(control.value);
+
+      const hoje = new Date();
+
+      hoje.setHours(0, 0, 0, 0);
+      dataInformada.setHours(0, 0, 0, 0);
+
+
+
+      const minimo = new Date(hoje);
+      minimo.setDate(hoje.getDate() - 7);
+
+
+
+      const maximo = new Date(hoje);
+      maximo.setDate(hoje.getDate() + 7);
+
+
+
+      if (
+        dataInformada < minimo ||
+        dataInformada > maximo
+      ) {
+
+        return {
+          dataForaPeriodo: true
+        };
+
+      }
+
+
+      return null;
+
+
+    } catch {
+
+      return {
+        dataInvalida: true
+      };
+
+    }
+
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(() => {
@@ -109,7 +161,10 @@ export class FormularioREDComponent implements OnInit {
             : '',
           disabled: this.desabilitar,
         },
-        [Validators.required]
+        [
+          Validators.required,
+          this.validarDataRED.bind(this)
+        ]
       ),
       tempoAfastamento: new FormControl(
         {
@@ -228,51 +283,51 @@ export class FormularioREDComponent implements OnInit {
 
   async fetchAlunos() {
 
-  const response = await this.alunoService.getAluno();
+    const response = await this.alunoService.getAluno();
 
 
-  this.alunos = [...response.data.alunos];
+    this.alunos = [...response.data.alunos];
 
 
-  this.filteredAlunos = [...this.alunos];
+    this.filteredAlunos = [...this.alunos];
 
 
-  const ultimoProntuario = localStorage.getItem(
-    'ultimoAlunoCadastrado'
-  );
-
-
-  if (ultimoProntuario) {
-
-
-    const alunoEncontrado = this.alunos.find(
-      (a) => String(a.prontuario) === String(ultimoProntuario)
-    );
-
-
-    if (alunoEncontrado) {
-
-
-      this.formularioRED.patchValue({
-
-        aluno: alunoEncontrado
-
-      });
-
-
-      this.changeCurso();
-
-
-    }
-
-
-    localStorage.removeItem(
+    const ultimoProntuario = localStorage.getItem(
       'ultimoAlunoCadastrado'
     );
 
-  }
 
-}
+    if (ultimoProntuario) {
+
+
+      const alunoEncontrado = this.alunos.find(
+        (a) => String(a.prontuario) === String(ultimoProntuario)
+      );
+
+
+      if (alunoEncontrado) {
+
+
+        this.formularioRED.patchValue({
+
+          aluno: alunoEncontrado
+
+        });
+
+
+        this.changeCurso();
+
+
+      }
+
+
+      localStorage.removeItem(
+        'ultimoAlunoCadastrado'
+      );
+
+    }
+
+  }
 
 
 
@@ -340,183 +395,288 @@ export class FormularioREDComponent implements OnInit {
 
   async cadastrar() {
 
-  if (this.formularioRED.invalid) {
+    if (this.formularioRED.invalid) {
 
-    this.mostrarErrosFormulario();
+      this.mostrarErrosFormulario();
 
-    const fields = Object.keys(this.formularioRED.controls);
+      const fields = Object.keys(this.formularioRED.controls);
 
-    const firstInvalidField = fields.find(
-      (field) => this.formularioRED.get(field)!.invalid
-    );
+      const firstInvalidField = fields.find(
+        (field) => this.formularioRED.get(field)!.invalid
+      );
 
 
-    if (firstInvalidField) {
+      if (firstInvalidField) {
 
-      const element = document.getElementById(firstInvalidField);
+        const element = document.getElementById(firstInvalidField);
 
-      if (element) {
-        element.focus();
+        if (element) {
+          element.focus();
+        }
+
+      }
+
+      return;
+    }
+
+
+    if (this.motivoAfastamento.trim() === '') {
+
+      this.snackBarService.open(
+        'O motivo do afastamento deve ser preenchido corretamente.'
+      );
+
+      document.getElementById('motivo')?.focus();
+
+      return;
+    }
+
+
+    if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
+
+      this.snackBarService.open(
+        'O período de afastamento deve estar entre 15 e 360 dias.'
+      );
+
+      document.getElementById('tempoAfastamento')?.focus();
+
+      return;
+    }
+
+
+    if (this.semestreAluno <= 0 || this.semestreAluno > 24) {
+
+      this.snackBarService.open(
+        'O semestre informado deve estar entre 1 e 24.'
+      );
+
+      document.getElementById('semestreAluno')?.focus();
+
+      return;
+    }
+
+
+    if ((await this.verificarConflitoPeriodoRED()) && !this.editar) {
+
+      this.snackBarService.open(
+        'Já existe um RED para este prontuário no mesmo período!'
+      );
+
+      return;
+    }
+
+    try {
+
+
+      if (this.editar) {
+
+        await this.updateRED();
+
+      } else {
+
+        await this.cadastrarRED();
+
+      }
+
+
+    } catch (error: any) {
+
+
+      console.error('Erro ao cadastrar RED:', error);
+
+
+      const errorData = error?.error?.data;
+
+
+      if (errorData) {
+
+        this.snackBarService.open(
+          `Falha ao cadastrar RED: ${errorData}`
+        );
+
+      } else {
+
+        this.snackBarService.open(
+          'Falha ao cadastrar RED'
+        );
+
       }
 
     }
 
-    return;
   }
 
+  private mostrarErrosFormulario() {
 
-  if (this.motivoAfastamento.trim() === '') {
-
-    this.snackBarService.open(
-      'O motivo do afastamento deve ser preenchido corretamente.'
-    );
-
-    document.getElementById('motivo')?.focus();
-
-    return;
-  }
+    const campos = this.formularioRED.controls;
 
 
-  if (this.tempoAfastamento < 15 || this.tempoAfastamento > 360) {
 
-    this.snackBarService.open(
-      'O período de afastamento deve estar entre 15 e 360 dias.'
-    );
+    // ALUNO
+    if (campos['aluno']?.hasError('required')) {
 
-    document.getElementById('tempoAfastamento')?.focus();
+      this.snackBarService.open(
+        'O aluno é obrigatório. Selecione um aluno da lista.'
+      );
 
-    return;
-  }
-
-
-  if (this.semestreAluno <= 0 || this.semestreAluno > 24) {
-
-    this.snackBarService.open(
-      'O semestre informado deve estar entre 1 e 24.'
-    );
-
-    document.getElementById('semestreAluno')?.focus();
-
-    return;
-  }
-
-
-  if ((await this.verificarConflitoPeriodoRED()) && !this.editar) {
-
-    this.snackBarService.open(
-      'Já existe um RED para este prontuário no mesmo período!'
-    );
-
-    return;
-  }
-
-
-  if (
-    !this.verificarDataInicioAfastamento(this.inicioAfastamento) &&
-    !this.editar
-  ) {
-
-    this.snackBarService.open(
-      'O início do afastamento deve ser no máximo 10 dias anterior ou posterior à data de hoje.'
-    );
-
-    document.getElementById('inicioAfastamento')?.focus();
-
-    return;
-  }
-
-
-  try {
-
-
-    if (this.editar) {
-
-      await this.updateRED();
-
-    } else {
-
-      await this.cadastrarRED();
-
+      return;
     }
 
 
-  } catch (error: any) {
 
 
-    console.error('Erro ao cadastrar RED:', error);
-
-
-    const errorData = error?.error?.data;
-
-
-    if (errorData) {
+    // MOTIVO DO AFASTAMENTO
+    if (campos['motivoAfastamento']?.hasError('required')) {
 
       this.snackBarService.open(
-        `Falha ao cadastrar RED: ${errorData}`
+        'O motivo do afastamento é obrigatório.'
       );
 
-    } else {
-
-      this.snackBarService.open(
-        'Falha ao cadastrar RED'
-      );
-
+      return;
     }
 
-  }
 
-}
+    if (campos['motivoAfastamento']?.hasError('maxlength')) {
 
-private mostrarErrosFormulario() {
+      this.snackBarService.open(
+        'O motivo do afastamento ultrapassou o limite máximo de caracteres.'
+      );
 
-  const campos = this.formularioRED.controls;
+      return;
+    }
 
 
-  if (campos['motivo']?.hasError('required')) {
+
+
+    // INÍCIO DO AFASTAMENTO
+    if (campos['inicioAfastamento']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'A data de início do afastamento é obrigatória.'
+      );
+
+      return;
+    }
+
+    if (campos['inicioAfastamento']?.hasError('dataForaPeriodo')) {
+
+      this.snackBarService.open(
+        'A data deve estar entre 7 dias antes e 7 dias depois da data atual.'
+      );
+
+      return;
+    }
+
+
+    if (campos['inicioAfastamento']?.hasError('pattern')) {
+
+      this.snackBarService.open(
+        'Data inválida. Utilize o formato DD/MM/AAAA.'
+      );
+
+      return;
+    }
+
+
+
+
+    // TEMPO DE AFASTAMENTO
+    if (campos['tempoAfastamento']?.hasError('min')) {
+
+      this.snackBarService.open(
+        'O afastamento deve ter no mínimo 15 dias para abrir um RED.'
+      );
+
+      return;
+    }
+
+
+    if (campos['tempoAfastamento']?.hasError('min')) {
+
+      this.snackBarService.open(
+        'O tempo de afastamento deve ser maior que zero.'
+      );
+
+      return;
+    }
+
+
+
+
+    // SEMESTRE DO ALUNO
+    if (campos['semestreAluno']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O semestre do aluno é obrigatório.'
+      );
+
+      return;
+    }
+
+
+    if (campos['semestreAluno']?.hasError('min')) {
+
+      this.snackBarService.open(
+        'O semestre deve ser maior ou igual a 1.'
+      );
+
+      return;
+    }
+
+
+    if (campos['semestreAluno']?.hasError('max')) {
+
+      this.snackBarService.open(
+        'O semestre deve ser menor ou igual a 24.'
+      );
+
+      return;
+    }
+
+
+
+
+    // OBSERVAÇÃO
+    if (campos['observacao']?.hasError('maxlength')) {
+
+      this.snackBarService.open(
+        'A observação ultrapassou o limite máximo de caracteres.'
+      );
+
+      return;
+    }
+
+
+
+
+    // MOTIVO DA RECUSA (quando coordenador precisa preencher)
+    if (campos['motivoRecusa']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O motivo da recusa é obrigatório.'
+      );
+
+      return;
+    }
+
+
+    if (campos['motivoRecusa']?.hasError('maxlength')) {
+
+      this.snackBarService.open(
+        'O motivo da recusa ultrapassou o limite máximo de caracteres.'
+      );
+
+      return;
+    }
+
+
+
 
     this.snackBarService.open(
-      'O motivo do afastamento é obrigatório.'
+      'Verifique os campos preenchidos.'
     );
 
-    return;
   }
-
-
-  if (campos['tempoAfastamento']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'O tempo de afastamento é obrigatório.'
-    );
-
-    return;
-  }
-
-
-  if (campos['semestreAluno']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'O semestre do aluno é obrigatório.'
-    );
-
-    return;
-  }
-
-
-  if (campos['inicioAfastamento']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'A data de início do afastamento é obrigatória.'
-    );
-
-    return;
-  }
-
-
-  this.snackBarService.open(
-    'Verifique os campos preenchidos.'
-  );
-
-}
 
   private async cadastrarRED() {
     await this.redService.createRed(
@@ -845,5 +1005,5 @@ private mostrarErrosFormulario() {
     );
   }
 
-  
+
 }

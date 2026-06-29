@@ -161,94 +161,200 @@ export class FormularioAlunoComponent implements OnInit {
 
   private mostrarErrosFormulario() {
 
-    const campos = this.formularioAluno.controls;
+  const campos = this.formularioAluno.controls;
 
-    if (campos['nome']?.hasError('required')) {
-      this.snackBarService.open('O nome do aluno é obrigatório');
-      return;
-    }
 
-    if (campos['nome']?.hasError('minlength')) {
-      this.snackBarService.open('O nome deve ter pelo menos 3 caracteres');
-      return;
-    }
-
-    if (campos['email']?.hasError('required')) {
-      this.snackBarService.open('O e-mail é obrigatório');
-      return;
-    }
-
-    if (campos['email']?.hasError('email')) {
-      this.snackBarService.open('Digite um e-mail válido');
-      return;
-    }
-
-    this.snackBarService.open('Verifique os campos preenchidos');
+  // PRONTUÁRIO
+  if (campos['prontuario']?.hasError('required')) {
+    this.snackBarService.open(
+      'O prontuário é obrigatório.'
+    );
+    return;
   }
+
+  if (campos['prontuario']?.hasError('pattern')) {
+    this.snackBarService.open(
+      'O prontuário deve conter apenas letras e números.'
+    );
+    return;
+  }
+
+
+  // NOME
+  if (campos['nome']?.hasError('required')) {
+    this.snackBarService.open(
+      'O nome do aluno é obrigatório.'
+    );
+    return;
+  }
+
+  if (campos['nome']?.hasError('minlength')) {
+    this.snackBarService.open(
+      'O nome deve possuir pelo menos 3 caracteres.'
+    );
+    return;
+  }
+
+  if (campos['nome']?.hasError('pattern')) {
+    this.snackBarService.open(
+      'O nome deve conter apenas letras e espaços.'
+    );
+    return;
+  }
+
+
+  // DATA DE NASCIMENTO
+  if (campos['data']?.hasError('required')) {
+    this.snackBarService.open(
+      'A data de nascimento é obrigatória.'
+    );
+    return;
+  }
+
+  if (campos['data']?.hasError('pattern')) {
+    this.snackBarService.open(
+      'Data inválida. Utilize o formato DD/MM/AAAA.'
+    );
+    return;
+  }
+
+
+  // TELEFONE
+  if (campos['telefone']?.hasError('required')) {
+    this.snackBarService.open(
+      'O telefone é obrigatório.'
+    );
+    return;
+  }
+
+  if (campos['telefone']?.hasError('pattern')) {
+    this.snackBarService.open(
+      'Telefone inválido. Utilize o formato (XX) XXXXX-XXXX.'
+    );
+    return;
+  }
+
+
+  // EMAIL
+  if (campos['email']?.hasError('required')) {
+    this.snackBarService.open(
+      'O e-mail é obrigatório.'
+    );
+    return;
+  }
+
+  if (campos['email']?.hasError('email')) {
+    this.snackBarService.open(
+      'Digite um endereço de e-mail válido.'
+    );
+    return;
+  }
+
+
+  // CURSO (AUTOCOMPLETE / SELECT)
+  if (campos['curso']?.hasError('required')) {
+    this.snackBarService.open(
+      'O curso é obrigatório.'
+    );
+    return;
+  }
+
+  if (campos['curso']?.hasError('cursoInvalido')) {
+    this.snackBarService.open(
+      'Curso inválido. Selecione um curso da lista.'
+    );
+    return;
+  }
+
+
+  // CASO NÃO TENHA TRATADO ALGUM ERRO
+  this.snackBarService.open(
+    'Verifique os campos preenchidos.'
+  );
+}
 
   async submit() {
-    if (this.formularioAluno.invalid || this.isSubmitting) {
 
-      this.mostrarErrosFormulario();
+  if (this.formularioAluno.invalid || this.isSubmitting) {
 
-      const firstInvalidField = Object.keys(this.formularioAluno.controls)
-        .find((field) => this.formularioAluno.get(field)!.invalid);
+    // marca todos os campos como tocados para aparecer o mat-error
+    this.formularioAluno.markAllAsTouched();
 
-      if (firstInvalidField) {
-        document.getElementById(firstInvalidField)?.focus();
-      }
+    // mostra a mensagem específica no snackbar
+    this.mostrarErrosFormulario();
 
-      return;
+    const firstInvalidField = Object.keys(this.formularioAluno.controls)
+      .find((field) => this.formularioAluno.get(field)!.invalid);
+
+    if (firstInvalidField) {
+      document.getElementById(firstInvalidField)?.focus();
     }
 
-    if (this.nome.trim() === '' || this.email.trim() === '') {
-      this.snackBarService.open('Preencha os campos corretamente');
-      return;
+    return;
+  }
+
+
+  try {
+
+    this.isSubmitting = true;
+
+
+    if (this.editar) {
+      await this.updateAluno();
+    } else {
+      await this.createAluno();
     }
 
-    try {
-      this.isSubmitting = true;
 
-      if (this.editar) {
-        await this.updateAluno();
-      } else {
-        await this.createAluno();
-      }
+    this.retornarParaLista();
 
-      this.retornarParaLista();
 
-    } catch (error: any) {
+  } catch (error: any) {
 
-      this.isSubmitting = false;
 
-      const errorData = error?.error?.data;
-      const errorPrisma = error?.error?.error;
+    this.isSubmitting = false;
 
-      if (errorPrisma?.code === 'P2002') {
 
-        const campoErro = errorPrisma.meta['target'][0];
+    const errorPrisma = error?.error?.error;
+    const errorData = error?.error?.data;
 
-        const mensagensDuplicadas: any = {
-          email: 'Este e-mail já está cadastrado',
-          cpf: 'Este CPF já está cadastrado',
-          matricula: 'Esta matrícula já está cadastrada'
-        };
 
-        this.snackBarService.open(
-          mensagensDuplicadas[campoErro] || `Campo ${campoErro} já cadastrado`
-        );
+    if (errorPrisma?.code === 'P2002') {
 
-      } else if (errorData) {
 
-        this.snackBarService.open(`Erro: ${errorData}`);
+      const campoErro = errorPrisma.meta['target'][0];
 
-      } else {
 
-        this.snackBarService.open('Erro ao cadastrar aluno');
+      const mensagensDuplicadas: any = {
 
-      }
+        email: 'Este e-mail já está cadastrado.',
+        cpf: 'Este CPF já está cadastrado.',
+        matricula: 'Esta matrícula já está cadastrada.'
+
+      };
+
+
+      this.snackBarService.open(
+        mensagensDuplicadas[campoErro] 
+        || `O campo ${campoErro} já está cadastrado.`
+      );
+
+
+    } else if (errorData) {
+
+
+      this.snackBarService.open(`Erro: ${errorData}`);
+
+
+    } else {
+
+
+      this.snackBarService.open('Erro ao cadastrar aluno');
+
+
     }
   }
+}
 
   CadastrarCurso() {
     const navigationExtras: NavigationExtras = {

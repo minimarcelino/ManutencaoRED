@@ -124,30 +124,31 @@ export class HomeCoordenadorComponent implements OnInit {
   // =========================
 
   async findAllPEE() {
-    const response = await this.peeService.getPee();
-    this.pees = response.data.pees;
 
-    // 🔔 PEEs para alerta
-    this.peesProfessor = this.pees.filter(
-      (pee: any) =>
-        pee.pee_servidor &&
-        pee.pee_servidor.some(
-          (item: any) => item.servidorId === this.user.idservidor
-        ) &&
-        pee.percentualabono == -1.0 &&
-        (pee.situacao === 'Enviado para o aluno' ||
-          pee.situacao === 'Aguardando Preenchimento')
-    );
+  const response = await this.peeService.getPeeByProfessor(
+    this.user.idservidor
+  );
 
-    // 👨‍🏫 PEEs aguardando professor
-    this.aguardandoProfessor = this.pees.filter(
-      (pee) => pee.situacao === 'Aguardando Associação de Professor'
-    );
 
-    this.dataSourceAguardando = new MatTableDataSource(
-      this.aguardandoProfessor
-    );
-  }
+  this.pees = response.data.pees;
+
+
+  // PEEs que esse professor precisa preencher/avaliar
+  this.peesProfessor = this.pees.filter(
+    (pee: any) =>
+      pee.percentualabono == -1.0 &&
+      (
+        pee.situacao === 'Enviado para o aluno' ||
+        pee.situacao === 'Aguardando Preenchimento'
+      )
+  );
+
+
+  this.dataSourceAguardando = new MatTableDataSource(
+    this.peesProfessor
+  );
+
+}
 
   // =========================
   // UTIL

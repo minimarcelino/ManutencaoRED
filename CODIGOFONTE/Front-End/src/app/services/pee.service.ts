@@ -178,4 +178,25 @@ export class PeeService {
   todosPEEsAguardandoProfessor(pee: any[]): boolean {
     return pee.length > 0 && pee.some((item) => item.situacao === 'Aguardando Associação de Professor');
   }
+
+  async getPeeByProfessor(idservidor: number): Promise<any> {
+
+  try {
+
+    const response = await this.http
+      .get(
+        `${environment.API}pee/professor/${idservidor}`,
+        this.authenticationService.getHttpOptions()
+      )
+      .toPromise();
+
+    return response;
+
+  } catch(error) {
+
+    this.authenticationService.tratarErro(error);
+
+  }
+
+}
 }

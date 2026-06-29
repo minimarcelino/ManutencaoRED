@@ -1,93 +1,425 @@
 <div class="corpo">
-<div class="title listagem" translate="no">
-    <h1>Programa Especial de Estudos</h1>
-    <hr class="linha" />
-</div>
 
-<div class="listagem">
-    <div id="tabela">
-
-        <mat-form-field class="campo-pesquisa">
-            <mat-label>Pesquisar Aluno</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Maria Eduarda | PE0000000 | maria@aluno.ifsp.edu.br">
-        </mat-form-field>
-
-        <mat-form-field class="campo-situacao">
-          <mat-label>Situação</mat-label>
-          <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
-            <mat-option value="todos">Apresentar todas</mat-option>
-            <mat-option *ngFor="let a of situacao" [value]="a">{{a}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
-            <!-- disciplinaColumn -->
-            <ng-container matColumnDef="Disciplina">
-                <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-                <td mat-cell *matCellDef="let a"> {{a.disciplinas.sigla}} </td>
-            </ng-container>
-
-            <!-- NomeColumn -->
-            <ng-container matColumnDef="Nome">
-                <th mat-header-cell *matHeaderCellDef> Nome </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.nome}} </td>
-            </ng-container>
-
-            <!-- ProntuarioColumn -->
-            <ng-container matColumnDef="Prontuario">
-                <th mat-header-cell *matHeaderCellDef> Prontuário </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.prontuario}} </td>
-            </ng-container>
-
-            <!-- EmailColumn -->
-            <ng-container matColumnDef="Email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
-                <td mat-cell *matCellDef="let a"> {{a.red.aluno.email}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="Situacao">
-              <th mat-header-cell *matHeaderCellDef> Situação </th>
-              <td mat-cell *matCellDef="let a"> {{a.situacao}} </td>
-          </ng-container>
-
-            <ng-container matColumnDef="Abono">
-              <th mat-header-cell *matHeaderCellDef> Percentual de abono </th>
-              <td mat-cell *matCellDef="let a"> {{ this.apresentarAbono(a.percentualabono) }} </td>
-          </ng-container>
-
-            <!-- Outras colunas aqui, se necessário -->
-            <ng-container matColumnDef="Acoes">
-                <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
-                <td class="actionsColumns" mat-cell *matCellDef="let a">
-
-                    <button *ngIf="isPreencher(a)" mat-icon-button matTooltip="Preencher PEE" (click)="formularioPEE(a, false)">
-                        <mat-icon>edit_note</mat-icon>
-                    </button>
-
-                    <button *ngIf="isEnviada(a)" mat-icon-button matTooltip="Editar PEE" (click)="formularioPEE(a, false)">
-                      <mat-icon>edit_square</mat-icon>
-                  </button>
-
-                    <button *ngIf="isEnviada(a)" mat-icon-button matTooltip="Avaliar o plano" (click)="abonarFalta(a)">
-                        <mat-icon>star</mat-icon>
-                    </button>
-
-                    <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a, true)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-        </table>
-        <mat-paginator
-        [pageSize]="10"
-        [pageSizeOptions]="[10, 25, 50]"
-        showFirstLastButtons>
-      </mat-paginator>    
+    <div class="title listagem" translate="no">
+        <h1>Programa Especial de Estudos</h1>
+        <hr class="linha" />
     </div>
-</div>
+
+
+    <div class="listagem">
+
+        <div id="tabela">
+
+
+            <mat-form-field class="campo-pesquisa">
+
+                <mat-label>Pesquisar Aluno</mat-label>
+
+                <input matInput (keyup)="applyFilter($event)"
+                    placeholder="Maria Eduarda | PE0000000 | maria@aluno.ifsp.edu.br">
+
+            </mat-form-field>
+
+
+
+            <mat-form-field class="campo-situacao">
+
+                <mat-label>Situação</mat-label>
+
+                <mat-select [(value)]="situacaoSelecionada" (selectionChange)="filtroPorSituacao($event)">
+
+
+                    <mat-option value="todos">
+                        Apresentar todas
+                    </mat-option>
+
+
+                    <mat-option *ngFor="let a of situacao" [value]="a">
+
+                        {{a}}
+
+                    </mat-option>
+
+
+                </mat-select>
+
+            </mat-form-field>
+
+
+
+
+            <table appearance="outline" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+
+
+                <!-- DISCIPLINA -->
+
+                <ng-container matColumnDef="Disciplina">
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Disciplina
+                    </th>
+
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{a.disciplinas.sigla}}
+
+                    </td>
+
+                </ng-container>
+
+
+
+
+                <!-- NOME -->
+
+                <ng-container matColumnDef="Nome">
+
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Nome
+                    </th>
+
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{a.red.aluno.nome}}
+
+                    </td>
+
+
+                </ng-container>
+
+
+
+
+
+                <!-- PRONTUARIO -->
+
+                <ng-container matColumnDef="Prontuario">
+
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Prontuário
+                    </th>
+
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{a.red.aluno.prontuario}}
+
+                    </td>
+
+
+                </ng-container>
+
+
+
+
+
+
+                <!-- EMAIL -->
+
+                <ng-container matColumnDef="Email">
+
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Email
+                    </th>
+
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{a.red.aluno.email}}
+
+                    </td>
+
+
+                </ng-container>
+
+
+
+                <!-- PROFESSOR -->
+
+                <ng-container matColumnDef="Professor">
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Professor
+                    </th>
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{a.pee_servidor?.[0]?.servidor?.nome || '-'}}
+
+                    </td>
+
+                </ng-container>
+
+
+
+                <!-- SITUAÇÃO -->
+
+                <ng-container matColumnDef="Situacao">
+
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Situação
+                    </th>
+
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{a.situacao}}
+
+                    </td>
+
+
+                </ng-container>
+
+
+
+
+
+
+
+                <!-- ABONO -->
+
+                <ng-container matColumnDef="Abono">
+
+
+                    <th mat-header-cell *matHeaderCellDef>
+                        Percentual de abono
+                    </th>
+
+
+                    <td mat-cell *matCellDef="let a">
+
+                        {{ apresentarAbono(a.percentualabono) }}
+
+                    </td>
+
+
+                </ng-container>
+
+
+
+
+
+
+
+
+                <!-- AÇÕES -->
+
+                <ng-container matColumnDef="Acoes">
+
+
+                    <th class="actionsColumns" mat-header-cell *matHeaderCellDef>
+
+                        Ações
+
+                    </th>
+
+
+
+
+
+                    <td class="actionsColumns" mat-cell *matCellDef="let a">
+
+
+
+
+
+
+
+                        <!-- ACEITAR RED -->
+
+                        <button *ngIf="a.situacao === 'Aguardando Aceite Docente'" mat-icon-button class="botao-aprovar"
+                            matTooltip="Aceitar disciplina no RED" (click)="aceitarRED(a)">
+
+                            <mat-icon>
+                                check_circle
+                            </mat-icon>
+
+                        </button>
+
+
+
+
+
+
+
+
+                        <!-- RECUSAR RED -->
+
+
+                        <button *ngIf="a.situacao === 'Aguardando Aceite Docente'" mat-icon-button class="botao-recusar"
+                            matTooltip="Recusar disciplina no RED" (click)="recusarRED(a)">
+
+
+                            <mat-icon>
+                                cancel
+                            </mat-icon>
+
+
+                        </button>
+
+
+
+
+
+
+
+
+
+                        <!-- PREENCHER PEE -->
+
+
+                        <button *ngIf="isPreencher(a)" mat-icon-button matTooltip="Preencher PEE"
+                            (click)="formularioPEE(a,false)">
+
+
+
+                            <mat-icon>
+
+                                edit_note
+
+                            </mat-icon>
+
+
+
+                        </button>
+
+
+
+
+
+
+
+
+
+                        <!-- EDITAR -->
+
+
+
+                        <button *ngIf="isEnviada(a)" mat-icon-button matTooltip="Editar PEE"
+                            (click)="formularioPEE(a,false)">
+
+
+
+                            <mat-icon>
+
+                                edit_square
+
+                            </mat-icon>
+
+
+
+                        </button>
+
+
+
+
+
+
+
+
+
+                        <!-- AVALIAR -->
+
+
+                        <button *ngIf="isEnviada(a)" mat-icon-button matTooltip="Avaliar o plano"
+                            (click)="abonarFalta(a)">
+
+
+
+                            <mat-icon>
+
+                                star
+
+                            </mat-icon>
+
+
+
+                        </button>
+
+
+
+
+
+
+
+
+
+                        <!-- VISUALIZAR -->
+
+
+                        <button mat-icon-button matTooltip="Visualizar plano de estudo" (click)="formularioPEE(a,true)">
+
+
+
+                            <mat-icon>
+
+
+                                visibility
+
+
+                            </mat-icon>
+
+
+
+                        </button>
+
+
+
+
+
+
+                    </td>
+
+
+                </ng-container>
+
+
+
+
+
+
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns">
+
+                </tr>
+
+
+
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+
+                </tr>
+
+
+
+
+
+            </table>
+
+
+
+
+
+
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10,25,50]" showFirstLastButtons>
+
+
+            </mat-paginator>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
 </div>

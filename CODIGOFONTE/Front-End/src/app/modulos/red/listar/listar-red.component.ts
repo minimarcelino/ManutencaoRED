@@ -298,20 +298,34 @@ export class ListarREDComponent implements OnInit {
   }
 
   associarDisciplina(red: red) {
-    const editar = this.dialog.open(AssociarDisciplinaComponent, {
-      width: '90vw',
-      maxWidth: '1200px',
-      maxHeight: '95vh',
-      data: {
-        idRED: red.idRED,
-        situacao: red.situacao,
-        servidor_idservidor: red.coordenador,
-        red: red,
-      },
-    });
-    this.handleDialogConfirm(editar);
-    // Atualizar red para "Aguardando professor"
-  }
+
+  const dialogRef = this.dialog.open(AssociarDisciplinaComponent, {
+
+    width: '90vw',
+    maxWidth: '1200px',
+    maxHeight: '95vh',
+
+    disableClose: true,
+
+    data: {
+
+      idRED: red.idRED,
+      situacao: red.situacao,
+      servidor_idservidor: red.coordenador,
+      red: red,
+
+    }
+
+  });
+
+
+  dialogRef.afterClosed().subscribe(() => {
+
+    this.findAll();
+
+  });
+
+}
 
   async afterAssociarDisciplina(red: any) {
     try {

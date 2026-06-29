@@ -99,13 +99,17 @@ export class AssociarProfessoresComponent implements OnInit {
 
     try {
 
+
       const professoresAtualizados = [
 
         ...this.data.pee.pee_servidor.map(
           (item: any) => ({
+
             servidorId: item.servidorId
+
           })
         ),
+
 
         {
           servidorId: docente.idservidor
@@ -113,52 +117,113 @@ export class AssociarProfessoresComponent implements OnInit {
 
       ];
 
-      console.log("Enviando para API:", {
-        idpee: this.data.idPEE,
-        pee_servidor: professoresAtualizados
-      });
 
-      await this.peeService.updatePee({
+
+      console.log(
+        "PROFESSOR SELECIONADO:",
+        docente
+      );
+
+
+      console.log(
+        "ENVIANDO PARA API:",
+        {
+          idpee: this.data.idPEE,
+          pee_servidor: professoresAtualizados
+        }
+      );
+
+
+
+      const resposta = await this.peeService.updatePee({
 
         idpee: this.data.idPEE,
 
         pee_servidor: professoresAtualizados,
 
-        situacao: 'Aguardando Preenchimento'
+        situacao: 'Aguardando Aceite Docente'
 
       });
 
 
+      console.log(
+        "RESPOSTA UPDATE PEE:",
+        resposta
+      );
+
+
+
+      // adiciona na tabela inferior
+
       this.dataSource2.data = [
+
         ...this.dataSource2.data,
+
         docente
+
       ];
 
+
+
+      this.dataSource2
+        ._updateChangeSubscription();
+
+
+
+      // adiciona na lista de selecionados
+
+      this.professoresSelecionados.push(
+        docente
+      );
+
+
+
+      // remove da lista superior
 
       this.professores =
         this.professores.filter(
-          (item) =>
-            item.idservidor !== docente.idservidor
+
+          (item: any) =>
+
+            item.idservidor !==
+            docente.idservidor
+
         );
 
 
+
       this.dataSource.data = [
+
         ...this.professores
+
       ];
 
 
+
       this.snackBarService.open(
+
         'Professor associado com sucesso!'
+
       );
 
 
-    } catch (error) {
 
-      console.error(error);
+    } catch (error: any) {
+
+
+      console.error(
+        "ERRO AO ASSOCIAR PROFESSOR:",
+        error
+      );
+
+
 
       this.snackBarService.open(
+
         'Falha ao associar professor'
+
       );
+
 
     }
 
@@ -213,8 +278,10 @@ export class AssociarProfessoresComponent implements OnInit {
               item.servidorId !== docente.idservidor
           )
           .map(
-            (item: any) => item.servidor
-          );
+            (item: any) => ({
+              servidorId: item.servidorId
+            })
+          )
 
       await this.peeService.updatePee({
 
@@ -309,9 +376,9 @@ export class AssociarProfessoresComponent implements OnInit {
       RED_idRED: this.data.idRED,
 
       pee_servidor:
-        this.professoresSelecionados.map(
-          (prof: any) => ({
-            servidorId: prof.idservidor
+        this.data.pee.pee_servidor.map(
+          (item: any) => ({
+            servidorId: item.servidorId
           })
         ),
 

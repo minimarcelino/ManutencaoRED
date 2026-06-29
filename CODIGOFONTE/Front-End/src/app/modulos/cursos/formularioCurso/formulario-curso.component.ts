@@ -206,10 +206,11 @@ private mostrarErrosFormulario() {
   const campos = this.formularioCurso.controls;
 
 
+  // SIGLA
   if (campos['sigla']?.hasError('required')) {
 
     this.snackBarService.open(
-      'A sigla do curso é obrigatória'
+      'A sigla do curso é obrigatória.'
     );
 
     return;
@@ -219,17 +220,29 @@ private mostrarErrosFormulario() {
   if (campos['sigla']?.hasError('minlength')) {
 
     this.snackBarService.open(
-      'A sigla deve ter pelo menos 2 caracteres'
+      'A sigla do curso deve possuir pelo menos 2 caracteres.'
     );
 
     return;
   }
 
 
+  if (campos['sigla']?.hasError('pattern')) {
+
+    this.snackBarService.open(
+      'A sigla do curso deve conter apenas letras e números.'
+    );
+
+    return;
+  }
+
+
+
+  // NOME DO CURSO
   if (campos['nomeCurso']?.hasError('required')) {
 
     this.snackBarService.open(
-      'O nome do curso é obrigatório'
+      'O nome do curso é obrigatório.'
     );
 
     return;
@@ -239,15 +252,39 @@ private mostrarErrosFormulario() {
   if (campos['nomeCurso']?.hasError('minlength')) {
 
     this.snackBarService.open(
-      'O nome do curso deve ter pelo menos 3 caracteres'
+      'O nome do curso deve possuir pelo menos 3 caracteres.'
     );
 
     return;
   }
 
 
+  if (campos['nomeCurso']?.hasError('pattern')) {
+
+    this.snackBarService.open(
+      'O nome do curso deve conter apenas letras e espaços.'
+    );
+
+    return;
+  }
+
+
+
+  // COORDENADOR (SELECT)
+  if (campos['Coordenador']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O coordenador é obrigatório. Selecione um coordenador da lista.'
+    );
+
+    return;
+  }
+
+
+
+  // CASO ALGUM ERRO NÃO TENHA SIDO TRATADO
   this.snackBarService.open(
-    'Verifique os campos preenchidos'
+    'Verifique os campos preenchidos.'
   );
 
 }
@@ -289,7 +326,7 @@ private mostrarErrosFormulario() {
 
   // 🔥 volta atualizando cursos
   this.router.navigate(
-    [`/${this.user.tiposervidor}/listarCursos`],
+    [`/${this.user.tiposervidor}`],
     {
       state: {
         atualizarCursos: true

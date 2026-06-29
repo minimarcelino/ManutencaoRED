@@ -325,7 +325,20 @@ export class PeeController {
   }
 
 
+async getByProfessor(req: Request, res: Response){
 
+  const response = await peeservice.findByProfessor(
+    Number(req.params.id)
+  );
+
+
+  return res.status(
+    response.ok 
+      ? StatusCodes.OK 
+      : StatusCodes.BAD_REQUEST
+  ).send(response);
+
+}
 
 
 
@@ -407,12 +420,42 @@ export class PeeController {
 
   }
 
+  async findByProfessor(req: Request, res: Response) {
+
+    try {
+
+      const idservidor = Number(req.params.idservidor);
 
 
+      const response = await peeservice.findByProfessor(
+        idservidor
+      );
 
 
+      return res.status(
+        response.ok ? StatusCodes.OK : StatusCodes.BAD_REQUEST
+      ).send(response);
 
 
+    } catch(error:any) {
+
+
+      console.log(error);
+
+
+      return res.status(400).send({
+
+        ok:false,
+
+        error:error.message
+
+      });
+
+
+    }
+
+  }
+  
   async getByHash(req:Request,res:Response){
 
 

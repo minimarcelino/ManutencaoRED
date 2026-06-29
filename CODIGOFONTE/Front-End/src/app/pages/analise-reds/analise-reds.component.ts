@@ -23,16 +23,24 @@ export class AnaliseRedsComponent implements OnInit {
   ) { }
 
 
-  ngOnInit(): void {
+ ngOnInit(): void {
 
-    this.service.buscar()
-      .subscribe((dados: any) => {
-        this.alunos = dados.alunos;
-        this.totalAlunos = dados.totalAlunos;
-        this.totalReds = dados.totalReds;
-        this.alunosRecorrentes = dados.alunosRecorrentes;
+  this.service.buscar()
+    .subscribe((dados: any) => {
+
+      this.alunos = dados.alunos;
+
+      // Ordena do aluno com mais REDs para o com menos REDs
+      this.alunos.sort((a, b) => {
+        return b.quantidade - a.quantidade;
       });
-  }
+
+      this.totalAlunos = dados.totalAlunos;
+      this.totalReds = dados.totalReds;
+      this.alunosRecorrentes = dados.alunosRecorrentes;
+
+    });
+}
 
  abrirDetalhes(aluno: any): void {
   this.router.navigate([
@@ -77,6 +85,52 @@ export class AnaliseRedsComponent implements OnInit {
       this.router.navigate(['/login']);
       break;
   }
+
+}
+
+mesAbreviado(data: any): string {
+
+  if (!data) {
+    return '';
+  }
+
+  const meses = [
+    'Jan',
+    'Fev',
+    'Mar',
+    'Abr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Set',
+    'Out',
+    'Nov',
+    'Dez'
+  ];
+
+
+  // caso venha uma data tipo 2026-06-28
+  if (typeof data === 'string' && data.includes('-')) {
+
+    const partes = data.split('-');
+
+    const ano = partes[0];
+    const mes = Number(partes[1]);
+
+    return `${meses[mes - 1]}/${ano}`;
+  }
+
+
+  // caso venha só número do mês
+  if(typeof data === 'number') {
+
+    return `${meses[data - 1]}/2026`;
+
+  }
+
+
+  return data;
 
 }
 

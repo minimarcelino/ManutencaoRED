@@ -83,7 +83,7 @@ export class AssociarDisciplinaComponent implements OnInit {
 
     private route: ActivatedRoute,
 
-  ) {}
+  ) { }
 
   async ngOnInit() {
 
@@ -367,7 +367,7 @@ export class AssociarDisciplinaComponent implements OnInit {
 
       if (
         peeComDisciplina?.situacao !==
-        'Aguardando Associação de Professor'
+        'Aguardando Docente'
       ) {
 
         console.log(
@@ -425,6 +425,7 @@ export class AssociarDisciplinaComponent implements OnInit {
 
       for (const item of this.disciplinasSelecionadas) {
 
+
         await this.peeService.createPee({
 
           conteudo: '',
@@ -441,16 +442,22 @@ export class AssociarDisciplinaComponent implements OnInit {
 
           RED_idRED: this.idRED,
 
+
           disciplinas_iddisciplinas:
             item.iddisciplinas,
 
+
           pee_servidor: null,
+
 
           percentualabono: -1,
 
+
           situacao:
-            'Aguardando Associação de Professor',
+            'Aguardando Docente',
+
         });
+
       }
 
       // altera situação RED
@@ -485,10 +492,6 @@ export class AssociarDisciplinaComponent implements OnInit {
       this.snackBarService.open(
         'Disciplinas associadas com sucesso!!'
       );
-
-      // fecha dialog se existir
-
-      this.dialog?.close(true);
 
     } catch (error: any) {
 

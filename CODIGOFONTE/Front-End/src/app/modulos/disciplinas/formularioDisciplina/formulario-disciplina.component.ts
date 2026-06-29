@@ -201,10 +201,11 @@ private mostrarErrosFormulario() {
   const campos = this.formularioDisciplina.controls;
 
 
+  // SIGLA
   if (campos['sigla']?.hasError('required')) {
 
     this.snackBarService.open(
-      'A sigla da disciplina é obrigatória'
+      'A sigla da disciplina é obrigatória.'
     );
 
     return;
@@ -214,35 +215,84 @@ private mostrarErrosFormulario() {
   if (campos['sigla']?.hasError('minlength')) {
 
     this.snackBarService.open(
-      'A sigla deve ter pelo menos 2 caracteres'
+      'A sigla da disciplina deve possuir pelo menos 2 caracteres.'
     );
 
     return;
   }
 
 
-  if (campos['nome']?.hasError('required')) {
+  if (campos['sigla']?.hasError('pattern')) {
 
     this.snackBarService.open(
-      'O nome da disciplina é obrigatório'
+      'A sigla da disciplina deve conter apenas letras e números.'
     );
 
     return;
   }
 
 
-  if (campos['nome']?.hasError('minlength')) {
+
+
+  // NOME DA DISCIPLINA
+  if (campos['nomeDisciplina']?.hasError('required')) {
 
     this.snackBarService.open(
-      'O nome da disciplina deve ter pelo menos 3 caracteres'
+      'O nome da disciplina é obrigatório.'
     );
 
     return;
   }
 
 
+  if (campos['nomeDisciplina']?.hasError('minlength')) {
+
+    this.snackBarService.open(
+      'O nome da disciplina deve possuir pelo menos 3 caracteres.'
+    );
+
+    return;
+  }
+
+
+  if (campos['nomeDisciplina']?.hasError('pattern')) {
+
+    this.snackBarService.open(
+      'O nome da disciplina deve conter apenas letras e espaços.'
+    );
+
+    return;
+  }
+
+
+
+
+  // CURSO (AUTOCOMPLETE)
+  if (campos['Curso']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O curso é obrigatório. Selecione um curso da lista.'
+    );
+
+    return;
+  }
+
+
+  if (campos['Curso']?.hasError('cursoInvalido')) {
+
+    this.snackBarService.open(
+      'Curso inválido. Selecione um curso válido da lista.'
+    );
+
+    return;
+  }
+
+
+
+
+  // CASO NÃO TENHA SIDO IDENTIFICADO
   this.snackBarService.open(
-    'Verifique os campos preenchidos'
+    'Verifique os campos preenchidos.'
   );
 
 }

@@ -121,23 +121,28 @@ export class VisualizarDisciplinaComponent implements OnInit {
   this.handleDialogConfirm(associarProfessor);
 }
 
-  apresentarDocentes(pee: any) {
+  apresentarDocentes(pee: any): string {
 
   console.log('DADOS DA LINHA:', pee);
 
-  return pee.pee_servidor?.length > 0
-    ? pee.pee_servidor
-        .map((docente:any) => docente.servidor.nome)
-        .join(', ')
-    : '-';
+  if (!pee?.pee_servidor || pee.pee_servidor.length === 0) {
+    return '-';
+  }
 
+  const docentes = pee.pee_servidor
+    .filter((docente: any) => docente.servidor)
+    .map((docente: any) => docente.servidor.nome);
+
+  return docentes.length > 0
+    ? docentes.join(', ')
+    : '-';
 }
 
-  handleDialogConfirm(dialog: any) {
+handleDialogConfirm(dialog: any) {
 
   dialog.afterClosed().subscribe(() => {
 
-    window.location.reload();
+    // atualiza a lista sem recarregar a página
 
   });
 

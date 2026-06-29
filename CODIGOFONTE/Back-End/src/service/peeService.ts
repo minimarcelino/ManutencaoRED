@@ -101,6 +101,83 @@ export class peeService {
     }
   }
 
+  async findByProfessor(idservidor: number) {
+  try {
+
+    console.log("BUSCANDO PROFESSOR:", idservidor);
+
+
+    const relacoes = await prisma.pee_servidor.findMany({
+      where:{
+        servidorId: idservidor
+      },
+      include:{
+        pee:true,
+        servidor:true
+      }
+    });
+
+
+    console.log("RELAÇÕES:", relacoes);
+
+
+    const todos = await prisma.pee_servidor.findMany({
+      include:{
+        servidor:true,
+        pee:true
+      }
+    });
+    console.log(todos);
+
+    console.log("TODAS RELAÇÕES PEE_SERVIDOR:", todos);
+
+
+    const pees = await prisma.pee.findMany({
+      where:{
+        pee_servidor:{
+          some:{
+            servidorId:idservidor
+          }
+        }
+      },
+      include:{
+        red:{
+          include:{
+            aluno:true
+          }
+        },
+        disciplinas:true,
+        pee_servidor:{
+          include:{
+            servidor:true
+          }
+        }
+      }
+    });
+
+
+    console.log("PEES ENCONTRADOS:", pees);
+
+
+    return {
+      ok:true,
+      data:{pees}
+    };
+
+
+  } catch(error:any){
+
+    console.log(error);
+
+    return {
+      ok:false,
+      data:StatusCodes.INTERNAL_SERVER_ERROR
+    };
+
+  }
+}
+
+
   async findById(id: number) {
     try {
 
@@ -193,7 +270,7 @@ export class peeService {
             pee.percentualabono,
 
           situacao:
-            pee.situacao,
+ pee.situacao ?? "Aguardando Docente",
 
           canalComunicacao:
             pee.canalComunicacao,
@@ -280,111 +357,93 @@ export class peeService {
 
 
   async update(pee: any, id: number) {
+  try {
 
-    console.log(
-      "JSON RECEBIDO:",
-      JSON.stringify(pee, null, 2)
-    );
-
-    console.log("========== DADOS UPDATE ==========");
-    console.log("ID:", id);
-    console.log("RED:", pee.RED_idRED);
-    console.log("DISCIPLINA:", pee.disciplinas_iddisciplinas);
-    console.log("PERCENTUAL:", pee.percentualabono);
-    console.log("BODY COMPLETO:", pee);
-    console.log(
-      "CAMPOS DE ACOMPANHAMENTO:",
-      {
-        dataEnvioProposta: pee.dataEnvioProposta,
-        dataEntregaAtividade: pee.dataEntregaAtividade,
-        cumpriuAtividade: pee.cumpriuAtividade,
-        houveAvaliacao: pee.houveAvaliacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
-        dataAvaliacao: pee.dataAvaliacao
-      }
-    );
-    try {
-
-      console.log('========== UPDATE PEE ==========');
-      console.log('ID:', id);
-      console.log('BODY RECEBIDO:', pee);
-
-      console.log("SITUAÇÃO RECEBIDA:", pee.situacao);
-      console.log("HOUVE AVALIAÇÃO:", pee.houveAvaliacao);
+    // Busca servidores já associados
+    const servidoresAssociados = await prisma.pee_servidor.findMany({
+      where: {
+        peeId: id,
+      },
+      select: {
+        servidorId: true,
+      },
+    });
 
 
-      const servidoresAssociados = await prisma.pee_servidor.findMany({
-        where: {
-          peeId: id,
-        },
-        select: {
-          servidorId: true,
-        },
-      });
-
-
-      const idsServidoresAssociados = servidoresAssociados.map(
-        (associacao) => associacao.servidorId
+    const idsServidoresAssociados =
+      servidoresAssociados.map(
+        servidor => servidor.servidorId
       );
 
-      console.log("SERVIDORES RECEBIDOS:", pee.pee_servidor);
-      const servidoresRecebidos = pee.pee_servidor || [];
+
+    const servidoresRecebidos =
+      pee.pee_servidor !== undefined
+        ? pee.pee_servidor
+        : null;
 
 
-      const professoresData = servidoresRecebidos
-        .map((professor: any) => ({
-
+    const professoresData: { servidorId:number }[] =
+  servidoresRecebidos === null
+    ? idsServidoresAssociados.map(id => ({
+        servidorId:id
+      }))
+    : servidoresRecebidos
+        .map((professor:any)=>({
           servidorId:
-            professor.idservidor ??
             professor.servidorId ??
-            professor.servidor?.idservidor
-
+            professor.servidor?.idservidor ??
+            professor.idservidor
         }))
-        .filter((professor: any) => professor.servidorId);
+        .filter(
+          (professor:any)=>professor.servidorId
+        );
 
 
-
-      const idsRemover = idsServidoresAssociados.filter(
-  (servidorId)=>
-    !servidoresRecebidos.some(
-      (professor:any)=>
-        (
-          professor.idservidor ??
-          professor.servidorId ??
-          professor.servidor?.idservidor
-        ) === servidorId
-    )
-);
+    // Remove servidores que foram desmarcados
+    const idsRemover =
+  idsServidoresAssociados.filter(
+    (servidorId: number) =>
+      !professoresData.some(
+        (professor: { servidorId: number }) =>
+          professor.servidorId === servidorId
+      )
+  );
 
 
-      if (idsRemover.length > 0) {
+    if (idsRemover.length > 0) {
 
-        await prisma.pee_servidor.deleteMany({
-          where: {
-            peeId: id,
+      await prisma.pee_servidor.deleteMany({
+        where: {
+          peeId: id,
 
-            servidorId: {
-              in: idsRemover,
-            },
-          },
-        });
+          servidorId: {
+            in: idsRemover
+          }
 
-      }
-
-      console.log("DADOS ENVIADOS PARA O PRISMA:");
-      console.log({
-        conteudo: pee.conteudo,
-        metodologia: pee.metodologia,
-        trabalhos: pee.trabalhos,
-        situacao: pee.situacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
-        dataAvaliacao: pee.dataAvaliacao
+        }
       });
-      const updatePEE = await prisma.pee.update({
+
+    }
+
+
+    // Evita criar duplicados
+    const novosServidores =
+  professoresData.filter(
+    (professor: { servidorId: number }) =>
+      !idsServidoresAssociados.includes(
+        professor.servidorId
+      )
+  );
+
+
+
+    const updatePEE =
+      await prisma.pee.update({
 
         where: {
           idpee: id
         },
+
 
         data: {
 
@@ -415,6 +474,32 @@ export class peeService {
               : undefined,
 
 
+
+          // CORRIGIDO
+          red:
+            pee.RED_idRED
+              ? {
+                  connect: {
+                    idRED: pee.RED_idRED
+                  }
+                }
+              : undefined,
+
+
+
+          // CORRIGIDO
+          disciplinas:
+            pee.disciplinas_iddisciplinas
+              ? {
+                  connect: {
+                    iddisciplinas:
+                      pee.disciplinas_iddisciplinas
+                  }
+                }
+              : undefined,
+
+
+
           situacao:
             pee.situacao ?? undefined,
 
@@ -435,32 +520,14 @@ export class peeService {
             pee.prazoEntregaAtividade ?? undefined,
 
 
+
           dataEntregaAtividade:
             pee.dataEntregaAtividade
-              ? (() => {
-
-                const data = pee.dataEntregaAtividade;
-
-                // formato recebido: 25062026
-                if (/^\d{8}$/.test(data)) {
-
-                  const dia = data.substring(0, 2);
-                  const mes = data.substring(2, 4);
-                  const ano = data.substring(4, 8);
-
-                  return new Date(`${ano}-${mes}-${dia}`);
-
-                }
-
-                // formato ISO: 2026-06-29T00:00:00.000Z
-                const dataNormal = new Date(data);
-
-                return isNaN(dataNormal.getTime())
-                  ? undefined
-                  : dataNormal;
-
-              })()
+              ? new Date(
+                  pee.dataEntregaAtividade
+                )
               : undefined,
+
 
 
           cumpriuAtividade:
@@ -472,80 +539,86 @@ export class peeService {
 
 
           avaliacoesRealizadas:
-            pee.avaliacoesRealizadas,
+            pee.avaliacoesRealizadas ?? undefined,
+
 
 
           dataAvaliacao:
             pee.dataAvaliacao
-              ? (() => {
-
-                const data = pee.dataAvaliacao;
-
-                if (/^\d{8}$/.test(data)) {
-
-                  const dia = data.substring(0, 2);
-                  const mes = data.substring(2, 4);
-                  const ano = data.substring(4, 8);
-
-                  return new Date(`${ano}-${mes}-${dia}`);
-
-                }
-
-                const dataNormal = new Date(data);
-
-                return isNaN(dataNormal.getTime())
-                  ? null
-                  : dataNormal;
-
-              })()
-              : null,
+              ? new Date(
+                  pee.dataAvaliacao
+                )
+              : undefined,
 
 
+
+          // somente cria novos
           pee_servidor:
-            professoresData.length > 0
-              ?
-              {
-                create: professoresData
-              }
-              :
-              undefined
+            novosServidores.length > 0
+              ? {
+                  create: novosServidores
+                }
+              : undefined
 
 
         },
 
+
         include: {
-          pee_servidor: true
+
+          pee_servidor: {
+            include: {
+              servidor: true
+            }
+          },
+
+          disciplinas: true,
+
+          red: true
+
         }
 
       });
 
 
-      console.log(
-        "UPDATE FINALIZADO:",
-        updatePEE
-      );
+
+    console.log(
+      "UPDATE FINALIZADO:",
+      updatePEE
+    );
 
 
-      return {
+    return {
 
-        ok: true,
+      ok: true,
 
-        data: updatePEE,
+      data: updatePEE
 
-      };
+    };
 
 
-    } catch (error: any) {
 
-      console.log("ERRO COMPLETO UPDATE:", error);
+  } catch(error:any) {
 
-      return {
-        ok: false,
-        data: error
-      };
 
-    }
+    console.log(
+      "ERRO COMPLETO UPDATE:",
+      error
+    );
+
+
+    return {
+
+      ok:false,
+
+      data:error
+
+    };
+
+
   }
+
+}
 
   async delete(id: number) {
     try {

@@ -240,6 +240,31 @@ private mostrarErrosFormulario() {
   const campos = this.formularioServidor.controls;
 
 
+
+  // PRONTUÁRIO
+  if (campos['prontuario']?.hasError('required')) {
+
+    this.snackBarService.open(
+      'O prontuário do servidor é obrigatório.'
+    );
+
+    return;
+  }
+
+
+  if (campos['prontuario']?.hasError('pattern')) {
+
+    this.snackBarService.open(
+      'Prontuário inválido. Utilize apenas letras e números no formato correto.'
+    );
+
+    return;
+  }
+
+
+
+
+  // NOME
   if (campos['nome']?.hasError('required')) {
 
     this.snackBarService.open(
@@ -253,13 +278,26 @@ private mostrarErrosFormulario() {
   if (campos['nome']?.hasError('minlength')) {
 
     this.snackBarService.open(
-      'O nome deve ter pelo menos 3 caracteres.'
+      'O nome do servidor deve possuir pelo menos 3 caracteres.'
     );
 
     return;
   }
 
 
+  if (campos['nome']?.hasError('pattern')) {
+
+    this.snackBarService.open(
+      'O nome deve conter apenas letras e espaços.'
+    );
+
+    return;
+  }
+
+
+
+
+  // EMAIL
   if (campos['email']?.hasError('required')) {
 
     this.snackBarService.open(
@@ -278,6 +316,24 @@ private mostrarErrosFormulario() {
 
     return;
   }
+
+
+
+
+  // TIPO DE SERVIDOR
+  if (
+    this.isADM() &&
+    campos['tiposervidor']?.hasError('required')
+  ) {
+
+    this.snackBarService.open(
+      'O tipo de servidor é obrigatório.'
+    );
+
+    return;
+  }
+
+
 
 
   this.snackBarService.open(

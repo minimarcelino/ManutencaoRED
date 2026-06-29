@@ -23,10 +23,11 @@ export class ListarPEEComponent implements OnInit {
   filteredPEEs: any[] = [];
   situacaoSelecionada = 'todos';
   situacao = [
-    'Aguardando Preenchimento',
-    'Enviada ao Aluno',
-    'Avaliado',
-  ];
+  'Aguardando Aceite Docente',
+  'Aguardando Preenchimento',
+  'Enviada para o Aluno',
+  'Avaliado',
+];
 
 
   dataSource: any;
@@ -37,6 +38,7 @@ export class ListarPEEComponent implements OnInit {
     'Nome',
     'Prontuario',
     'Email',
+    'Professor',
     'Situacao',
     'Abono',
     'Acoes',
@@ -61,22 +63,140 @@ export class ListarPEEComponent implements OnInit {
   }
 
   async findAll() {
-    const response = await this.peeService.getPee();
-    this.pees = response.data.pees;
+  try {
+    console.log("USER LOGADO:", this.user);
+    console.log("ID SERVIDOR:", this.user?.idservidor);
 
-    this.pees = this.pees.filter((pee: any) => pee.pee_servidor.some((item: any) => item.servidorId === this.user.idservidor));
+    const response = await this.peeService.getPeeByProfessor(
+      this.user.idservidor
+    );
 
-    //this.pees = this.pees.filter((pee) => pee.percentualabono == -1.0);
-    this.dataSource = new MatTableDataSource<pee>(this.pees);
+      console.log("RESPOSTA COMPLETA:", response);
+
+    console.log("PEES RECEBIDOS:", response.data.pees);
+    this.pees = response.data.pees || [];
+
+    this.dataSource = new MatTableDataSource<any>(this.pees);
+
+    // paginator
     this.dataSource.paginator = this.paginator;
-    console.log(this.pees);
+
+    // sorting (se você usar MatSort depois)
+    // this.dataSource.sort = this.sort;
+
+    // 🔥 FILTRO PROFISSIONAL
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const situacao = (data.situacao || '').toLowerCase();
+      const filtro = (filter || '').toLowerCase();
+
+      if (filtro === 'todos' || !filtro) {
+        return true;
+      }
+
+      return situacao === filtro;
+    };
+
+    // aplica filtro atual (caso já tenha selecionado algo antes do reload)
+    this.dataSource.filter = this.situacaoSelecionada || 'todos';
+
+  } catch (error: any) {
+    console.error("ERRO NO FINDALL:", error);
   }
+}
+
+async aceitarRED(pee:any){
+
+  const confirmar = await this.dialogQuestionService
+    .openDialogConfirmAprovarRED();
+
+
+  if(confirmar){
+
+    try {
+
+      await this.peeService.updatePee({
+
+        idpee: pee.idpee,
+
+        situacao: 'Aguardando Preenchimento'
+
+      });
+
+
+      this.findAll();
+
+
+    } catch(error){
+
+      console.error(
+        "Erro ao aceitar RED",
+        error
+      );
+
+    }
+
+  }
+
+}
+
+
+async recusarRED(pee:any){
+
+
+  const confirmar = await this.dialogQuestionService
+    .openDialogConfirmRecusarRED();
+
+
+
+  if(confirmar){
+
+
+    const motivo = await this.dialogQuestionService
+      .openDialogMotivoRecusaRED();
+
+
+
+    if(!motivo){
+      return;
+    }
+
+
+
+    try {
+
+
+      await this.peeService.updatePee({
+
+        idpee: pee.idpee,
+
+        situacao: `Recusado: ${motivo}`
+
+      });
+
+
+
+      this.findAll();
+
+
+
+    } catch(error){
+
+      console.error(
+        "Erro ao recusar RED",
+        error
+      );
+
+    }
+
+  }
+
+}
 
   abonarFalta(pee: any) {
     const editar = this.dialog.open(AbonarFaltaComponent, {
-  width: '700px',
-  maxHeight: '90vh',
-  autoFocus: false,
+      width: '700px',
+      maxHeight: '90vh',
+      autoFocus: false,
 
       data: {
         idpee: pee.idpee,
@@ -120,23 +240,23 @@ export class ListarPEEComponent implements OnInit {
   }
 
   aplicarFiltros() {
-    // Aplica os filtros de curso e situação simultaneamente
-    this.filteredPEEs = this.pees.filter(
-      (pee) =>
-        this.situacaoSelecionada === 'todos' ||
-        pee.situacao === this.situacaoSelecionada
-    );
+  let dados = this.pees;
 
-    // Atualiza o dataSource com os REDs filtrados
-    this.dataSource = new MatTableDataSource<any>(this.filteredPEEs);
-    this.dataSource.paginator = this.paginator;
+  if (this.situacaoSelecionada !== 'todos') {
+    dados = dados.filter(
+      pee => pee.situacao === this.situacaoSelecionada
+    );
   }
+
+  this.dataSource = new MatTableDataSource(dados);
+  this.dataSource.paginator = this.paginator;
+}
 
   filtroPorSituacao(event: MatSelectChange) {
-    // Atualiza o filtro de situação e aplica todos os filtros novamente
-    this.situacaoSelecionada = event.value;
-    this.aplicarFiltros();
-  }
+  this.situacaoSelecionada = event.value;
+
+  this.dataSource.filter = this.situacaoSelecionada;
+}
 
   handleDialogConfirm(dialog: any) {
     dialog.afterClosed().subscribe((result: string) => {
@@ -145,8 +265,8 @@ export class ListarPEEComponent implements OnInit {
   }
 
   isEnviada(pee: any) {
-    return pee.situacao === 'Enviado para o aluno';
-  }
+  return pee.situacao?.toLowerCase().includes('enviad');
+}
 
   isPreencher(pee: any) {
     return pee.situacao === 'Aguardando Preenchimento';

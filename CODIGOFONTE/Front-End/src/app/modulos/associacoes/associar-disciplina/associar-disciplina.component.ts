@@ -339,68 +339,58 @@ export class AssociarDisciplinaComponent implements OnInit {
 
   async cadastrar() {
 
-    try {
+  try {
 
-      for (const item of this.disciplinasSelecionadas) {
+    // Cadastra todas as disciplinas selecionadas
+    for (const item of this.disciplinasSelecionadas) {
 
-        await this.peeService.createPee({
+      await this.peeService.createPee({
 
-          conteudo: '',
-          metodologia: '',
-          trabalhos: '',
-          bibliografia: '',
-          criterios: '',
-          prazofinal: new Date().toISOString(),
+        conteudo: '',
 
-          RED_idRED: Number(this.idRED),
+        metodologia: '',
 
-          disciplinas_iddisciplinas:
+        trabalhos: '',
+
+        bibliografia: '',
+
+        criterios: '',
+
+        prazofinal: new Date().toISOString(),
+
+
+        RED_idRED: Number(this.idRED),
+
+
+        disciplinas_iddisciplinas:
           Number(item.iddisciplinas),
 
-          percentualabono: -1,
 
-          situacao:
-            'Aguardando Associação de Professor',
-        });
+        percentualabono: -1,
 
-        try {
 
-          await this.redService.updateSituacaoRED({
+        situacao:
+          'Aguardando Associação de Professor',
 
-            idRED: this.idRED,
+      });
 
-            situacao: 'Em andamento',
-          });
+    }
 
-        } catch (error: any) {
 
-          if (
-            error &&
-            error.error &&
-            error.error.data
-          ) {
+    // Atualiza a situação da RED somente uma vez
+    try {
 
-            const errorMessage =
-              error.error.data;
+      await this.redService.updateSituacaoRED({
 
-            this.snackBarService.open(
-              `Falha ao alterar situação da RED: ${errorMessage}`
-            );
+        idRED: this.idRED,
 
-          } else {
+        situacao: 'Em andamento',
 
-            this.snackBarService.open(
-              'Falha ao alterar situação da RED'
-            );
-          }
-        }
-      }
+      });
 
-      this.snackBarService.open(
-        'Disciplinas associadas com sucesso!!'
-      );
 
     } catch (error: any) {
+
 
       if (
         error &&
@@ -411,18 +401,60 @@ export class AssociarDisciplinaComponent implements OnInit {
         const errorMessage =
           error.error.data;
 
+
         this.snackBarService.open(
-          `Falha ao associar Disciplina: ${errorMessage}`
+          `Falha ao alterar situação da RED: ${errorMessage}`
         );
+
 
       } else {
 
+
         this.snackBarService.open(
-          'Falha ao associar Disciplina'
+          'Falha ao alterar situação da RED'
         );
+
       }
+
     }
+
+
+    this.snackBarService.open(
+      'Disciplinas associadas com sucesso!!'
+    );
+
+
+  } catch (error: any) {
+
+
+    if (
+      error &&
+      error.error &&
+      error.error.data
+    ) {
+
+
+      const errorMessage =
+        error.error.data;
+
+
+      this.snackBarService.open(
+        `Falha ao associar Disciplina: ${errorMessage}`
+      );
+
+
+    } else {
+
+
+      this.snackBarService.open(
+        'Falha ao associar Disciplina'
+      );
+
+    }
+
   }
+
+}
 
   async associarDisciplinaAutomaticamente(
   disciplina: any
@@ -483,8 +515,8 @@ export class AssociarDisciplinaComponent implements OnInit {
 }
 
   cancelar() {
-    this.dialog?.close();
-  }
+    this.dialog?.close(false);
+}
 
   apresentarAluno() {
 

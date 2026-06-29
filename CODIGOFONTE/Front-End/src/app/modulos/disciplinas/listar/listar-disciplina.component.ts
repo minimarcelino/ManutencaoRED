@@ -274,8 +274,12 @@ export class ListarDisciplinasComponent implements OnInit {
   }
 
   handleDialogConfirm(dialog: any) {
-    dialog.afterClosed().subscribe(() => {
+  dialog.afterClosed().subscribe((resultado: boolean) => {
+
+    if (resultado) {
       this.findAll();
-    });
-  }
+    }
+
+  });
+}
 }
