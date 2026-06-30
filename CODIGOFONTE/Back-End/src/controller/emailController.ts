@@ -221,6 +221,89 @@ export class emailController {
    }
 }
 
+
+async SendEmailAlunoAguardandoAvaliacaoPEE(pee: any) {
+
+   const red: any = await redservice.findById(
+      pee.RED_idRED
+   );
+
+
+   if (
+      red.ok &&
+      red.data
+   ) {
+
+      const alunoResponse = await alunoservice.findById(
+         red.data.aluno_id
+      );
+
+
+      if (
+         alunoResponse.ok &&
+         alunoResponse.data &&
+         typeof alunoResponse.data === 'object'
+      ) {
+
+         const alunoNome = alunoResponse.data.nome;
+         const alunoEmail = alunoResponse.data.email;
+
+
+         const html = `
+         <html>
+         <head>
+            <title>PEE disponível para avaliação</title>
+         </head>
+
+         <body>
+
+            <p>Olá ${alunoNome},</p>
+
+            <p>
+            O seu Plano de Estudos Individualizado (PEE)
+            foi preenchido pelo professor responsável.
+            </p>
+
+            <p>
+            O plano está disponível no sistema para
+            visualização e avaliação.
+            </p>
+
+
+            <p>
+            <a href="${EMAIL_URL}login">
+            Clique aqui para acessar o sistema
+            </a>
+            </p>
+
+
+            <p>
+            Atenciosamente,<br>
+            Equipe de Suporte do RED
+            </p>
+
+         </body>
+         </html>
+         `;
+
+
+         sendEmail(
+            alunoEmail,
+            "Sistema RED - PEE disponível para avaliação",
+            html
+         );
+
+
+         console.log(
+            "Email enviado aluno - PEE aguardando avaliação"
+         );
+
+      }
+
+   }
+
+}
+
    async SendEmailProfessorDesassociadoPEE(pee: any, email: string) {
       const servidorEmail = email;
       const red: any = await redservice.findById(pee.RED_idRED);
@@ -422,5 +505,74 @@ export class emailController {
 
       }
    }
+
+   // EMAIL CRA - FINALIZAÇÃO RED
+async SendEmailCRAFinalizandoRed(redResponse: any) {
+
+   if (redResponse.ok && redResponse.data != null) {
+
+      const red = redResponse.data;
+
+
+      const alunoResponse = await alunoservice.findById(
+         red.aluno_id
+      );
+
+
+      if (
+         alunoResponse.ok &&
+         alunoResponse.data &&
+         typeof alunoResponse.data === 'object'
+      ) {
+
+
+         const aluno_nome = alunoResponse.data.nome;
+         const aluno_prontuario = alunoResponse.data.prontuario;
+
+
+         const html = `
+         <html>
+         <head>
+            <title>Finalização do Processo RED</title>
+         </head>
+
+         <body>
+
+            <p>Prezada CRA,</p>
+
+            <p>
+            Informamos que o RED do aluno 
+            ${aluno_nome} (${aluno_prontuario})
+            foi finalizado pela CSP.
+            </p>
+
+            <p>
+            Número do RED: ${red.idRED}
+            </p>
+
+            <p>
+            Atenciosamente,<br>
+            Equipe de Suporte do RED.
+            </p>
+
+         </body>
+         </html>
+         `;
+
+
+         sendEmail(
+            'cra.pep@ifsp.edu.br',
+            'Sistema RED - Finalização do Processo RED',
+            html
+         );
+
+
+         console.log('Email enviado CRA - Finalização RED');
+
+      }
+
+   }
+
+}
 
 }

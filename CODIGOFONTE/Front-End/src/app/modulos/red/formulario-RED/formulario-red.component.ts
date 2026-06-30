@@ -899,29 +899,55 @@ export class FormularioREDComponent implements OnInit {
 
   private dateToString(date: any): string {
 
-    if (!date) {
-      return '';
-    }
+  if (!date) {
+    return '';
+  }
 
-    // Trata datas vindas do ngx-mask (DDMMYYYY)
-    if (typeof date === 'string' && date.length === 8) {
 
-      const dia = date.substring(0, 2);
-      const mes = date.substring(2, 4);
-      const ano = date.substring(4, 8);
+  // Formato DD/MM/YYYY
+  if (typeof date === 'string' && date.includes('/')) {
+
+    const partes = date.split('/');
+
+    if (partes.length === 3) {
+
+      const dia = partes[0];
+      const mes = partes[1];
+      const ano = partes[2];
 
       return `${ano}-${mes}-${dia}`;
     }
-
-    const data = new Date(date);
-
-    if (isNaN(data.getTime())) {
-      console.error('Data inválida encontrada:', date);
-      return '';
-    }
-
-    return data.toISOString().split('T')[0];
   }
+
+
+  // Formato DDMMYYYY (ngx-mask)
+  if (typeof date === 'string' && date.length === 8) {
+
+    const dia = date.substring(0, 2);
+    const mes = date.substring(2, 4);
+    const ano = date.substring(4, 8);
+
+    return `${ano}-${mes}-${dia}`;
+  }
+
+
+  // Date ou ISO vindo do banco
+  const data = new Date(date);
+
+
+  if (isNaN(data.getTime())) {
+
+    console.error(
+      'Data inválida encontrada:',
+      date
+    );
+
+    return '';
+  }
+
+
+  return data.toISOString().split('T')[0];
+}
 
   private previsaoTerminoRed(): Date {
     const dataTerminoRed = this.parseData(this.inicioAfastamento);

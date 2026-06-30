@@ -64,16 +64,16 @@ export class ListarPEEComponent implements OnInit {
 
   async findAll() {
   try {
-    console.log("USER LOGADO:", this.user);
-    console.log("ID SERVIDOR:", this.user?.idservidor);
+    //("USER LOGADO:", this.user);
+    //console.log("ID SERVIDOR:", this.user?.idservidor);
 
     const response = await this.peeService.getPeeByProfessor(
       this.user.idservidor
     );
 
-      console.log("RESPOSTA COMPLETA:", response);
+    //console.log("RESPOSTA COMPLETA:", response);
 
-    console.log("PEES RECEBIDOS:", response.data.pees);
+    //console.log("PEES RECEBIDOS:", response.data.pees);
     this.pees = response.data.pees || [];
 
     this.dataSource = new MatTableDataSource<any>(this.pees);
@@ -107,7 +107,7 @@ export class ListarPEEComponent implements OnInit {
 async aceitarRED(pee:any){
 
   const confirmar = await this.dialogQuestionService
-    .openDialogConfirmAprovarRED();
+    .openDialogConfirmAceitarDisciplina();
 
 
   if(confirmar){
@@ -144,7 +144,7 @@ async recusarRED(pee:any){
 
 
   const confirmar = await this.dialogQuestionService
-    .openDialogConfirmRecusarRED();
+    .openDialogConfirmRecusarDisciplina();
 
 
 

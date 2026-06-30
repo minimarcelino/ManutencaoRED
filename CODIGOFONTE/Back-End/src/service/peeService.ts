@@ -14,6 +14,29 @@ type PeeCreate = Prisma.peeCreateInput & {
 };
 
 const emailcontroller = new emailController();
+
+function converterData(data: string) {
+
+  if (!data) return undefined;
+
+
+  if (data.includes('/')) {
+
+    const [dia, mes, ano] = data.split('/');
+
+    return new Date(
+      Number(ano),
+      Number(mes) - 1,
+      Number(dia)
+    );
+
+  }
+
+
+  return new Date(data);
+
+}
+
 export class peeService {
   async findMany(
     search: string,
@@ -102,80 +125,80 @@ export class peeService {
   }
 
   async findByProfessor(idservidor: number) {
-  try {
+    try {
 
-    console.log("BUSCANDO PROFESSOR:", idservidor);
-
-
-    const relacoes = await prisma.pee_servidor.findMany({
-      where:{
-        servidorId: idservidor
-      },
-      include:{
-        pee:true,
-        servidor:true
-      }
-    });
+      //console.log("BUSCANDO PROFESSOR:", idservidor);
 
 
-    console.log("RELAÇÕES:", relacoes);
-
-
-    const todos = await prisma.pee_servidor.findMany({
-      include:{
-        servidor:true,
-        pee:true
-      }
-    });
-    console.log(todos);
-
-    console.log("TODAS RELAÇÕES PEE_SERVIDOR:", todos);
-
-
-    const pees = await prisma.pee.findMany({
-      where:{
-        pee_servidor:{
-          some:{
-            servidorId:idservidor
-          }
+      const relacoes = await prisma.pee_servidor.findMany({
+        where: {
+          servidorId: idservidor
+        },
+        include: {
+          pee: true,
+          servidor: true
         }
-      },
-      include:{
-        red:{
-          include:{
-            aluno:true
+      });
+
+
+      //console.log("RELAÇÕES:", relacoes);
+
+
+      const todos = await prisma.pee_servidor.findMany({
+        include: {
+          servidor: true,
+          pee: true
+        }
+      });
+      //console.log(todos);
+
+      //console.log("TODAS RELAÇÕES PEE_SERVIDOR:", todos);
+
+
+      const pees = await prisma.pee.findMany({
+        where: {
+          pee_servidor: {
+            some: {
+              servidorId: idservidor
+            }
           }
         },
-        disciplinas:true,
-        pee_servidor:{
-          include:{
-            servidor:true
+        include: {
+          red: {
+            include: {
+              aluno: true
+            }
+          },
+          disciplinas: true,
+          pee_servidor: {
+            include: {
+              servidor: true
+            }
           }
         }
-      }
-    });
+      });
 
 
-    console.log("PEES ENCONTRADOS:", pees);
+      //("PEES ENCONTRADOS:", pees);
 
 
-    return {
-      ok:true,
-      data:{pees}
-    };
+      return {
+        ok: true,
+        data: { pees }
+      };
 
 
-  } catch(error:any){
+    } catch (error: any) {
 
-    console.log(error);
+      console.log(error);
 
-    return {
-      ok:false,
-      data:StatusCodes.INTERNAL_SERVER_ERROR
-    };
+      return {
+        ok: false,
+        data: StatusCodes.INTERNAL_SERVER_ERROR
+      };
 
+    }
   }
-}
 
 
   async findById(id: number) {
@@ -270,7 +293,7 @@ export class peeService {
             pee.percentualabono,
 
           situacao:
- pee.situacao ?? "Aguardando Docente",
+            pee.situacao ?? "Aguardando Docente",
 
           canalComunicacao:
             pee.canalComunicacao,
@@ -355,34 +378,43 @@ export class peeService {
     }
   }
 
-
   async update(pee: any, id: number) {
-  try {
-
-    // Busca servidores já associados
-    const servidoresAssociados = await prisma.pee_servidor.findMany({
-      where: {
-        peeId: id,
-      },
-      select: {
-        servidorId: true,
-      },
-    });
+    try {
+// Busca situação atual antes da alteração
+const peeAnterior = await prisma.pee.findUnique({
+  where: {
+    idpee: id
+  }
+});
 
 
-    const idsServidoresAssociados =
-      servidoresAssociados.map(
-        servidor => servidor.servidorId
-      );
+
+// Busca servidores já associados
+const servidoresAssociados = await prisma.pee_servidor.findMany({
+  where: {
+    peeId: id,
+  },
+  select: {
+    servidorId: true,
+  },
+});
 
 
-    const servidoresRecebidos =
-      pee.pee_servidor !== undefined
-        ? pee.pee_servidor
-        : null;
+const idsServidoresAssociados =
+  servidoresAssociados.map(
+    servidor => servidor.servidorId
+  );
 
 
-    const professoresData: { servidorId:number }[] =
+
+const servidoresRecebidos =
+  pee.pee_servidor !== undefined
+    ? pee.pee_servidor
+    : null;
+
+
+
+const professoresData: { servidorId:number }[] =
   servidoresRecebidos === null
     ? idsServidoresAssociados.map(id => ({
         servidorId:id
@@ -399,37 +431,44 @@ export class peeService {
         );
 
 
-    // Remove servidores que foram desmarcados
-    const idsRemover =
+
+
+// Remove professores desmarcados
+const idsRemover =
   idsServidoresAssociados.filter(
-    (servidorId: number) =>
+    (servidorId:number)=>
       !professoresData.some(
-        (professor: { servidorId: number }) =>
+        (professor:{servidorId:number}) =>
           professor.servidorId === servidorId
       )
   );
 
 
-    if (idsRemover.length > 0) {
 
-      await prisma.pee_servidor.deleteMany({
-        where: {
-          peeId: id,
+if(idsRemover.length > 0){
 
-          servidorId: {
-            in: idsRemover
-          }
+  await prisma.pee_servidor.deleteMany({
 
-        }
-      });
+    where:{
+      peeId:id,
+
+      servidorId:{
+        in:idsRemover
+      }
 
     }
 
+  });
 
-    // Evita criar duplicados
-    const novosServidores =
+}
+
+
+
+
+// Evita duplicação
+const novosServidores =
   professoresData.filter(
-    (professor: { servidorId: number }) =>
+    (professor:{servidorId:number}) =>
       !idsServidoresAssociados.includes(
         professor.servidorId
       )
@@ -437,188 +476,216 @@ export class peeService {
 
 
 
-    const updatePEE =
-      await prisma.pee.update({
-
-        where: {
-          idpee: id
-        },
 
 
-        data: {
+const updatePEE =
+  await prisma.pee.update({
+
+    where:{
+      idpee:id
+    },
 
 
-          conteudo:
-            pee.conteudo ?? undefined,
+    data:{
 
 
-          metodologia:
-            pee.metodologia ?? undefined,
+      conteudo:
+        pee.conteudo ?? undefined,
 
 
-          trabalhos:
-            pee.trabalhos ?? undefined,
+      metodologia:
+        pee.metodologia ?? undefined,
 
 
-          bibliografia:
-            pee.bibliografia ?? undefined,
+      trabalhos:
+        pee.trabalhos ?? undefined,
 
 
-          criterios:
-            pee.criterios ?? undefined,
+      bibliografia:
+        pee.bibliografia ?? undefined,
 
 
-          prazofinal:
-            pee.prazofinal
-              ? new Date(pee.prazofinal)
-              : undefined,
+      criterios:
+        pee.criterios ?? undefined,
 
 
 
-          // CORRIGIDO
-          red:
-            pee.RED_idRED
-              ? {
-                  connect: {
-                    idRED: pee.RED_idRED
-                  }
-                }
-              : undefined,
+      prazofinal:
+        pee.prazofinal &&
+        !isNaN(new Date(pee.prazofinal).getTime())
+          ? new Date(pee.prazofinal)
+          : undefined,
 
 
 
-          // CORRIGIDO
-          disciplinas:
-            pee.disciplinas_iddisciplinas
-              ? {
-                  connect: {
-                    iddisciplinas:
-                      pee.disciplinas_iddisciplinas
-                  }
-                }
-              : undefined,
-
-
-
-          situacao:
-            pee.situacao ?? undefined,
-
-
-          canalComunicacao:
-            pee.canalComunicacao ?? undefined,
-
-
-          observacoes:
-            pee.observacoes ?? undefined,
-
-
-          avaliacaoAtividade:
-            pee.avaliacaoAtividade ?? undefined,
-
-
-          prazoEntregaAtividade:
-            pee.prazoEntregaAtividade ?? undefined,
-
-
-
-          dataEntregaAtividade:
-            pee.dataEntregaAtividade
-              ? new Date(
-                  pee.dataEntregaAtividade
-                )
-              : undefined,
-
-
-
-          cumpriuAtividade:
-            pee.cumpriuAtividade ?? undefined,
-
-
-          houveAvaliacao:
-            pee.houveAvaliacao ?? undefined,
-
-
-          avaliacoesRealizadas:
-            pee.avaliacoesRealizadas ?? undefined,
-
-
-
-          dataAvaliacao:
-            pee.dataAvaliacao
-              ? new Date(
-                  pee.dataAvaliacao
-                )
-              : undefined,
-
-
-
-          // somente cria novos
-          pee_servidor:
-            novosServidores.length > 0
-              ? {
-                  create: novosServidores
-                }
-              : undefined
-
-
-        },
-
-
-        include: {
-
-          pee_servidor: {
-            include: {
-              servidor: true
+      red:
+        pee.RED_idRED
+          ? {
+              connect:{
+                idRED:pee.RED_idRED
+              }
             }
-          },
+          : undefined,
 
-          disciplinas: true,
 
-          red: true
 
+      disciplinas:
+        pee.disciplinas_iddisciplinas
+          ? {
+              connect:{
+                iddisciplinas:
+                  pee.disciplinas_iddisciplinas
+              }
+            }
+          : undefined,
+
+
+
+      situacao:
+        pee.situacao ?? undefined,
+
+
+
+      canalComunicacao:
+        pee.canalComunicacao ?? undefined,
+
+
+
+      observacoes:
+        pee.observacoes ?? undefined,
+
+
+
+      avaliacaoAtividade:
+        pee.avaliacaoAtividade ?? undefined,
+
+
+
+      percentualabono:
+        pee.percentualabono ?? undefined,
+
+
+
+      prazoEntregaAtividade:
+        pee.prazoEntregaAtividade ?? undefined,
+
+
+
+      dataEntregaAtividade:
+        pee.dataEntregaAtividade
+          ? converterData(pee.dataEntregaAtividade)
+          : undefined,
+
+
+
+      cumpriuAtividade:
+        pee.cumpriuAtividade ?? undefined,
+
+
+
+      houveAvaliacao:
+        pee.houveAvaliacao ?? undefined,
+
+
+
+      avaliacoesRealizadas:
+        pee.avaliacoesRealizadas ?? undefined,
+
+
+
+      dataAvaliacao:
+        pee.dataAvaliacao
+          ? converterData(pee.dataAvaliacao)
+          : undefined,
+
+
+
+      pee_servidor:
+
+        novosServidores.length > 0
+
+          ? {
+              create:novosServidores
+            }
+
+          : undefined
+
+
+    },
+
+
+    include:{
+
+
+      pee_servidor:{
+        include:{
+          servidor:true
         }
-
-      });
-
+      },
 
 
-    console.log(
-      "UPDATE FINALIZADO:",
-      updatePEE
-    );
+      disciplinas:true,
 
 
-    return {
+      red:{
+        include:{
+          aluno:true
+        }
+      }
 
-      ok: true,
 
-      data: updatePEE
+    }
 
-    };
+  });
 
 
 
-  } catch(error:any) {
 
 
-    console.log(
-      "ERRO COMPLETO UPDATE:",
-      error
-    );
+// ENVIA EMAIL QUANDO O PEE FOR PARA AVALIAÇÃO
+if(
+  peeAnterior &&
+  peeAnterior.situacao === "Aguardando Docente" &&
+  updatePEE.situacao === "Aguardando Avaliação"
+){
 
-
-    return {
-
-      ok:false,
-
-      data:error
-
-    };
-
-
-  }
+  await emailcontroller.SendEmailAlunoAguardandoAvaliacaoPEE(
+    updatePEE
+  );
 
 }
+
+
+
+
+
+return{
+
+  ok:true,
+
+  data:updatePEE
+
+};
+
+    } catch (error: any) {
+      console.log(
+        "ERRO COMPLETO UPDATE:",
+        error
+      );
+
+
+      return {
+
+        ok: false,
+
+        data: error
+
+      };
+
+    }
+  }
+
+
 
   async delete(id: number) {
     try {

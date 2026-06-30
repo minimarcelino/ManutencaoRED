@@ -4,10 +4,12 @@ import { StatusCodes } from 'http-status-codes';
 import { promisify } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
+import { sendEmail } from "../service/email";
 
 const unlinkAsync = promisify(fs.unlink);
 
 export class redService {
+
   async findAll() {
     try {
       const [reds, length] = await Promise.all([
@@ -87,21 +89,92 @@ export class redService {
 
 
   async updateSituacao(req: any) {
-    try {
-      const updateRed = await prisma.red.update({
+  try {
+
+    const updateRed = await prisma.red.update({
+      where: {
+        idRED: req.idRED,
+      },
+      data: {
+        situacao: req.situacao,
+      },
+    });
+
+
+    if (req.situacao === 'Finalizado') {
+
+      const aluno = await prisma.aluno.findUnique({
         where: {
-          idRED: req.idRED,
-        },
-        data: {
-          situacao: req.situacao,
-        },
+          id: updateRed.aluno_id
+        }
       });
-      return { ok: true, data: updateRed };
-    } catch (error) {
-      console.log(error);
-      return { ok: false, data: StatusCodes.INTERNAL_SERVER_ERROR };
+
+
+      if (aluno) {
+
+        const html = `
+        <html>
+        <head>
+          <title>Finalização do Processo RED</title>
+        </head>
+
+        <body>
+
+          <p>Prezada CRA,</p>
+
+          <p>
+            Informamos que o RED do aluno 
+            ${aluno.nome} (${aluno.prontuario})
+            foi finalizado pela CSP.
+          </p>
+
+          <p>
+            Número do RED: ${updateRed.idRED}
+          </p>
+
+          <p>
+            Atenciosamente,<br>
+            Equipe de Suporte do RED.
+          </p>
+
+        </body>
+        </html>
+        `;
+
+
+        await sendEmail(
+          'cra.pep@ifsp.edu.br',
+          'Sistema RED - Finalização do Processo RED',
+          html
+        );
+
+
+        console.log(
+          'Email enviado CRA - Finalização RED'
+        );
+
+      }
+
     }
+
+
+    return {
+      ok: true,
+      data: updateRed
+    };
+
+
+  } catch (error) {
+
+    console.log(error);
+
+    return {
+      ok: false,
+      data: StatusCodes.INTERNAL_SERVER_ERROR
+    };
+
   }
+}
 
   async delete(id: number) {
     try {

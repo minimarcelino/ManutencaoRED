@@ -37,14 +37,14 @@ export class alunoService {
             if (existingAluno) {
                 return { ok: false, data: 'aluno com esse prontuário já existe' };
             }
-            console.log("DADOS RECEBIDOS NO BACK:", aluno);
+            //console.log("DADOS RECEBIDOS NO BACK:", aluno);
 
             const createAluno = await prisma.aluno.create({
                 data: aluno
             }); return { ok: true, data: createAluno };
         } catch (error) {
 
-            console.log("ERRO COMPLETO:", error);
+            //console.log("ERRO COMPLETO:", error);
 
             return {
                 ok: false,

@@ -22,17 +22,17 @@
     <mat-form-field class="full-width">
       <mat-label>Data de entrega do aluno</mat-label>
 
-      <input matInput formControlName="entregaAluno" mask="00/00/0000" placeholder="DD/MM/AAAA">
+      <input matInput formControlName="dataEntregaAtividade" mask="00/00/0000" placeholder="DD/MM/AAAA">
 
-      <mat-error *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors &&
-                    (abonarFaltaPEE.get('entregaAluno')?.dirty ||
-                     abonarFaltaPEE.get('entregaAluno')?.touched)">
+      <mat-error *ngIf="abonarFaltaPEE.get('dataEntregaAtividade')?.errors &&
+                    (abonarFaltaPEE.get('dataEntregaAtividade')?.dirty ||
+                     abonarFaltaPEE.get('dataEntregaAtividade')?.touched)">
 
-        <span *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors?.['required']">
+        <span *ngIf="abonarFaltaPEE.get('dataEntregaAtividade')?.errors?.['required']">
           Data de entrega obrigatória! O formato deve ser DD/MM/AAAA.
         </span>
 
-        <span *ngIf="abonarFaltaPEE.get('entregaAluno')?.errors?.['pattern']">
+        <span *ngIf="abonarFaltaPEE.get('dataEntregaAtividade')?.errors?.['pattern']">
           Data inválida! O formato deve ser DD/MM/AAAA.
         </span>
 

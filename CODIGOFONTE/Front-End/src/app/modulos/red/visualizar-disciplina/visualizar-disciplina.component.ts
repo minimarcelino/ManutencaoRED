@@ -123,7 +123,7 @@ export class VisualizarDisciplinaComponent implements OnInit {
 
   apresentarDocentes(pee: any): string {
 
-  console.log('DADOS DA LINHA:', pee);
+  //console.log('DADOS DA LINHA:', pee);
 
   if (!pee?.pee_servidor || pee.pee_servidor.length === 0) {
     return '-';

@@ -113,8 +113,8 @@ export class AssociarDisciplinaComponent implements OnInit {
       }
     }
 
-    console.log('ID RED:', this.idRED);
-    console.log('RED:', this.red);
+    //console.log('ID RED:', this.idRED);
+    //console.log('RED:', this.red);
 
     this.findAll();
   }

@@ -381,7 +381,7 @@ export class FormularioAlunoComponent implements OnInit {
     curso_idcurso: this.idcurso,
   };
 
-  console.log("ENVIANDO PARA API:", alunoEnviar);
+  //console.log("ENVIANDO PARA API:", alunoEnviar);
 
   await this.alunoService.createAluno(alunoEnviar);
 

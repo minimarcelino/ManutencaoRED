@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PeeService } from 'src/app/services/pee.service';
 import { SnackBarService } from 'src/app/services/snackbar.service';
 
+
 @Component({
   selector: 'app-abonar-falta',
   templateUrl: './abonar-falta.component.html',
@@ -13,422 +14,675 @@ import { SnackBarService } from 'src/app/services/snackbar.service';
 })
 export class AbonarFaltaComponent implements OnInit {
 
+
   abonarFaltaPEE!: FormGroup;
+
   isSubmitting = false;
-  user: any;
+
+  user:any;
+
+
 
   constructor(
+
     private snackBarService: SnackBarService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+
+    @Inject(MAT_DIALOG_DATA) public data:any,
+
     private dialog: MatDialogRef<AbonarFaltaComponent>,
+
     private adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) private locale: string,
-    private peeService: PeeService
-  ) { }
 
-  ngOnInit(): void {
+    @Inject(MAT_DATE_LOCALE) private locale:string,
 
-    // Locale do datepicker
+    private peeService:PeeService
+
+  ){}
+
+
+
+
+
+  ngOnInit():void{
+
+
     this.locale = 'pt-BR';
+
     this.adapter.setLocale(this.locale);
 
-    // Formulário
+
+
     this.abonarFaltaPEE = new FormGroup({
-      avaliacaoAtividade: new FormControl('', [Validators.required]),
-      entregaAluno: new FormControl('', [Validators.required]),
-      cumprimento: new FormControl('', [Validators.required]),
-      novaAtividade: new FormControl('', [Validators.required]),
-      percentualAbono: new FormControl('', [
+
+
+
+      avaliacaoAtividade:new FormControl('',[
+        Validators.required
+      ]),
+
+
+
+      dataEntregaAtividade:new FormControl(null,[
+        Validators.required
+      ]),
+
+
+
+      cumprimento:new FormControl('',[
+        Validators.required
+      ]),
+
+
+
+      novaAtividade:new FormControl('',[
+        Validators.required
+      ]),
+
+
+
+      percentualAbono:new FormControl('',[
         Validators.required,
         Validators.min(0),
         Validators.max(100)
       ]),
 
-      avaliacao: new FormControl('', [Validators.required]),
 
-      avaliacaoRealizada: new FormControl(null),
-      dataAvaliacao: new FormControl(null),
+
+      avaliacao:new FormControl('',[
+        Validators.required
+      ]),
+
+
+
+      avaliacaoRealizada:new FormControl(null),
+
+
+
+      dataAvaliacao:new FormControl(null)
+
+
     });
 
-    // Controle da pergunta "Houve avaliação?"
-    this.abonarFaltaPEE.get('avaliacao')?.valueChanges.subscribe(valor => {
 
-      const avaliacaoRealizada =
-        this.abonarFaltaPEE.get('avaliacaoRealizada');
 
-      const dataAvaliacao =
-        this.abonarFaltaPEE.get('dataAvaliacao');
 
-      if (valor === 'Sim') {
+    this.abonarFaltaPEE
+      .get('avaliacao')
+      ?.valueChanges
+      .subscribe(valor=>{
 
-        avaliacaoRealizada?.setValidators([
-          Validators.required
-        ]);
 
-        dataAvaliacao?.setValidators([
-          Validators.required
-        ]);
+        const avaliacaoRealizada =
+          this.abonarFaltaPEE.get('avaliacaoRealizada');
 
-      } else {
 
-        avaliacaoRealizada?.clearValidators();
-        dataAvaliacao?.clearValidators();
+        const dataAvaliacao =
+          this.abonarFaltaPEE.get('dataAvaliacao');
 
-        avaliacaoRealizada?.setValue(null);
-        dataAvaliacao?.setValue(null);
 
-        avaliacaoRealizada?.markAsUntouched();
-        dataAvaliacao?.markAsUntouched();
+
+        if(valor === 'Sim'){
+
+
+          avaliacaoRealizada?.setValidators([
+            Validators.required
+          ]);
+
+
+
+          dataAvaliacao?.setValidators([
+            Validators.required
+          ]);
+
+
+
+        }else{
+
+
+          avaliacaoRealizada?.clearValidators();
+
+          dataAvaliacao?.clearValidators();
+
+
+
+          avaliacaoRealizada?.setValue(null);
+
+          dataAvaliacao?.setValue(null);
+
+
+        }
+
+
+
+        avaliacaoRealizada?.updateValueAndValidity();
+
+        dataAvaliacao?.updateValueAndValidity();
+
+
+      });
+
+
+
+
+
+    const userStorage =
+      localStorage.getItem('user');
+
+
+    this.user =
+      userStorage
+      ? JSON.parse(userStorage)
+      : null;
+
+
+  }
+
+
+
+
+
+
+
+  converterData(data:any){
+
+
+    if(!data){
+
+      return null;
+
+    }
+
+
+
+    // Material Datepicker retorna Date
+
+    if(data instanceof Date){
+
+
+      const ano = data.getFullYear();
+
+      const mes =
+        String(data.getMonth()+1)
+        .padStart(2,'0');
+
+
+      const dia =
+        String(data.getDate())
+        .padStart(2,'0');
+
+
+
+      return `${ano}-${mes}-${dia}`;
+
+    }
+
+
+
+
+
+
+    if(typeof data === 'string'){
+
+
+
+      // formato DD/MM/YYYY
+
+      if(data.includes('/')){
+
+
+        const partes = data.split('/');
+
+
+        const dia = partes[0];
+
+        const mes = partes[1];
+
+        const ano = partes[2];
+
+
+
+        return `${ano}-${mes}-${dia}`;
+
       }
 
-      avaliacaoRealizada?.updateValueAndValidity();
-      dataAvaliacao?.updateValueAndValidity();
-    });
-
-    // Usuário
-    const userStorage = localStorage.getItem('user');
-    this.user = userStorage ? JSON.parse(userStorage) : null;
-  }
-
-  limitarPercentual(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    let valor = Number(input.value);
-
-    if (valor > 100) {
-      valor = 100;
-    }
-
-    if (valor < 0) {
-      valor = 0;
-    }
-
-    input.value = valor.toString();
-
-    this.abonarFaltaPEE.get('percentualAbono')?.setValue(valor, {
-      emitEvent: false
-    });
-  }
-
-  async submit() {
-
-  if (this.abonarFaltaPEE.invalid || this.isSubmitting) {
-
-    this.mostrarErrosFormulario();
-
-    this.abonarFaltaPEE.markAllAsTouched();
-
-    const fields = Object.keys(this.abonarFaltaPEE.controls);
-
-    const firstInvalidField = fields.find(
-      (field) => this.abonarFaltaPEE.get(field)!.invalid
-    );
 
 
-    if (firstInvalidField) {
 
-      const element = document.getElementById(firstInvalidField);
 
-      if (element) {
-        element.focus();
+      // formato DDMMYYYY
+
+      if(data.length === 8){
+
+
+        const dia =
+          data.substring(0,2);
+
+
+        const mes =
+          data.substring(2,4);
+
+
+        const ano =
+          data.substring(4,8);
+
+
+
+        return `${ano}-${mes}-${dia}`;
+
+
       }
 
+
+
     }
 
-    return;
+
+
+    return null;
+
+
   }
 
 
-  if (!this.avaliacaoAtividade.trim()) {
 
-    this.snackBarService.open(
-      'A avaliação da atividade não pode estar vazia.'
-    );
 
-    const element = document.getElementById('avaliacaoAtividade');
 
-    if (element) {
-      element.focus();
+
+
+
+
+  async submit(){
+
+
+
+    if(
+      this.abonarFaltaPEE.invalid ||
+      this.isSubmitting
+    ){
+
+
+      this.mostrarErrosFormulario();
+
+
+      this.abonarFaltaPEE.markAllAsTouched();
+
+
+      return;
+
     }
 
-    return;
-  }
 
 
-  if (this.percentualAbono < 0 || this.percentualAbono > 100) {
 
-    this.snackBarService.open(
-      'O percentual de abono deve estar entre 0 e 100.'
-    );
 
-    const element = document.getElementById('percentualAbono');
+    this.isSubmitting = true;
 
-    if (element) {
-      element.focus();
+
+
+
+
+    try{
+
+
+
+      const dadosAtualizacao = {
+
+
+
+        editando:true,
+
+
+
+        idpee:this.data.idpee,
+
+
+
+        situacao:"Avaliado",
+
+
+
+
+        avaliacaoAtividade:
+          this.avaliacaoAtividade,
+
+
+
+
+        prazoEntregaAtividade:
+          this.data.prazofinal,
+
+
+
+
+        dataEntregaAtividade:
+          this.converterData(
+            this.dataEntregaAtividade
+          ),
+
+
+
+
+
+        cumpriuAtividade:
+          this.cumprimento,
+
+
+
+
+        novaAtividade:
+          this.novaAtividade,
+
+
+
+
+        houveAvaliacao:
+          this.avaliacao,
+
+
+
+
+        avaliacoesRealizadas:
+          this.avaliacaoRealizada,
+
+
+
+
+        dataAvaliacao:
+          this.converterData(
+            this.dataAvaliacao
+          ),
+
+
+
+
+        percentualabono:
+          this.percentualAbono
+
+
+      };
+
+
+
+
+
+      console.log(
+        "ENVIANDO PARA API:",
+        dadosAtualizacao
+      );
+
+
+
+
+
+      await this.peeService.updatePee(
+        dadosAtualizacao
+      );
+
+
+
+
+
+      this.snackBarService.open(
+        'Faltas abonadas com sucesso!'
+      );
+
+
+
+
+      this.dialog.close(true);
+
+
+
+
+
+    }catch(error:any){
+
+
+
+      console.log(
+        "ERRO UPDATE:",
+        error
+      );
+
+
+
+      this.snackBarService.open(
+        'Falha ao abonar as faltas'
+      );
+
+
+
+    }finally{
+
+
+
+      this.isSubmitting = false;
+
+
     }
 
-    return;
-  }
 
 
-  this.isSubmitting = true;
-
-
-  try {
-
-
-    await this.peeService.updatePee({
-
-      editando: true,
-
-      idpee: this.data.idpee,
-
-      situacao: "Avaliado",
-
-
-      avaliacaoAtividade: this.avaliacaoAtividade,
-
-      prazoEntregaAtividade: this.data.prazofinal,
-
-      dataEntregaAtividade: this.entregaAluno,
-
-
-      cumpriuAtividade: this.cumprimento,
-
-      houveAvaliacao: this.avaliacao,
-
-      avaliacoesRealizadas: this.avaliacaoRealizada,
-
-      dataAvaliacao: this.dataAvaliacao,
-
-
-      percentualabono: this.percentualAbono,
-
-    });
-
-
-    this.snackBarService.open(
-      'Faltas abonadas com sucesso!'
-    );
-
-
-    this.dialog.close(true);
-
-
-  } catch (error: any) {
-
-
-    const msg = error?.error?.data 
-      || 'Falha ao abonar as faltas';
-
-
-    this.snackBarService.open(msg);
-
-
-  } finally {
-
-    this.isSubmitting = false;
-
-  }
-
-}
-
-
-private mostrarErrosFormulario() {
-
-  const campos = this.abonarFaltaPEE.controls;
-
-
-  // AVALIAÇÃO DA ATIVIDADE
-  if (campos['avaliacaoAtividade']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'A avaliação da atividade é obrigatória.'
-    );
-
-    return;
-  }
-
-
-
-  // DATA DE ENTREGA
-  if (campos['entregaAluno']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'A data de entrega da atividade é obrigatória.'
-    );
-
-    return;
-  }
-
-
-  if (campos['entregaAluno']?.hasError('pattern')) {
-
-    this.snackBarService.open(
-      'Data de entrega inválida. Utilize o formato DD/MM/AAAA.'
-    );
-
-    return;
   }
 
 
 
 
-  // CUMPRIMENTO DA ATIVIDADE
-  if (campos['cumprimento']?.hasError('required')) {
 
-    this.snackBarService.open(
-      'Informe se o aluno cumpriu com as atividades.'
-    );
 
-    return;
+
+
+
+  private mostrarErrosFormulario(){
+
+
+    const campos =
+      this.abonarFaltaPEE.controls;
+
+
+
+    if(campos['avaliacaoAtividade'].hasError('required')){
+
+
+      this.snackBarService.open(
+        'A avaliação da atividade é obrigatória.'
+      );
+
+
+      return;
+
+    }
+
+
+
+    if(campos['dataEntregaAtividade'].hasError('required')){
+
+
+      this.snackBarService.open(
+        'A data de entrega é obrigatória.'
+      );
+
+
+      return;
+
+    }
+
+
+
+    if(campos['cumprimento'].hasError('required')){
+
+
+      this.snackBarService.open(
+        'Informe o cumprimento da atividade.'
+      );
+
+
+      return;
+
+    }
+
+
+
   }
 
 
 
 
-  // NOVA ATIVIDADE
-  if (campos['novaAtividade']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'Informe se houve uma nova atividade.'
-    );
-
-    return;
-  }
 
 
 
+  cancelar(){
 
-  // PERCENTUAL DE ABONO
-  if (campos['percentualAbono']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'O percentual de abono é obrigatório.'
-    );
-
-    return;
-  }
-
-
-  if (campos['percentualAbono']?.hasError('min')) {
-
-    this.snackBarService.open(
-      'O percentual de abono deve ser maior ou igual a 0.'
-    );
-
-    return;
-  }
-
-
-  if (campos['percentualAbono']?.hasError('max')) {
-
-    this.snackBarService.open(
-      'O percentual de abono deve ser menor ou igual a 100.'
-    );
-
-    return;
-  }
-
-
-
-
-  // HOUVE AVALIAÇÃO
-  if (campos['avaliacao']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'Informe se houve avaliação.'
-    );
-
-    return;
-  }
-
-
-
-
-  // AVALIAÇÃO REALIZADA (aparece somente se avaliação = Sim)
-  if (
-    campos['avaliacao']?.value === 'Sim' &&
-    campos['avaliacaoRealizada']?.hasError('required')
-  ) {
-
-    this.snackBarService.open(
-      'Informe se a avaliação já foi realizada.'
-    );
-
-    return;
-  }
-
-
-
-
-  // DATA DA NOVA AVALIAÇÃO (aparece somente se avaliação = Sim)
-  if (
-    campos['avaliacao']?.value === 'Sim' &&
-    campos['dataAvaliacao']?.hasError('required')
-  ) {
-
-    this.snackBarService.open(
-      'A data da avaliação é obrigatória.'
-    );
-
-    return;
-  }
-
-
-  if (
-    campos['avaliacao']?.value === 'Sim' &&
-    campos['dataAvaliacao']?.hasError('pattern')
-  ) {
-
-    this.snackBarService.open(
-      'Data da avaliação inválida. Utilize o formato DD/MM/AAAA.'
-    );
-
-    return;
-  }
-
-
-
-  this.snackBarService.open(
-    'Verifique os campos preenchidos.'
-  );
-
-}
-
-  cancelar() {
     this.dialog.close(false);
+
   }
 
-  // ===== GETTERS =====
-  get avaliacaoAtividade(): string {
-    return this.abonarFaltaPEE.get('avaliacaoAtividade')?.value || '';
+
+
+
+
+
+
+
+
+  get avaliacaoAtividade(){
+
+    return this.abonarFaltaPEE
+      .get('avaliacaoAtividade')
+      ?.value || '';
+
   }
 
-  get entregaAluno() {
-    return this.abonarFaltaPEE.get('entregaAluno')?.value;
+
+
+
+  get dataEntregaAtividade(){
+
+    return this.abonarFaltaPEE
+      .get('dataEntregaAtividade')
+      ?.value;
+
   }
 
-  get cumprimento() {
-    return this.abonarFaltaPEE.get('cumprimento')?.value;
+
+
+
+
+  get cumprimento(){
+
+    return this.abonarFaltaPEE
+      .get('cumprimento')
+      ?.value;
+
   }
 
-  get novaAtividade() {
-    return this.abonarFaltaPEE.get('novaAtividade')?.value;
+
+
+
+
+  get novaAtividade(){
+
+    return this.abonarFaltaPEE
+      .get('novaAtividade')
+      ?.value;
+
   }
 
-  get percentualAbono(): number {
-    return Number(this.abonarFaltaPEE.get('percentualAbono')?.value || 0);
+
+
+
+
+  get percentualAbono(){
+
+    return Number(
+      this.abonarFaltaPEE
+      .get('percentualAbono')
+      ?.value || 0
+    );
+
   }
 
-  get avaliacao() {
-    return this.abonarFaltaPEE.get('avaliacao')?.value ?? null;
+
+
+
+
+  get avaliacao(){
+
+    return this.abonarFaltaPEE
+      .get('avaliacao')
+      ?.value ?? null;
+
   }
 
-  get avaliacaoRealizada() {
-    return this.abonarFaltaPEE.get('avaliacaoRealizada')?.value ?? null;
+
+
+
+
+  get avaliacaoRealizada(){
+
+    return this.abonarFaltaPEE
+      .get('avaliacaoRealizada')
+      ?.value ?? null;
+
   }
 
-  get dataAvaliacao() {
-    return this.abonarFaltaPEE.get('dataAvaliacao')?.value ?? null;
+
+
+
+
+  get dataAvaliacao(){
+
+    return this.abonarFaltaPEE
+      .get('dataAvaliacao')
+      ?.value ?? null;
+
   }
+
+
+
+
+
+
+
+  limitarPercentual(event:any){
+
+
+
+    let valor =
+      Number(event.target.value);
+
+
+
+
+    if(valor > 100){
+
+      valor = 100;
+
+    }
+
+
+
+    if(valor < 0){
+
+      valor = 0;
+
+    }
+
+
+
+    event.target.value = valor;
+
+
+
+    this.abonarFaltaPEE
+      .get('percentualAbono')
+      ?.setValue(valor);
+
+
+
+  }
+
+
+
+
 }

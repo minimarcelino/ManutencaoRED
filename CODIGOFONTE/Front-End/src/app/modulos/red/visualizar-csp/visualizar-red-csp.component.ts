@@ -60,19 +60,19 @@ export class CSPVisualizarREDComponent implements OnInit {
 
   const pees = await this.peeService.getPeeByIdRED(this.idRED);
 
-  console.log("RESPOSTA COMPLETA:", pees);
+  //console.log("RESPOSTA COMPLETA:", pees);
 
-  console.log("DATA:", pees.data);
+  //console.log("DATA:", pees.data);
 
-  console.log("PEES:", pees.data?.pees);
+  //console.log("PEES:", pees.data?.pees);
 
 
   this.pee = pees.data?.pees ?? [];
 
 
-  console.log("ARRAY FINAL:", this.pee);
+  //console.log("ARRAY FINAL:", this.pee);
 
-  console.log("PRIMEIRO PEE:", this.pee[0]);
+  //console.log("PRIMEIRO PEE:", this.pee[0]);
 
 
   this.dataSource = new MatTableDataSource<any>(this.pee);

@@ -138,7 +138,7 @@ export class GerenciarPEEComponent implements OnInit {
 
       this.professores = Array.from(uniqueProfessores.values());
 
-      console.log('Professores:', this.professores);
+      //console.log('Professores:', this.professores);
 
     } catch (error) {
 

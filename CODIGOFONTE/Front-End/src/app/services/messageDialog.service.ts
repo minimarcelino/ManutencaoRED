@@ -57,6 +57,50 @@ async openDialogConfirmRecusarRED() {
   }
 }
 
+//Aceitar disciplina professor
+async openDialogConfirmAceitarDisciplina() {
+  const dialogRef = this.dialog.open(MessageDialogComponent, {
+    width: '400px',
+    autoFocus: false,
+    data: {
+      title: 'Aceitar Disciplina',
+      message: 'Tem certeza que deseja aceitar esta disciplina neste RED?',
+      buttonClose: 'Cancelar',
+      buttonConfirm: 'Aceitar',
+    }
+  });
+
+  try {
+    const result = await firstValueFrom(dialogRef.afterClosed());
+    return result === 'Aceitar';
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+//rejeitar disciplina professor
+async openDialogConfirmRecusarDisciplina() {
+  const dialogRef = this.dialog.open(MessageDialogComponent, {
+    width: '400px',
+    autoFocus: false,
+    data: {
+      title: 'Recusar Disciplina',
+      message: 'Tem certeza que deseja recusar esta disciplina neste RED?',
+      buttonClose: 'Cancelar',
+      buttonConfirm: 'Recusar',
+    }
+  });
+
+  try {
+    const result = await firstValueFrom(dialogRef.afterClosed());
+    return result === 'Recusar';
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
   // 🔴 EXCLUIR
   async openDialogConfirmDelete(nomeTabela: string) {
     let dialogRef = this.dialog.open(MessageDialogComponent, {

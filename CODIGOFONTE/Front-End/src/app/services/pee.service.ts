@@ -30,7 +30,7 @@ export class PeeService {
   async createPee(pee: any): Promise<any> {
   try {
 
-    console.log("ANTES DO POST:", pee);
+    //console.log("ANTES DO POST:", pee);
 
     const response = await this.http
       .post(
@@ -40,7 +40,7 @@ export class PeeService {
       )
       .toPromise();
 
-    console.log("RESPOSTA:", response);
+    //console.log("RESPOSTA:", response);
 
     return response;
 

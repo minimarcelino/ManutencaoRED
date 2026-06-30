@@ -20,12 +20,26 @@ textarea {
   min-height: 80px;
 }
 
-/* opcional: melhora espaçamento geral do conteúdo */
+/* conteúdo do dialog */
 mat-dialog-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding-top: 20px !important;
+
+  /* mantém o botão preso no final */
+  max-height: 65vh;
 }
+
+/* mantém os botões no rodapé */
+mat-dialog-actions {
+  position: sticky;
+  bottom: 0;
+  background: inherit;
+  z-index: 2;
+  padding-top: 10px;
+}
+
 
 /* Chrome, Edge, Opera, Safari */
 input[type="number"]::-webkit-outer-spin-button,

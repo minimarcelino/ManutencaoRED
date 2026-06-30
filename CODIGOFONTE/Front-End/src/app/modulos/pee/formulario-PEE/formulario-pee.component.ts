@@ -34,6 +34,8 @@ export class FormularioPEEComponent implements OnInit {
 
   ngOnInit(): void {
 
+
+
     this.user = JSON.parse(localStorage.getItem('user')!);
 
 
@@ -43,7 +45,9 @@ export class FormularioPEEComponent implements OnInit {
       this.desabilitar = window.history.state.visualizar;
 
 
-      console.log("PEE RECEBIDA:", this.data);
+      //console.log("PEE RECEBIDA:", this.data);
+      //console.log("AVALIAÇÃO RECEBIDA:", this.data?.avaliacaoAtividade);
+
 
 
       this.criarFormulario();
@@ -57,6 +61,10 @@ export class FormularioPEEComponent implements OnInit {
   }
 
   async submit() {
+
+    //console.log("PERCENTUAL:", this.data?.percentualabono);
+    //console.log("DATA ENTREGA:", this.data?.dataEntregaAtividade);
+    //console.log("OBJETO COMPLETO:", this.data);
 
     if (this.formularioPEE.invalid || this.isSubmitting) {
 
@@ -175,8 +183,13 @@ export class FormularioPEEComponent implements OnInit {
     try {
 
 
-      console.log("VALORES FORM ANTES DO UPDATE:",
-        this.formularioPEE.value
+      console.log("VALORES FORM RAW ANTES DO UPDATE:",
+        this.formularioPEE.getRawValue()
+      );
+
+      console.log(
+        "PERCENTUAL ENVIADO:",
+        this.formularioPEE.get('percentualAbono')?.value
       );
 
 
@@ -188,6 +201,23 @@ export class FormularioPEEComponent implements OnInit {
           bibliografia: this.bibliografia,
           exigencia: this.exigencia
         });
+
+      console.log(
+        "VALOR PERCENTUAL ANTES UPDATE:",
+        this.formularioPEE.get('percentualAbono')?.value
+      );
+
+      console.log(
+        "OBJETO ENVIADO:",
+        {
+          percentualabono:
+            this.formularioPEE.get('percentualAbono')?.value ?? null
+        }
+      );
+
+      console.log(
+  this.formularioPEE.get('dataEntregaAtividade')?.value
+);
 
       const res = await this.peeService.updateWithEmail({
 
@@ -223,14 +253,12 @@ export class FormularioPEEComponent implements OnInit {
           : 'Enviado para o aluno',
 
 
-        avaliacaoAtividade: this.formularioPEE.get('avaliacaoAtividade')?.value || null,
+        avaliacaoAtividade: this.formularioPEE.getRawValue().avaliacaoAtividade || null,
 
+        percentualabono: this.formularioPEE.get('percentualAbono')?.value ?? null,
 
-        percentualabono: this.formularioPEE.get('percentualAbono')?.value || null,
-
-
-        dataEntregaAtividade: this.formularioPEE.get('dataEntrega')?.value || null,
-
+        
+        dataEntregaAtividade: this.formularioPEE.getRawValue().dataEntregaAtividade || null,
 
         houveAvaliacao: this.formularioPEE.get('houveAvaliacao')?.value || null,
 
@@ -248,7 +276,7 @@ export class FormularioPEEComponent implements OnInit {
       );
 
 
-      console.log('Após edição', res);
+      //console.log('Após edição', res);
 
 
       this.retornarParaLista();
@@ -289,235 +317,234 @@ export class FormularioPEEComponent implements OnInit {
 
   private mostrarErrosFormulario() {
 
-  const campos = this.formularioPEE.controls;
+    const campos = this.formularioPEE.controls;
 
 
-  // CONTEÚDO
-  if (campos['conteudo']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'O conteúdo a ser estudado é obrigatório.'
-    );
-
-    return;
-  }
-
-
-  if (campos['conteudo']?.hasError('maxlength')) {
-
-    this.snackBarService.open(
-      'O conteúdo ultrapassou o limite máximo de caracteres.'
-    );
-
-    return;
-  }
-
-
-
-
-  // METODOLOGIA
-  if (campos['metodologia']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'A metodologia a ser utilizada é obrigatória.'
-    );
-
-    return;
-  }
-
-
-  if (campos['metodologia']?.hasError('maxlength')) {
-
-    this.snackBarService.open(
-      'A metodologia ultrapassou o limite máximo de caracteres.'
-    );
-
-    return;
-  }
-
-
-
-
-  // TRABALHOS
-  if (campos['trabalhos']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'Os trabalhos a serem cumpridos são obrigatórios.'
-    );
-
-    return;
-  }
-
-
-  if (campos['trabalhos']?.hasError('maxlength')) {
-
-    this.snackBarService.open(
-      'Os trabalhos ultrapassaram o limite máximo de caracteres.'
-    );
-
-    return;
-  }
-
-
-
-
-  // BIBLIOGRAFIA
-  if (campos['bibliografia']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'As indicações bibliográficas são obrigatórias.'
-    );
-
-    return;
-  }
-
-
-  if (campos['bibliografia']?.hasError('maxlength')) {
-
-    this.snackBarService.open(
-      'A bibliografia ultrapassou o limite máximo de caracteres.'
-    );
-
-    return;
-  }
-
-
-
-
-  // CRITÉRIOS DE EXIGÊNCIA
-  if (campos['exigencia']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'Os critérios de exigência são obrigatórios.'
-    );
-
-    return;
-  }
-
-
-  if (campos['exigencia']?.hasError('maxlength')) {
-
-    this.snackBarService.open(
-      'Os critérios de exigência ultrapassaram o limite máximo de caracteres.'
-    );
-
-    return;
-  }
-
-
-
-
-  // PRAZO
-  if (campos['prazo']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'O prazo para execução é obrigatório.'
-    );
-
-    return;
-  }
-
-
-  if (campos['prazo']?.hasError('matDatepickerMin')) {
-
-    this.snackBarService.open(
-      'Não é permitido selecionar uma data anterior à data atual.'
-    );
-
-    return;
-  }
-
-
-
-
-  // COMUNICAÇÃO
-  if (campos['comunicacao']?.hasError('required')) {
-
-    this.snackBarService.open(
-      'O canal de comunicação e contato são obrigatórios.'
-    );
-
-    return;
-  }
-
-
-
-
-  // OBSERVAÇÃO
-  if (campos['observacao']?.hasError('maxlength')) {
-
-    this.snackBarService.open(
-      'A observação ultrapassou o limite máximo de caracteres.'
-    );
-
-    return;
-  }
-
-
-
-
-  // AVALIAÇÃO (quando avaliado)
-  if (this.avaliado) {
-
-
-    if (campos['avaliacaoAtividade']?.hasError('required')) {
+    // CONTEÚDO
+    if (campos['conteudo']?.hasError('required')) {
 
       this.snackBarService.open(
-        'A descrição da avaliação é obrigatória.'
+        'O conteúdo a ser estudado é obrigatório.'
       );
 
       return;
     }
 
 
-    if (campos['percentualAbono']?.hasError('required')) {
+    if (campos['conteudo']?.hasError('maxlength')) {
 
       this.snackBarService.open(
-        'O percentual de abono é obrigatório.'
+        'O conteúdo ultrapassou o limite máximo de caracteres.'
       );
 
       return;
     }
 
 
-    if (campos['percentualAbono']?.hasError('min')) {
+
+
+    // METODOLOGIA
+    if (campos['metodologia']?.hasError('required')) {
 
       this.snackBarService.open(
-        'O percentual de abono deve ser maior ou igual a 0.'
+        'A metodologia a ser utilizada é obrigatória.'
       );
 
       return;
     }
 
 
-    if (campos['percentualAbono']?.hasError('max')) {
+    if (campos['metodologia']?.hasError('maxlength')) {
 
       this.snackBarService.open(
-        'O percentual de abono deve ser menor ou igual a 100.'
+        'A metodologia ultrapassou o limite máximo de caracteres.'
       );
 
       return;
     }
 
 
-    if (campos['dataEntrega']?.hasError('required')) {
+
+
+    // TRABALHOS
+    if (campos['trabalhos']?.hasError('required')) {
 
       this.snackBarService.open(
-        'A data de entrega da atividade é obrigatória.'
+        'Os trabalhos a serem cumpridos são obrigatórios.'
       );
 
       return;
     }
+
+
+    if (campos['trabalhos']?.hasError('maxlength')) {
+
+      this.snackBarService.open(
+        'Os trabalhos ultrapassaram o limite máximo de caracteres.'
+      );
+
+      return;
+    }
+
+
+
+
+    // BIBLIOGRAFIA
+    if (campos['bibliografia']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'As indicações bibliográficas são obrigatórias.'
+      );
+
+      return;
+    }
+
+
+    if (campos['bibliografia']?.hasError('maxlength')) {
+
+      this.snackBarService.open(
+        'A bibliografia ultrapassou o limite máximo de caracteres.'
+      );
+
+      return;
+    }
+
+
+
+
+    // CRITÉRIOS DE EXIGÊNCIA
+    if (campos['exigencia']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'Os critérios de exigência são obrigatórios.'
+      );
+
+      return;
+    }
+
+
+    if (campos['exigencia']?.hasError('maxlength')) {
+
+      this.snackBarService.open(
+        'Os critérios de exigência ultrapassaram o limite máximo de caracteres.'
+      );
+
+      return;
+    }
+
+
+
+
+    // PRAZO
+    if (campos['prazo']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O prazo para execução é obrigatório.'
+      );
+
+      return;
+    }
+
+
+    if (campos['prazo']?.hasError('matDatepickerMin')) {
+
+      this.snackBarService.open(
+        'Não é permitido selecionar uma data anterior à data atual.'
+      );
+
+      return;
+    }
+
+
+
+
+    // COMUNICAÇÃO
+    if (campos['comunicacao']?.hasError('required')) {
+
+      this.snackBarService.open(
+        'O canal de comunicação e contato são obrigatórios.'
+      );
+
+      return;
+    }
+
+
+
+
+    // OBSERVAÇÃO
+    if (campos['observacao']?.hasError('maxlength')) {
+
+      this.snackBarService.open(
+        'A observação ultrapassou o limite máximo de caracteres.'
+      );
+
+      return;
+    }
+
+
+
+
+    // AVALIAÇÃO (quando avaliado)
+    if (this.avaliado) {
+
+
+      if (campos['avaliacaoAtividade']?.hasError('required')) {
+
+        this.snackBarService.open(
+          'A descrição da avaliação é obrigatória.'
+        );
+
+        return;
+      }
+
+
+      if (campos['percentualAbono']?.hasError('required')) {
+
+        this.snackBarService.open(
+          'O percentual de abono é obrigatório.'
+        );
+
+        return;
+      }
+
+
+      if (campos['percentualAbono']?.hasError('min')) {
+
+        this.snackBarService.open(
+          'O percentual de abono deve ser maior ou igual a 0.'
+        );
+
+        return;
+      }
+
+
+      if (campos['percentualAbono']?.hasError('max')) {
+
+        this.snackBarService.open(
+          'O percentual de abono deve ser menor ou igual a 100.'
+        );
+
+        return;
+      }
+
+
+      if (campos['dataEntregaAtividade']?.hasError('required')) {
+        this.snackBarService.open(
+          'A data de entrega da atividade é obrigatória.'
+        );
+
+        return;
+      }
+
+    }
+
+
+
+    this.snackBarService.open(
+      'Verifique os campos preenchidos.'
+    );
 
   }
-
-
-
-  this.snackBarService.open(
-    'Verifique os campos preenchidos.'
-  );
-
-}
 
   retornarParaLista() {
     this.location.back();
@@ -725,12 +752,12 @@ export class FormularioPEEComponent implements OnInit {
       ),
 
 
-      dataEntrega: new FormControl(
-        {
-          value: this.data?.dataEntregaAtividade || '',
-          disabled: this.desabilitar
-        }
-      ),
+      dataEntregaAtividade: new FormControl({
+        value: this.data?.dataEntregaAtividade
+          ? new Date(this.data.dataEntregaAtividade)
+          : null,
+        disabled: this.desabilitar
+      }),
 
 
       cumpriuAtividade: new FormControl(
@@ -768,8 +795,8 @@ export class FormularioPEEComponent implements OnInit {
 
 
     console.log(
-      "FORMULÁRIO CRIADO:",
-      this.formularioPEE.value
+      "FORMULÁRIO COMPLETO:",
+      this.formularioPEE.getRawValue()
     );
 
   }

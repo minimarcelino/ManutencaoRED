@@ -115,7 +115,7 @@ export class ListarDisciplinasComponent implements OnInit {
 
       this.dataToImport = data;
 
-      console.log('Dados importados:', this.dataToImport);
+      //console.log('Dados importados:', this.dataToImport);
 
       try {
 

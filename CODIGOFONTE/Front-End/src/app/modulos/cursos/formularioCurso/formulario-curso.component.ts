@@ -298,7 +298,7 @@ private mostrarErrosFormulario() {
     coordenador: this.idcordenador,
   };
 
-  console.log('PAYLOAD CURSO:', payload);
+  //console.log('PAYLOAD CURSO:', payload);
 
   await this.cursoService.createCurso(payload);
 

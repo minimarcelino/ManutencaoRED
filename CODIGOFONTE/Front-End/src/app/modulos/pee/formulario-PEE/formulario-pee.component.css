@@ -1,14 +1,3 @@
-.formulario .lado-esquerdo {
-  min-width: 49%;
-  max-width: 100%;
-}
-
-.formulario .lado-direito {
-  margin-left: 2%;
-  min-width: 49%;
-  max-width: 100%;
-}
-
 .formulario {
   display: flex;
   flex-direction: column;
@@ -19,7 +8,16 @@
   margin-bottom: 25px;
 }
 
+.formulario .lado-esquerdo,
+.formulario .lado-direito {
+  width: 100%;
+  margin-left: 0;
+}
+
 .campo-data {
   width: 100%;
-  margin-top: 10px;
+}
+
+.linha-avaliacao {
+  margin-bottom: 24px;
 }

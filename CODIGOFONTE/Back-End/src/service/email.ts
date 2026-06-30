@@ -1,8 +1,8 @@
 import { createTransport } from 'nodemailer';
 
-console.log('EMAIL_HOTS:', process.env.EMAIL_HOTS);
-console.log('EMAIL_USER:', process.env.EMAIL_USER);
-console.log('EMAIL_SENHA:', process.env.EMAIL_SENHA ? 'PREENCHIDA' : 'VAZIA');
+//console.log('EMAIL_HOTS:', process.env.EMAIL_HOTS);
+//console.log('EMAIL_USER:', process.env.EMAIL_USER);
+//console.log('EMAIL_SENHA:', process.env.EMAIL_SENHA ? 'PREENCHIDA' : 'VAZIA');
 
 const transporter = createTransport({
   host: process.env.EMAIL_HOTS,
