@@ -397,48 +397,140 @@ async SendEmailAlunoAguardandoAvaliacaoPEE(pee: any) {
    }
 
    // EMAILS ALUNO
-   async sendEmailAluno(redAluno: any, req: Request) {
-      if (redAluno && typeof redAluno === 'object' && 'aluno_id' in redAluno) {
-         const alunoId = redAluno.aluno_id;
-         const alunoDetails = await alunoservice.findById(alunoId);
+   async sendEmailAluno(pee: any) {
 
-         if (alunoDetails && alunoDetails.ok && alunoDetails.data && typeof alunoDetails.data === 'object') {
-            const alunoData = alunoDetails.data as {
-               prontuario: string;
-               nome: string;
-               dataNascimento: Date;
-               endereco: string;
-               telefone: string;
-               email: string;
-               curso_idcurso: number;
-               id: number;
-            };
-            const crypto = require('crypto');
-            const hash = crypto.createHash('sha256');
-            hash.update(req.params.id.toString());
-            const hashPEE = hash.digest('hex');
-            const alunoEmail = alunoData.email;
-            console.log(alunoEmail);
-            const texto = `
-                         <html>
-                           <body>
-                             <p>As atividades do professor foram enviadas.</p>
+   if (
+      pee &&
+      typeof pee === 'object' &&
+      pee.red &&
+      pee.red.aluno
+   ) {
 
-                             <p>Por favor, <a href="${EMAIL_URL}usuario/${hashPEE}">clique aqui</a> para ser redirecionado à página do exercício.</p>
+      const alunoData = pee.red.aluno;
 
-                             <p>Atenciosamente,<br />Equipe de suporte do RED.</p>
-                           </body>
-                         </html>
 
-             `;
-            console.log(texto)
-            sendEmail(alunoEmail, 'Sistema RED - Inicio das atividades', texto);
-         } else {
-            console.log('Detalhes do aluno não encontrados ou erro na busca.');
-         }
-      }
+      const html = `
+      <html>
+      <head>
+         <title>Plano de Estudos Individualizado</title>
+      </head>
+
+      <body>
+
+         <p>Olá ${alunoData.nome},</p>
+
+
+         <p>
+         O professor responsável finalizou o preenchimento do seu
+         Plano de Estudos Individualizado (PEE).
+         </p>
+
+
+         <p>
+         Seguem as informações do plano:
+         </p>
+
+
+         <hr>
+
+
+         <p>
+         <b>Conteúdos a serem estudados:</b><br>
+         ${pee.conteudo}
+         </p>
+
+
+         <p>
+         <b>A metodologia a ser utilizada:</b><br>
+         ${pee.metodologia}
+         </p>
+
+
+         <p>
+         <b>Trabalhos a serem cumpridos:</b><br>
+         ${pee.trabalhos}
+         </p>
+
+
+         <p>
+         <b>Indicações bibliográficas:</b><br>
+         ${pee.bibliografia}
+         </p>
+
+
+         <p>
+         <b>Critérios de exigência:</b><br>
+         ${pee.criterios}
+         </p>
+
+
+         <p>
+         <b>Prazo para execução:</b><br>
+         ${new Date(pee.prazofinal).toLocaleDateString()}
+         </p>
+
+
+         <p>
+         <b>Canal de comunicação:</b><br>
+         ${pee.canalComunicacao ?? "Não informado"}
+         </p>
+
+
+         <p>
+         <b>Observações:</b><br>
+         ${pee.observacoes ?? "Não informado"}
+         </p>
+
+
+         <hr>
+
+
+         <p>
+         O plano está disponível no sistema para visualização e avaliação.
+         </p>
+
+
+         <p>
+         <a href="${EMAIL_URL}login">
+         Clique aqui para acessar o sistema
+         </a>
+         </p>
+
+
+         <p>
+         Atenciosamente,<br>
+         Equipe de suporte do RED.
+         </p>
+
+
+      </body>
+      </html>
+      `;
+
+
+      console.log("Email aluno:", alunoData.email);
+
+
+      sendEmail(
+         alunoData.email,
+         "Sistema RED - Plano de Estudos disponível para avaliação",
+         html
+      );
+
+
+      console.log(
+         "Email enviado aluno com informações do PEE"
+      );
+
+   } else {
+
+      console.log(
+         "Dados do PEE ou aluno não encontrados"
+      );
 
    }
+
+}
 
    //EMAIL ESQUECI A SENHA/PRIMEIRO ACESSO
    async sendEmailTrocarSenha(req: Request, res: Response) {
@@ -480,31 +572,200 @@ async SendEmailAlunoAguardandoAvaliacaoPEE(pee: any) {
 
    //EMAILS CSP
    async sendEmailCSP(response: any) {
-      if ('aluno_id' in response.data) {
-         const aluno = await alunoservice.findById(response.data.aluno_id);
-         if (aluno.data != null && typeof aluno.data == 'object' && 'nome' in aluno.data) {
-            const nome = aluno.data.nome;
-            const aluno_prontuario = aluno.data.prontuario;
-            const aluno_email = aluno.data.email;
-            const texto = `<html>
-            <head>
-             <title>Sistema RED - Associe Disciplinas</title>
-            </head>
-            <body>
-            <p>Prezado(a),</p>
-            <p>Informamos que o processo RED do aluno ${nome} (${aluno_prontuario}) foi aceita.</p>
-            <p>Por favor, <a href="${EMAIL_URL}login">clique aqui</a> para entrar no sistema e associar associar as disciplinas.</p>
-            <p>Se precisar de mais informações sobre o aluno, você pode entrar em contato com ele pelo e-mail: ${aluno_email}.</p>
-            <p>Atenciosamente,<br/>Equipe de Suporte do RED.</p>
-            </body>
-            </html>
-            `;
-            sendEmail('csp.pep@ifsp.edu.br', 'Sistema RED - Associe Disciplinas', texto);
-            console.log('Email Enviado CSP');
-         }
+
+   if (
+      response.data &&
+      typeof response.data === 'object' &&
+      'aluno_id' in response.data
+   ) {
+
+
+      const aluno = await alunoservice.findById(
+         response.data.aluno_id
+      );
+
+
+      if (
+         aluno.data != null &&
+         typeof aluno.data == 'object' &&
+         'nome' in aluno.data
+      ) {
+
+
+         const nome = aluno.data.nome;
+         const aluno_prontuario = aluno.data.prontuario;
+         const aluno_email = aluno.data.email;
+
+
+         const situacao =
+            response.data.situacao ?? "Não informado";
+
+
+         const dataJuntadaPEE =
+            response.data.dataJuntadaPEE
+            ? new Date(
+                response.data.dataJuntadaPEE
+              ).toLocaleDateString()
+            : "Não informada";
+
+
+
+         const texto = `
+         <html>
+         <head>
+          <title>Sistema RED - Associe Disciplinas</title>
+         </head>
+
+         <body>
+
+         <p>Prezado(a),</p>
+
+
+         <p>
+         O processo RED do aluno
+         ${nome} (${aluno_prontuario})
+         foi atualizado.
+         </p>
+
+
+         <p>
+         <b>Situação:</b>
+         ${situacao}
+         </p>
+
+
+         <p>
+         <b>Data de juntada dos PEEs:</b>
+         ${dataJuntadaPEE}
+         </p>
+
+
+         <p>
+         Por favor,
+         <a href="${EMAIL_URL}login">
+         clique aqui
+         </a>
+         para acessar o sistema.
+         </p>
+
+
+         <p>
+         Se precisar de informações sobre o aluno:
+         ${aluno_email}
+         </p>
+
+
+         <p>
+         Atenciosamente,<br/>
+         Equipe de Suporte do RED.
+         </p>
+
+
+         </body>
+         </html>
+         `;
+
+
+         sendEmail(
+            'csp.pep@ifsp.edu.br',
+            'Sistema RED - Atualização do Processo RED',
+            texto
+         );
+
+
+         console.log(
+            "Email enviado CSP com data juntada"
+         );
 
       }
+
    }
+
+}
+
+async SendEmailCRADataJuntadaRED(response:any){
+
+   if(
+      response.data &&
+      typeof response.data === 'object'
+   ){
+
+
+      const aluno =
+      await alunoservice.findById(
+         response.data.aluno_id
+      );
+
+
+      if(
+         aluno.data &&
+         typeof aluno.data === 'object'
+      ){
+
+
+         const texto = `
+
+         <html>
+
+         <body>
+
+
+         <p>Prezada CRA,</p>
+
+
+         <p>
+         O RED do aluno
+         ${aluno.data.nome}
+         (${aluno.data.prontuario})
+         foi atualizado.
+         </p>
+
+
+         <p>
+         <b>Situação:</b>
+         ${response.data.situacao}
+         </p>
+
+
+         <p>
+         <b>Data de juntada dos PEEs:</b>
+         ${
+          response.data.dataJuntadaPEE
+          ? new Date(
+             response.data.dataJuntadaPEE
+            ).toLocaleDateString()
+          : "Não informada"
+         }
+         </p>
+
+
+         <p>
+         Atenciosamente,<br>
+         Equipe de Suporte do RED.
+         </p>
+
+
+         </body>
+
+         </html>
+
+         `;
+
+
+         sendEmail(
+            'cra.pep@ifsp.edu.br',
+            'Sistema RED - Data de juntada dos PEEs',
+            texto
+         );
+
+
+      }
+
+
+   }
+
+
+}
 
    // EMAIL CRA - FINALIZAÇÃO RED
 async SendEmailCRAFinalizandoRed(redResponse: any) {

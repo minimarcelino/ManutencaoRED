@@ -343,16 +343,15 @@ async getByProfessor(req: Request, res: Response){
 
 
 
-  async UpdateWithEmail(
-    req:Request,
-    res:Response
-  ){
+ async UpdateWithEmail(
+  req: Request,
+  res: Response
+){
+
+  try {
 
 
-    try{
-
-
-      const response =
+    const response =
       await peeservice.update(
         req.body,
         Number(req.params.id)
@@ -360,37 +359,29 @@ async getByProfessor(req: Request, res: Response){
 
 
 
-      if(response.ok){
+    if(response.ok){
+
+
+      const peeAtualizado = response.data;
 
 
 
-        if(
-          response.data &&
-          typeof response.data === "object" &&
-          "RED_idRED" in response.data
-        ){
+      if(
+        peeAtualizado &&
+        typeof peeAtualizado === "object" &&
+        peeAtualizado.red &&
+        peeAtualizado.red.aluno
+      ){
 
 
-          const RED_idRED =
-          Number(response.data.RED_idRED);
+        await emailcontroller.sendEmailAluno(
+          peeAtualizado
+        );
 
 
-
-          const redAluno =
-          (
-            await redcontroller.getById(RED_idRED)
-          ).data;
-
-
-
-          emailcontroller.sendEmailAluno(
-            redAluno,
-            req
-          );
-
-
-        }
-
+        console.log(
+          "Email enviado para aluno após preenchimento do PEE"
+        );
 
 
       }
@@ -398,27 +389,44 @@ async getByProfessor(req: Request, res: Response){
 
 
       return res.status(
-        response.ok ? StatusCodes.OK : StatusCodes.BAD_REQUEST
+        StatusCodes.OK
       ).send(response);
 
-
-
-    }catch(error:any){
-
-
-      return res.status(400).send({
-
-        ok:false,
-
-        error:error.message
-
-      });
 
 
     }
 
 
+
+    return res.status(
+      StatusCodes.BAD_REQUEST
+    ).send(response);
+
+
+
+  }catch(error:any){
+
+
+    console.log(
+      "ERRO UPDATE WITH EMAIL:",
+      error
+    );
+
+
+    return res.status(
+      StatusCodes.INTERNAL_SERVER_ERROR
+    ).send({
+
+      ok:false,
+
+      error:error.message
+
+    });
+
+
   }
+
+}
 
   async findByProfessor(req: Request, res: Response) {
 
