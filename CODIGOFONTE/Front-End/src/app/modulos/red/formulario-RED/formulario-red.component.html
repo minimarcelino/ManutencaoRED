@@ -14,11 +14,7 @@
 
   <div class="formulario">
 
-    <form
-      [formGroup]="formularioRED"
-      #formDir="ngForm"
-      (keydown.enter)="$event.preventDefault()"
-    >
+    <form [formGroup]="formularioRED" #formDir="ngForm" (keydown.enter)="$event.preventDefault()">
 
 
       <!-- ===================== -->
@@ -34,25 +30,13 @@
 
             <mat-label>Aluno</mat-label>
 
-            <input
-              formControlName="aluno"
-              matInput
-              placeholder="Selecione um aluno"
-              [matAutocomplete]="auto"
-              (input)="filterAlunos($event)"
-            />
+            <input formControlName="aluno" matInput placeholder="Selecione um aluno" [matAutocomplete]="auto"
+              (input)="filterAlunos($event)" />
 
 
-            <mat-autocomplete
-              #auto="matAutocomplete"
-              [displayWith]="displayFn"
-              (optionSelected)="changeCurso()"
-            >
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="changeCurso()">
 
-              <mat-option
-                *ngFor="let a of filteredAlunos"
-                [value]="a"
-              >
+              <mat-option *ngFor="let a of filteredAlunos" [value]="a">
 
                 {{a.prontuario}} - {{a.nome}}
 
@@ -70,12 +54,7 @@
 
             <mat-label>Curso do aluno</mat-label>
 
-            <input
-              matInput
-              formControlName="curso"
-              [value]="inputCurso"
-              readonly
-            />
+            <input matInput formControlName="curso" [value]="inputCurso" readonly />
 
           </mat-form-field>
 
@@ -84,13 +63,8 @@
 
           <div class="botao-container">
 
-            <button
-              type="button"
-              mat-raised-button
-              color="accent"
-              *ngIf="!desabilitado && !editando"
-              (click)="CadastrarAluno()"
-            >
+            <button type="button" mat-raised-button color="accent" *ngIf="!desabilitado && !editando"
+              (click)="CadastrarAluno()">
 
               <mat-icon>
                 add_circle
@@ -109,49 +83,32 @@
       </div>
 
 
-
-
       <!-- ===================== -->
       <!-- AFASTAMENTO -->
       <!-- ===================== -->
 
-      <div class="secao-formulario">
+<div class="secao-formulario">
 
+  <mat-form-field appearance="outline" class="full-width">
 
-        <mat-form-field
-          appearance="outline"
-          class="full-width"
-        >
+  <mat-label>Motivo do afastamento</mat-label>
 
+  <textarea
+    matInput
+    formControlName="motivoAfastamento"
+    maxlength="4000"
+    rows="5"
+    placeholder="Ex.: Número do CID">
+  </textarea>
 
-          <mat-label>
-            Motivo do afastamento
-          </mat-label>
+  <mat-hint align="end">
+    {{ updateCharacterCount(motivoAfastamento) }}
+    caracteres restantes
+  </mat-hint>
 
+</mat-form-field>
 
-          <textarea
-            matInput
-            formControlName="motivoAfastamento"
-            maxlength="4000"
-            rows="5"
-            placeholder="Ex. Fratura do braço"
-          ></textarea>
-
-
-
-          <mat-hint align="end">
-
-            {{ updateCharacterCount(motivoAfastamento) }}
-            caracteres restantes
-
-          </mat-hint>
-
-
-
-        </mat-form-field>
-
-
-      </div>
+</div>
 
 
 
@@ -178,17 +135,7 @@
             </mat-label>
 
 
-            <input
-
-              matInput
-
-              formControlName="inicioAfastamento"
-
-              mask="00/00/0000"
-
-              placeholder="DD/MM/AAAA"
-
-            />
+            <input matInput formControlName="inicioAfastamento" mask="00/00/0000" placeholder="DD/MM/AAAA" />
 
 
           </mat-form-field>
@@ -204,15 +151,7 @@
             </mat-label>
 
 
-            <input
-
-              type="number"
-
-              formControlName="tempoAfastamento"
-
-              matInput
-
-            />
+            <input type="number" formControlName="tempoAfastamento" matInput />
 
 
           </mat-form-field>
@@ -228,19 +167,7 @@
             </mat-label>
 
 
-            <input
-
-              type="number"
-
-              formControlName="semestreAluno"
-
-              matInput
-
-              min="1"
-
-              max="24"
-
-            />
+            <input type="number" formControlName="semestreAluno" matInput min="1" max="24" />
 
 
           </mat-form-field>
@@ -266,10 +193,7 @@
       <div class="secao-formulario">
 
 
-        <mat-form-field
-          appearance="outline"
-          class="full-width"
-        >
+        <mat-form-field appearance="outline" class="full-width">
 
 
           <mat-label>
@@ -277,17 +201,7 @@
           </mat-label>
 
 
-          <textarea
-
-            matInput
-
-            formControlName="observacao"
-
-            maxlength="4000"
-
-            rows="5"
-
-          ></textarea>
+          <textarea matInput formControlName="observacao" maxlength="4000" rows="5"></textarea>
 
 
 
@@ -307,93 +221,6 @@
       </div>
 
 
-
-
-
-
-      <!-- RECUSA VISUALIZAÇÃO -->
-
-
-      <div
-        *ngIf="recusado"
-        class="secao"
-      >
-
-        <h3>
-          Motivo da Recusa
-        </h3>
-
-
-
-        <mat-form-field
-          appearance="outline"
-          class="full-width"
-        >
-
-          <textarea
-            matInput
-            formControlName="motivoRecusaLabel"
-            readonly
-          ></textarea>
-
-
-        </mat-form-field>
-
-
-      </div>
-
-
-
-
-
-
-
-      <!-- RECUSA COORDENADOR -->
-
-
-      <div
-        *ngIf="motivoRecusaInput && isCOORD()"
-        class="secao"
-      >
-
-
-        <h3>
-          Motivo da Recusa
-        </h3>
-
-
-        <mat-form-field
-          appearance="outline"
-          class="full-width"
-        >
-
-
-          <textarea
-
-            matInput
-
-            formControlName="motivoRecusa"
-
-            maxlength="4000"
-
-            rows="3"
-
-            placeholder="Ex. Aluno errado"
-
-          ></textarea>
-
-
-
-        </mat-form-field>
-
-
-      </div>
-
-
-
-
-
-
       <!-- ARQUIVOS -->
 
 
@@ -410,16 +237,10 @@
         <div *ngIf="attachedFiles.length > 0">
 
 
-          <div
-            *ngFor="let file of attachedFiles"
-            class="file-item"
-          >
+          <div *ngFor="let file of attachedFiles" class="file-item">
 
 
-            <a
-              [href]="caminhoArquivo + file.path"
-              target="_blank"
-            >
+            <a [href]="caminhoArquivo + file.path" target="_blank">
 
               {{ file.path }}
 
@@ -427,17 +248,7 @@
 
 
 
-            <button
-
-              type="button"
-
-              mat-icon-button
-
-              *ngIf="!desabilitado"
-
-              (click)="deleteFile(file)"
-
-            >
+            <button type="button" mat-icon-button *ngIf="!desabilitado" (click)="deleteFile(file)">
 
               <mat-icon>
                 delete
@@ -462,17 +273,7 @@
 
 
 
-          <button
-
-            type="button"
-
-            mat-raised-button
-
-            color="accent"
-
-            (click)="fileInput.click()"
-
-          >
+          <button type="button" mat-raised-button color="accent" (click)="fileInput.click()">
 
             Escolher arquivos
 
@@ -482,47 +283,19 @@
 
 
 
-          <input
-
-            hidden
-
-            #fileInput
-
-            type="file"
-
-            (change)="onFileSelected($event)"
-
-            accept=".pdf"
-
-            multiple
-
-          />
+          <input hidden #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf" multiple />
 
 
 
 
-          <div
-
-            *ngFor="let file of selectedFiles"
-
-            class="file-item"
-
-          >
+          <div *ngFor="let file of selectedFiles" class="file-item">
 
 
             {{ file.name }}
 
 
 
-            <button
-
-              type="button"
-
-              mat-icon-button
-
-              (click)="removeFile(file)"
-
-            >
+            <button type="button" mat-icon-button (click)="removeFile(file)">
 
 
               <mat-icon>
@@ -560,17 +333,7 @@
         <ng-container *ngIf="!desabilitado">
 
 
-          <button
-
-            type="button"
-
-            mat-raised-button
-
-            color="warn"
-
-            (click)="retornarParaLista()"
-
-          >
+          <button type="button" mat-raised-button color="warn" (click)="retornarParaLista()">
 
             Cancelar
 
@@ -579,17 +342,7 @@
 
 
 
-          <button
-
-            type="button"
-
-            mat-raised-button
-
-            color="primary"
-
-            (click)="cadastrar()"
-
-          >
+          <button type="button" mat-raised-button color="primary" (click)="cadastrar()">
 
             {{ editando ? 'Salvar' : 'Cadastrar' }}
 
@@ -609,46 +362,9 @@
         <ng-container *ngIf="desabilitado">
 
 
-          <button
-
-            type="button"
-
-            mat-raised-button
-
-            color="primary"
-
-            (click)="retornarParaLista()"
-
-          >
+          <button type="button" mat-raised-button color="primary" (click)="retornarParaLista()">
 
             Voltar
-
-
-          </button>
-
-
-
-
-
-
-          <button
-
-            type="button"
-
-            mat-raised-button
-
-            color="accent"
-
-
-            *ngIf="isCOORD() && (situacao() !== 'Esperando associação de disciplina' && situacao() !== 'Esperando confirmação')"
-
-
-            (click)="visualizarDisciplina()"
-
-          >
-
-
-            Visualizar disciplinas
 
 
           </button>

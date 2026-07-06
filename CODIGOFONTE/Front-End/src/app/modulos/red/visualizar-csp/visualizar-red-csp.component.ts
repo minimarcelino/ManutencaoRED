@@ -60,6 +60,8 @@ export class CSPVisualizarREDComponent implements OnInit {
 
   const pees = await this.peeService.getPeeByIdRED(this.idRED);
 
+  console.log("Resposta:", pees);
+
   //console.log("RESPOSTA COMPLETA:", pees);
 
   //console.log("DATA:", pees.data);
@@ -69,6 +71,8 @@ export class CSPVisualizarREDComponent implements OnInit {
 
   this.pee = pees.data?.pees ?? [];
 
+  console.log("Quantidade:", this.pee.length);
+  console.log("Primeiro:", this.pee[0]);
 
   //console.log("ARRAY FINAL:", this.pee);
 
@@ -76,6 +80,9 @@ export class CSPVisualizarREDComponent implements OnInit {
 
 
   this.dataSource = new MatTableDataSource<any>(this.pee);
+
+  console.log("Datasource:", this.dataSource.data);
+
 
   this.dataSource.paginator = this.paginator;
 
@@ -98,9 +105,9 @@ export class CSPVisualizarREDComponent implements OnInit {
     this.location.back();
   }
 
-  apresentarAbono(abono: number) {
-    return abono < 0 ? "Não avaliado" : `${abono} %`;
-  }
+  apresentarAbono(abono: boolean) {
+  return abono ? "Sim" : "Não";
+}
 
   apresentarDocentes(pee: any) {
     return pee.pee_servidor.length > 0
@@ -371,15 +378,11 @@ export class CSPVisualizarREDComponent implements OnInit {
 
 
 
-      pee.percentualabono + "%",
+      pee.abono ? "Sim" : "Não",
 
 
 
       pee.houveAvaliacao || "",
-
-
-
-      pee.avaliacoesRealizadas || "",
 
 
 

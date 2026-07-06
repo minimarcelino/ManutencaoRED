@@ -11,6 +11,9 @@ import { messageDialog } from 'src/app/services/messageDialog.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 import { AssociarProfessoresComponent } from '../../associacoes/associar-professores/associar-professores.component';
+import { DialogOrientacaoPedagogicaComponent } from 'src/app/components/dialog-orientacao-pedagogica/dialog-orientacao-pedagogica.component';
+import { PeeService } from 'src/app/services/pee.service';
+import { SnackBarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-visualizar-disciplina',
@@ -33,6 +36,8 @@ export class VisualizarDisciplinaComponent implements OnInit {
   ];
 
   constructor(
+    private peeService: PeeService,
+    private snackBarService: SnackBarService,
     public dialogQuestionService: messageDialog,
     private dialog: MatDialogRef<VisualizarDisciplinaComponent>,
     private dialogProfessor: MatDialog,
@@ -119,6 +124,50 @@ export class VisualizarDisciplinaComponent implements OnInit {
   );
 
   this.handleDialogConfirm(associarProfessor);
+}
+
+abrirOrientacao(pee: any) {
+
+  const dialog = this.dialogProfessor.open(
+    DialogOrientacaoPedagogicaComponent,
+    {
+      width: '900px',
+      maxWidth: '95vw',
+      data: {
+        idpee: pee.idpee,
+        orientacaoPedagogica: pee.orientacaoPedagogica
+      }
+    }
+  );
+
+  dialog.afterClosed().subscribe(async (orientacao) => {
+
+    if (!orientacao) {
+      return;
+    }
+
+    pee.orientacaoPedagogica = orientacao;
+
+    try {
+
+      await this.peeService.updatePee(pee);
+
+      this.snackBarService.open(
+        'Orientação pedagógica salva com sucesso!'
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      this.snackBarService.open(
+        'Erro ao salvar a orientação pedagógica.'
+      );
+
+    }
+
+  });
+
 }
 
   apresentarDocentes(pee: any): string {

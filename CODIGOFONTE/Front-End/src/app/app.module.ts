@@ -58,6 +58,7 @@ import { CommonModule } from '@angular/common';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MessageDialogMotivoComponent } from './utils/message-dialog-motivo/message-dialog-motivo.component';
+import { DialogOrientacaoPedagogicaComponent } from './components/dialog-orientacao-pedagogica/dialog-orientacao-pedagogica.component';
 
 /* 🔥 REGISTRA O LOCALE */
 registerLocaleData(localePt);
@@ -82,7 +83,8 @@ registerLocaleData(localePt);
     ManualComponent,
     AnaliseRedsComponent,
     DetalhesRedComponent,
-    MessageDialogMotivoComponent
+    MessageDialogMotivoComponent,
+    DialogOrientacaoPedagogicaComponent
   ],
   imports: [
     BrowserModule,

@@ -38,6 +38,7 @@ export class FormularioPEEComponent implements OnInit {
 
     this.user = JSON.parse(localStorage.getItem('user')!);
 
+    //console.log(this.user);
 
     this.activatedRoute.paramMap.subscribe(() => {
 
@@ -62,9 +63,17 @@ export class FormularioPEEComponent implements OnInit {
 
   async submit() {
 
-    //console.log("PERCENTUAL:", this.data?.percentualabono);
-    //console.log("DATA ENTREGA:", this.data?.dataEntregaAtividade);
-    //console.log("OBJETO COMPLETO:", this.data);
+    console.log(this.formularioPEE);
+console.log(this.formularioPEE.errors);
+
+Object.keys(this.formularioPEE.controls).forEach(campo => {
+  console.log(
+    campo,
+    this.formularioPEE.get(campo)?.value,
+    this.formularioPEE.get(campo)?.valid,
+    this.formularioPEE.get(campo)?.errors
+  );
+});
 
     if (this.formularioPEE.invalid || this.isSubmitting) {
 
@@ -89,6 +98,8 @@ export class FormularioPEEComponent implements OnInit {
 
       return;
     }
+
+
 
 
     if (this.conteudo.trim() === '') {
@@ -189,7 +200,7 @@ export class FormularioPEEComponent implements OnInit {
 
       console.log(
         "PERCENTUAL ENVIADO:",
-        this.formularioPEE.get('percentualAbono')?.value
+        this.formularioPEE.get('abono')?.value
       );
 
 
@@ -204,24 +215,26 @@ export class FormularioPEEComponent implements OnInit {
 
       console.log(
         "VALOR PERCENTUAL ANTES UPDATE:",
-        this.formularioPEE.get('percentualAbono')?.value
+        this.formularioPEE.get('abono')?.value
       );
 
       console.log(
         "OBJETO ENVIADO:",
         {
-          percentualabono:
-            this.formularioPEE.get('percentualAbono')?.value ?? null
+          abono:
+            this.formularioPEE.get('abono')?.value ?? null
         }
       );
 
       console.log(
-  this.formularioPEE.get('dataEntregaAtividade')?.value
-);
+        this.formularioPEE.get('dataEntregaAtividade')?.value
+      );
 
       const res = await this.peeService.updateWithEmail({
 
         idpee: this.data.idpee,
+
+        servidorId: this.user.idservidor,
 
         conteudo: this.conteudo,
 
@@ -255,15 +268,12 @@ export class FormularioPEEComponent implements OnInit {
 
         avaliacaoAtividade: this.formularioPEE.getRawValue().avaliacaoAtividade || null,
 
-        percentualabono: this.formularioPEE.get('percentualAbono')?.value ?? null,
+        abono: this.formularioPEE.get('abono')?.value ?? null,
 
-        
+
         dataEntregaAtividade: this.formularioPEE.getRawValue().dataEntregaAtividade || null,
 
         houveAvaliacao: this.formularioPEE.get('houveAvaliacao')?.value || null,
-
-
-        avaliacoesRealizadas: this.formularioPEE.get('avaliacoesRealizadas')?.value || null,
 
 
         dataAvaliacao: this.formularioPEE.get('dataAvaliacao')?.value || null,
@@ -498,30 +508,10 @@ export class FormularioPEEComponent implements OnInit {
       }
 
 
-      if (campos['percentualAbono']?.hasError('required')) {
+      if (campos['abono']?.hasError('required')) {
 
         this.snackBarService.open(
-          'O percentual de abono é obrigatório.'
-        );
-
-        return;
-      }
-
-
-      if (campos['percentualAbono']?.hasError('min')) {
-
-        this.snackBarService.open(
-          'O percentual de abono deve ser maior ou igual a 0.'
-        );
-
-        return;
-      }
-
-
-      if (campos['percentualAbono']?.hasError('max')) {
-
-        this.snackBarService.open(
-          'O percentual de abono deve ser menor ou igual a 100.'
+          'Informe se o aluno cumpriu o plano de estudos.'
         );
 
         return;
@@ -643,12 +633,8 @@ export class FormularioPEEComponent implements OnInit {
     }
   }
 
-  apresentarAbono(abono: number) {
-    return abono < 0 ? 'Não avaliado' : `${abono} %`;
-  }
-
-  get avaliacoesRealizadas() {
-    return this.formularioPEE.get('avaliacoesRealizadas')!.value || null;
+  apresentarAbono(abono: boolean) {
+    return abono ? 'Sim' : 'Não';
   }
 
   criarFormulario() {
@@ -744,12 +730,10 @@ export class FormularioPEEComponent implements OnInit {
       ),
 
 
-      percentualAbono: new FormControl(
-        {
-          value: this.data?.percentualabono ?? '',
-          disabled: this.desabilitar
-        }
-      ),
+      abono: new FormControl({
+  value: this.data?.abono ?? null,
+  disabled: this.desabilitar
+}),
 
 
       dataEntregaAtividade: new FormControl({
@@ -774,15 +758,6 @@ export class FormularioPEEComponent implements OnInit {
           disabled: this.desabilitar
         }
       ),
-
-
-      avaliacoesRealizadas: new FormControl(
-        {
-          value: this.data?.avaliacoesRealizadas || '',
-          disabled: this.desabilitar
-        }
-      ),
-
 
       dataAvaliacao: new FormControl(
         {

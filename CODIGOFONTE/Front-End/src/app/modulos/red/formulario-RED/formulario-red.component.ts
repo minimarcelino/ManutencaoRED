@@ -870,9 +870,11 @@ export class FormularioREDComponent implements OnInit {
     return this.desabilitar;
   }
 
-  get recusado() {
-    return this.data ? this.data.situacao === 'Recusado' : false;
-  }
+ get recusado() {
+  return this.data
+    ? this.data.situacao?.startsWith('Recusado')
+    : false;
+}
 
   get esperandoConfirmacao() {
     return this.data ? this.data.situacao === 'Esperando confirmação' : false;

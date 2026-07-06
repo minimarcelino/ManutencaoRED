@@ -366,7 +366,7 @@ export class AssociarDisciplinaComponent implements OnInit {
           Number(item.iddisciplinas),
 
 
-        percentualabono: -1,
+        abono: false,
 
 
         situacao:
@@ -474,7 +474,7 @@ export class AssociarDisciplinaComponent implements OnInit {
       disciplinas_iddisciplinas:
       Number(disciplina.iddisciplinas),
 
-      percentualabono: -1,
+      abono: false,
 
       situacao:
         'Aguardando Associação de Professor',

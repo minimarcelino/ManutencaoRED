@@ -57,7 +57,7 @@ CREATE TABLE `pee` (
     `RED_idRED` INTEGER NOT NULL,
     `disciplinas_iddisciplinas` INTEGER NOT NULL,
     `servidor_idservidor` INTEGER NOT NULL,
-    `percentualabono` DOUBLE NOT NULL,
+    `abono` DOUBLE NOT NULL,
 
     INDEX `fk_pee_RED1_idx`(`RED_idRED`),
     INDEX `fk_pee_disciplinas1_idx`(`disciplinas_iddisciplinas`),

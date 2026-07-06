@@ -70,7 +70,7 @@ export class HomeProfessorComponent implements OnInit {
       (pee: any) =>
         pee.pee_servidor.some(
           (item: any) => item.servidorId === this.user.idservidor) &&
-        pee.percentualabono == -1.0 &&
+        pee.abono == false &&
         (pee.situacao === 'Enviado para o aluno' ||
           pee.situacao === 'Aguardando Preenchimento')
     );
@@ -91,7 +91,7 @@ export class HomeProfessorComponent implements OnInit {
     );
     this.dataSourceEnviada = new MatTableDataSource<pee>(enviadaAoAluno);
     this.dataSourceEnviada.paginator = this.paginatorEnviada;
-    this.existePEEaAvaliar = enviadaAoAluno.length < 0;
+    this.existePEEaAvaliar = enviadaAoAluno.length > 0;
   }
 
   get existePreencher(){
@@ -109,7 +109,7 @@ export class HomeProfessorComponent implements OnInit {
         RED_idRED: pee.RED_idRED,
         disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
         servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
+        abono: pee.abono,
         aluno_prontuario: pee.red.aluno.prontuario,
         nome_aluno: pee.red.aluno.nome,
         prazofinal: pee.prazofinal,
@@ -121,7 +121,6 @@ export class HomeProfessorComponent implements OnInit {
         dataEnvioProposta: pee.dataEnvioProposta,
         canalComunicacao: pee.canalComunicacao,
         houveAvaliacao: pee.houveAvaliacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
         dataAvaliacao: pee.dataAvaliacao,
         observacao: pee.observacao,
       },

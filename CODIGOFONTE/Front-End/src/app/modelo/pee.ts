@@ -9,11 +9,10 @@ export interface pee{
     RED_idRED: number;
     disciplinas_iddisciplinas: number;
     servidor_idservidor: number;
-    percentualabono: number;
+    abono: boolean;
     dataEnvioProposta: Date;
     canalComunicacao: string;
     houveAvaliacao: string;
-    avaliacoesRealizadas: string;
     dataAvaliacao: Date;
     observacoes: string;
     situacao: string;

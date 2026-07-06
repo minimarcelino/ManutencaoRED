@@ -133,6 +133,18 @@ export class emailController {
 
    const pee = response.pees;
 
+   const dataLimiteFormatada =
+  pee.dataLimitePee
+    ? new Date(pee.dataLimitePee).toLocaleDateString(
+        "pt-BR",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        }
+      )
+    : "";
+
    const id_red = pee.RED_idRED;
 
    const pee_servidor = pee.pee_servidor.map(
@@ -182,6 +194,11 @@ export class emailController {
 
             <p>
             Curso: ${nome_curso}
+            </p>
+
+            <p>
+            <strong>Prazo para envio do Plano de Estudos (PEE):</strong><br>
+            ${dataLimiteFormatada}
             </p>
 
             <p>
@@ -301,6 +318,70 @@ async SendEmailAlunoAguardandoAvaliacaoPEE(pee: any) {
       }
 
    }
+}
+
+async SendEmailLembretePEE(registro: any) {
+
+   const professorEmail = registro.servidor.email;
+   const professorNome = registro.servidor.nome;
+
+   const alunoNome = registro.pee.red.aluno.nome;
+   const alunoProntuario = registro.pee.red.aluno.prontuario;
+
+   const disciplina = registro.pee.disciplinas.nomeDisciplina;
+
+   const html = `
+   <html>
+
+   <body>
+
+      <p>Prezado(a) Prof(a). ${professorNome},</p>
+
+      <p>
+      Este é um lembrete para realizar a avaliação do Plano de Estudos
+      Individualizado (PEE).
+      </p>
+
+      <p>
+      <b>Aluno:</b>
+      ${alunoNome} (${alunoProntuario})
+      </p>
+
+      <p>
+      <b>Disciplina:</b>
+      ${disciplina}
+      </p>
+
+      <p>
+      Caso já tenha realizado a avaliação, desconsidere este e-mail.
+      </p>
+
+      <p>
+      Para acessar o sistema,
+      <a href="${EMAIL_URL}login">
+      clique aqui
+      </a>.
+      </p>
+
+      <p>
+      Atenciosamente,<br>
+      Equipe de Suporte do RED.
+      </p>
+
+   </body>
+
+   </html>
+   `;
+
+   await sendEmail(
+      professorEmail,
+      "Sistema RED - Lembrete de Avaliação do PEE",
+      html
+   );
+
+   console.log(
+      `Lembrete enviado para ${professorNome}`
+   );
 
 }
 

@@ -1,0 +1,25 @@
+.dialog-content {
+  padding-top: 8px;
+}
+
+.orientacao-field {
+  width: 100%;
+}
+
+textarea {
+  min-height: 300px;
+  resize: vertical;
+}
+
+.btn-cancelar {
+  color: #757575;
+  font-weight: 500;
+}
+
+.btn-cancelar:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+mat-dialog-actions {
+  padding-top: 16px;
+}

@@ -136,7 +136,7 @@ export class HomeCoordenadorComponent implements OnInit {
   // PEEs que esse professor precisa preencher/avaliar
   this.peesProfessor = this.pees.filter(
     (pee: any) =>
-      pee.percentualabono == -1.0 &&
+      pee.abono == false &&
       (
         pee.situacao === 'Enviado para o aluno' ||
         pee.situacao === 'Aguardando Preenchimento'

@@ -203,7 +203,7 @@ async recusarRED(pee:any){
         RED_idRED: pee.RED_idRED,
         disciplinas_iddisciplinas: pee.disciplinas_iddisciplinas,
         servidor_idservidor: pee.servidor_idservidor,
-        percentualabono: pee.percentualabono,
+        abono: pee.abono,
         aluno_prontuario: pee.red.aluno.prontuario,
         nome_aluno: pee.red.aluno.nome,
         prazofinal: pee.prazofinal,
@@ -215,7 +215,6 @@ async recusarRED(pee:any){
         dataEnvioProposta: pee.dataEnvioProposta,
         canalComunicacao: pee.canalComunicacao,
         houveAvaliacao: pee.houveAvaliacao,
-        avaliacoesRealizadas: pee.avaliacoesRealizadas,
         dataAvaliacao: pee.dataAvaliacao,
         observacao: pee.observacao,
       },
@@ -272,7 +271,7 @@ async recusarRED(pee:any){
     return pee.situacao === 'Aguardando Preenchimento';
   }
 
-  apresentarAbono(abono: number) {
-    return abono < 0 ? "Não avaliado" : `${abono} %`;
-  }
+  apresentarAbono(abono: boolean) {
+  return abono ? 'Sim' : 'Não';
+}
 }

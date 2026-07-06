@@ -289,9 +289,6 @@ export class peeService {
             }
           },
 
-          percentualabono:
-            pee.percentualabono,
-
           situacao:
             pee.situacao ?? "Aguardando Docente",
 
@@ -306,28 +303,6 @@ export class peeService {
 
           hash:
             pee.hash,
-
-          avaliacaoAtividade:
-            pee.avaliacaoAtividade,
-
-          prazoEntregaAtividade:
-            pee.prazoEntregaAtividade,
-
-          dataEntregaAtividade:
-            pee.dataEntregaAtividade,
-
-          cumpriuAtividade:
-            pee.cumpriuAtividade,
-
-          houveAvaliacao:
-            pee.houveAvaliacao,
-
-          avaliacoesRealizadas:
-            pee.avaliacoesRealizadas,
-
-          dataAvaliacao:
-            pee.dataAvaliacao,
-
 
           pee_servidor: pee.pee_servidor
 
@@ -474,7 +449,14 @@ const novosServidores =
       )
   );
 
-
+const dataLimitePee =
+  novosServidores.length > 0
+    ? (() => {
+        const data = new Date();
+        data.setDate(data.getDate() + 5);
+        return data;
+      })()
+    : undefined;
 
 
 
@@ -488,35 +470,26 @@ const updatePEE =
 
     data:{
 
-
       conteudo:
         pee.conteudo ?? undefined,
-
 
       metodologia:
         pee.metodologia ?? undefined,
 
-
       trabalhos:
         pee.trabalhos ?? undefined,
-
 
       bibliografia:
         pee.bibliografia ?? undefined,
 
-
       criterios:
         pee.criterios ?? undefined,
-
-
 
       prazofinal:
         pee.prazofinal &&
         !isNaN(new Date(pee.prazofinal).getTime())
           ? new Date(pee.prazofinal)
           : undefined,
-
-
 
       red:
         pee.RED_idRED
@@ -526,8 +499,6 @@ const updatePEE =
               }
             }
           : undefined,
-
-
 
       disciplinas:
         pee.disciplinas_iddisciplinas
@@ -539,66 +510,20 @@ const updatePEE =
             }
           : undefined,
 
-
-
       situacao:
         pee.situacao ?? undefined,
-
-
+          
+      dataLimitePee:
+        dataLimitePee,
 
       canalComunicacao:
         pee.canalComunicacao ?? undefined,
 
-
-
       observacoes:
         pee.observacoes ?? undefined,
 
-
-
-      avaliacaoAtividade:
-        pee.avaliacaoAtividade ?? undefined,
-
-
-
-      percentualabono:
-        pee.percentualabono ?? undefined,
-
-
-
-      prazoEntregaAtividade:
-        pee.prazoEntregaAtividade ?? undefined,
-
-
-
-      dataEntregaAtividade:
-        pee.dataEntregaAtividade
-          ? converterData(pee.dataEntregaAtividade)
-          : undefined,
-
-
-
-      cumpriuAtividade:
-        pee.cumpriuAtividade ?? undefined,
-
-
-
-      houveAvaliacao:
-        pee.houveAvaliacao ?? undefined,
-
-
-
-      avaliacoesRealizadas:
-        pee.avaliacoesRealizadas ?? undefined,
-
-
-
-      dataAvaliacao:
-        pee.dataAvaliacao
-          ? converterData(pee.dataAvaliacao)
-          : undefined,
-
-
+      orientacaoPedagogica:
+      pee.orientacaoPedagogica ?? undefined,
 
       pee_servidor:
 
@@ -639,7 +564,44 @@ const updatePEE =
   });
 
 
+if (pee.servidorId) {
 
+  await prisma.pee_servidor.updateMany({
+
+    where: {
+      peeId: id,
+      servidorId: pee.servidorId
+    },
+
+    data: {
+
+      avaliacaoAtividade:
+        pee.avaliacaoAtividade ?? undefined,
+
+      cumpriuAtividade:
+        pee.cumpriuAtividade ?? undefined,
+
+      houveAvaliacao:
+        pee.houveAvaliacao ?? undefined,
+
+      dataAvaliacao:
+        pee.dataAvaliacao
+          ? converterData(pee.dataAvaliacao)
+          : undefined,
+
+      dataEntregaAtividade:
+        pee.dataEntregaAtividade
+          ? converterData(pee.dataEntregaAtividade)
+          : undefined,
+
+      abono:
+        pee.abono
+
+    }
+
+  });
+
+}
 
 
 // ENVIA EMAIL QUANDO O PEE FOR PARA AVALIAÇÃO

@@ -299,8 +299,8 @@ export class AssociarProfessoresComponent implements OnInit {
 
         pee_servidor: professoresAtualizados,
 
-        percentualabono:
-          this.data.pee.percentualabono,
+        abono:
+          this.data.pee.abono,
 
         situacao:
           professoresAtualizados.length > 0

@@ -200,69 +200,97 @@
 
       <!-- Seção se avaliado -->
 
+<!-- Seção Avaliação -->
 <div *ngIf="this.avaliado">
 
   <h2>Avaliação do PEE</h2>
   <hr class="linha linha-avaliacao">
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Descrição da Avaliação</mat-label>
 
     <textarea
       matInput
+      rows="5"
       name="avaliacaoAtividade"
       id="avaliacaoAtividade"
       formControlName="avaliacaoAtividade">
     </textarea>
   </mat-form-field>
 
-  <mat-form-field class="lado-esquerdo">
-    <mat-label>Percentual de abono</mat-label>
+  <div class="bloco-abono">
 
-    <input
-      type="number"
-      id="percentualAbono"
-      matInput
-      name="percentualAbono"
-      formControlName="percentualAbono"
-      min="0"
-      max="100" />
+    <div class="cabecalho-abono">
 
-    <mat-error *ngIf="formularioPEE.get('percentualAbono')?.hasError('required')">
-      Percentual de abono obrigatório! Informe um valor entre 0 e 100.
-    </mat-error>
+      <mat-icon>fact_check</mat-icon>
 
-    <mat-error *ngIf="formularioPEE.get('percentualAbono')?.hasError('min')">
-      O percentual deve ser maior ou igual a 0
-    </mat-error>
+      <div>
 
-    <mat-error *ngIf="formularioPEE.get('percentualAbono')?.hasError('max')">
-      O percentual deve ser menor ou igual a 100
-    </mat-error>
-  </mat-form-field>
+        <h3>Abono de Faltas</h3>
 
-  <mat-form-field class="lado-direito campo-data">
-    <mat-label>Data de entrega da atividade</mat-label>
+        <p>
+          Informe se o aluno cumpriu o Plano Especial de Estudos e a data de
+          entrega da atividade.
+        </p>
 
-    <input
-      matInput
-      [matDatepicker]="pickerEntrega"
-      id="dataEntregaAtividade"
-      name="dataEntregaAtividade"
-      formControlName="dataEntregaAtividade">
+      </div>
 
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="pickerEntrega">
-    </mat-datepicker-toggle>
+    </div>
 
-    <mat-datepicker #pickerEntrega></mat-datepicker>
+    <div class="conteudo-abono">
 
-    <mat-error *ngIf="formularioPEE.get('dataEntregaAtividade')?.hasError('required')">
-      A data de entrega da atividade é obrigatória.
-    </mat-error>
+      <div class="campo-radio">
 
-  </mat-form-field>
+        <label class="titulo-campo">
+          O aluno cumpriu o plano de estudos?
+        </label>
+
+        <mat-radio-group
+          formControlName="abono"
+          class="grupo-radio">
+
+          <mat-radio-button [value]="true">
+            Sim
+          </mat-radio-button>
+
+          <mat-radio-button [value]="false">
+            Não
+          </mat-radio-button>
+
+        </mat-radio-group>
+
+        <mat-error *ngIf="formularioPEE.get('abono')?.hasError('required')">
+          Informe se o aluno cumpriu o plano de estudos.
+        </mat-error>
+
+      </div>
+
+      <mat-form-field appearance="outline" class="campo-data">
+
+        <mat-label>Data de entrega da atividade</mat-label>
+
+        <input
+          matInput
+          [matDatepicker]="pickerEntrega"
+          id="dataEntregaAtividade"
+          formControlName="dataEntregaAtividade">
+
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="pickerEntrega">
+        </mat-datepicker-toggle>
+
+        <mat-datepicker #pickerEntrega></mat-datepicker>
+
+        <mat-error *ngIf="formularioPEE.get('dataEntregaAtividade')?.hasError('required')">
+          A data de entrega da atividade é obrigatória.
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+
+  </div>
 
 </div>
 

@@ -164,8 +164,7 @@
         <ng-container matColumnDef="Entrega">
 
 
-          <th mat-header-cell *matHeaderCellDef
-          matTooltip="Data de entrega das atividades pelo aluno">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Data de entrega das atividades pelo aluno">
 
             Entrega atividade
 
@@ -175,9 +174,9 @@
           <td mat-cell *matCellDef="let a">
 
 
-            {{a.dataEntregaAtividade 
-              ? formatData(a.dataEntregaAtividade) 
-              : 'Não informado'}}
+            {{a.dataEntregaAtividade
+            ? formatData(a.dataEntregaAtividade)
+            : 'Não informado'}}
 
 
           </td>
@@ -229,8 +228,7 @@
         <ng-container matColumnDef="Avaliacao">
 
 
-          <th mat-header-cell *matHeaderCellDef
-          matTooltip="Houve atividade avaliativa durante o RED?">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Houve atividade avaliativa durante o RED?">
 
 
             Houve avaliação?
@@ -259,45 +257,13 @@
 
 
 
-        <!-- Avaliações realizadas -->
-        <ng-container matColumnDef="Realizou">
-
-
-          <th mat-header-cell *matHeaderCellDef>
-
-
-            Avaliações realizadas
-
-
-          </th>
-
-
-          <td mat-cell *matCellDef="let a">
-
-
-            {{a.avaliacoesRealizadas || 'Não realizado'}}
-
-
-          </td>
-
-
-        </ng-container>
-
-
-
-
-
-
-
-
-
-        <!-- Percentual abono -->
+        <!-- Abono -->
         <ng-container matColumnDef="Abono">
 
 
           <th mat-header-cell *matHeaderCellDef>
 
-            Percentual abono
+            Abono
 
           </th>
 
@@ -305,7 +271,7 @@
           <td mat-cell *matCellDef="let a">
 
 
-            {{apresentarAbono(a.percentualabono)}}
+            {{apresentarAbono(a.abono)}}
 
 
           </td>
@@ -314,7 +280,15 @@
         </ng-container>
 
 
+        <ng-container matColumnDef="Realizou">
+          <th mat-header-cell *matHeaderCellDef>
+            Avaliação realizada
+          </th>
 
+          <td mat-cell *matCellDef="let a">
+            {{ a.realizouAvaliacao || 'Não informado' }}
+          </td>
+        </ng-container>
 
 
 
@@ -322,15 +296,11 @@
 
 
         <!-- Linhas -->
-        <tr 
-          mat-header-row 
-          *matHeaderRowDef="displayedColumns">
+        <tr mat-header-row *matHeaderRowDef="displayedColumns">
         </tr>
 
 
-        <tr 
-          mat-row 
-          *matRowDef="let row; columns: displayedColumns;">
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
         </tr>
 
 
@@ -352,11 +322,7 @@
 <div class="botao-impressao">
 
 
-  <button 
-    mat-raised-button 
-    color="primary" 
-    (click)="voltar()" 
-    class="button">
+  <button mat-raised-button color="primary" (click)="voltar()" class="button">
 
     Voltar
 
@@ -364,12 +330,7 @@
 
 
 
-  <button 
-    mat-raised-button 
-    color="primary" 
-    (click)="imprimir()" 
-    class="button"
-    id="imprimir">
+  <button mat-raised-button color="primary" (click)="imprimir()" class="button" id="imprimir">
 
 
     Imprimir
@@ -379,11 +340,7 @@
 
 
 
-  <button 
-    mat-raised-button 
-    color="primary" 
-    (click)="exportarExcel()" 
-    class="button">
+  <button mat-raised-button color="primary" (click)="exportarExcel()" class="button">
 
 
     Exportar Excel

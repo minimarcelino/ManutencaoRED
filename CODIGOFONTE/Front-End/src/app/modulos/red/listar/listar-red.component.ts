@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { DialogOrientacaoPedagogicaComponent } from 'src/app/components/dialog-orientacao-pedagogica/dialog-orientacao-pedagogica.component';
 import { messageDialog } from 'src/app/services/messageDialog.service';
 import { RedService } from 'src/app/services/red.service';
 import { VisualizarDisciplinaComponent } from '../visualizar-disciplina/visualizar-disciplina.component';
@@ -93,6 +94,7 @@ export class ListarREDComponent implements OnInit {
     private entityUpdateService: EntityUpdateService,
     private snackBar: MatSnackBar,
     private messageDialog: messageDialog,
+    private dialogProfessor: MatDialog
   ) {
     this.filteredReds = [];
 
@@ -431,6 +433,54 @@ export class ListarREDComponent implements OnInit {
     return pees.every(p => p.abono === true);
   }
 
+  abrirOrientacao(pee: any) {
+  
+    const dialog = this.dialogProfessor.open(
+      DialogOrientacaoPedagogicaComponent,
+      {
+        width: '900px',
+        maxWidth: '95vw',
+        data: {
+          idpee: pee.idpee,
+          orientacaoPedagogica: pee.orientacaoPedagogica
+        }
+      }
+    );
+  
+    dialog.afterClosed().subscribe(async (orientacao) => {
+  
+      if (!orientacao) {
+        return;
+      }
+  
+      pee.orientacaoPedagogica = orientacao;
+  
+      try {
+  
+        await this.peeService.updatePee(pee);
+  
+        this.snackBarService.open(
+          'Orientação pedagógica salva com sucesso!'
+        );
+  
+      } catch (error) {
+  
+        console.error(error);
+  
+        this.snackBarService.open(
+          'Erro ao salvar a orientação pedagógica.'
+        );
+  
+      }
+  
+    });
+  
+  }
+
+  peeAguardandoProfessor(pee: any): boolean {
+    return pee.situacao === 'Aguardando Associação de Professor';
+  }
+
   async aprovarRED(red: any) {
 
     const confirmou = await this.messageDialog.openDialogConfirmAprovarRED();
@@ -466,35 +516,41 @@ export class ListarREDComponent implements OnInit {
 
   async recusarRED(red: any) {
 
-    const confirmou = await this.messageDialog.openDialogConfirmRecusarRED();
+  const confirmou = await this.messageDialog.openDialogConfirmRecusarRED();
 
-    if (!confirmou) {
-      return;
-    }
-
-    try {
-
-      const response = await this.redService.updateSituacaoRED({
-        idRED: red.idRED,
-        situacao: 'Recusado',
-      });
-
-      if (response) {
-        this.snackBarService.open('RED recusado com sucesso!');
-        this.findAll();
-      }
-
-    } catch (error: any) {
-
-      if (error?.error?.data) {
-        this.snackBarService.open(
-          `Falha ao recusar RED: ${error.error.data}`
-        );
-      } else {
-        this.snackBarService.open('Falha ao recusar RED');
-      }
-
-    }
+  if (!confirmou) {
+    return;
   }
+
+  const motivo = await this.messageDialog.openDialogMotivoRecusaRED();
+
+  if (!motivo) {
+    return;
+  }
+
+  try {
+
+    const response = await this.redService.updateSituacaoRED({
+      idRED: red.idRED,
+      situacao: `Recusado: ${motivo}`,
+    });
+
+    if (response) {
+      this.snackBarService.open('RED recusado com sucesso!');
+      this.findAll();
+    }
+
+  } catch (error: any) {
+
+    if (error?.error?.data) {
+      this.snackBarService.open(
+        `Falha ao recusar RED: ${error.error.data}`
+      );
+    } else {
+      this.snackBarService.open('Falha ao recusar RED');
+    }
+
+  }
+}
 
 }

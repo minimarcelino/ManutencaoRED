@@ -14,11 +14,13 @@ import loginRoutes from './routes/loginRoutes';
 import path from "path";
 import { redService } from './service/redService';
 import { StatusCodes } from 'http-status-codes';
-
+import { lembretePeeService } from './service/lembretePeeService';
+import cron from "node-cron";
 
 const PORT = process.env.BACKEND_PORT || 3333;
 const app = express();
 const redservice = new redService();
+const lembreteService = new lembretePeeService();
 
 const corsOptions = {
     origin: "*",
@@ -51,5 +53,29 @@ app.delete('/servidor/arquivos/:idFile', async (req, res) => {
     }
   });
 
-app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}\n\n\n\n\n\n\n-------------\n\n\n\n\n\n\n`));
+//app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}\n\n\n\n\n\n\n-------------\n\n\n\n\n\n\n`));
 
+app.listen(PORT as number, () => {
+  console.log(`Listening on all interfaces:${PORT}`);
+});
+
+cron.schedule("* * * * *", async () => {
+
+   console.log("Executando verificação de lembretes...");
+
+   try {
+
+      await lembreteService.verificarLembretes();
+
+      console.log("Verificação concluída.");
+
+   } catch (error) {
+
+      console.error(
+         "Erro ao verificar lembretes:",
+         error
+      );
+
+   }
+
+});

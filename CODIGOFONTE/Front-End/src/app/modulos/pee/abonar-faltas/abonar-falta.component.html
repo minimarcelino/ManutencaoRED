@@ -13,7 +13,7 @@
                         (abonarFaltaPEE.get('avaliacaoAtividade')?.dirty ||
                          abonarFaltaPEE.get('avaliacaoAtividade')?.touched)">
         <span *ngIf="abonarFaltaPEE.get('avaliacaoAtividade')?.errors?.['required']">
-          Avaliação da atividade é obrigatória! 
+          Avaliação da atividade é obrigatória!
         </span>
       </mat-error>
     </mat-form-field>
@@ -25,8 +25,8 @@
       <input matInput formControlName="dataEntregaAtividade" mask="00/00/0000" placeholder="DD/MM/AAAA">
 
       <mat-error *ngIf="abonarFaltaPEE.get('dataEntregaAtividade')?.errors &&
-                    (abonarFaltaPEE.get('dataEntregaAtividade')?.dirty ||
-                     abonarFaltaPEE.get('dataEntregaAtividade')?.touched)">
+                        (abonarFaltaPEE.get('dataEntregaAtividade')?.dirty ||
+                         abonarFaltaPEE.get('dataEntregaAtividade')?.touched)">
 
         <span *ngIf="abonarFaltaPEE.get('dataEntregaAtividade')?.errors?.['required']">
           Data de entrega obrigatória! O formato deve ser DD/MM/AAAA.
@@ -59,29 +59,32 @@
       </mat-radio-group>
     </div>
 
-    <!-- Percentual -->
-    <mat-form-field class="full-width">
-      <mat-label>Percentual de abono</mat-label>
-
-      <input type="number" matInput formControlName="percentualAbono" min="0" max="100"
-        (input)="limitarPercentual($event)" />
-
-      <mat-error *ngIf="abonarFaltaPEE.get('percentualAbono')?.hasError('required')">
-        Percentual de abono obrigatório! Informe um valor entre 0 e 100.
-      </mat-error>
-
-      <mat-error *ngIf="abonarFaltaPEE.get('percentualAbono')?.hasError('min')">
-        O percentual deve ser maior ou igual a 0
-      </mat-error>
-
-      <mat-error *ngIf="abonarFaltaPEE.get('percentualAbono')?.hasError('max')">
-        O percentual deve ser menor ou igual a 100
-      </mat-error>
-    </mat-form-field>
-
-    <!-- Houve avaliação -->
+    <!-- Abono -->
     <div class="grupo">
-      <p>Houve avaliação</p>
+      <p>O aluno cumpriu o plano de estudos? (Abono)</p>
+
+      <mat-radio-group formControlName="abono">
+        <mat-radio-button [value]="true">
+          Sim
+        </mat-radio-button>
+
+        <mat-radio-button [value]="false">
+          Não
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <mat-error *ngIf="
+    abonarFaltaPEE.get('abono')?.hasError('required') &&
+    (abonarFaltaPEE.get('abono')?.touched ||
+     abonarFaltaPEE.get('abono')?.dirty)
+  ">
+        Informe se o aluno cumpriu o plano de estudos.
+      </mat-error>
+    </div>
+
+    <!-- Perdeu avaliação -->
+    <div class="grupo">
+      <p>O aluno perdeu avaliação no período de RED?</p>
 
       <mat-radio-group formControlName="avaliacao">
         <mat-radio-button value="Sim">Sim</mat-radio-button>
@@ -89,36 +92,20 @@
       </mat-radio-group>
     </div>
 
-    <!-- Campos exibidos somente se houver avaliação -->
+    <!-- Nova data da avaliação -->
     <ng-container *ngIf="abonarFaltaPEE.get('avaliacao')?.value === 'Sim'">
 
-      <!-- Avaliação realizada -->
-      <div class="grupo">
-        <p>Caso tenha, já foi realizada?</p>
-
-        <mat-radio-group formControlName="avaliacaoRealizada">
-          <mat-radio-button value="Sim">Sim</mat-radio-button>
-          <mat-radio-button value="Não">Não</mat-radio-button>
-        </mat-radio-group>
-
-        <mat-error *ngIf="abonarFaltaPEE.get('avaliacaoRealizada')?.hasError('required') &&
-                          abonarFaltaPEE.get('avaliacaoRealizada')?.touched">
-          Informe se a avaliação já foi realizada! 
-        </mat-error>
-      </div>
-
-      <!-- Data avaliação -->
       <mat-form-field class="full-width">
-        <mat-label>Data da nova avaliação</mat-label>
+        <mat-label>Nova data da avaliação</mat-label>
 
         <input matInput formControlName="dataAvaliacao" mask="00/00/0000" placeholder="DD/MM/AAAA">
 
         <mat-error *ngIf="abonarFaltaPEE.get('dataAvaliacao')?.errors &&
-                    (abonarFaltaPEE.get('dataAvaliacao')?.dirty ||
-                     abonarFaltaPEE.get('dataAvaliacao')?.touched)">
+                          (abonarFaltaPEE.get('dataAvaliacao')?.dirty ||
+                           abonarFaltaPEE.get('dataAvaliacao')?.touched)">
 
           <span *ngIf="abonarFaltaPEE.get('dataAvaliacao')?.errors?.['required']">
-            Data da avaliação obrigatória! O formato deve ser DD/MM/AAAA.
+            A nova data da avaliação é obrigatória.
           </span>
 
           <span *ngIf="abonarFaltaPEE.get('dataAvaliacao')?.errors?.['pattern']">

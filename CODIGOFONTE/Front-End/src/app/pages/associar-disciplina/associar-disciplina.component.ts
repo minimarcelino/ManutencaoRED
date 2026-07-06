@@ -450,7 +450,7 @@ export class AssociarDisciplinaComponent implements OnInit {
           pee_servidor: null,
 
 
-          percentualabono: -1,
+          abono: false,
 
 
           situacao:

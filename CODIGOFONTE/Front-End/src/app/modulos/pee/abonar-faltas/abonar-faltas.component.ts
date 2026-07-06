@@ -19,7 +19,7 @@ export class AbonarFaltaComponent implements OnInit {
 
   isSubmitting = false;
 
-  user:any;
+  user: any;
 
 
 
@@ -27,23 +27,23 @@ export class AbonarFaltaComponent implements OnInit {
 
     private snackBarService: SnackBarService,
 
-    @Inject(MAT_DIALOG_DATA) public data:any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
 
     private dialog: MatDialogRef<AbonarFaltaComponent>,
 
     private adapter: DateAdapter<any>,
 
-    @Inject(MAT_DATE_LOCALE) private locale:string,
+    @Inject(MAT_DATE_LOCALE) private locale: string,
 
-    private peeService:PeeService
+    private peeService: PeeService
 
-  ){}
-
-
+  ) { }
 
 
 
-  ngOnInit():void{
+
+
+  ngOnInit(): void {
 
 
     this.locale = 'pt-BR';
@@ -56,49 +56,42 @@ export class AbonarFaltaComponent implements OnInit {
 
 
 
-      avaliacaoAtividade:new FormControl('',[
+      avaliacaoAtividade: new FormControl('', [
         Validators.required
       ]),
 
 
 
-      dataEntregaAtividade:new FormControl(null,[
+      dataEntregaAtividade: new FormControl(null, [
         Validators.required
       ]),
 
 
 
-      cumprimento:new FormControl('',[
+      cumprimento: new FormControl('', [
         Validators.required
       ]),
 
 
 
-      novaAtividade:new FormControl('',[
+      novaAtividade: new FormControl('', [
         Validators.required
       ]),
 
 
 
-      percentualAbono:new FormControl('',[
-        Validators.required,
-        Validators.min(0),
-        Validators.max(100)
-      ]),
-
-
-
-      avaliacao:new FormControl('',[
+      abono: new FormControl(null, [
         Validators.required
       ]),
 
 
 
-      avaliacaoRealizada:new FormControl(null),
+      avaliacao: new FormControl('', [
+        Validators.required
+      ]),
 
 
-
-      dataAvaliacao:new FormControl(null)
+      dataAvaliacao: new FormControl(null)
 
 
     });
@@ -109,55 +102,25 @@ export class AbonarFaltaComponent implements OnInit {
     this.abonarFaltaPEE
       .get('avaliacao')
       ?.valueChanges
-      .subscribe(valor=>{
-
-
-        const avaliacaoRealizada =
-          this.abonarFaltaPEE.get('avaliacaoRealizada');
-
+      .subscribe(valor => {
 
         const dataAvaliacao =
           this.abonarFaltaPEE.get('dataAvaliacao');
 
-
-
-        if(valor === 'Sim'){
-
-
-          avaliacaoRealizada?.setValidators([
-            Validators.required
-          ]);
-
-
+        if (valor === 'Sim') {
 
           dataAvaliacao?.setValidators([
             Validators.required
           ]);
 
-
-
-        }else{
-
-
-          avaliacaoRealizada?.clearValidators();
+        } else {
 
           dataAvaliacao?.clearValidators();
-
-
-
-          avaliacaoRealizada?.setValue(null);
-
           dataAvaliacao?.setValue(null);
-
 
         }
 
-
-
-        avaliacaoRealizada?.updateValueAndValidity();
-
         dataAvaliacao?.updateValueAndValidity();
-
 
       });
 
@@ -171,8 +134,8 @@ export class AbonarFaltaComponent implements OnInit {
 
     this.user =
       userStorage
-      ? JSON.parse(userStorage)
-      : null;
+        ? JSON.parse(userStorage)
+        : null;
 
 
   }
@@ -183,10 +146,10 @@ export class AbonarFaltaComponent implements OnInit {
 
 
 
-  converterData(data:any){
+  converterData(data: any) {
 
 
-    if(!data){
+    if (!data) {
 
       return null;
 
@@ -196,19 +159,19 @@ export class AbonarFaltaComponent implements OnInit {
 
     // Material Datepicker retorna Date
 
-    if(data instanceof Date){
+    if (data instanceof Date) {
 
 
       const ano = data.getFullYear();
 
       const mes =
-        String(data.getMonth()+1)
-        .padStart(2,'0');
+        String(data.getMonth() + 1)
+          .padStart(2, '0');
 
 
       const dia =
         String(data.getDate())
-        .padStart(2,'0');
+          .padStart(2, '0');
 
 
 
@@ -221,13 +184,13 @@ export class AbonarFaltaComponent implements OnInit {
 
 
 
-    if(typeof data === 'string'){
+    if (typeof data === 'string') {
 
 
 
       // formato DD/MM/YYYY
 
-      if(data.includes('/')){
+      if (data.includes('/')) {
 
 
         const partes = data.split('/');
@@ -251,19 +214,19 @@ export class AbonarFaltaComponent implements OnInit {
 
       // formato DDMMYYYY
 
-      if(data.length === 8){
+      if (data.length === 8) {
 
 
         const dia =
-          data.substring(0,2);
+          data.substring(0, 2);
 
 
         const mes =
-          data.substring(2,4);
+          data.substring(2, 4);
 
 
         const ano =
-          data.substring(4,8);
+          data.substring(4, 8);
 
 
 
@@ -291,14 +254,14 @@ export class AbonarFaltaComponent implements OnInit {
 
 
 
-  async submit(){
+  async submit() {
 
 
 
-    if(
+    if (
       this.abonarFaltaPEE.invalid ||
       this.isSubmitting
-    ){
+    ) {
 
 
       this.mostrarErrosFormulario();
@@ -321,7 +284,7 @@ export class AbonarFaltaComponent implements OnInit {
 
 
 
-    try{
+    try {
 
 
 
@@ -329,15 +292,15 @@ export class AbonarFaltaComponent implements OnInit {
 
 
 
-        editando:true,
+        editando: true,
 
 
 
-        idpee:this.data.idpee,
+        idpee: this.data.idpee,
 
 
 
-        situacao:"Avaliado",
+        situacao: "Avaliado",
 
 
 
@@ -373,30 +336,17 @@ export class AbonarFaltaComponent implements OnInit {
           this.novaAtividade,
 
 
+        houveAvaliacao: this.avaliacao,
 
-
-        houveAvaliacao:
-          this.avaliacao,
-
-
-
-
-        avaliacoesRealizadas:
-          this.avaliacaoRealizada,
+        dataAvaliacao: this.converterData(
+          this.dataAvaliacao
+        ),
 
 
 
 
-        dataAvaliacao:
-          this.converterData(
-            this.dataAvaliacao
-          ),
-
-
-
-
-        percentualabono:
-          this.percentualAbono
+        abono:
+          this.abono
 
 
       };
@@ -409,143 +359,83 @@ export class AbonarFaltaComponent implements OnInit {
         "ENVIANDO PARA API:",
         dadosAtualizacao
       );
-
-
-
-
-
       await this.peeService.updatePee(
         dadosAtualizacao
       );
-
-
-
-
-
       this.snackBarService.open(
         'Faltas abonadas com sucesso!'
       );
-
-
-
-
       this.dialog.close(true);
-
-
-
-
-
-    }catch(error:any){
-
-
-
+    } catch (error: any) {
       console.log(
         "ERRO UPDATE:",
         error
       );
-
-
-
       this.snackBarService.open(
         'Falha ao abonar as faltas'
       );
-
-
-
-    }finally{
-
-
-
+    } finally {
       this.isSubmitting = false;
-
-
     }
-
-
-
   }
 
-
-
-
-
-
-
-
-
-  private mostrarErrosFormulario(){
-
-
+  private mostrarErrosFormulario() {
     const campos =
       this.abonarFaltaPEE.controls;
-
-
-
-    if(campos['avaliacaoAtividade'].hasError('required')){
-
-
+    if (campos['avaliacaoAtividade'].hasError('required')) {
       this.snackBarService.open(
         'A avaliação da atividade é obrigatória.'
       );
-
-
       return;
-
     }
-
-
-
-    if(campos['dataEntregaAtividade'].hasError('required')){
-
-
+    if (campos['dataEntregaAtividade'].hasError('required')) {
       this.snackBarService.open(
         'A data de entrega é obrigatória.'
       );
-
-
       return;
-
     }
-
-
-
-    if(campos['cumprimento'].hasError('required')){
-
-
+    if (campos['cumprimento'].hasError('required')) {
       this.snackBarService.open(
         'Informe o cumprimento da atividade.'
       );
+      return;
+    }
 
+    if (campos['abono'].hasError('required')) {
+      this.snackBarService.open(
+        'Informe se o aluno cumpriu o plano de estudos.'
+      );
+      return;
+    }
+    if (campos['avaliacao'].hasError('required')) {
+
+      this.snackBarService.open(
+        'Informe se o aluno perdeu avaliação durante o período de RED.'
+      );
 
       return;
 
     }
 
+    if (campos['dataAvaliacao'].hasError('required')) {
 
+      this.snackBarService.open(
+        'Informe a nova data da avaliação.'
+      );
+
+      return;
+
+    }
 
   }
 
-
-
-
-
-
-
-  cancelar(){
+  cancelar() {
 
     this.dialog.close(false);
 
   }
 
-
-
-
-
-
-
-
-
-  get avaliacaoAtividade(){
+  get avaliacaoAtividade() {
 
     return this.abonarFaltaPEE
       .get('avaliacaoAtividade')
@@ -553,10 +443,7 @@ export class AbonarFaltaComponent implements OnInit {
 
   }
 
-
-
-
-  get dataEntregaAtividade(){
+  get dataEntregaAtividade() {
 
     return this.abonarFaltaPEE
       .get('dataEntregaAtividade')
@@ -564,11 +451,7 @@ export class AbonarFaltaComponent implements OnInit {
 
   }
 
-
-
-
-
-  get cumprimento(){
+  get cumprimento() {
 
     return this.abonarFaltaPEE
       .get('cumprimento')
@@ -576,11 +459,7 @@ export class AbonarFaltaComponent implements OnInit {
 
   }
 
-
-
-
-
-  get novaAtividade(){
+  get novaAtividade() {
 
     return this.abonarFaltaPEE
       .get('novaAtividade')
@@ -588,25 +467,15 @@ export class AbonarFaltaComponent implements OnInit {
 
   }
 
+  get abono() {
 
-
-
-
-  get percentualAbono(){
-
-    return Number(
-      this.abonarFaltaPEE
-      .get('percentualAbono')
-      ?.value || 0
-    );
+    return this.abonarFaltaPEE
+      .get('abono')
+      ?.value;
 
   }
 
-
-
-
-
-  get avaliacao(){
+  get avaliacao() {
 
     return this.abonarFaltaPEE
       .get('avaliacao')
@@ -614,75 +483,12 @@ export class AbonarFaltaComponent implements OnInit {
 
   }
 
-
-
-
-
-  get avaliacaoRealizada(){
-
-    return this.abonarFaltaPEE
-      .get('avaliacaoRealizada')
-      ?.value ?? null;
-
-  }
-
-
-
-
-
-  get dataAvaliacao(){
+  get dataAvaliacao() {
 
     return this.abonarFaltaPEE
       .get('dataAvaliacao')
       ?.value ?? null;
 
   }
-
-
-
-
-
-
-
-  limitarPercentual(event:any){
-
-
-
-    let valor =
-      Number(event.target.value);
-
-
-
-
-    if(valor > 100){
-
-      valor = 100;
-
-    }
-
-
-
-    if(valor < 0){
-
-      valor = 0;
-
-    }
-
-
-
-    event.target.value = valor;
-
-
-
-    this.abonarFaltaPEE
-      .get('percentualAbono')
-      ?.setValue(valor);
-
-
-
-  }
-
-
-
 
 }

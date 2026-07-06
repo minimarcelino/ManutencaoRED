@@ -100,7 +100,19 @@
                   Associar Professor
                 </button>
 
-                <!-- ENVIAR EMAIL -->
+                <button
+                  mat-raised-button
+                  color="accent"
+                  class="button"
+                  matTooltip="Orientação Pedagógica"
+                  (click)="abrirOrientacao(a)"
+                  *ngIf="!peeAguardandoProfessor(a)"
+                >
+                  <mat-icon>edit_note</mat-icon>
+                  Orientação
+                </button>
+
+                <!-- ENVIAR EMAIL 
                 <button
                   type="button"
                   mat-raised-button
@@ -113,7 +125,7 @@
                 <mat-icon>mail</mat-icon>
                   Enviar Email
                 </button>
-
+                -->
               </td>
 
             </ng-container>
