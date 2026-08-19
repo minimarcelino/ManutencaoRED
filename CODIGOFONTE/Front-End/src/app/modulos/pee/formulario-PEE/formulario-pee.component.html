@@ -9,7 +9,7 @@
   </div>
 
   <div class="formulario">
-    <form [formGroup]="formularioPEE" #formDir="ngForm">
+    <form [formGroup]="formularioPEE" #formDir="ngForm" (ngSubmit)="submit()">
 
       <mat-form-field>
         <mat-label>CONTEÚDOS A SEREM ESTUDADOS</mat-label>
@@ -200,115 +200,107 @@
 
       <!-- Seção se avaliado -->
 
-<!-- Seção Avaliação -->
-<div *ngIf="this.avaliado">
+      <!-- Seção Avaliação -->
+      <div *ngIf="this.avaliado">
 
-  <h2>Avaliação do PEE</h2>
-  <hr class="linha linha-avaliacao">
+        <h2>Avaliação do PEE</h2>
+        <hr class="linha linha-avaliacao">
 
-  <mat-form-field appearance="outline">
-    <mat-label>Descrição da Avaliação</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-label>Descrição da Avaliação</mat-label>
 
-    <textarea
-      matInput
-      rows="5"
-      name="avaliacaoAtividade"
-      id="avaliacaoAtividade"
-      formControlName="avaliacaoAtividade">
+          <textarea matInput rows="5" name="avaliacaoAtividade" id="avaliacaoAtividade"
+            formControlName="avaliacaoAtividade">
     </textarea>
-  </mat-form-field>
+        </mat-form-field>
 
-  <div class="bloco-abono">
+        <div class="bloco-abono">
 
-    <div class="cabecalho-abono">
+          <div class="cabecalho-abono">
 
-      <mat-icon>fact_check</mat-icon>
+            <mat-icon>fact_check</mat-icon>
 
-      <div>
+            <div>
 
-        <h3>Abono de Faltas</h3>
+              <h3>Abono de Faltas</h3>
 
-        <p>
-          Informe se o aluno cumpriu o Plano Especial de Estudos e a data de
-          entrega da atividade.
-        </p>
+              <p>
+                Informe se o aluno cumpriu o Plano Especial de Estudos e a data de
+                entrega da atividade.
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="conteudo-abono">
+
+            <div class="campo-radio">
+
+              <label class="titulo-campo">
+                O aluno cumpriu o plano de estudos?
+              </label>
+
+              <mat-radio-group formControlName="abono" class="grupo-radio">
+
+                <mat-radio-button [value]="true">
+                  Sim
+                </mat-radio-button>
+
+                <mat-radio-button [value]="false">
+                  Não
+                </mat-radio-button>
+
+              </mat-radio-group>
+
+              <mat-error *ngIf="formularioPEE.get('abono')?.hasError('required')">
+                Informe se o aluno cumpriu o plano de estudos.
+              </mat-error>
+
+            </div>
+
+            <mat-form-field appearance="outline" class="campo-data">
+
+              <mat-label>Data de entrega da atividade</mat-label>
+
+              <input matInput [matDatepicker]="pickerEntrega" id="dataEntregaAtividade"
+                formControlName="dataEntregaAtividade">
+
+              <mat-datepicker-toggle matSuffix [for]="pickerEntrega">
+              </mat-datepicker-toggle>
+
+              <mat-datepicker #pickerEntrega></mat-datepicker>
+
+              <mat-error *ngIf="formularioPEE.get('dataEntregaAtividade')?.hasError('required')">
+                A data de entrega da atividade é obrigatória.
+              </mat-error>
+
+            </mat-form-field>
+
+          </div>
+
+        </div>
 
       </div>
-
-    </div>
-
-    <div class="conteudo-abono">
-
-      <div class="campo-radio">
-
-        <label class="titulo-campo">
-          O aluno cumpriu o plano de estudos?
-        </label>
-
-        <mat-radio-group
-          formControlName="abono"
-          class="grupo-radio">
-
-          <mat-radio-button [value]="true">
-            Sim
-          </mat-radio-button>
-
-          <mat-radio-button [value]="false">
-            Não
-          </mat-radio-button>
-
-        </mat-radio-group>
-
-        <mat-error *ngIf="formularioPEE.get('abono')?.hasError('required')">
-          Informe se o aluno cumpriu o plano de estudos.
-        </mat-error>
-
-      </div>
-
-      <mat-form-field appearance="outline" class="campo-data">
-
-        <mat-label>Data de entrega da atividade</mat-label>
-
-        <input
-          matInput
-          [matDatepicker]="pickerEntrega"
-          id="dataEntregaAtividade"
-          formControlName="dataEntregaAtividade">
-
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="pickerEntrega">
-        </mat-datepicker-toggle>
-
-        <mat-datepicker #pickerEntrega></mat-datepicker>
-
-        <mat-error *ngIf="formularioPEE.get('dataEntregaAtividade')?.hasError('required')">
-          A data de entrega da atividade é obrigatória.
-        </mat-error>
-
-      </mat-form-field>
-
-    </div>
-
-  </div>
-
-</div>
 
       <div id="buttons" *ngIf="!this.desabilitado">
-        <button mat-raised-button color="warn" (click)="retornarParaLista()" class="button">
+        <button mat-raised-button color="warn" type="button" (click)="retornarParaLista()" class="button">
 
           Cancelar
         </button>
 
-        <button mat-raised-button color="primary" (click)="submit()" class="button">
+        <button mat-raised-button color="primary" type="submit" class="button">
 
-          {{ this.avaliado || this.editando ? 'Salvar Avaliação' : 'Cadastrar' }} </button>
+          {{ this.avaliado || this.editando ? 'Salvar Avaliação' : 'Cadastrar' }}
+
+        </button>
       </div>
 
       <div id="buttons" *ngIf="this.desabilitado">
-        <button mat-raised-button color="primary" (click)="retornarParaLista()" class="button">
+        <button mat-raised-button color="primary" type="button" (click)="retornarParaLista()" class="button">
 
           Voltar
+
         </button>
       </div>
 

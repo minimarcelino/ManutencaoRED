@@ -175,11 +175,10 @@ export class FormularioREDComponent implements OnInit {
       ),
       semestreAluno: new FormControl(
         {
-          value: this.data ? this.data.semestreOuAnoAluno : '',
+          value: this.data ? this.data.semestreOuAnoAluno : null,
           disabled: this.desabilitar,
         },
         [
-          Validators.required,
           Validators.min(1),
           Validators.max(24),
           Validators.pattern('^[0-9]+$')

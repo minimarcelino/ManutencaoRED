@@ -41,7 +41,7 @@
 
     <!-- Cumprimento -->
     <div class="grupo">
-      <p>Aluno cumpriu com as atividades</p>
+      <p>Aluno cumpriu com as atividades?</p>
 
       <mat-radio-group formControlName="cumprimento">
         <mat-radio-button value="Sim">Sim</mat-radio-button>
@@ -51,35 +51,12 @@
 
     <!-- Nova atividade -->
     <div class="grupo">
-      <p>Houve alguma nova atividade</p>
+      <p>Houve alguma nova atividade?</p>
 
       <mat-radio-group formControlName="novaAtividade">
         <mat-radio-button value="Sim">Sim</mat-radio-button>
         <mat-radio-button value="Não">Não</mat-radio-button>
       </mat-radio-group>
-    </div>
-
-    <!-- Abono -->
-    <div class="grupo">
-      <p>O aluno cumpriu o plano de estudos? (Abono)</p>
-
-      <mat-radio-group formControlName="abono">
-        <mat-radio-button [value]="true">
-          Sim
-        </mat-radio-button>
-
-        <mat-radio-button [value]="false">
-          Não
-        </mat-radio-button>
-      </mat-radio-group>
-
-      <mat-error *ngIf="
-    abonarFaltaPEE.get('abono')?.hasError('required') &&
-    (abonarFaltaPEE.get('abono')?.touched ||
-     abonarFaltaPEE.get('abono')?.dirty)
-  ">
-        Informe se o aluno cumpriu o plano de estudos.
-      </mat-error>
     </div>
 
     <!-- Perdeu avaliação -->
@@ -128,7 +105,7 @@
   </button>
 
   <button mat-raised-button color="primary" type="button" (click)="submit()">
-    Abonar faltas
+    Salvar
   </button>
 
 </mat-dialog-actions>

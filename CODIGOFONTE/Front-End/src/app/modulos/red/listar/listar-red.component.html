@@ -96,15 +96,14 @@
           <th class="actionsColumns" mat-header-cell *matHeaderCellDef> Ações </th>
           <td class="actionsColumns" mat-cell *matCellDef="let a">
 
-            <button mat-icon-button matTooltip="Orientação Pedagógica" (click)="abrirOrientacao(a)"
-              *ngIf="!peeAguardandoProfessor(a)">
-              <mat-icon>edit_note</mat-icon>
+            <button mat-icon-button matTooltip="Orientação Pedagógica" (click)="abrirOrientacao(a)">
+              <mat-icon>list_alt</mat-icon>
             </button>
 
             <button
               *ngIf="(a.situacao === 'Em andamento' || a.situacao === 'Esperando associação de disciplina') && isCSP()"
               mat-icon-button matTooltip="Associar disciplinas" (click)="associarDisciplina(a)">
-              <mat-icon>book</mat-icon>
+              <mat-icon>edit_note</mat-icon>
             </button>
 
             <!-- Falta mostrar o abono das faltas -->

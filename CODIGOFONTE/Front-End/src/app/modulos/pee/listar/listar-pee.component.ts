@@ -4,7 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSelectChange } from '@angular/material/select';
-//
+import { DialogOrientacaoPedagogicaComponent } from 'src/app/components/dialog-orientacao-pedagogica/dialog-orientacao-pedagogica.component';
+import { SnackBarService } from 'src/app/services/snackbar.service';
+
 import { CustomPaginatorIntlService } from 'src/app/services/customPaginatorIntl.service';
 import { pee } from 'src/app/modelo/pee';
 import { messageDialog } from 'src/app/services/messageDialog.service';
@@ -49,7 +51,9 @@ export class ListarPEEComponent implements OnInit {
     public dialogQuestionService: messageDialog,
     private peeService: PeeService,
     private dialog: MatDialog,
+    private dialogProfessor: MatDialog,
     private customPaginatorIntlService: CustomPaginatorIntlService,
+    private snackBarService: SnackBarService,
   ) { }
 
   ngOnInit(): void {
@@ -273,5 +277,57 @@ async recusarRED(pee:any){
 
   apresentarAbono(abono: boolean) {
   return abono ? 'Sim' : 'Não';
+}
+
+  abrirOrientacao(pee: any) {
+
+  //console.log('PEE COMPLETO:', pee);
+  //console.log('ORIENTAÇÃO RECEBIDA:', pee.orientacaoPedagogica);
+
+  const dialog = this.dialogProfessor.open(
+    DialogOrientacaoPedagogicaComponent,
+    {
+      width: '900px',
+      maxWidth: '95vw',
+      data: {
+        idpee: pee.idpee,
+        orientacaoPedagogica: null,
+
+        nomeAluno: pee.red?.aluno?.nome || '',
+        inicioAfastamento: pee.red?.inicioAfastamento,
+        dataFim: pee.red?.dataPrevisaoTermino,
+        diasAfastamento: pee.red?.tempoAfastamento
+      }
+    }
+  );
+
+  dialog.afterClosed().subscribe(async (orientacao) => {
+
+    if (!orientacao) {
+      return;
+    }
+
+    pee.orientacaoPedagogica = orientacao;
+
+    try {
+
+      await this.peeService.updatePee(pee);
+
+      this.snackBarService.open(
+        'Orientação pedagógica salva com sucesso!'
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      this.snackBarService.open(
+        'Erro ao salvar a orientação pedagógica.'
+      );
+
+    }
+
+  });
+
 }
 }

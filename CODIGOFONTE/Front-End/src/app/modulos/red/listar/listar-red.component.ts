@@ -433,49 +433,56 @@ export class ListarREDComponent implements OnInit {
     return pees.every(p => p.abono === true);
   }
 
-  abrirOrientacao(pee: any) {
-  
-    const dialog = this.dialogProfessor.open(
-      DialogOrientacaoPedagogicaComponent,
-      {
-        width: '900px',
-        maxWidth: '95vw',
-        data: {
-          idpee: pee.idpee,
-          orientacaoPedagogica: pee.orientacaoPedagogica
-        }
+  abrirOrientacao(red: any) {
+
+  const pee = red.pee[0];
+
+  const dialog = this.dialogProfessor.open(
+    DialogOrientacaoPedagogicaComponent,
+    {
+      width: '900px',
+      maxWidth: '95vw',
+      data: {
+        idpee: pee.idpee,
+        orientacaoPedagogica: pee.orientacaoPedagogica,
+
+        nomeAluno: red.aluno.nome,
+        inicioAfastamento: red.inicioAfastamento,
+        dataFim: red.dataPrevisaoTermino,
+        diasAfastamento: red.tempoAfastamento
       }
-    );
-  
-    dialog.afterClosed().subscribe(async (orientacao) => {
-  
-      if (!orientacao) {
-        return;
-      }
-  
-      pee.orientacaoPedagogica = orientacao;
-  
-      try {
-  
-        await this.peeService.updatePee(pee);
-  
-        this.snackBarService.open(
-          'Orientação pedagógica salva com sucesso!'
-        );
-  
-      } catch (error) {
-  
-        console.error(error);
-  
-        this.snackBarService.open(
-          'Erro ao salvar a orientação pedagógica.'
-        );
-  
-      }
-  
-    });
-  
-  }
+    }
+  );
+
+  dialog.afterClosed().subscribe(async (orientacao) => {
+
+    if (!orientacao) {
+      return;
+    }
+
+    pee.orientacaoPedagogica = orientacao;
+
+    try {
+
+      await this.peeService.updatePee(pee);
+
+      this.snackBarService.open(
+        'Orientação pedagógica salva com sucesso!'
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      this.snackBarService.open(
+        'Erro ao salvar a orientação pedagógica.'
+      );
+
+    }
+
+  });
+
+}
 
   peeAguardandoProfessor(pee: any): boolean {
     return pee.situacao === 'Aguardando Associação de Professor';

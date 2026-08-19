@@ -114,18 +114,18 @@ model servidor {
 }
 
 model pee_servidor {
-  id                   Int       @id @default(autoincrement())
-  peeId                Int
-  servidorId           Int
-  dataAvaliacao        DateTime? @db.Date
-  abono                Boolean?
-  avaliacaoAtividade   String?   @db.Text
+  id                    Int       @id @default(autoincrement())
+  peeId                 Int
+  servidorId            Int
+  dataAvaliacao         DateTime? @db.Date
+  abono                 Boolean?
+  avaliacaoAtividade    String?   @db.Text
+  cumpriuAtividade      String?   @db.VarChar(3)
+  dataEntregaAtividade  DateTime? @db.Date
+  houveAvaliacao        String?   @db.VarChar(3)
   ultimoLembreteEnviado DateTime? @db.Date
-  cumpriuAtividade     String?   @db.VarChar(3)
-  dataEntregaAtividade DateTime? @db.Date
-  houveAvaliacao       String?   @db.VarChar(3)
-  pee                  pee       @relation(fields: [peeId], references: [idpee])
-  servidor             servidor  @relation(fields: [servidorId], references: [idservidor])
+  pee                   pee       @relation(fields: [peeId], references: [idpee])
+  servidor              servidor  @relation(fields: [servidorId], references: [idservidor])
 
   @@unique([peeId, servidorId])
   @@index([peeId])
